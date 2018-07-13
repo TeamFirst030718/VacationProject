@@ -4,22 +4,28 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VacationsDAL.Entities
 {
-    [Table("VacationStatusType")]
-    public partial class VacationStatusType
+    [Table("Team")]
+    public partial class Team
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public VacationStatusType()
+        public Team()
         {
-            Vacations = new HashSet<Vacation>();
+            Employees = new HashSet<Employee>();
         }
 
-        public int VacationStatusTypeID { get; set; }
+        public string TeamID { get; set; }
 
         [Required]
-        [StringLength(15)]
-        public string VacationStatusName { get; set; }
+        [StringLength(50)]
+        public string TeamName { get; set; }
+
+        [Required]
+        [StringLength(128)]
+        public string TeamLeadID { get; set; }
+
+        public virtual Employee Employee { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Vacation> Vacations { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

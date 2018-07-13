@@ -2,25 +2,24 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VacationsContext.Entities
+namespace VacationsDAL.Entities
 {
-    [Table("TransactionType")]
-    public partial class TransactionType
+    [Table("VacationStatusType")]
+    public partial class VacationStatusType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TransactionType()
+        public VacationStatusType()
         {
-            Transactions = new HashSet<Transaction>();
+            Vacations = new HashSet<Vacation>();
         }
 
-        public string TransactionTypeID { get; set; }
+        public string VacationStatusTypeID { get; set; }
 
-        [Column("TransactionType")]
         [Required]
-        [StringLength(30)]
-        public string TransactionType1 { get; set; }
+        [StringLength(50)]
+        public string VacationStatusName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Vacation> Vacations { get; set; }
     }
 }

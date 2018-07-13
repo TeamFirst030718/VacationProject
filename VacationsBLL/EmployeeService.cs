@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VacationsBLL.Models;
-using VacationsContext.Entities;
+using VacationsDAL.Entities;
 using VacationsDAL.Repositories;
 
 namespace VacationsBLL

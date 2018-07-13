@@ -14,7 +14,7 @@ namespace VacationsDAL.Entities
             Vacations = new HashSet<Vacation>();
         }
 
-        public int TransactionID { get; set; }
+        public string TransactionID { get; set; }
 
         public int BalanceChange { get; set; }
 
@@ -29,7 +29,9 @@ namespace VacationsDAL.Entities
         [Column(TypeName = "date")]
         public DateTime TransactionDate { get; set; }
 
-        public int TransactionTypeID { get; set; }
+        [Required]
+        [StringLength(128)]
+        public string TransactionTypeID { get; set; }
 
         public virtual Employee Employee { get; set; }
 

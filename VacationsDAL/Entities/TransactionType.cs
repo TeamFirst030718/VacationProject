@@ -4,22 +4,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VacationsDAL.Entities
 {
-    [Table("JobTitle")]
-    public partial class JobTitle
+    [Table("TransactionType")]
+    public partial class TransactionType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public JobTitle()
+        public TransactionType()
         {
-            Employees = new HashSet<Employee>();
+            Transactions = new HashSet<Transaction>();
         }
 
-        public int JobTitleID { get; set; }
+        public string TransactionTypeID { get; set; }
 
-        [Column("JobTitle")]
-        [StringLength(15)]
-        public string JobTitle1 { get; set; }
+        [Column("TransactionType")]
+        [Required]
+        [StringLength(30)]
+        public string TransactionType1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employees { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

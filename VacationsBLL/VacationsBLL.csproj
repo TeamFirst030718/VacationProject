@@ -58,14 +58,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VacationsDAL\VacationsDAL.csproj">
-      <Project>{80d3aea4-754c-4333-a603-c3204921dae0}</Project>
-      <Name>VacationsDAL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VacationsDAL\VacationsDAL.csproj">
+      <Project>{30eceb98-2226-454d-849a-1c6030593e5b}</Project>
+      <Name>VacationsDAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

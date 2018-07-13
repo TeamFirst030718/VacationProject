@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VacationsContext.Entities
+namespace VacationsDAL.Entities
 {
     [Table("Employee")]
     public partial class Employee

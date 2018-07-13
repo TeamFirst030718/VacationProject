@@ -1,27 +1,25 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.Spatial;
 
-namespace VacationsContext.Entities
+namespace VacationsDAL.Entities
 {
-   
-    public partial class AspNetRole
+    [Table("JobTitle")]
+    public partial class JobTitle
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AspNetRole()
+        public JobTitle()
         {
-            AspNetUsers = new HashSet<AspNetUser>();
+            Employees = new HashSet<Employee>();
         }
 
-        public string Id { get; set; }
+        public string JobTitleID { get; set; }
 
-        [Required]
-        [StringLength(256)]
-        public string Name { get; set; }
+        [Column("JobTitle")]
+        [StringLength(50)]
+        public string JobTitle1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }
