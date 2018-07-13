@@ -196,7 +196,9 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
-            if (userId == null || code == null)
+            var aspNetUserService = new AspNetUserService();
+
+            if (userId == null || code == null || !aspNetUserService.AspNetUserExists(userId))
             {
                 return View("Error");
             }
