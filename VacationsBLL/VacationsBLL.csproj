@@ -100,7 +100,7 @@
     <Compile Include="App_Start\Ninject.Web.Common.cs" />
     <Compile Include="DIModules\EmployeeUnitModule.cs" />
     <Compile Include="Services\EmployeeService.cs" />
-    <Compile Include="DTOs\EmployeeDTO.cs" />
+    <Compile Include="AspNetUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IEmployeeService.cs" />
   </ItemGroup>

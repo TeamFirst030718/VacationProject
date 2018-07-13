@@ -98,7 +98,7 @@ namespace IdentitySample.Models
             var from = new EmailAddress("test@example.com", "Softheme Vacations");
             var subject = title;
             var to = new EmailAddress(address, name);
-            var htmlContent = message;
+            var htmlContent = "<strong>"+message+"</strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }
