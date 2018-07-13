@@ -15,11 +15,11 @@ namespace IdentitySample.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private EmployeeService _employeeService;
+        private IEmployeeService _employeeService;
 
-        public AccountController()
+        public AccountController(IEmployeeService service)
         {
-            _employeeService = new EmployeeService();
+            _employeeService = service;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -162,7 +162,7 @@ namespace IdentitySample.Controllers
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     var email = new EmailService();
-                    _employeeService.Create(new EmployeeDTO
+                    _employeeService.Create(new EmployeeDTO 
                     {
                         EmployeeID = user.Id,
                         Name = model.Name,

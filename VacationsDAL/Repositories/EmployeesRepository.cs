@@ -9,12 +9,13 @@ using VacationsDAL.Entities;
 
 namespace VacationsDAL.Repositories
 {
-    public class EmployeesRepository
+    public class EmployeesRepository : IRepository<Employee>
     {
         private readonly VacationsContext _context;
-        public EmployeesRepository()
+            
+        public EmployeesRepository(VacationsContext dbContext)
         {
-            _context = new VacationsContext();
+            _context = dbContext;
         }
 
         public IEnumerable<Employee> GetAll()
