@@ -1,0 +1,150 @@
+﻿html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #222222;
+}
+
+/* Set padding to keep content from hitting the edges */
+
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+ 
+}
+
+/*CSS For Login Page*/
+div.login input[type=text]:focus, input[type=password]:focus {
+    color: white;
+    background: linear-gradient(to right,rgba(58,65,72,0.2), rgba(58,65,72,0.2));
+}
+
+body.image {
+    background: url(../Images/background.jpg) no-repeat center;
+    background-size: cover;
+}
+
+i.icon-user + input, i.icon-key + input {
+    padding-left: 40px;
+}
+
+i.icon-user, i.icon-key {
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    margin-top: 13px;
+    margin-left:10px;
+    margin-right: -40px;
+    float: left;
+}
+
+div.center {
+    text-align: center;
+    max-width: 320px;
+}
+
+.input_icon {
+    /*Need it. Believe me.*/
+}
+
+@media screen and (min-width: 800px) {
+    div.center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .body-content {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    img+ p {
+        margin-top: 10px;
+    }
+
+    div.input_icon + div.input_icon {
+        margin-top: 30px;
+    }
+
+    p + div.input_icon {
+        margin-top: 37px;
+    }
+
+   div.input_icon + button {
+        margin-top: 70px;
+    }
+}
+
+.logo {
+    font-size: 20px;
+    color: white;
+}
+
+@media screen and (max-width: 800px) {
+    div.center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    img + p {
+        margin-top: 10px;
+    }
+
+    div.input_icon + div.input_icon {
+        margin-top: 30px;
+    }
+
+    div.input_icon + button {
+        margin-top: 70px;
+    }
+}
+
+.loginInput {
+    display: block;
+    border: none;
+    box-shadow: none;
+    border-radius: 6px !important;
+    height: 50px;
+    background: linear-gradient(to right,rgba(58,65,72,0.2), rgba(58,65,72,0.2)) !important;
+    color: white !important;
+}
+
+@font-face {
+    font-family: Muli-SemiBold;
+    src: url(../Fonts/Muli-SemiBold.ttf);
+}
+
+.icon-user {
+    background: url(../Icons/user-icon.svg) no-repeat;
+    background-position: center center;
+}
+
+.icon-key {
+    background: url(../Icons/password-icon.svg) no-repeat;
+    background-position: center center;
+}
+
+button.login, button.login:hover,
+.btn:active {
+    font-family: Muli-SemiBold;
+    font-weight: bold;
+    height: 50px;
+    border-radius: 6px;
+    color: white;
+    background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1));
+    border: none;
+}
+
+ button.login:hover,
+.btn:active {
+        color: white;
+        background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1)) !important;
+}

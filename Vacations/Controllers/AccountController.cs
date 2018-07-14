@@ -77,7 +77,7 @@ namespace IdentitySample.Controllers
 
             // This doen't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password,false, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -85,7 +85,7 @@ namespace IdentitySample.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -235,7 +235,10 @@ namespace IdentitySample.Controllers
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
+
+                    ViewData["response"] = "Ready! Please, check your email.";
+
+                    return View("ForgotPasswordResponse");
                 }
 
                 var email = new EmailService();
@@ -248,7 +251,7 @@ namespace IdentitySample.Controllers
                     "Please restore your password by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
 
                 ViewBag.Link = callbackUrl;
-                return View("ForgotPasswordConfirmation");
+                return View("ForgotPasswordResponse");
             }
 
             // If we got this far, something failed, redisplay form
@@ -256,10 +259,10 @@ namespace IdentitySample.Controllers
         }
 
         //
-        // GET: /Account/ForgotPasswordConfirmation
+        // GET: /Account/ForgotPasswordResponse
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
+        public ActionResult ForgotPasswordResponse()
         {
             return View();
         }
@@ -288,12 +291,12 @@ namespace IdentitySample.Controllers
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction("Login", "Account");
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction("Login", "Account");
             }
             AddErrors(result);
             return View();

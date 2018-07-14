@@ -22,9 +22,11 @@ namespace IdentitySample
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/Styles/css").Include(
+                      "~/Content/Styles/bootstrap.css",
+                      "~/Content/Styles/Site.css",
+                      "~/Content/Styles/forgotPasswordStyles.css",
+                      "~/Content/Styles/loginStyles.css"));
         }
     }
 }

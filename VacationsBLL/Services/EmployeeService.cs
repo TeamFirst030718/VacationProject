@@ -30,7 +30,7 @@ namespace VacationsBLL
 
             _employeesData.Save();
         }
-        /*Check this method*/
+        
         public EmployeeDTO GetUserById(string id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Employee,EmployeeDTO>()).CreateMapper();
