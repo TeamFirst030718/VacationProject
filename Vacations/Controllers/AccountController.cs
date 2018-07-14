@@ -238,9 +238,15 @@ namespace IdentitySample.Controllers
                     return View("ForgotPasswordConfirmation");
                 }
 
+                var email = new EmailService();
+                var employee = _employeeService.GetUserById(user.Id);
+
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+
+                await email.SendAsync(user.Email, employee.Name + " " + employee.Surname, "Restore password", "Please restore your password",
+                    "Please restore your password by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
+
                 ViewBag.Link = callbackUrl;
                 return View("ForgotPasswordConfirmation");
             }
