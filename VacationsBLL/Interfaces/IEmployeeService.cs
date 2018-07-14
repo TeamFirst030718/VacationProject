@@ -1,5 +1,5 @@
 ﻿using System;
-using VacationsBLL.Models;
+using VacationsBLL.DTOs;
 
 namespace VacationsBLL
 {
