@@ -66,6 +66,7 @@
     <Compile Include="Entities\Vacation.cs" />
     <Compile Include="Contexts\VacationsContext.cs" />
     <Compile Include="Entities\VacationStatusType.cs" />
+    <Compile Include="Repositories\AspNetUsersRepository.cs" />
     <Compile Include="Repositories\EmployeesRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Unit\EmployeeUnitOfWork.cs" />
