@@ -3,8 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <t  itle>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/Styles/bootstrap.css")
+   
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
@@ -25,7 +26,8 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
 
-                    @if (Request.IsAuthenticated && User.IsInRole("Admin")) {
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
                         <li>@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin")</li>
                         <li>@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin")</li>
                     }
