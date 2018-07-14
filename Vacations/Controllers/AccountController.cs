@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Vacations.Models;
 using VacationsBLL;
-using VacationsBLL.Models;
+using VacationsBLL.DTOs;
 
 namespace IdentitySample.Controllers
 {
@@ -77,7 +77,7 @@ namespace IdentitySample.Controllers
 
             // This doen't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password,false, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -85,7 +85,7 @@ namespace IdentitySample.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -235,14 +235,23 @@ namespace IdentitySample.Controllers
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
+
+                    ViewData["response"] = "Ready! Please, check your email.";
+
+                    return View("ForgotPasswordResponse");
                 }
+
+                var email = new EmailService();
+                var employee = _employeeService.GetUserById(user.Id);
 
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+
+                await email.SendAsync(user.Email, employee.Name + " " + employee.Surname, "Restore password", "Please restore your password",
+                    "Please restore your password by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
+
                 ViewBag.Link = callbackUrl;
-                return View("ForgotPasswordConfirmation");
+                return View("ForgotPasswordResponse");
             }
 
             // If we got this far, something failed, redisplay form
@@ -250,10 +259,10 @@ namespace IdentitySample.Controllers
         }
 
         //
-        // GET: /Account/ForgotPasswordConfirmation
+        // GET: /Account/ForgotPasswordResponse
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
+        public ActionResult ForgotPasswordResponse()
         {
             return View();
         }
@@ -282,12 +291,12 @@ namespace IdentitySample.Controllers
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction("Login", "Account");
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction("Login", "Account");
             }
             AddErrors(result);
             return View();

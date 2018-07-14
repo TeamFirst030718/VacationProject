@@ -237,17 +237,63 @@
     <Compile Include="StartupIdentity\Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Fonts\OFL.txt" />
+    <Content Include="Content\Icons\approved by icon.svg" />
+    <Content Include="Content\Icons\approved request.svg" />
+    <Content Include="Content\Icons\calendar.svg" />
+    <Content Include="Content\Icons\cansel icon.svg" />
+    <Content Include="Content\Icons\denied request.svg" />
+    <Content Include="Content\Icons\down icon.svg" />
+    <Content Include="Content\Icons\edit icon grey.svg" />
+    <Content Include="Content\Icons\edit icon white.svg" />
+    <Content Include="Content\Icons\gragient box.svg" />
+    <Content Include="Content\Icons\logo-softheme.svg" />
+    <Content Include="Content\Icons\logout icon.svg" />
+    <Content Include="Content\Icons\message-icon.svg" />
+    <Content Include="Content\Icons\new request icon.svg" />
+    <Content Include="Content\Icons\next icon.svg" />
+    <Content Include="Content\Icons\online icon.svg" />
+    <Content Include="Content\Icons\password-icon.svg" />
+    <Content Include="Content\Icons\user profile icon.svg" />
+    <Content Include="Content\Icons\user-icon.svg" />
+    <Content Include="Content\Images\background.jpg" />
+    <Content Include="Content\Styles\bootstrap-grid.css" />
+    <Content Include="Content\Styles\bootstrap-grid.min.css" />
+    <Content Include="Content\Styles\bootstrap-reboot.css" />
+    <Content Include="Content\Styles\bootstrap-reboot.min.css" />
+    <Content Include="Content\Styles\bootstrap.css" />
+    <Content Include="Content\Styles\bootstrap.min.css" />
+    <Content Include="Content\Styles\forgotPasswordStyles.css" />
+    <Content Include="Content\Styles\loginStyles.css" />
+    <Content Include="Content\Styles\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Fonts\Muli-Black.ttf" />
+    <Content Include="Content\Fonts\Muli-BlackItalic.ttf" />
+    <Content Include="Content\Fonts\Muli-Bold.ttf" />
+    <Content Include="Content\Fonts\Muli-BoldItalic.ttf" />
+    <Content Include="Content\Fonts\Muli-ExtraBold.ttf" />
+    <Content Include="Content\Fonts\Muli-ExtraBoldItalic.ttf" />
+    <Content Include="Content\Fonts\Muli-ExtraLight.ttf" />
+    <Content Include="Content\Fonts\Muli-ExtraLightItalic.ttf" />
+    <Content Include="Content\Fonts\Muli-Italic.ttf" />
+    <Content Include="Content\Fonts\Muli-Light.ttf" />
+    <Content Include="Content\Fonts\Muli-LightItalic.ttf" />
+    <Content Include="Content\Fonts\Muli-Regular.ttf" />
+    <Content Include="Content\Fonts\Muli-SemiBold.ttf" />
+    <Content Include="Content\Fonts\Muli-SemiBoldItalic.ttf" />
+    <Content Include="Content\Styles\bootstrap-grid.css.map" />
+    <Content Include="Content\Styles\bootstrap-grid.min.css.map" />
+    <Content Include="Content\Styles\bootstrap-reboot.css.map" />
+    <Content Include="Content\Styles\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\Styles\bootstrap.css.map" />
+    <Content Include="Content\Styles\bootstrap.min.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -279,9 +325,6 @@
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
@@ -306,6 +349,10 @@
     <Content Include="Views\RolesAdmin\Delete.cshtml" />
     <Content Include="Views\RolesAdmin\Create.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordResponse.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

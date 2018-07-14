@@ -26,11 +26,18 @@ namespace VacationsBLL
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeDTO, Employee>()).CreateMapper(); 
 
-            var _employee = mapper.Map<EmployeeDTO, Employee>(employee);
-
-            _employeesData.Employees.Add(_employee);
+            _employeesData.Employees.Add(mapper.Map<EmployeeDTO, Employee>(employee));
 
             _employeesData.Save();
+        }
+        
+        public EmployeeDTO GetUserById(string id)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Employee,EmployeeDTO>()).CreateMapper();
+
+            var employee = _employeesData.Employees.GetById(id);
+         
+            return mapper.Map<Employee, EmployeeDTO>(employee);
         }
 
         public  void Dispose()
