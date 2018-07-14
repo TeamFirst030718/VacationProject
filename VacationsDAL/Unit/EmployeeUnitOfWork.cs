@@ -31,6 +31,9 @@ namespace VacationsDAL.Unit
             _dbContext.SaveChanges();
         }
 
+
+        private bool disposed = false;
+
         public virtual void Dispose(bool disposing)
         {
             if (!disposed)
@@ -43,9 +46,6 @@ namespace VacationsDAL.Unit
             }
         }
 
-        private bool disposed = false;
-
-    
         public void Dispose()
         {
             Dispose(true);

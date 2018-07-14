@@ -29,6 +29,13 @@ namespace VacationsBLL
             var _employee = mapper.Map<EmployeeDTO, Employee>(employee);
 
             _employeesData.Employees.Add(_employee);
+
+            _employeesData.Save();
+        }
+
+        public  void Dispose()
+        {
+            _employeesData.Dispose();
         }
     }
 }
