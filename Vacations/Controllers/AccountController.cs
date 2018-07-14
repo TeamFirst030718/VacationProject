@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Vacations.Models;
 using VacationsBLL;
-using VacationsBLL.Models;
+using VacationsBLL.DTOs;
 
 namespace IdentitySample.Controllers
 {
