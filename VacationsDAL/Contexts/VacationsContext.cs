@@ -1,6 +1,7 @@
 using System.Data.Entity;
+using VacationsDAL.Entities;
 
-namespace VacationsDAL.Entities
+namespace VacationsDAL.Contexts
 {
     public partial class VacationsContext : DbContext
     {

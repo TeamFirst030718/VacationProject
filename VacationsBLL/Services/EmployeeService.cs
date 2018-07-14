@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VacationsBLL.Models;
+using VacationsBLL.DTOs;
 using VacationsDAL.Entities;
 using VacationsDAL.Interfaces;
 using VacationsDAL.Repositories;
@@ -24,7 +24,7 @@ namespace VacationsBLL
 
         public void Create(EmployeeDTO employee)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeDTO, Employee>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeDTO, Employee>()).CreateMapper(); 
 
             var _employee = mapper.Map<EmployeeDTO, Employee>(employee);
 
