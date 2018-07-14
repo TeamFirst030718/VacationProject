@@ -1,4 +1,5 @@
-﻿using IdentitySample.Models;
+﻿using AutoMapper;
+using IdentitySample.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -15,11 +16,11 @@ namespace IdentitySample.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private EmployeeService _employeeService;
+        private IEmployeeService _employeeService;
 
-        public AccountController()
+        public AccountController(IEmployeeService service)
         {
-            _employeeService = new EmployeeService();
+            _employeeService = service;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -162,20 +163,26 @@ namespace IdentitySample.Controllers
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     var email = new EmailService();
-                    _employeeService.Create(new EmployeeDTO
-                    {
-                        EmployeeID = user.Id,
-                        Name = model.Name,
-                        Surname = model.Surname,
-                        BirthDate = model.BirthDate,
-                        PersonalMail = model.PersonalMail,
-                        Skype = model.Skype,
-                        HireDate = model.HireDate,
-                        Status = model.Status,
-                        DateOfDismissal = model.DateOfDismissal,
-                        VacationBalance = model.VacationBalance,
-                        JobTitleID = model.JobTitleID
-                    });
+
+                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeViewModel, EmployeeDTO>()).CreateMapper();
+
+                    var _employee = mapper.Map<EmployeeViewModel, EmployeeDTO>(model);
+
+
+                    _employeeService.Create(_employee/*new EmployeeDTO */
+                    //{
+                        //EmployeeID = user.Id,
+                        //Name = model.Name,
+                        //Surname = model.Surname,
+                        //BirthDate = model.BirthDate,
+                        //PersonalMail = model.PersonalMail,
+                        //Skype = model.Skype,
+                        //HireDate = model.HireDate,
+                        //Status = model.Status,
+                        //DateOfDismissal = model.DateOfDismissal,
+                        //VacationBalance = model.VacationBalance,
+                        //JobTitleID = model.JobTitleID
+                    /*}*/);
                     await email.SendAsync(model.Email, model.Name + " " + model.Surname, "Confirm your account","Please confirm your account",
                         "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
                     ViewBag.Link = callbackUrl;
@@ -430,6 +437,11 @@ namespace IdentitySample.Controllers
             return View();
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            _employeeService.Dispose();
+            base.Dispose(disposing);
+        }
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
