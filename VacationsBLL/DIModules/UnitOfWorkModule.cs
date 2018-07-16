@@ -8,11 +8,11 @@ using VacationsDAL.Unit;
 
 namespace Vacations.DIModules
 {
-    public class EmployeeUnitModule : NinjectModule
+    public class UnitOfWorkModule : NinjectModule
     {
         public override void Load()
         {
-            Bind<IEmployeeUnitOfWork>().To<EmployeeUnitOfWork>();
+            Bind<IUnitOfWork>().To<UnitOfWork>().InSingletonScope();
         }
     }
 }

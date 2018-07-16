@@ -17,7 +17,7 @@ namespace VacationsDAL.Entities
 
         [Column("JobTitle")]
         [StringLength(50)]
-        public string JobTitle1 { get; set; }
+        public string JobTitleName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }

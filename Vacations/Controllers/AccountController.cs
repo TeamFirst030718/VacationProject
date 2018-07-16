@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using Vacations.Models;
@@ -48,6 +49,7 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            var a = _employeeService.GetUserById("1").HireDate;
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -156,41 +158,42 @@ namespace IdentitySample.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                using (TransactionScope transaction = new TransactionScope())
                 {
-                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    var email = new EmailService();
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
 
-                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeViewModel, EmployeeDTO>()).CreateMapper();
+                    var result = await UserManager.CreateAsync(user, model.Password);
 
-                    var _employee = mapper.Map<EmployeeViewModel, EmployeeDTO>(model);
+                    if (result.Succeeded)
+                    {
+                        var tempModel = model;
 
+                        tempModel.JobTitle = _employeeService.GetJobTitleIdByName(model.JobTitle);
 
-                    _employeeService.Create(_employee/*new EmployeeDTO */
-                    //{
-                        //EmployeeID = user.Id,
-                        //Name = model.Name,
-                        //Surname = model.Surname,
-                        //BirthDate = model.BirthDate,
-                        //PersonalMail = model.PersonalMail,
-                        //Skype = model.Skype,
-                        //HireDate = model.HireDate,
-                        //Status = model.Status,
-                        //DateOfDismissal = model.DateOfDismissal,
-                        //VacationBalance = model.VacationBalance,
-                        //JobTitleID = model.JobTitleID
-                    /*}*/);
-                    await email.SendAsync(model.Email, model.Name + " " + model.Surname, "Confirm your account","Please confirm your account",
-                        "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
-                    ViewBag.Link = callbackUrl;
+                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
-                    AddErrors(result);
-                    return View("DisplayEmail");
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+                        var email = new EmailService();
+
+                        var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeViewModel, EmployeeDTO>()).CreateMapper();
+
+                        var _employee = mapper.Map<EmployeeViewModel, EmployeeDTO>(tempModel);
+
+                        _employeeService.Create(_employee);
+
+                        await email.SendAsync(model.Email, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
+                            "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
+
+                        ViewBag.Link = callbackUrl;
+
+                        AddErrors(result);
+
+                        return View("DisplayEmail");
+                    }
+
+                    transaction.Complete();
                 }
-                
             }
             
             // If we got this far, something failed, redisplay form

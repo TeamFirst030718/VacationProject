@@ -51,25 +51,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contexts\VacationsContext.cs" />
     <Compile Include="Entities\AspNetRole.cs" />
     <Compile Include="Entities\AspNetUser.cs" />
     <Compile Include="Entities\AspNetUserClaim.cs" />
     <Compile Include="Entities\AspNetUserLogin.cs" />
     <Compile Include="Entities\Employee.cs" />
     <Compile Include="Entities\JobTitle.cs" />
-    <Compile Include="Interfaces\IEmployeeUnitOfWork.cs" />
-    <Compile Include="Interfaces\IUnitOfWork.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Team.cs" />
     <Compile Include="Entities\Transaction.cs" />
     <Compile Include="Entities\TransactionType.cs" />
     <Compile Include="Entities\Vacation.cs" />
-    <Compile Include="Contexts\VacationsContext.cs" />
     <Compile Include="Entities\VacationStatusType.cs" />
+    <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AspNetUsersRepository.cs" />
     <Compile Include="Repositories\EmployeesRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Unit\EmployeeUnitOfWork.cs" />
+    <Compile Include="Repositories\JobTitleRepository.cs" />
+    <Compile Include="Repositories\TeamRepository.cs" />
+    <Compile Include="Repositories\TransactionRepository.cs" />
+    <Compile Include="Repositories\TransactionTypeRepository.cs" />
+    <Compile Include="Repositories\VacationRepository.cs" />
+    <Compile Include="Repositories\VacationStatusTypeRepository.cs" />
+    <Compile Include="Unit\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

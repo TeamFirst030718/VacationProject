@@ -14,7 +14,7 @@ namespace VacationsDAL.Entities
             Teams = new HashSet<Team>();
             Transactions = new HashSet<Transaction>();
             Vacations = new HashSet<Vacation>();
-            Teams1 = new HashSet<Team>();
+            EmployeesTeam = new HashSet<Team>();
         }
 
         public string EmployeeID { get; set; }
@@ -66,6 +66,6 @@ namespace VacationsDAL.Entities
         public virtual ICollection<Vacation> Vacations { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Team> Teams1 { get; set; }
+        public virtual ICollection<Team> EmployeesTeam { get; set; }
     }
 }
