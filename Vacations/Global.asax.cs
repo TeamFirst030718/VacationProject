@@ -23,8 +23,8 @@ namespace IdentitySample
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             NinjectModule employeeModule = new EmployeeServiceModule();
-            NinjectModule employeeUnitModule = new EmployeeUnitModule();
-            var kernel = new StandardKernel(employeeModule, employeeUnitModule);
+            NinjectModule unitOfWorkModule = new UnitOfWorkModule();
+            var kernel = new StandardKernel(employeeModule, unitOfWorkModule);
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
     }

@@ -60,7 +60,7 @@ namespace VacationsDAL.Contexts
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Employee>()
-                .HasMany(e => e.Teams1)
+                .HasMany(e => e.EmployeesTeam)
                 .WithMany(e => e.Employees)
                 .Map(m => m.ToTable("EmployeeTeam").MapLeftKey("EmployeeID").MapRightKey("TeamID"));
 

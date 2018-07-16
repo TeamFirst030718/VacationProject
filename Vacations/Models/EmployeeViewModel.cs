@@ -49,6 +49,6 @@ namespace Vacations.Models
         public int VacationBalance { get; set; }
 
         [Display(Name = "job title")]
-        public string JobTitleID { get; set; }
+        public string JobTitle { get; set; }
     }
 }
