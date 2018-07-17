@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using Vacations.Models;
 using VacationsBLL;
 using VacationsBLL.DTOs;
+using VacationsBLL.Interfaces;
 
 namespace IdentitySample.Controllers
 {
@@ -18,10 +19,12 @@ namespace IdentitySample.Controllers
     public class AccountController : Controller
     {
         private IEmployeeService _employeeService;
+        private IAspNetRoleService _aspNetRoleService;
 
-        public AccountController(IEmployeeService service)
+        public AccountController(IEmployeeService employeeService, IAspNetRoleService roleService)
         {
-            _employeeService = service;
+            _employeeService = employeeService;
+            _aspNetRoleService = roleService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -156,11 +159,15 @@ namespace IdentitySample.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(EmployeeViewModel model)
         {
+            
             if (ModelState.IsValid)
             {
                 using (TransactionScope transaction = new TransactionScope())
                 {
                     var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                    var aspNetRolesList = _aspNetRoleService.GetRoles();
+                    ViewData["aspNetRoles"] = aspNetRolesList;
 
                     var result = await UserManager.CreateAsync(user, model.Password);
 

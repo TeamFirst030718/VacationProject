@@ -24,6 +24,8 @@ namespace VacationsDAL.Unit
 
         private  VacationStatusTypeRepository _vacationStatusTypes;
 
+        private AspNetRolesRepository _rolesRepository;
+
         public UnitOfWork()
         {
             _dbContext = new VacationsContext();
@@ -118,6 +120,19 @@ namespace VacationsDAL.Unit
                 }
 
                 return _vacationStatusTypes;
+            }
+        }
+
+        public IRepository<AspNetRole> AspNetRoles
+        {
+            get
+            {
+                if (_rolesRepository == null)
+                {
+                    _rolesRepository = new AspNetRolesRepository(_dbContext);
+                }
+
+                return _rolesRepository;
             }
         }
 
