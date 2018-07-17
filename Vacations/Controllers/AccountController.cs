@@ -173,9 +173,9 @@ namespace IdentitySample.Controllers
 
                     if (result.Succeeded)
                     {
-                        var tempModel = model;
+                        /*var tempModel = model;
 
-                        tempModel.JobTitle = _employeeService.GetJobTitleIdByName(model.JobTitle);
+                        tempModel.JobTitle = _employeeService.GetJobTitleIdByName(model.JobTitle);*/
 
                         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
@@ -185,7 +185,7 @@ namespace IdentitySample.Controllers
 
                         var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeViewModel, EmployeeDTO>()).CreateMapper();
 
-                        var _employee = mapper.Map<EmployeeViewModel, EmployeeDTO>(tempModel);
+                        var _employee = mapper.Map<EmployeeViewModel, EmployeeDTO>(model);
 
                         _employeeService.Create(_employee);
 
