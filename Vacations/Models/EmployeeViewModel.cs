@@ -53,7 +53,5 @@ namespace Vacations.Models
         [Display(Name = "job title")]
         public string JobTitleID { get; set; }
 
-        [Display(Name = "role")]
-        public string Role { get; set; }
     }
 }
