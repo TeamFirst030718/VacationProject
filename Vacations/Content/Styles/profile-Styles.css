@@ -1,0 +1,85 @@
+﻿html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #222222;
+    min-width: 350px;
+}
+
+div .image {/*для jumotrone */
+    background-image: url('../Images/home request background.png')
+}
+
+.bt-gradient {
+    background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1));
+}
+
+.zebra li:nth-child(odd) {/*для списков, использую или для вывода информации или для форм заполнения*/
+    color: grey;
+    padding-top: 10px;
+}
+
+.zebra li:nth-child(even) {
+    color: white;
+    padding-bottom: 2px;
+}
+
+.underline a:after {/*Подчеркивание ссылок, пока не работает идеально*/
+    display: block;
+    position: relative;
+    left: 0; 
+    width: 0; 
+    height: 2px; 
+    background-image: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1)); 
+    content: "";
+    transition: width 0.3s ease-out; /*задаём время анимации*/
+}
+
+.underline a:focus:after,
+.underline a:hover:after {
+    width: 100%; 
+}
+
+.left-menu {
+    height: 100vh;
+}
+
+.bg-left-menu {
+    background-color: #222222;
+    padding-bottom: 3px;
+}
+
+.bg-global {
+    background-color: #222222;
+}
+
+.left-menu-element {
+    background-color: #343a40;
+    color: #f8f9fa;
+    border-bottom-color: white;
+    margin-top: 3px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 3rem;
+}
+
+.container-rounded-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border: 1px, 1px, 0, 1px;
+}
+
+.container-rounded-buttom {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: 1px;
+}
+
+.container-rounded {
+    border-radius: 6px;
+}
+
+.field-days-width {
+    width: 4rem;
+}
