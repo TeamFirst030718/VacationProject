@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Vacations.Models
 {
@@ -18,7 +20,7 @@ namespace Vacations.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         [Display(Name = "name")]
@@ -49,6 +51,9 @@ namespace Vacations.Models
         public int VacationBalance { get; set; }
 
         [Display(Name = "job title")]
-        public string JobTitle { get; set; }
+        public string JobTitleID { get; set; }
+
+        [Display(Name = "role")]
+        public string Role { get; set; }
     }
 }
