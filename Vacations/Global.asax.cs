@@ -23,8 +23,9 @@ namespace IdentitySample
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             NinjectModule employeeModule = new EmployeeServiceModule();
+            NinjectModule aspNetRoleModule = new AspNetRoleServiceModule();
             NinjectModule unitOfWorkModule = new UnitOfWorkModule();
-            var kernel = new StandardKernel(employeeModule, unitOfWorkModule);
+            var kernel = new StandardKernel(employeeModule, unitOfWorkModule, aspNetRoleModule);
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
     }
