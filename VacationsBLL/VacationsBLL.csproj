@@ -99,7 +99,10 @@
   <ItemGroup>
     <Compile Include="App_Start\Ninject.Web.Common.cs" />
     <Compile Include="DIModules\UnitOfWorkModule.cs" />
+    <Compile Include="DTOs\AspNetRoleDTO.cs" />
     <Compile Include="DTOs\EmployeeDTO.cs" />
+    <Compile Include="Interfaces\IAspNetRoleService.cs" />
+    <Compile Include="Services\AspNetRoleService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\AspNetUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

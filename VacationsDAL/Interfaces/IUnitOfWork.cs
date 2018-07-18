@@ -13,6 +13,7 @@ namespace VacationsDAL.Interfaces
         IRepository<TransactionType> TransactionTypes { get; }
         IRepository<Vacation> Vacations { get; }
         IRepository<VacationStatusType> VacationStatusTypes { get; }
+        IRepository<AspNetRole> AspNetRoles { get; }
         void Save();
     }
 }

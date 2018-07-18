@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using IdentitySample.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 using Vacations.Models;
 using VacationsBLL;
 using VacationsBLL.DTOs;
+using VacationsBLL.Interfaces;
 
 namespace IdentitySample.Controllers
 {
@@ -18,10 +20,12 @@ namespace IdentitySample.Controllers
     public class AccountController : Controller
     {
         private IEmployeeService _employeeService;
+        private IAspNetRoleService _aspNetRoleService;
 
-        public AccountController(IEmployeeService service)
+        public AccountController(IEmployeeService employeeService, IAspNetRoleService roleService)
         {
-            _employeeService = service;
+            _employeeService = employeeService;
+            _aspNetRoleService = roleService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -49,7 +53,7 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            var a = _employeeService.GetUserById("1").HireDate;
+            /*var a = _employeeService.GetUserById("1").HireDate;*/
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -146,6 +150,19 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            var aspNetRolesList = _aspNetRoleService.GetRoles();
+            var aspNetRolesSelectList = new List<SelectListItem>();
+
+            foreach (var aspNetRoleDto in aspNetRolesList)
+            {
+                aspNetRolesSelectList.Add(new SelectListItem
+                {
+                    Text = aspNetRoleDto.Name,
+                    Value = aspNetRoleDto.Name
+                });
+            }
+            
+            ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
             return View();
         }
 
@@ -156,20 +173,34 @@ namespace IdentitySample.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(EmployeeViewModel model)
         {
+            var aspNetRolesList = _aspNetRoleService.GetRoles();
+            var aspNetRolesSelectList = new List<SelectListItem>();
+
+            foreach (var aspNetRoleDto in aspNetRolesList)
+            {
+                aspNetRolesSelectList.Add(new SelectListItem
+                {
+                    Text = aspNetRoleDto.Name,
+                    Value = aspNetRoleDto.Name
+                });
+            }
+
+            ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
+
+
             if (ModelState.IsValid)
             {
-                using (TransactionScope transaction = new TransactionScope())
-                {
+                /*Failed Scope
+                using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {*/
                     var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-
                     var result = await UserManager.CreateAsync(user, model.Password);
-
+                
                     if (result.Succeeded)
                     {
-                        var tempModel = model;
-
-                        tempModel.JobTitle = _employeeService.GetJobTitleIdByName(model.JobTitle);
-
+                   
+                        var roleParam = Request.Params["aspNetRolesSelectList"];
+                        UserManager.AddToRole(user.Id, roleParam);
                         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
                         var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
@@ -178,7 +209,7 @@ namespace IdentitySample.Controllers
 
                         var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeViewModel, EmployeeDTO>()).CreateMapper();
 
-                        var _employee = mapper.Map<EmployeeViewModel, EmployeeDTO>(tempModel);
+                        var _employee = mapper.Map<EmployeeViewModel, EmployeeDTO>(model);
 
                         _employeeService.Create(_employee);
 
@@ -192,8 +223,7 @@ namespace IdentitySample.Controllers
                         return View("DisplayEmail");
                     }
 
-                    transaction.Complete();
-                }
+                    /*transaction.Complete(); }*/
             }
             
             // If we got this far, something failed, redisplay form
