@@ -12,7 +12,7 @@ namespace Vacations.DIModules
     {
         public override void Load()
         {
-            Bind<IUnitOfWork>().To<UnitOfWork>().InSingletonScope();
+            Bind<IUnitOfWork>().To<UnitOfWork>();
         }
     }
 }

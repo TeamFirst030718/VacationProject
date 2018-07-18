@@ -8,28 +8,28 @@
     @Scripts.Render("~/bundles/modernizr")
     <link href="css/bootstrap.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container-fluid bg-dark">
-        <div class="row">
-            <div class="col-ms-0 col-lg-2 col-md-2 m-0 p-0"></div>
-            <div class="col-12 col-md-8 col-lg-8 m-0 p-0">
-                @Html.Partial("_NavbarTopPartial")
+<body class="p-0">
+    <div class="col-12">
+
+            <div class="row  bg-dark">
+                <div class="col-ms-0 col-lg-2 col-md-2 m-0 p-0"></div>
+                <div class="col-12 col-md-8 col-lg-8 m-0 p-0">
+                    @Html.Partial("_NavbarTopPartial")
+                </div>
             </div>
+        <div class="row row-second">
+            <div class="col-2 m-0 p-0">
+                @Html.Partial("_LeftMenuPartial")
+            </div>
+            <div class="col-8 p-0">
+                <div class="container">
+                    @RenderBody()
+                </div>
+            </div>
+
         </div>
-        
-        
     </div>
-    <div class="row">
-        <div class="col-2 m-0 p-0">
-            @Html.Partial("_LeftMenuPartial")
-        </div>
-        <div class="col-8">
-            <div class="container">
-                @RenderBody()
-            </div>
-        </div>
-        
-    </div>   
+       
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
