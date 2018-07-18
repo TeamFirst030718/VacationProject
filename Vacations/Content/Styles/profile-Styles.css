@@ -12,16 +12,25 @@ body {
 
 }
 
-.row-second{
-    height:90vh;
+.row-second {
+    height: 70vh;
 }
 
 div .image {/*для jumotrone */
-    background-image: url('../Images/home request background.png')
+    background-image: url('../Images/home request background.png'); 
 }
 
-.bt-gradient {
+.bt-gradient, .bt-gradient:active, .bt-gradient:hover {
+    font-family: Muli-SemiBold;
+    font-weight: bold;
+    height: 50px;
+    border-radius: 10px;
+    color: white;
     background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1));
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    padding-top:13px;
 }
 
 .zebra li:nth-child(odd) {/*для списков, использую или для вывода информации или для форм заполнения*/
@@ -37,7 +46,7 @@ div .image {/*для jumotrone */
 .underline a:after {/*Подчеркивание ссылок, пока не работает идеально*/
     display: block;
     position: relative;
-    left: 0; 
+    left: 0;
     width: 0; 
     height: 2px; 
     background-image: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1)); 
@@ -47,11 +56,11 @@ div .image {/*для jumotrone */
 
 .underline a:focus:after,
 .underline a:hover:after {
-    width: 100%; 
+    width: 100%;    
 }
 
 .left-menu {
-    height: 100vh;
+    height: 90vh;
 }
 
 .bg-left-menu {

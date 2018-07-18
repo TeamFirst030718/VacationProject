@@ -133,7 +133,7 @@ div.center {
 }
 
 button.login, button.login:hover,
-.btn:active {
+button.login:active {
     font-family: Muli-SemiBold;
     font-weight: bold;
     height: 50px;
@@ -143,8 +143,8 @@ button.login, button.login:hover,
     border: none;
 }
 
- button.login:hover,
-.btn:active {
+    button.login:hover,
+    button.login:active {
         color: white;
         background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1)) !important;
-}
+    }
