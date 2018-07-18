@@ -1,0 +1,81 @@
+﻿<div class="container m-0 p-0">
+    <div class="container pb-5">
+        <div class="row">
+            <div class="container-fluid border border-bottom-0 container-rounded-top border-light bg-dark text-white">
+                <strong>Vacation Request</strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container-fluid border container-rounded-buttom border-light bg-dark text-white">
+                <form class="my-2 bg-dark">
+                    <div class="row">
+                        <div class="col-6 col-ms-12">
+                            <ul class="list-unstyled zebra">
+                                <li> <label for="vacationTypeSelect">vocation type</label></li>
+                                <li>
+                                    <select class="form-control bg-dark text-light" id="vacationTypeSelect">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                    </select>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-6 col-ms-12">
+                            <ul class="list-unstyled zebra">
+                                <li> <label for="dateFrom">from</label></li>
+                                <li>
+                                    <input type="date"  max="3000-12-31" min="1000-01-01" class="form-control bg-dark" name="dateFrom">
+                                </li>
+                            </ul>
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col-6 col-ms-12">
+                            <ul class="list-unstyled zebra">
+                                <li> <label for="coment">comment</label></li>
+                                <li>
+                                    <textarea class="form-control bg-dark" name="coment" rows="6"></textarea>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12 col-ms-12">
+                                    <ul class="list-unstyled zebra">
+                                        <li> <label for="dateTo">to</label></li>
+                                        <li>
+                                            <input type="date" name="dateTo" max="3000-12-31" min="1000-01-01" class="form-control bg-dark">
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-4 col-xs-12">
+                                    <ul class="list-unstyled zebra m-0">
+                                        <li> <label for="among">among</label></li>                                       
+                                    </ul>
+                                </div>                                
+                            </div> 
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="container m-0 p-0 text-light"><input type="number" class="form-control bg-dark field-days-width " name="among" value="XX" disabled="disabled" placeholder="XX" max="2" />  dais in vacations</div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 pr-5">
+                            <input type="button" value="CANCEL" class="bg-dark text-white container-rounded float-right"/>
+                        </div>
+                        <div class="col-6">
+                            <input type="submit" value="SEND REQUEST" class="btn btn-block bt-gradient text-white"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>    
+</div>
