@@ -101,6 +101,7 @@
     <Compile Include="DIModules\UnitOfWorkModule.cs" />
     <Compile Include="DTOs\AspNetRoleDTO.cs" />
     <Compile Include="DTOs\EmployeeDTO.cs" />
+    <Compile Include="DTOs\JobTitleDTO.cs" />
     <Compile Include="Interfaces\IAspNetRoleService.cs" />
     <Compile Include="Services\AspNetRoleService.cs" />
     <Compile Include="Services\EmployeeService.cs" />

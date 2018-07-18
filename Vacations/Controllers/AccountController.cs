@@ -150,6 +150,20 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            var jobTitlesList = _employeeService.GetJobTitles();
+            var jobTitlesSelectList = new List<SelectListItem>();
+
+            foreach (var jobTitleDto in jobTitlesList)
+            {
+                jobTitlesSelectList.Add(new SelectListItem
+                {
+                    Text = jobTitleDto.JobTitleName,
+                    Value = jobTitleDto.JobTitleID
+                });
+            }
+
+            ViewData["jobTitlesSelectList"] = jobTitlesSelectList;
+
             var aspNetRolesList = _aspNetRoleService.GetRoles();
             var aspNetRolesSelectList = new List<SelectListItem>();
 
@@ -173,6 +187,20 @@ namespace IdentitySample.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(EmployeeViewModel model)
         {
+            var jobTitlesList = _employeeService.GetJobTitles();
+            var jobTitlesSelectList = new List<SelectListItem>();
+
+            foreach (var jobTitleDto in jobTitlesList)
+            {
+                jobTitlesSelectList.Add(new SelectListItem
+                {
+                    Text = jobTitleDto.JobTitleName,
+                    Value = jobTitleDto.JobTitleID
+                });
+            }
+
+            ViewData["jobTitlesSelectList"] = jobTitlesSelectList;
+
             var aspNetRolesList = _aspNetRoleService.GetRoles();
             var aspNetRolesSelectList = new List<SelectListItem>();
 
@@ -187,45 +215,52 @@ namespace IdentitySample.Controllers
 
             ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
 
+            var jobTitleParam = Request.Params["jobTitlesSelectList"];
+           
+                var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
+                model.JobTitleID = jobTitleParam;
+                model.EmployeeID = user.Id;
+                if (ModelState.IsValid)
+                {
+                    /*Failed Scope
+                    
+                    {*/
 
-            if (ModelState.IsValid)
-            {
-                /*Failed Scope
-                using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {*/
-                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                     var result = await UserManager.CreateAsync(user, model.Password);
-                
+
                     if (result.Succeeded)
                     {
-                   
+
                         var roleParam = Request.Params["aspNetRolesSelectList"];
                         UserManager.AddToRole(user.Id, roleParam);
                         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
-                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new {userId = user.Id, code = code},
+                            protocol: Request.Url.Scheme);
 
                         var email = new EmailService();
 
-                        var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeViewModel, EmployeeDTO>()).CreateMapper();
+                        var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeViewModel, EmployeeDTO>())
+                            .CreateMapper();
 
                         var _employee = mapper.Map<EmployeeViewModel, EmployeeDTO>(model);
 
                         _employeeService.Create(_employee);
 
-                        await email.SendAsync(model.Email, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
+                        await email.SendAsync(model.Email, model.Name + " " + model.Surname, "Confirm your account",
+                            "Please confirm your account",
                             "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
 
                         ViewBag.Link = callbackUrl;
-
                         AddErrors(result);
-
                         return View("DisplayEmail");
                     }
 
                     /*transaction.Complete(); }*/
+                
+                
             }
-            
+
             // If we got this far, something failed, redisplay form
             return View(model);
         }
