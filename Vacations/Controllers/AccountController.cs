@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using Vacations.Models;
 using VacationsBLL;
 using VacationsBLL.DTOs;
@@ -28,7 +29,7 @@ namespace IdentitySample.Controllers
             _aspNetRoleService = roleService;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -83,7 +84,7 @@ namespace IdentitySample.Controllers
 
             // This doen't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password,false, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -150,32 +151,13 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            var jobTitlesList = _employeeService.GetJobTitles();
-            var jobTitlesSelectList = new List<SelectListItem>();
+            var statusSelectList = StatusSelectList();
+            ViewData["statusSelectList"] = statusSelectList;
 
-            foreach (var jobTitleDto in jobTitlesList)
-            {
-                jobTitlesSelectList.Add(new SelectListItem
-                {
-                    Text = jobTitleDto.JobTitleName,
-                    Value = jobTitleDto.JobTitleID
-                });
-            }
-
+            var jobTitlesSelectList = JobTitlesSelectList();
             ViewData["jobTitlesSelectList"] = jobTitlesSelectList;
 
-            var aspNetRolesList = _aspNetRoleService.GetRoles();
-            var aspNetRolesSelectList = new List<SelectListItem>();
-
-            foreach (var aspNetRoleDto in aspNetRolesList)
-            {
-                aspNetRolesSelectList.Add(new SelectListItem
-                {
-                    Text = aspNetRoleDto.Name,
-                    Value = aspNetRoleDto.Name
-                });
-            }
-            
+            var aspNetRolesSelectList = AspNetRolesSelectList();
             ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
             return View();
         }
@@ -187,78 +169,54 @@ namespace IdentitySample.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(EmployeeViewModel model)
         {
-            var jobTitlesList = _employeeService.GetJobTitles();
-            var jobTitlesSelectList = new List<SelectListItem>();
+            var statusSelectList = StatusSelectList();
+            ViewData["statusSelectList"] = statusSelectList;
 
-            foreach (var jobTitleDto in jobTitlesList)
-            {
-                jobTitlesSelectList.Add(new SelectListItem
-                {
-                    Text = jobTitleDto.JobTitleName,
-                    Value = jobTitleDto.JobTitleID
-                });
-            }
-
+            var jobTitlesSelectList = JobTitlesSelectList();
             ViewData["jobTitlesSelectList"] = jobTitlesSelectList;
 
-            var aspNetRolesList = _aspNetRoleService.GetRoles();
-            var aspNetRolesSelectList = new List<SelectListItem>();
-
-            foreach (var aspNetRoleDto in aspNetRolesList)
-            {
-                aspNetRolesSelectList.Add(new SelectListItem
-                {
-                    Text = aspNetRoleDto.Name,
-                    Value = aspNetRoleDto.Name
-                });
-            }
-
+            var aspNetRolesSelectList = AspNetRolesSelectList();
             ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
 
             var jobTitleParam = Request.Params["jobTitlesSelectList"];
-           
-                var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
-                model.JobTitleID = jobTitleParam;
-                model.EmployeeID = user.Id;
-                if (ModelState.IsValid)
+            var statusParam = Request.Params["statusSelectList"];
+
+            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            model.JobTitleID = jobTitleParam;
+            model.EmployeeID = user.Id;
+            model.Status = statusParam.AsBool();
+            if (ModelState.IsValid)
+            {
+                var result = await UserManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
                 {
-                    /*Failed Scope
-                    
-                    {*/
 
-                    var result = await UserManager.CreateAsync(user, model.Password);
+                    var roleParam = Request.Params["aspNetRolesSelectList"];
+                    UserManager.AddToRole(user.Id, roleParam);
+                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
-                    if (result.Succeeded)
-                    {
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },
+                        protocol: Request.Url.Scheme);
 
-                        var roleParam = Request.Params["aspNetRolesSelectList"];
-                        UserManager.AddToRole(user.Id, roleParam);
-                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var email = new EmailService();
 
-                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new {userId = user.Id, code = code},
-                            protocol: Request.Url.Scheme);
+                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeViewModel, EmployeeDTO>())
+                        .CreateMapper();
 
-                        var email = new EmailService();
+                    var _employee = mapper.Map<EmployeeViewModel, EmployeeDTO>(model);
 
-                        var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeViewModel, EmployeeDTO>())
-                            .CreateMapper();
+                    _employeeService.Create(_employee);
+                    _employeeService.SaveChanges();
 
-                        var _employee = mapper.Map<EmployeeViewModel, EmployeeDTO>(model);
+                    await email.SendAsync(model.Email, model.Name + " " + model.Surname, "Confirm your account",
+                        "Please confirm your account",
+                        "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
 
-                        _employeeService.Create(_employee);
-
-                        await email.SendAsync(model.Email, model.Name + " " + model.Surname, "Confirm your account",
-                            "Please confirm your account",
-                            "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
-
-                        ViewBag.Link = callbackUrl;
-                        AddErrors(result);
-                        return View("DisplayEmail");
-                    }
-
-                    /*transaction.Complete(); }*/
-                
-                
+                    ViewBag.Link = callbackUrl;
+                    AddErrors(result);
+                    return View("DisplayEmail");
+                }
             }
 
             // If we got this far, something failed, redisplay form
@@ -575,6 +533,60 @@ namespace IdentitySample.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
+        }
+
+        private List<SelectListItem> AspNetRolesSelectList()
+        {
+            var aspNetRolesList = _aspNetRoleService.GetRoles();
+            var aspNetRolesSelectList = new List<SelectListItem>();
+
+            foreach (var aspNetRoleDto in aspNetRolesList)
+            {
+                aspNetRolesSelectList.Add(new SelectListItem
+                {
+                    Text = aspNetRoleDto.Name,
+                    Value = aspNetRoleDto.Name
+                });
+            }
+
+            return aspNetRolesSelectList;
+        }
+
+        private List<SelectListItem> JobTitlesSelectList()
+        {
+            var jobTitlesList = _employeeService.GetJobTitles();
+            var jobTitlesSelectList = new List<SelectListItem>();
+
+            foreach (var jobTitleDto in jobTitlesList)
+            {
+                jobTitlesSelectList.Add(new SelectListItem
+                {
+                    Text = jobTitleDto.JobTitleName,
+                    Value = jobTitleDto.JobTitleID
+                });
+            }
+
+            return jobTitlesSelectList;
+        }
+
+        private List<SelectListItem> StatusSelectList()
+        {
+            var statusSelectList = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Text = "Active",
+                    Value = "true"
+                },
+
+                new SelectListItem
+                {
+                    Text = "Fired",
+                    Value = "false"
+                }
+            };
+
+            return statusSelectList;
         }
         #endregion
     }
