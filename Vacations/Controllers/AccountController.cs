@@ -13,6 +13,7 @@ using Vacations.Models;
 using VacationsBLL;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
+using System.Web.WebPages;
 
 namespace IdentitySample.Controllers
 {
@@ -21,11 +22,13 @@ namespace IdentitySample.Controllers
     {
         private IEmployeeService _employeeService;
         private IAspNetRoleService _aspNetRoleService;
+        private IPageListsService _pageListsService;
 
-        public AccountController(IEmployeeService employeeService, IAspNetRoleService roleService)
+        public AccountController(IEmployeeService employeeService, IAspNetRoleService roleService, IPageListsService pageListsService)
         {
             _employeeService = employeeService;
             _aspNetRoleService = roleService;
+            _pageListsService = pageListsService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -150,19 +153,16 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            var aspNetRolesList = _aspNetRoleService.GetRoles();
-            var aspNetRolesSelectList = new List<SelectListItem>();
+         
+            var statusSelectList = _pageListsService.StatusSelectList();
+            ViewData["statusSelectList"] = statusSelectList;
 
-            foreach (var aspNetRoleDto in aspNetRolesList)
-            {
-                aspNetRolesSelectList.Add(new SelectListItem
-                {
-                    Text = aspNetRoleDto.Name,
-                    Value = aspNetRoleDto.Name
-                });
-            }
-            
+            var jobTitlesSelectList = _pageListsService.JobTitlesSelectList();
+            ViewData["jobTitlesSelectList"] = jobTitlesSelectList;
+
+            var aspNetRolesSelectList = _pageListsService.AspNetRolesSelectList();
             ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
+
             return View();
         }
 
@@ -173,34 +173,42 @@ namespace IdentitySample.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(EmployeeViewModel model)
         {
-            var aspNetRolesList = _aspNetRoleService.GetRoles();
-            var aspNetRolesSelectList = new List<SelectListItem>();
+            var statusSelectList = _pageListsService.StatusSelectList();
+            ViewData["statusSelectList"] = statusSelectList;
 
-            foreach (var aspNetRoleDto in aspNetRolesList)
-            {
-                aspNetRolesSelectList.Add(new SelectListItem
-                {
-                    Text = aspNetRoleDto.Name,
-                    Value = aspNetRoleDto.Name
-                });
-            }
+            var jobTitlesSelectList = _pageListsService.JobTitlesSelectList();
+            ViewData["jobTitlesSelectList"] = jobTitlesSelectList;
+
+            var aspNetRolesSelectList = _pageListsService.AspNetRolesSelectList();
 
             ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
 
+            var jobTitleParam = Request.Params["jobTitlesSelectList"];
+
+            var statusParam = Request.Params["statusSelectList"];
+
+            model.JobTitleID = jobTitleParam;
+
+            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+            model.EmployeeID = user.Id;
+
+            model.Status = statusParam.AsBool();
 
             if (ModelState.IsValid)
             {
-                /*Failed Scope
                 using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {*/
-                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                {
+
                     var result = await UserManager.CreateAsync(user, model.Password);
                 
-                    if (result.Succeeded)
+                    if (result.Succeeded) 
                     {
                    
                         var roleParam = Request.Params["aspNetRolesSelectList"];
+
                         UserManager.AddToRole(user.Id, roleParam);
+
                         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
                         var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
@@ -213,6 +221,8 @@ namespace IdentitySample.Controllers
 
                         _employeeService.Create(_employee);
 
+                        _employeeService.SaveChanges();
+
                         await email.SendAsync(model.Email, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
                             "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
 
@@ -223,7 +233,8 @@ namespace IdentitySample.Controllers
                         return View("DisplayEmail");
                     }
 
-                    /*transaction.Complete(); }*/
+                    transaction.Complete();
+                }
             }
             
             // If we got this far, something failed, redisplay form

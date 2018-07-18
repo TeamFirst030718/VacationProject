@@ -236,6 +236,7 @@
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="DIModules\AspNetRoleServiceModule.cs" />
     <Compile Include="DIModules\EmployeeServiceModule.cs" />
+    <Compile Include="DIModules\PageListsServiceModule.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
