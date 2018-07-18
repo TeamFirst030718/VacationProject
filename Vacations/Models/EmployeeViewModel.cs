@@ -7,6 +7,8 @@ namespace Vacations.Models
 {
     public class EmployeeViewModel
     {
+        public string EmployeeID { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "personal mail")]
