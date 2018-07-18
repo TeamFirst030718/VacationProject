@@ -103,11 +103,13 @@
     <Compile Include="DTOs\EmployeeDTO.cs" />
     <Compile Include="DTOs\JobTitleDTO.cs" />
     <Compile Include="Interfaces\IAspNetRoleService.cs" />
+    <Compile Include="Interfaces\IPageListsService.cs" />
     <Compile Include="Services\AspNetRoleService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\AspNetUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IEmployeeService.cs" />
+    <Compile Include="Services\PageListsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

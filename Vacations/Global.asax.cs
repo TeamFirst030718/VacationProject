@@ -22,10 +22,11 @@ namespace IdentitySample
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            NinjectModule pageModule = new PageListsServiceModule();
             NinjectModule employeeModule = new EmployeeServiceModule();
             NinjectModule aspNetRoleModule = new AspNetRoleServiceModule();
             NinjectModule unitOfWorkModule = new UnitOfWorkModule();
-            var kernel = new StandardKernel(employeeModule, unitOfWorkModule, aspNetRoleModule);
+            var kernel = new StandardKernel(employeeModule, unitOfWorkModule, aspNetRoleModule,pageModule);
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
     }
