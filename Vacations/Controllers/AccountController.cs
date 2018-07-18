@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using Vacations.Models;
 using VacationsBLL;
 using VacationsBLL.DTOs;
@@ -31,7 +32,7 @@ namespace IdentitySample.Controllers
             _pageListsService = pageListsService;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -86,7 +87,7 @@ namespace IdentitySample.Controllers
 
             // This doen't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password,false, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -152,8 +153,7 @@ namespace IdentitySample.Controllers
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Register()
-        {
-         
+        {         
             var statusSelectList = _pageListsService.StatusSelectList();
             ViewData["statusSelectList"] = statusSelectList;
 
@@ -161,6 +161,7 @@ namespace IdentitySample.Controllers
             ViewData["jobTitlesSelectList"] = jobTitlesSelectList;
 
             var aspNetRolesSelectList = _pageListsService.AspNetRolesSelectList();
+            
             ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
 
             return View();
@@ -171,7 +172,7 @@ namespace IdentitySample.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(EmployeeViewModel model)
+       public async Task<ActionResult> Register(EmployeeViewModel model)
         {
             var statusSelectList = _pageListsService.StatusSelectList();
             ViewData["statusSelectList"] = statusSelectList;
@@ -182,7 +183,7 @@ namespace IdentitySample.Controllers
             var aspNetRolesSelectList = _pageListsService.AspNetRolesSelectList();
 
             ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
-
+q
             var jobTitleParam = Request.Params["jobTitlesSelectList"];
 
             var statusParam = Request.Params["statusSelectList"];
@@ -240,7 +241,7 @@ namespace IdentitySample.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+        
         //
         // GET: /Account/ConfirmEmail
         [HttpGet]
@@ -493,6 +494,8 @@ namespace IdentitySample.Controllers
         protected override void Dispose(bool disposing)
         {
             _employeeService.Dispose();
+            _aspNetRoleService.Dispose();
+            _pageListsService.Dispose();
             base.Dispose(disposing);
         }
         #region Helpers
