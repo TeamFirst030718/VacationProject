@@ -183,7 +183,7 @@ namespace IdentitySample.Controllers
             var aspNetRolesSelectList = _pageListsService.AspNetRolesSelectList();
 
             ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
-q
+
             var jobTitleParam = Request.Params["jobTitlesSelectList"];
 
             var statusParam = Request.Params["statusSelectList"];
