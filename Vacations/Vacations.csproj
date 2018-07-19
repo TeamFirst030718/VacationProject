@@ -424,7 +424,6 @@
     <Content Include="Views\Shared\_NavbarTopPartial.cshtml" />
     <Content Include="Views\Shared\_InsideLayout.cshtml" />
     <Content Include="Views\Profile\AddNewEmployee.cshtml" />
-    <Content Include="Views\Profile\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
