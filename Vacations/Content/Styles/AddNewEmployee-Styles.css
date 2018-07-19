@@ -17,3 +17,68 @@
 .text-light-grey{
     color: #959595;
 }
+
+.button-cancel, .button-cancel:hover,
+.button-cancel:active {
+    font-family: Muli-SemiBold;
+    font-weight: bold;
+    height: 40px;
+    border-radius: 6px;
+    color: white;
+    background: #2a2a2a;
+    border: 1px solid;
+   
+}
+   .button-cancel:hover,
+    .button-cancel:active {
+        color: white;
+        background: #2a2a2a !important;
+    }
+
+.button-gradient, .button-gradient:hover,
+.button-gradient:active {
+    font-family: Muli-SemiBold;
+    font-weight: bold;
+    height: 50px;
+    border-radius: 6px;
+    color: white;
+    background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1));
+    border: none;
+}
+    .button-gradient:hover,
+    .button-gradient:active {
+        color: white;
+        background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1)) !important;
+    }
+
+.button-done, .button-done:hover,
+.button-done:active {
+    font-family: Muli-SemiBold;
+    font-weight: bold;
+    height: 40px;
+    border-radius: 6px;
+    color: white;
+    background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1));
+    border: none;
+}
+    .button-done:hover,
+    .button-done:active {
+        color: white;
+        background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1)) !important;
+    }
+
+.button-add-photo, .button-add-photo:hover,
+.button-add-photo:active {
+    font-family: Muli-SemiBold;
+    font-weight: bold;
+    height: 40px;
+    border-radius: 6px;
+    color: #667eea;
+    background-image: url('~/Content/Images/gragient box.svg');
+    border: 1px solid;
+    background-color: #2a2a2a;
+}
+    .button-add-photo:hover,
+    .button-add-photo:active {
+        color: #667eea;
+    }

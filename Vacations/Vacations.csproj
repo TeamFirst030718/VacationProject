@@ -274,6 +274,7 @@
     <Content Include="Content\Icons\user profile icon.svg" />
     <Content Include="Content\Icons\user-icon.svg" />
     <Content Include="Content\Images\background.jpg" />
+    <Content Include="Content\Images\gragient box.svg" />
     <Content Include="Content\Images\home request background.png" />
     <Content Include="Content\Styles\bootstrap-grid.css" />
     <Content Include="Content\Styles\bootstrap-grid.min.css" />
