@@ -9,7 +9,7 @@ namespace Vacations.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "personal mail")]
+        [Display(Name = "work mail")]
         public string Email { get; set; }
 
         [Required]
@@ -32,7 +32,7 @@ namespace Vacations.Models
         [Display(Name = "date of birth")]
         public DateTime BirthDate { get; set; }
 
-        [Display(Name = "work mail")]
+        [Display(Name = "personal mail")]
         public string PersonalMail { get; set; }
 
         [Display(Name = "skype")]
