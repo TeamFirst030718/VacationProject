@@ -2,22 +2,27 @@
 using System.Web.Mvc;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Interfaces;
+using VacationsDAL.Repositories;
 
 namespace VacationsBLL.Services
 {
     public class PageListsService : IPageListsService
     {
-        IUnitOfWork _unitOfWork;
+        IJobTitleRepository _jobTitles;
 
-        public PageListsService(IUnitOfWork unitOfWork)
+        IAspNetRolesRepository _roles;
+
+        public PageListsService(IJobTitleRepository jobTitles, IAspNetRolesRepository roles)
         {
-            _unitOfWork = unitOfWork;
+            _jobTitles = jobTitles;
+
+            _roles = roles;
         }
 
         public List<SelectListItem> AspNetRolesSelectList()
         {
            
-            var aspNetRolesList = _unitOfWork.AspNetRoles.GetAll();
+            var aspNetRolesList = _roles.GetAll();
 
             var aspNetRolesSelectList = new List<SelectListItem>();
 
@@ -35,7 +40,8 @@ namespace VacationsBLL.Services
 
         public List<SelectListItem> JobTitlesSelectList()
         {
-            var jobTitlesList = _unitOfWork.JobTitles.GetAll();
+            var jobTitlesList = _jobTitles.GetAll();
+
             var jobTitlesSelectList = new List<SelectListItem>();
 
             foreach (var jobTitle in jobTitlesList)
@@ -72,7 +78,8 @@ namespace VacationsBLL.Services
 
         public void Dispose()
         {
-            _unitOfWork.Dispose();
+            _jobTitles.Dispose();
+            _roles.Dispose();
         }
     }
 }

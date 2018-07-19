@@ -2,6 +2,8 @@
 using AutoMapper;
 using System.Linq;
 using VacationsBLL.DTOs;
+using VacationsBLL.Interfaces;
+using VacationsBLL.Services;
 using VacationsDAL.Entities;
 using VacationsDAL.Interfaces;
 
@@ -9,27 +11,38 @@ namespace VacationsBLL
 {
     public class EmployeeService : IEmployeeService
     {
-        private IUnitOfWork _unitOfWork { get; set; }
+        private IEmployeeRepository _employees;
 
-        public EmployeeService(IUnitOfWork unitOfWork)
+        private IJobTitleRepository _jobTitles;
+
+        private IMapService _mapService;
+
+        public EmployeeService(IEmployeeRepository employees, IJobTitleRepository jobTitles, IMapService mapService)
         {
-            _unitOfWork = unitOfWork;
+            _employees = employees;
+
+            _jobTitles = jobTitles;
+
+            _mapService = mapService;
         }
 
         public void Create(EmployeeDTO employee)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeDTO, Employee>()).CreateMapper();
-
-            _unitOfWork.Employees.Add(mapper.Map<EmployeeDTO, Employee>(employee));
+            _employees.Add(_mapService.Map<EmployeeDTO, Employee>(employee));
         }
 
         public EmployeeDTO GetUserById(string id)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Employee, EmployeeDTO>()).CreateMapper();
+            return _mapService.Map<Employee,EmployeeDTO>(_employees.GetById(id)); 
+        }
 
-            var employee = _unitOfWork.Employees.GetById(id);
+        public List<JobTitleDTO> GetJobTitles()
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<JobTitle, JobTitleDTO>()).CreateMapper();
 
-            return mapper.Map<Employee, EmployeeDTO>(employee);
+            var jobTitles = _jobTitles.GetAll();
+
+            return jobTitles.Select(jobTitle => mapper.Map<JobTitle, JobTitleDTO>(jobTitle)).ToList();
         }
 
         public List<JobTitleDTO> GetJobTitles()
@@ -43,17 +56,18 @@ namespace VacationsBLL
 
         public string GetJobTitleIdByName(string jobTitleName)
         {
-            return _unitOfWork.JobTitles.GetAll().FirstOrDefault(x => x.JobTitleName.Equals(jobTitleName)).JobTitleID;
+            return _jobTitles.GetAll().FirstOrDefault(x => x.JobTitleName.Equals(jobTitleName)).JobTitleID;
         }
 
         public void SaveChanges()
         {
-            _unitOfWork.Save();
+            _employees.Save();
         }
 
         public void Dispose()
         {
-            _unitOfWork.Dispose();
+            _jobTitles.Dispose();
+            _employees.Dispose();
         }
     }
 }

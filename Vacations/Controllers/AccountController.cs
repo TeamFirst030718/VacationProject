@@ -24,12 +24,14 @@ namespace IdentitySample.Controllers
         private IEmployeeService _employeeService;
         private IAspNetRoleService _aspNetRoleService;
         private IPageListsService _pageListsService;
+        private IAspNetUserService _aspNetUserService;
 
-        public AccountController(IEmployeeService employeeService, IAspNetRoleService roleService, IPageListsService pageListsService)
+        public AccountController(IEmployeeService employeeService, IAspNetRoleService roleService, IPageListsService pageListsService, IAspNetUserService userService)
         {
             _employeeService = employeeService;
             _aspNetRoleService = roleService;
             _pageListsService = pageListsService;
+            _aspNetUserService = userService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -57,7 +59,6 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            /*var a = _employeeService.GetUserById("1").HireDate;*/
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -153,7 +154,7 @@ namespace IdentitySample.Controllers
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Register()
-        {         
+        {
             var statusSelectList = _pageListsService.StatusSelectList();
             ViewData["statusSelectList"] = statusSelectList;
 
@@ -183,14 +184,14 @@ namespace IdentitySample.Controllers
             var aspNetRolesSelectList = _pageListsService.AspNetRolesSelectList();
 
             ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
-q
+            
             var jobTitleParam = Request.Params["jobTitlesSelectList"];
 
             var statusParam = Request.Params["statusSelectList"];
 
             model.JobTitleID = jobTitleParam;
 
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PhoneNumber = model.PhoneNumber };
 
             model.EmployeeID = user.Id;
 
@@ -202,10 +203,9 @@ q
                 {
 
                     var result = await UserManager.CreateAsync(user, model.Password);
-                
-                    if (result.Succeeded) 
+
+                    if (result.Succeeded)
                     {
-                   
                         var roleParam = Request.Params["aspNetRolesSelectList"];
 
                         UserManager.AddToRole(user.Id, roleParam);
@@ -237,7 +237,7 @@ q
                     transaction.Complete();
                 }
             }
-            
+
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -248,9 +248,7 @@ q
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
-            var aspNetUserService = new AspNetUserService();
-
-            if (userId == null || code == null || !aspNetUserService.AspNetUserExists(userId))
+            if (userId == null || code == null || _aspNetUserService.AspNetUserExists(userId))
             {
                 return View("Error");
             }
@@ -290,7 +288,7 @@ q
                 var employee = _employeeService.GetUserById(user.Id);
 
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
 
                 await email.SendAsync(user.Email, employee.Name + " " + employee.Surname, "Restore password", "Please restore your password",
                     "Please restore your password by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
@@ -400,7 +398,7 @@ q
             {
                 return View("Error");
             }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
 
         //
@@ -493,6 +491,9 @@ q
 
         protected override void Dispose(bool disposing)
         {
+            _aspNetUserService.Dispose();
+            _pageListsService.Dispose();
+            _aspNetUserService.Dispose();
             _employeeService.Dispose();
             _aspNetRoleService.Dispose();
             _pageListsService.Dispose();

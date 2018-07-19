@@ -8,8 +8,11 @@ body {
     min-width: 350px;
 }
 
-.row-first{
 
+
+.backColor {
+    background-color: #2e2e2e !important;
+    
 }
 
 .row-second {
@@ -73,6 +76,7 @@ div .image {/*для jumotrone */
     background-color: #222222;
 }
 
+
 .left-menu-element {
     background-color: #343a40;
     color: #959595;
@@ -122,3 +126,4 @@ div .image {/*для jumotrone */
 .text-grey{
     color:grey;
 }
+

@@ -8,31 +8,30 @@ using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Entities;
 using VacationsDAL.Interfaces;
-using VacationsDAL.Repositories;
 
 namespace VacationsBLL.Services
 {
     public class AspNetRoleService: IAspNetRoleService
     {
-        private IUnitOfWork _unitOfWork { get; set; }
+        IAspNetRolesRepository _roles;
 
-        public AspNetRoleService(IUnitOfWork unitOfWork)
+        public AspNetRoleService(IAspNetRolesRepository roles)
         {
-            _unitOfWork = unitOfWork;
+            _roles = roles;
         }
 
         public void Create(AspNetRoleDTO aspNetRole)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<AspNetRoleDTO, AspNetRole>()).CreateMapper();
 
-            _unitOfWork.AspNetRoles.Add(mapper.Map<AspNetRoleDTO, AspNetRole>(aspNetRole));
+            _roles.Add(mapper.Map<AspNetRoleDTO, AspNetRole>(aspNetRole));
         }
 
         public List<AspNetRoleDTO> GetRoles()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<AspNetRole, AspNetRoleDTO>()).CreateMapper();
 
-            var aspNetRoles = _unitOfWork.AspNetRoles.GetAll();
+            var aspNetRoles = _roles.GetAll();
             var aspNetRolesDTO = new List<AspNetRoleDTO>();
 
             foreach (var aspNetRole in aspNetRoles)
@@ -45,12 +44,12 @@ namespace VacationsBLL.Services
 
         public void SaveChanges()
         {
-            _unitOfWork.Save();
+            _roles.Save();
         }
 
         public void Dispose()
         {
-            _unitOfWork.Dispose();
+            _roles.Dispose();
         }
     }
 }

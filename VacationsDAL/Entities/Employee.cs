@@ -48,7 +48,7 @@ namespace VacationsDAL.Entities
 
         public int VacationBalance { get; set; }
 
-        [Required]
+        [Required]  
         [StringLength(128)]
         public string JobTitleID { get; set; }
 

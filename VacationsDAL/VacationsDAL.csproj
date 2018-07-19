@@ -63,19 +63,26 @@
     <Compile Include="Entities\TransactionType.cs" />
     <Compile Include="Entities\Vacation.cs" />
     <Compile Include="Entities\VacationStatusType.cs" />
-    <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Interfaces\IAspNetRolesRepository.cs" />
+    <Compile Include="Interfaces\IEmployeeRepository.cs" />
+    <Compile Include="Interfaces\IJobTitleRepository.cs" />
+    <Compile Include="Interfaces\ITransactionRepository.cs" />
+    <Compile Include="Interfaces\ITeamRepository.cs" />
+    <Compile Include="Interfaces\ITransactionTypeRepository.cs" />
+    <Compile Include="Interfaces\IVacationRepository.cs" />
+    <Compile Include="Interfaces\IVacationStatusTypeRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AspNetRolesRepository.cs" />
     <Compile Include="Repositories\AspNetUsersRepository.cs" />
-    <Compile Include="Repositories\EmployeesRepository.cs" />
+    <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\IAspNetUsersRepository.cs" />
     <Compile Include="Repositories\JobTitleRepository.cs" />
     <Compile Include="Repositories\TeamRepository.cs" />
     <Compile Include="Repositories\TransactionRepository.cs" />
     <Compile Include="Repositories\TransactionTypeRepository.cs" />
     <Compile Include="Repositories\VacationRepository.cs" />
     <Compile Include="Repositories\VacationStatusTypeRepository.cs" />
-    <Compile Include="Unit\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

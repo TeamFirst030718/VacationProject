@@ -37,6 +37,9 @@ namespace Vacations.Models
         [Display(Name = "personal mail")]
         public string PersonalMail { get; set; }
 
+        [Display(Name = "phone number")]
+        public string PhoneNumber { get; set; }
+
         [Display(Name = "skype")]
         public string Skype { get; set; }
 
