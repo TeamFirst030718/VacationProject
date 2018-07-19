@@ -1,0 +1,16 @@
+﻿.border-bottom-rounded-right {
+    border-bottom-right-radius: 10px;
+    border: 1px, 1px, 1px, 0 !important;
+    border-color: gray !important;
+}
+.border-bottom-rounded-left {
+    border-bottom-left-radius: 10px;
+    border: 1px, 1px, 1px, 1px !important;
+    border-color: gray !important;
+}
+.border-grey {
+    border-color: gray !important;
+}
+.bg-dark {
+    background-color: #2a2a2a !important;
+}

@@ -281,6 +281,7 @@
     <Content Include="Content\Styles\bootstrap.css" />
     <Content Include="Content\Styles\bootstrap.min.css" />
     <Content Include="Content\Styles\forgotPasswordStyles.css" />
+    <Content Include="Content\Styles\AddNewEmployee-Styles.css" />
     <Content Include="Content\Styles\profile-Styles.css" />
     <Content Include="Content\Styles\loginStyles.css" />
     <Content Include="Content\Styles\Site.css" />
@@ -419,6 +420,8 @@
     <Content Include="Views\Profile\_VocationRequestPartial.cshtml" />
     <Content Include="Views\Shared\_NavbarTopPartial.cshtml" />
     <Content Include="Views\Shared\_InsideLayout.cshtml" />
+    <Content Include="Views\Profile\AddNewEmployee.cshtml" />
+    <Content Include="Views\Profile\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
