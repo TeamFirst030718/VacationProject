@@ -8,8 +8,11 @@ body {
     min-width: 350px;
 }
 
-.row-first{
 
+
+.backColor {
+    background-color: #2e2e2e !important;
+    
 }
 
 .row-second {
@@ -72,6 +75,7 @@ div .image {/*для jumotrone */
     background-color: #222222;
 }
 
+
 .left-menu-element {
     background-color: #343a40;
     color: #f8f9fa;
@@ -100,4 +104,9 @@ div .image {/*для jumotrone */
 
 .field-days-width {
     width: 4rem;
+}
+
+table.backColor tr {
+    border-bottom: 2px solid #757575;
+    border-top: 2px solid #757575;
 }

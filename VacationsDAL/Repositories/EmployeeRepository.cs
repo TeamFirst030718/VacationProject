@@ -6,15 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using VacationsDAL.Contexts;
 using VacationsDAL.Entities;
-
+using VacationsDAL.Interfaces;
 
 namespace VacationsDAL.Repositories
 {
-    public class EmployeesRepository : IRepository<Employee>
+    public class EmployeeRepository : IEmployeeRepository
     {
         private readonly VacationsContext _context;
+        
             
-        public EmployeesRepository(VacationsContext dbContext)
+        public EmployeeRepository(VacationsContext dbContext)
         {
             _context = dbContext;
         }
@@ -42,6 +43,21 @@ namespace VacationsDAL.Repositories
         public void Add(Employee employee)
         {
             _context.Employees.Add(employee);
+        }
+
+        public void Save()
+        {
+            if (_context.ChangeTracker.Entries().Any(e => e.State == EntityState.Added
+                                                || e.State == EntityState.Modified
+                                                || e.State == EntityState.Deleted))
+            {
+                _context.SaveChanges();
+            }
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
         }
 
     }

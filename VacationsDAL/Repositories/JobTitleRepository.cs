@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using VacationsDAL.Contexts;
 using VacationsDAL.Entities;
+using VacationsDAL.Interfaces;
 
 namespace VacationsDAL.Repositories
 {
-    public class JobTitleRepository : IRepository<JobTitle>
+    public class JobTitleRepository : IJobTitleRepository
     {
         private readonly VacationsContext _context;
 
@@ -13,6 +15,8 @@ namespace VacationsDAL.Repositories
         {
             _context = dbContext;
         }
+
+      
 
         public IEnumerable<JobTitle> GetAll()
         {
@@ -37,6 +41,21 @@ namespace VacationsDAL.Repositories
         public void Add(JobTitle jobTitle)
         {
             _context.JobTitles.Add(jobTitle);
+        }
+
+        public void Save()
+        {
+            if (_context.ChangeTracker.Entries().Any(e => e.State == EntityState.Added
+                                               || e.State == EntityState.Modified
+                                               || e.State == EntityState.Deleted))
+            {
+                _context.SaveChanges();
+            }
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
         }
     }
 }

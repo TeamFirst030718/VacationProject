@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-namespace VacationsDAL.Repositories
+namespace VacationsDAL.Interfaces
 {
-    public interface IRepository<T>
+    public interface IRepository<T> : IDisposable
     {
         void Add(T employee);
         IEnumerable<T> GetAll();
         T GetById(string id);
         void Remove(string id);
+        void Save();
     }
 }
