@@ -7,9 +7,9 @@
 
 
 <div class="container m-0 py-3">
-    <div class="container pb-5">
+    <div class="container pb-5 text-light-grey">
         <div class="row">
-            <div class="container-fluid border border-bottom-0 container-rounded-top bg-global text-white">
+            <div class="container-fluid border border-bottom-0 container-rounded-top bg-global text-white p-2 py-2">
                 <strong>Add New Employee</strong>
             </div>
         </div>
@@ -28,56 +28,59 @@
             </div>
 
             <div class="col-4 border-top border-grey  bg-dark pt-1">
-                <div class="form-group ">
+                <div class="form-group container">
                     @Html.LabelFor(m => m.BirthDate, new { @class = "control-label" })
                     <input class="form-control bg-dark" type="date" id="datepicker" name="BirthDate">
                 </div>
             </div>
             <div class="col-4 border-right border-top border-grey   bg-dark pt-1">
+                <div class="form-group container">
 
+                </div>
             </div>
         </div>
         <div class="row"><!--2-->
             <div class="col-4  border-left border-right  border-grey  bg-dark">
                 <div class="form-group container">
                     @Html.LabelFor(m => m.Name, new { @class = "control-label" })
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control bg-dark" })
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control bg-dark", placeholder = "Enter Name" })
                 </div>
                 
             </div>
 
             <div class="col-4  bg-dark ">
-                <div class="form-group">
+                <div class="form-group container">
                     @Html.LabelFor(m => m.PersonalMail, new { @class = "control-label" })
-                    @Html.TextBoxFor(m => m.PersonalMail, new { @class = "form-control bg-dark" })
+                    @Html.TextBoxFor(m => m.PersonalMail, new { @class = "form-control bg-dark", placeholder = "example@mail.com" })
                 </div>
 
             </div>
             <div class="col-4 border-right  border-grey   bg-dark ">
-                <div class="form-group">
+                <div class="form-group container">
                     @Html.LabelFor(m => m.Email, new { @class = " control-label" })
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control bg-dark" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control bg-dark", placeholder = "example@softheme.com" })
                 </div>
-               
-
             </div>
         </div>
         <div class="row"><!--3-->
             <div class="col-4 border-left border-right border-grey  bg-dark ">
                 <div class="form-group container">
                     @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
-                    @Html.TextBoxFor(m => m.Surname, new { @class = "form-control bg-dark" })
+                    @Html.TextBoxFor(m => m.Surname, new { @class = "form-control bg-dark", placeholder = "Enter Surname" })
                 </div>
                 
             </div>
 
             <div class="col-4  bg-dark">
-                
+                <div class="form-group container">
+                    <label>phone number</label>
+                    <input type="text" class="form-control bg-dark" placeholder="+380 00 000 0000" />
+                </div>
             </div>
             <div class="col-4 border-right border-grey   bg-dark">
-                <div class="form-group">
+                <div class="form-group container">
                     @Html.LabelFor(m => m.Skype, new { @class = " control-label" })
-                    @Html.TextBoxFor(m => m.Skype, new { @class = "form-control bg-dark" })
+                    @Html.TextBoxFor(m => m.Skype, new { @class = "form-control bg-dark", placeholder = "userskype" })
                 </div>
             </div>
         </div>
@@ -85,21 +88,22 @@
             <div class="col-4 border-left border-right border-grey  bg-dark ">
                 <div class="form-group container">
                     @Html.LabelFor(m => m.JobTitleID, new { @class = "control-label" })
-                    @Html.TextBoxFor(m => m.JobTitleID, new { @class = "form-control bg-dark" })
+                    @Html.TextBoxFor(m => m.JobTitleID, new { @class = "form-control bg-dark", placeholder = "Not Chosen" })
+                    
                 </div>
                 
             </div>
 
             <div class="col-4  bg-dark">
 
-                <div class="form-group">
+                <div class="form-group container">
                     @Html.LabelFor(m => m.HireDate, new { @class = "control-label" })
                     <input class="form-control bg-dark" type="date" id="datepicker" name="HireDate">
                 </div>
             </div>
             <div class="col-4 border-right border-grey   bg-dark ">
                 
-                <div class="form-group">
+                <div class="form-group container">
                     @Html.LabelFor(m => m.DateOfDismissal, new { @class = " control-label" })
                     <input class="form-control bg-dark" type="date" id="datepicker" name="DateOfDismissal">
                 </div>
@@ -110,35 +114,41 @@
             <div class="col-4 border-left border-right border-grey  bg-dark ">
                 <div class="form-group container">
                     @Html.LabelFor(m => m.Status, new { @class = "control-label" })
-                    @Html.TextBoxFor(m => m.Status, new { @class = "form-control bg-dark" })
+                    @Html.TextBoxFor(m => m.Status, new { @class = "form-control bg-dark", placeholder = "Not Chosen" })
                 </div>
                 
             </div>
 
             <div class="col-4  bg-dark">
-                
+                <div class="form-group container">
+                    
+                </div>
             </div>
             <div class="col-4 border-right border-grey   bg-dark ">
-                
+                <div class="form-group container">
+                   
+                </div>
             </div>
         </div>
         <div class="row" >
-            <div class="col-4 border-left border-right border-grey  bg-dark ">
+            <div class="col-4 border border-top-0 border-bottom-rounded-left border-grey  bg-dark ">
                 <div class="form-group container">
                     @Html.LabelFor(m => m.VacationBalance, new { @class = "control-label" })
-                    @Html.TextBoxFor(m => m.VacationBalance, new { @class = "form-control bg-dark" })
+                    @Html.TextBoxFor(m => m.VacationBalance, new { @class = "form-control bg-dark", placeholder = ""})
                 </div>
             </div>
 
-            <div class="col-4  bg-dark">
-                
-            </div>
-            <div class="col-4 border-right border-grey   bg-dark ">
+            <div class="col-4 border-bottom border-grey  bg-dark">
+                <div class="form-group container">
 
+                </div>
+            </div>
+            <div class="col-4 border-right border-bottom border-bottom-rounded-right border-grey   bg-dark ">
+                <div class="form-group container">
+
+                </div>
             </div>
         </div>
-
-
 
     </div>
 </div>
