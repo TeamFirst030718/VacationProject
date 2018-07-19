@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using Vacations.Models;
 using VacationsBLL;
 using VacationsBLL.DTOs;
@@ -154,7 +155,6 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-
             var statusSelectList = _pageListsService.StatusSelectList();
             ViewData["statusSelectList"] = statusSelectList;
 
@@ -162,6 +162,7 @@ namespace IdentitySample.Controllers
             ViewData["jobTitlesSelectList"] = jobTitlesSelectList;
 
             var aspNetRolesSelectList = _pageListsService.AspNetRolesSelectList();
+            
             ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
 
             return View();
@@ -172,7 +173,7 @@ namespace IdentitySample.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(EmployeeViewModel model)
+       public async Task<ActionResult> Register(EmployeeViewModel model)
         {
             var statusSelectList = _pageListsService.StatusSelectList();
             ViewData["statusSelectList"] = statusSelectList;
@@ -183,7 +184,7 @@ namespace IdentitySample.Controllers
             var aspNetRolesSelectList = _pageListsService.AspNetRolesSelectList();
 
             ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
-
+            
             var jobTitleParam = Request.Params["jobTitlesSelectList"];
 
             var statusParam = Request.Params["statusSelectList"];
@@ -240,7 +241,7 @@ namespace IdentitySample.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+        
         //
         // GET: /Account/ConfirmEmail
         [HttpGet]
@@ -494,6 +495,8 @@ namespace IdentitySample.Controllers
             _pageListsService.Dispose();
             _aspNetUserService.Dispose();
             _employeeService.Dispose();
+            _aspNetRoleService.Dispose();
+            _pageListsService.Dispose();
             base.Dispose(disposing);
         }
         #region Helpers

@@ -39,6 +39,7 @@ div .image {/*для jumotrone */
 .zebra li:nth-child(odd) {/*для списков, использую или для вывода информации или для форм заполнения*/
     color: grey;
     padding-top: 10px;
+    font-size:small;/*Может потом отменю*/
 }
 
 .zebra li:nth-child(even) {
@@ -78,7 +79,7 @@ div .image {/*для jumotrone */
 
 .left-menu-element {
     background-color: #343a40;
-    color: #f8f9fa;
+    color: #959595;
     border-bottom-color: white;
     margin-top: 3px;
     padding-top: 1rem;
@@ -89,13 +90,15 @@ div .image {/*для jumotrone */
 .container-rounded-top {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    border: 1px, 1px, 0, 1px;
+    border: 1px, 1px, 0, 1px !important;
+    border-color: gray !important;
 }
 
 .container-rounded-buttom {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    border: 1px;
+    border: 1px !important;
+    border-color: gray !important;
 }
 
 .container-rounded {
@@ -106,7 +109,21 @@ div .image {/*для jumotrone */
     width: 4rem;
 }
 
-table.backColor tr {
-    border-bottom: 2px solid #757575;
-    border-top: 2px solid #757575;
+.form-button, .form-button:hover
+{
+    font-family: Muli-SemiBold;
+    font-weight: bold;
+    height: 50px;
+    border-radius: 6px;
+    color: white;
+   
+    border: none;
 }
+
+.form-button:hover {
+    color: white;
+}
+.text-grey{
+    color:grey;
+}
+

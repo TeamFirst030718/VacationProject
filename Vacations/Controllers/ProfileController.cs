@@ -28,5 +28,10 @@ namespace Vacations.Controllers
             return View();
         }
 
+        public ActionResult AddNewEmployee()
+        {
+            return View("Add");
+        }
+
     }
 }
