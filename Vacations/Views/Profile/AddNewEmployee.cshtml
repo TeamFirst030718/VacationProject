@@ -1,0 +1,80 @@
+﻿@model Vacations.Models.EmployeeViewModel
+@{
+    ViewBag.Title = "AddNewEmployee";
+    Layout = "~/Views/Shared/_InsideLayout.cshtml";
+}
+
+
+
+<div class="container m-0 py-3">
+    <div class="container pb-5">
+        <div class="row">
+            <div class="container-fluid border border-bottom-0 container-rounded-top bg-global text-white">
+                <strong>Add New Employee</strong>
+            </div>
+        </div>
+        <div class="row text-grey ">
+            <div class="col-4 border border-bottom-rounded-left  bg-dark p-3">
+                <div class="form-group container">
+                    <div class="row m-auto my-auto">
+                        <div class="float-left my-auto ">
+                            <img src="~/Content/Icons/user profile icon.svg" class="m-auto" />
+                        </div>
+                        <button class="my-auto m-1">Add Photo</button>
+                    </div>                   
+                </div>
+                <div class="form-group container">
+                    @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control bg-dark" })
+                </div>
+                <div class="form-group container">
+                    @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.Surname, new { @class = "form-control bg-dark" })
+                </div>
+                <div class="form-group container">
+                    @Html.LabelFor(m => m.JobTitleID, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.JobTitleID, new { @class = "form-control bg-dark" })
+                </div>
+                <div class="form-group container">
+                    @Html.LabelFor(m => m.Status, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.Status, new { @class = "form-control bg-dark" })
+                </div>
+                <div class="form-group container">
+                    @Html.LabelFor(m => m.VacationBalance, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.VacationBalance, new { @class = "form-control bg-dark" })
+                </div>
+            </div>
+            
+            <div class="col-4 border border-left-0 border-right-0 border-grey bg-dark p-3">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.BirthDate, new { @class = "control-label" })
+                    <input class="form-control bg-dark" type="date" id="datepicker" name="BirthDate">
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PersonalMail, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.PersonalMail, new { @class = "form-control bg-dark" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.HireDate, new { @class = "control-label" })
+                    <input class="form-control bg-dark" type="date" id="datepicker" name="HireDate">
+                </div>
+            </div> 
+           
+            <div class="col-4 border border-left-0 border-bottom-rounded-right bg-dark p-3">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @class = " control-label" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control bg-dark" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Skype, new { @class = " control-label" })
+                    @Html.TextBoxFor(m => m.Skype, new { @class = "form-control bg-dark" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.DateOfDismissal, new { @class = " control-label" })
+                    <input class="form-control bg-dark" type="date" id="datepicker" name="DateOfDismissal">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
