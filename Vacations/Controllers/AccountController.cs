@@ -33,7 +33,7 @@ namespace IdentitySample.Controllers
             _aspNetUserService = userService;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -87,7 +87,7 @@ namespace IdentitySample.Controllers
 
             // This doen't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password,false, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -154,7 +154,7 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-         
+
             var statusSelectList = _pageListsService.StatusSelectList();
             ViewData["statusSelectList"] = statusSelectList;
 
@@ -202,9 +202,9 @@ namespace IdentitySample.Controllers
                 {
 
                     var result = await UserManager.CreateAsync(user, model.Password);
-                
-                    if (result.Succeeded) 
-                    { 
+
+                    if (result.Succeeded)
+                    {
                         var roleParam = Request.Params["aspNetRolesSelectList"];
 
                         UserManager.AddToRole(user.Id, roleParam);
@@ -236,7 +236,7 @@ namespace IdentitySample.Controllers
                     transaction.Complete();
                 }
             }
-            
+
             // If we got this far, something failed, redisplay form
             return View(model);
         }

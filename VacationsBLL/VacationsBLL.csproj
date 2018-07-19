@@ -105,6 +105,7 @@
     <Compile Include="DTOs\UserProfileDTO.cs" />
     <Compile Include="DTOs\VacationBalanceDTO.cs" />
     <Compile Include="DTOs\VacationDTO.cs" />
+    <Compile Include="DTOs\JobTitleDTO.cs" />
     <Compile Include="Interfaces\IAspNetRoleService.cs" />
     <Compile Include="Interfaces\IPageListsService.cs" />
     <Compile Include="Services\AspNetRoleService.cs" />

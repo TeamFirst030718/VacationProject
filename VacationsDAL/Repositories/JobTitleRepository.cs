@@ -16,8 +16,6 @@ namespace VacationsDAL.Repositories
             _context = dbContext;
         }
 
-      
-
         public IEnumerable<JobTitle> GetAll()
         {
             return _context.JobTitles.ToList();
