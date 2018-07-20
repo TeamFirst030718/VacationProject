@@ -1,5 +1,5 @@
-﻿
-<div class="container  bg-dark border border-light container-rounded" >
+﻿@model Vacations.Models.ProfileViewModel
+<div class="container  bg-dark border border-light container-rounded backColor" >
     <div class="row my-auto">
         <div class="col-8">
             <div class="text-light m-auto my-auto">My Profile</div>
@@ -18,42 +18,82 @@
                     <img src="~/Content/Icons/user profile icon.svg" class="m-auto" />
                 </div>
                 <div class="my-auto float-left ml-4">
-                    <div class="row text-primary text-light">Name User</div>
-                    <div class="row text-secondary">Job Title</div>
-                    <div class="row">
-                        <img src="~/Content/Icons/online icon.svg"></img>  active
-                    </div>
+                    <div class="row text-primary text-light">@($"{Model.Name} {Model.Surname}")</div>
+                    <div class="row text-secondary">@Model.JobTitle</div>
+                    @if (@Model.Status)
+                    {
+                        <div class="row">
+                            <img src="~/Content/Icons/online icon.svg">Active
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <img src="~/Content/Icons/online icon.svg">Fired
+                        </div>
+                    }
                 </div>
             </div>
         </div>
-
     </div>
     <div class="row border-top border-light ">
         <div class="container m-auto ">
             <ul class="list-unstyled my-auto list-inline-item zebra">
-                <li >
-                    date of birth
-                </li>
-                <li >
-                    XXX Martch XXXX
-                </li>
-                <li >
-                    personal email
-                </li>
-                <li >
-                    example@mail.com
-                </li>
-                <li >
-                   phone number
-                </li>
-                <li >
-                    +380 00 000 0000 
-                </li>
-                <li >
-                    skype
+
+                <li>
+                    @Html.LabelFor(x => x.BirthDate, new { style = "font-size:12px;" })
                 </li>
                 <li>
-                    User Skype
+                    @Html.DisplayFor(x => x.BirthDate)
+                </li>
+                <li>
+                    @Html.LabelFor(x => x.PersonalMail, new { style = "font-size:12px;" })
+                </li>
+                <li>
+                    @Html.DisplayFor(x => x.PersonalMail)
+                </li>
+                <li>
+                    @Html.LabelFor(x => x.Email, new { style = "font-size:12px;" })
+                </li>
+                <li>
+                    @Html.DisplayFor(x => x.Email)
+                </li>
+                <li>
+                    @Html.LabelFor(x => x.PhoneNumber, new { style = "font-size:12px;" })
+                </li>
+                <li>
+                    @if (Model.PhoneNumber == null)
+                    {
+                        <p>+380 000 00 00</p>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(x => x.PhoneNumber)
+                    }
+                </li>
+                <li>
+                    @Html.LabelFor(x => x.Skype, new { style = "font-size:12px;" })
+                </li>
+                <li>
+                    @Html.DisplayFor(x => x.Skype)
+                </li>
+                <li>
+                    @Html.LabelFor(x => x.HireDate, new { style = "font-size:12px;" })
+                </li>
+                <li>
+                    @Html.DisplayFor(x =>x.HireDate)
+                </li>
+                <li>
+                    @Html.LabelFor(x => x.TeamName, new { style = "font-size:12px;" })
+                </li>
+                <li>
+                    @Html.DisplayFor(x => x.TeamName)
+                </li>
+                <li>
+                    @Html.LabelFor(x => x.TeamLeader, new { style = "font-size:12px;" })
+                </li>
+                <li>
+                    @Html.DisplayFor(x =>x.TeamLeader)
                 </li>
             </ul>
         </div>

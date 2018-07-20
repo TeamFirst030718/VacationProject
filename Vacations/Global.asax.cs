@@ -6,8 +6,7 @@ using System.Data.Entity;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Vacations.DImodules;
-using Vacations.DIModules;
+using VacationsBLL.DIModules;
 
 namespace IdentitySample
 {
@@ -22,11 +21,9 @@ namespace IdentitySample
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            NinjectModule pageModule = new PageListsServiceModule();
-            NinjectModule employeeModule = new EmployeeServiceModule();
-            NinjectModule aspNetRoleModule = new AspNetRoleServiceModule();
-            NinjectModule unitOfWorkModule = new UnitOfWorkModule();
-            var kernel = new StandardKernel(employeeModule, unitOfWorkModule, aspNetRoleModule,pageModule);
+            NinjectModule repositoriesDIModule = new RepositoriesDIModules();
+            NinjectModule servicesDIModule = new ServicesDIModule();
+            var kernel = new StandardKernel(servicesDIModule, repositoriesDIModule);
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
     }

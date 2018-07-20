@@ -1,19 +1,26 @@
-﻿using VacationsDAL.Repositories;
+﻿using VacationsBLL.Interfaces;
+using VacationsDAL.Interfaces;
+using VacationsDAL.Repositories;
 
-namespace VacationsBLL
+namespace VacationsBLL.Services
 {
-    public class AspNetUserService
+    public class AspNetUserService : IAspNetUserService
     {
-        private readonly AspNetUsersRepository _employeesRepository;
+        AspNetUsersRepository _users;
 
-        public AspNetUserService()
+        public AspNetUserService(AspNetUsersRepository users)
         {
-            _employeesRepository = new AspNetUsersRepository();
+            _users = users;
         }
 
         public bool AspNetUserExists(string id)
         {
-            return _employeesRepository.GetById(id) != null;
+            return _users.GetById(id) != null;
+        }
+
+        public void Dispose()
+        {
+            _users.Dispose();
         }
     }
 }

@@ -98,9 +98,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Ninject.Web.Common.cs" />
-    <Compile Include="DIModules\UnitOfWorkModule.cs" />
+    <Compile Include="DIModules\ServicesDIModule.cs" />
+    <Compile Include="DIModules\RepositoriesDIModules.cs" />
     <Compile Include="DTOs\AspNetRoleDTO.cs" />
     <Compile Include="DTOs\EmployeeDTO.cs" />
+    <Compile Include="DTOs\UserProfileDTO.cs" />
+    <Compile Include="DTOs\VacationBalanceDTO.cs" />
+    <Compile Include="DTOs\VacationDTO.cs" />
     <Compile Include="DTOs\JobTitleDTO.cs" />
     <Compile Include="Interfaces\IAspNetRoleService.cs" />
     <Compile Include="Interfaces\IPageListsService.cs" />
@@ -109,7 +113,12 @@
     <Compile Include="Services\AspNetUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IEmployeeService.cs" />
+    <Compile Include="Interfaces\IAspNetUserService.cs" />
+    <Compile Include="Interfaces\IProfileDataService.cs" />
+    <Compile Include="Interfaces\IMapService.cs" />
+    <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\PageListsService.cs" />
+    <Compile Include="Services\ProfileDataService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

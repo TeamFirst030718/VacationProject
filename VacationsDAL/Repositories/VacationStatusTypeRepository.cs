@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using VacationsDAL.Contexts;
 using VacationsDAL.Entities;
+using VacationsDAL.Interfaces;
 
 namespace VacationsDAL.Repositories
 {
-    public class VacationStatusTypeRepository : IRepository<VacationStatusType>
+    public class VacationStatusTypeRepository : IVacationStatusTypeRepository
     {
         private readonly VacationsContext _context;
 
@@ -37,6 +39,21 @@ namespace VacationsDAL.Repositories
         public void Add(VacationStatusType VacationStatusType)
         {
             _context.VacationStatusTypes.Add(VacationStatusType);
+        }
+
+        public void Save()
+        {
+            if (_context.ChangeTracker.Entries().Any(e => e.State == EntityState.Added
+                                                || e.State == EntityState.Modified
+                                                || e.State == EntityState.Deleted))
+            {
+                _context.SaveChanges();
+            }
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
         }
     }
 }
