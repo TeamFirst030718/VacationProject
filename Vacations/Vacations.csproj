@@ -276,6 +276,7 @@
     <Content Include="Content\Images\background.jpg" />
     <Content Include="Content\Images\gragient box.svg" />
     <Content Include="Content\Images\home request background.png" />
+    <Content Include="Content\Styles\AddNewTeam-Styles.css" />
     <Content Include="Content\Styles\bootstrap-grid.css" />
     <Content Include="Content\Styles\bootstrap-grid.min.css" />
     <Content Include="Content\Styles\bootstrap-reboot.css" />
@@ -423,7 +424,10 @@
     <Content Include="Views\Profile\_VocationRequestPartial.cshtml" />
     <Content Include="Views\Shared\_NavbarTopPartial.cshtml" />
     <Content Include="Views\Shared\_InsideLayout.cshtml" />
+    <Content Include="Views\Profile\AddNewEmployeeTest.cshtml" />
     <Content Include="Views\Profile\AddNewEmployee.cshtml" />
+    <Content Include="Views\Profile\_MyVocationsPartial - Copy.cshtml" />
+    <Content Include="Views\Profile\AddNewTeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

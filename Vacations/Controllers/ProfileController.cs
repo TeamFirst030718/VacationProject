@@ -23,6 +23,10 @@ namespace Vacations.Controllers
         {
             return View();
         }
+        public ActionResult AddNewTeam()
+        {
+            return View();
+        }
 
     }
 }

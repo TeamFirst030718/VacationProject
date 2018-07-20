@@ -8,10 +8,6 @@ body {
     min-width: 350px;
 }
 
-.row-first{
-
-}
-
 .row-second {
     height: 70vh;
 }
@@ -86,19 +82,16 @@ div .image {/*для jumotrone */
 .container-rounded-top {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    border: 1px, 1px, 0, 1px !important;
-    border-color: gray !important;
+
 }
 
 .container-rounded-buttom {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    border: 1px !important;
-    border-color: gray !important;
 }
 
 .container-rounded {
-    border-radius: 6px;
+    border-radius: 10px;
 }
 
 .field-days-width {
@@ -122,3 +115,21 @@ div .image {/*для jumotrone */
 .text-grey{
     color:grey;
 }
+
+.table-vocation tr {
+    border-color: gray !important;
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}
+.table-vocation{
+    border:1px solid;
+    border-radius:10px !important;
+}
+    .table-vocation td, .table-vocation th {
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        border-bottom: none;
+    }

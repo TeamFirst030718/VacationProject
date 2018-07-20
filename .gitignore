@@ -242,3 +242,6 @@ Mvms.SPA.admin/.idea/
 # System Files
 .DS_Store
 Thumbs.db
+Vacations/Content/Styles/AddNewTeam-Styles.css
+Vacations/Views/Profile/_MyVocationsPartial - Copy.cshtml
+Vacations/Views/Profile/AddNewEmployeeTest.cshtml

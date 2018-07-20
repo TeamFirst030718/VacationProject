@@ -183,7 +183,7 @@ namespace IdentitySample.Controllers
             var aspNetRolesSelectList = _pageListsService.AspNetRolesSelectList();
 
             ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
-q
+
             var jobTitleParam = Request.Params["jobTitlesSelectList"];
 
             var statusParam = Request.Params["statusSelectList"];
@@ -494,7 +494,7 @@ q
         protected override void Dispose(bool disposing)
         {
             _employeeService.Dispose();
-            _aspNetRoleService.Dispose();
+           // _aspNetRoleService.Dispose();
             _pageListsService.Dispose();
             base.Dispose(disposing);
         }

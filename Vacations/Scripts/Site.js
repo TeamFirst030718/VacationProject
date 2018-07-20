@@ -1,5 +1,6 @@
-﻿$("[data-toggle=popover]")
-    .popover({ html: true })
+﻿$(function () {
+    $('[data-toggle="popover"]').popover()
+})
 
 $(function () {
     $('.example-popover').popover({
