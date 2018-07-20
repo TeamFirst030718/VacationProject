@@ -35,22 +35,14 @@ namespace VacationsDAL.Repositories
             if (obj != null)
             {
                 _context.Vacations.Remove(obj);
+                _context.SaveChanges();
             }
         }
 
         public void Add(Vacation Vacation)
         {
             _context.Vacations.Add(Vacation);
-        }
-
-        public void Save()
-        {
-            if (_context.ChangeTracker.Entries().Any(e => e.State == EntityState.Added
-                                                || e.State == EntityState.Modified
-                                                || e.State == EntityState.Deleted))
-            {
-                _context.SaveChanges();
-            }
+            _context.SaveChanges();
         }
 
         public void Dispose()

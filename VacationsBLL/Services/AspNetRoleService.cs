@@ -42,11 +42,6 @@ namespace VacationsBLL.Services
             return aspNetRolesDTO;
         }
 
-        public void SaveChanges()
-        {
-            _roles.Save();
-        }
-
         public void Dispose()
         {
             _roles.Dispose();

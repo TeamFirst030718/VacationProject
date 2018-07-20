@@ -372,7 +372,7 @@
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Profile\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
@@ -412,13 +412,13 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Profile\MyProfile.cshtml" />
-    <Content Include="Views\Profile\RequestVocation.cshtml" />
+    <Content Include="Views\Profile\RequestVacation.cshtml" />
     <Content Include="Views\Profile\_LeftDaysProfilePartial.cshtml" />
     <Content Include="Views\Profile\_LeftDaysRequestPartial.cshtml" />
     <Content Include="Views\Profile\_LeftMenuPartial.cshtml" />
-    <Content Include="Views\Profile\_MyVocationsPartial.cshtml" />
+    <Content Include="Views\Profile\_MyVacationsPartial.cshtml" />
     <Content Include="Views\Profile\_ShowUserProfilePartial.cshtml" />
-    <Content Include="Views\Profile\_VocationRequestPartial.cshtml" />
+    <Content Include="Views\Profile\_VacationRequestPartial.cshtml" />
     <Content Include="Views\Shared\_NavbarTopPartial.cshtml" />
     <Content Include="Views\Shared\_InsideLayout.cshtml" />
     <Content Include="Views\Profile\AddNewEmployee.cshtml" />

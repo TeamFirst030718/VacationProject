@@ -14,7 +14,6 @@ using Vacations.Models;
 using VacationsBLL;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
-using System.Web.WebPages;
 
 namespace IdentitySample.Controllers
 {
@@ -92,7 +91,7 @@ namespace IdentitySample.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Index", "Profile");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -151,97 +150,7 @@ namespace IdentitySample.Controllers
 
         //
         // GET: /Account/Register
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            var statusSelectList = _pageListsService.StatusSelectList();
-            ViewData["statusSelectList"] = statusSelectList;
-
-            var jobTitlesSelectList = _pageListsService.JobTitlesSelectList();
-            ViewData["jobTitlesSelectList"] = jobTitlesSelectList;
-
-            var aspNetRolesSelectList = _pageListsService.AspNetRolesSelectList();
-            
-            ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
-
-            return View();
-        }
-
-        //
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-       public async Task<ActionResult> Register(EmployeeViewModel model)
-        {
-            var statusSelectList = _pageListsService.StatusSelectList();
-            ViewData["statusSelectList"] = statusSelectList;
-
-            var jobTitlesSelectList = _pageListsService.JobTitlesSelectList();
-            ViewData["jobTitlesSelectList"] = jobTitlesSelectList;
-
-            var aspNetRolesSelectList = _pageListsService.AspNetRolesSelectList();
-
-            ViewData["aspNetRolesSelectList"] = aspNetRolesSelectList;
-            
-            var jobTitleParam = Request.Params["jobTitlesSelectList"];
-
-            var statusParam = Request.Params["statusSelectList"];
-
-            model.JobTitleID = jobTitleParam;
-
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PhoneNumber = model.PhoneNumber };
-
-            model.EmployeeID = user.Id;
-
-            model.Status = statusParam.AsBool();
-
-            if (ModelState.IsValid)
-            {
-                using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {
-
-                    var result = await UserManager.CreateAsync(user, model.Password);
-
-                    if (result.Succeeded)
-                    {
-                        var roleParam = Request.Params["aspNetRolesSelectList"];
-
-                        UserManager.AddToRole(user.Id, roleParam);
-
-                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-
-                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-
-                        var email = new EmailService();
-
-                        var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeViewModel, EmployeeDTO>()).CreateMapper();
-
-                        var _employee = mapper.Map<EmployeeViewModel, EmployeeDTO>(model);
-
-                        _employeeService.Create(_employee);
-
-                        _employeeService.SaveChanges();
-
-                        await email.SendAsync(model.Email, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
-                            "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
-
-                        ViewBag.Link = callbackUrl;
-
-                        AddErrors(result);
-
-                        return View("DisplayEmail");
-                    }
-
-                    transaction.Complete();
-                }
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
-        
+     
         //
         // GET: /Account/ConfirmEmail
         [HttpGet]

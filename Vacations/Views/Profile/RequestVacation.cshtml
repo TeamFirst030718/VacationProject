@@ -8,7 +8,10 @@
     var vacations = profileDataService.MapEntity<ICollection<VacationDTO>, List<VacationViewModel>>(profileDataService.GetUserVacationsData(User.Identity.Name));
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 }
-
+@{
+    ViewBag.Title = "RequestVocation";
+    Layout = "~/Views/Shared/_InsideLayout.cshtml";
+}
 
 <div class="row">
     <div class="col-12 col-xl-4">
@@ -17,14 +20,14 @@
         </div>
     </div>
     <div class="col-12 col-xl-8">
-        <div class="row">
-            <div class="container m-0 p-0 mt-2" style="max-width:690px;">
-                @Html.Partial("_LeftDaysProfilePartial", vacationBalance)
+        <div class="row" style="max-width:690px;">
+            <div class="container m-0 p-0 mt-2">
+                @Html.Partial("_LeftDaysRequestPartial")
             </div>
         </div>
-        <div class="row">
-            <div class="container m-0 p-0" style="max-width:690px;">
-                @Html.Partial("_MyVacationsPartial", vacations)
+        <div class="row" style="max-width:690px;">
+            <div class="container m-0 p-0">
+                @Html.Partial("_VacationRequestPartial")
             </div>
         </div>
     </div>

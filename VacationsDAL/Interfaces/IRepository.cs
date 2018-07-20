@@ -9,6 +9,5 @@ namespace VacationsDAL.Interfaces
         IEnumerable<T> GetAll();
         T GetById(string id);
         void Remove(string id);
-        void Save();
     }
 }
