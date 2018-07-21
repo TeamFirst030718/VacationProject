@@ -33,23 +33,17 @@ namespace VacationsDAL.Repositories
             if (obj != null)
             {
                 _context.Transactions.Remove(obj);
+                _context.SaveChanges();
             }
         }
 
         public void Add(Transaction Transaction)
         {
             _context.Transactions.Add(Transaction);
+            _context.SaveChanges();
         }
 
-        public void Save()
-        {
-            if (_context.ChangeTracker.Entries().Any(e => e.State == EntityState.Added
-                                                || e.State == EntityState.Modified
-                                                || e.State == EntityState.Deleted))
-            {
-                _context.SaveChanges();
-            }
-        }
+    
 
         public void Dispose()
         {

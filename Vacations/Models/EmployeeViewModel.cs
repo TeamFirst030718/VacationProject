@@ -11,19 +11,8 @@ namespace Vacations.Models
 
         [Required]
         [EmailAddress]
-        [Display(Name = "work mail")]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+        [Display(Name = "work email")]
+        public string WorkEmail { get; set; }
 
         [Display(Name = "name")]
         public string Name { get; set; }
@@ -34,7 +23,7 @@ namespace Vacations.Models
         [Display(Name = "date of birth")]
         public DateTime BirthDate { get; set; }
 
-        [Display(Name = "personal mail")]
+        [Display(Name = "personal email")]
         public string PersonalMail { get; set; }
 
         [Display(Name = "phone number")]

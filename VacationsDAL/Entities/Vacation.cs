@@ -29,6 +29,11 @@ namespace VacationsDAL.Entities
         [StringLength(128)]
         public string TransactionID { get; set; }
 
+        [Required]
+        [StringLength(128)]
+
+        public string ProcessedByID { get; set; }
+
         public virtual Employee Employee { get; set; }
 
         public virtual Transaction Transaction { get; set; }

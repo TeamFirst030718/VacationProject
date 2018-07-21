@@ -14,7 +14,6 @@ using Vacations.Models;
 using VacationsBLL;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
-using System.Web.WebPages;
 
 namespace IdentitySample.Controllers
 {
@@ -92,7 +91,7 @@ namespace IdentitySample.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Index", "Profile");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -151,6 +150,7 @@ namespace IdentitySample.Controllers
 
         //
         // GET: /Account/Register
+<<<<<<< HEAD
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Register()
@@ -246,6 +246,9 @@ namespace IdentitySample.Controllers
             return View(model);
         }
         
+=======
+     
+>>>>>>> master
         //
         // GET: /Account/ConfirmEmail
         [HttpGet]

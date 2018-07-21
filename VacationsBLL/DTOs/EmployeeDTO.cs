@@ -15,5 +15,7 @@ namespace VacationsBLL.DTOs
         public DateTime? DateOfDismissal { get; set; }
         public int VacationBalance { get; set; }
         public string JobTitleID { get; set; }
+        public string PhoneNumber { get; set; }
+        public string WorkEmail { get; set; }
     }
 }

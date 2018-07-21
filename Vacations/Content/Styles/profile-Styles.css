@@ -29,7 +29,7 @@ div .image {/*для jumotrone */
     height: 50px;
     border-radius: 10px;
     color: white;
-    background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1));
+    background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1)) !important;
     border: none;
     text-align: center;
     text-decoration: none;
@@ -67,6 +67,9 @@ div .image {/*для jumotrone */
     height: 90vh;
 }
 
+.colorWhite{
+    color:white !important;
+}
 .bg-left-menu {
     background-color: #222222;
     padding-bottom: 3px;
@@ -77,8 +80,8 @@ div .image {/*для jumotrone */
 }
 
 
-.left-menu-element {
-    background-color: #343a40;
+a.left-menu-element, a.left-menu-element:hover, a.left-menu-element:active {
+    background-color: #2e2e2e !important;
     color: #959595;
     border-bottom-color: white;
     margin-top: 3px;
@@ -115,8 +118,7 @@ div .image {/*для jumotrone */
     font-weight: bold;
     height: 50px;
     border-radius: 6px;
-    color: white;
-   
+    color: white;  
     border: none;
 }
 

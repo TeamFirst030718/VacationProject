@@ -33,24 +33,17 @@ namespace VacationsDAL.Repositories
             if (obj != null)
             {
                 _context.JobTitles.Remove(obj);
+                _context.SaveChanges();
             }
         }
 
         public void Add(JobTitle jobTitle)
         {
             _context.JobTitles.Add(jobTitle);
+            _context.SaveChanges();
         }
 
-        public void Save()
-        {
-            if (_context.ChangeTracker.Entries().Any(e => e.State == EntityState.Added
-                                               || e.State == EntityState.Modified
-                                               || e.State == EntityState.Deleted))
-            {
-                _context.SaveChanges();
-            }
-        }
-
+    
         public void Dispose()
         {
             _context.Dispose();
