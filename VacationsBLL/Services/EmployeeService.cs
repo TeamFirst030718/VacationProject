@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using AutoMapper;
 using System.Linq;
 using VacationsBLL.DTOs;
@@ -48,6 +49,15 @@ namespace VacationsBLL
         public string GetJobTitleIdByName(string jobTitleName)
         {
             return _jobTitles.GetAll().FirstOrDefault(x => x.JobTitleName.Equals(jobTitleName)).JobTitleID;
+        }
+
+        public void UpdateValue(EmployeeDTO employee)
+        {
+            var employeeToUpdate = _employees.GetAll().FirstOrDefault(x => x.WorkEmail == employee.WorkEmail);
+            if (employeeToUpdate!=null)
+            {
+                employeeToUpdate = _mapService.Map<EmployeeDTO, Employee>(employee);
+            }
         }
 
         public void Dispose()

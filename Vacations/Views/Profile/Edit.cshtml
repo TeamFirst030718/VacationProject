@@ -17,7 +17,7 @@
             <div class="container pb-5 text-light-grey">
                 <div class="row">
                     <div class="container-fluid border border-bottom-0 border-grey container-rounded-top bg-global text-white p-2 py-2">
-                        <strong>Add New Employee</strong>
+                        <strong>Edit Profile</strong>
                     </div>
                 </div>
                 <div class="row">
@@ -39,7 +39,7 @@
                     <div class="col-4 border-top border-grey  bg-dark pt-1">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.BirthDate, new { @class = "control-label " })
-                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepicker" name="BirthDate">
+                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerBirthDate" name="BirthDate" value="@Model.BirthDate.ToString("yyyy-MM-dd")">
                         </div>
                     </div>
                     <div class="col-4 border-right border-top border-grey   bg-dark pt-1">
@@ -78,7 +78,7 @@
                     <div class="col-4 border-left border-right border-grey  bg-dark ">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Enter Surname",autocomplete ="off" })
+                            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Enter Surname", autocomplete = "off" })
                         </div>
 
                     </div>
@@ -87,8 +87,8 @@
                         <div class="form-group container">
                             @Html.LabelFor(m => m.PhoneNumber, new { @class = " control-label" })
                             @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "+380 00 000 0000" })
-  
-                            </div>
+
+                        </div>
 
                     </div>
                     <div class="col-4 border-right border-grey   bg-dark">
@@ -102,7 +102,7 @@
                     <div class="col-4 border-left border-right border-grey  bg-dark ">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.JobTitleID, new { @class = "control-label" })
-                            @Html.DropDownList("jobTitlesSelectList", null, null, new { @class = "form-control bg-dark border-grey colorWhite"})
+                            @Html.DropDownList("jobTitlesSelectList", null, null, new { @class = "form-control bg-dark border-grey colorWhite" })
                         </div>
 
                     </div>
@@ -111,14 +111,17 @@
 
                         <div class="form-group container">
                             @Html.LabelFor(m => m.HireDate, new { @class = "control-label" })
-                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepicker" name="HireDate">
+                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerHireDate" name="HireDate" value="@Model.HireDate.ToString("yyyy-MM-dd")">
                         </div>
                     </div>
                     <div class="col-4 border-right border-grey   bg-dark ">
 
                         <div class="form-group container">
                             @Html.LabelFor(m => m.DateOfDismissal, new { @class = " control-label" })
-                            <input class="form-control bg-dark border-grey" type="date" id="datepicker" name="DateOfDismissal">
+                            <input class="form-control bg-dark border-grey" type="date" id="datepickerDateOfDismissal" name="DateOfDismissal" value="@if (Model.DateOfDismissal != null)
+                                                                                                                                                     {
+                                                                                                                                                         @Model.DateOfDismissal.Value.ToString("yyyy-MM-dd")
+                                                                                                                                                     }">
                         </div>
 
                     </div>
@@ -176,6 +179,7 @@
         $("#datepicker").datepicker();
     });
 </script>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
