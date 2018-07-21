@@ -58,7 +58,7 @@ namespace VacationsBLL
             {
                 employeeToUpdate = _mapService.Map<EmployeeDTO, Employee>(employee);
             }
-            _employees.SaveChanges();
+            _employees.Update(employeeToUpdate);
         }
 
         public void Dispose()

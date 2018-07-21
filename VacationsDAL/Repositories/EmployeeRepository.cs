@@ -70,9 +70,14 @@ namespace VacationsDAL.Repositories
             }
         }
 
-        public void SaveChanges()
+        public void Update(Employee employee)
         {
-            _context.SaveChanges();
+            using (var context = new VacationsContext())
+            {
+                context.Entry(employee).State = EntityState.Modified;
+
+                context.SaveChanges();
+            }
         }
 
         public void Dispose()

@@ -104,6 +104,7 @@ namespace Vacations.Controllers
                 ViewBag.ListService = _pageListsService;
                 var jobTitleParam = Request.Params["jobTitlesSelectList"];
                 var statusParam = Request.Params["statusSelectList"];
+                model.EmployeeID = User.Identity.GetUserId<string>();
                 model.JobTitleID = jobTitleParam;
                 model.Status = statusParam.AsBool();
                 _employeeService.UpdateValue(_mapService.Map<EmployeeViewModel, EmployeeDTO>(model));
