@@ -9,6 +9,6 @@ namespace VacationsBLL.Interfaces
         UserProfileDTO GetUserData(string userEmail);
         VacationBalanceDTO GetUserVacationBalance(string userEmail);
         List<VacationDTO> GetUserVacationsData(string userEmail);
-        L MapEntity<T, L>(T entity);
+        MapTo MapEntity<MapFrom, MapTo>(MapFrom entity);
     }
 }

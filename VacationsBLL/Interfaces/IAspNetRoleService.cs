@@ -9,7 +9,6 @@ namespace VacationsBLL.Interfaces
 {
     public interface IAspNetRoleService : IDisposable
     {
-        void SaveChanges();
         void Create(AspNetRoleDTO employee);
         List<AspNetRoleDTO> GetRoles();
     }

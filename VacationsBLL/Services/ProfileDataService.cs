@@ -32,13 +32,11 @@ namespace VacationsBLL.Services
 
         public UserProfileDTO GetUserData(string userEmail)
         {
-            string teamName = "No team";
+            string teamName = "None";
 
-            string teamLeaderName = "No team leader";
+            string teamLeaderName = "None";
 
-            var user = _users.GetByUserName(userEmail);
-
-            var employee = _employees.GetById(user.Id);
+            var employee = _employees.GetByEmail(userEmail);
 
             employee.JobTitle = _jobTitles.GetById(employee.JobTitleID);
 
@@ -53,39 +51,27 @@ namespace VacationsBLL.Services
                 teamLeaderName = teamLeader.Name + teamLeader.Surname;
             }
 
-            UserProfileDTO userData = new UserProfileDTO
-            {
-                Name = employee.Name,
-                Surname = employee.Surname,
-                JobTitle = employee.JobTitle.JobTitleName,
-                BirthDate = employee.BirthDate.Date,
-                Status = employee.Status,
-                PersonalMail = employee.PersonalMail,
-                Email = user.UserName,
-                PhoneNumber = user.PhoneNumber,
-                Skype = employee.Skype,
-                HireDate = employee.HireDate.Date,
-                TeamName = teamName,
-                TeamLeader = teamLeaderName
-            };
+           var userData = _mapService.Map<Employee, UserProfileDTO>(employee);
+
+            userData.TeamName = teamName;
+
+            userData.TeamLeader = teamLeaderName;
+
+            userData.JobTitle = _jobTitles.GetById(employee.JobTitleID).JobTitleName;
 
             return userData;
         }
 
         public List<VacationDTO> GetUserVacationsData(string userEmail)
         {
-            var user = _users.GetByUserName(userEmail);
-
-            var employee = _employees.GetById(user.Id);
+            var employee = _employees.GetByEmail(userEmail);
 
             return _mapService.Map<ICollection<Vacation>, List<VacationDTO>>(employee.Vacations.ToList());
         }
 
         public VacationBalanceDTO GetUserVacationBalance(string userEmail)
         {
-            var user = _users.GetByUserName(userEmail);
-
-            var employee = _employees.GetById(user.Id);
+            var employee = _employees.GetByEmail(userEmail);
           
             return new VacationBalanceDTO { Balance = employee.VacationBalance };
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,11 @@ namespace VacationsDAL.Repositories
             return _context.Employees.FirstOrDefault(x => x.EmployeeID == id);
         }
 
+        public Employee GetByEmail(string email)
+        {
+            return _context.Employees.FirstOrDefault(x => x.WorkEmail == email);
+        }
+
         public void Remove(string id)
         {
             var obj = _context.Employees.FirstOrDefault(x => x.EmployeeID == id);
@@ -37,21 +43,30 @@ namespace VacationsDAL.Repositories
             if (obj != null)
             {
                 _context.Employees.Remove(obj);
+                _context.SaveChanges();
             }
         }
 
         public void Add(Employee employee)
         {
-            _context.Employees.Add(employee);
-        }
-
-        public void Save()
-        {
-            if (_context.ChangeTracker.Entries().Any(e => e.State == EntityState.Added
-                                                || e.State == EntityState.Modified
-                                                || e.State == EntityState.Deleted))
+            try
             {
+                _context.Employees.Add(employee);
                 _context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (DbEntityValidationResult validationError in ex.EntityValidationErrors)
+                {
+                    var a = string.Format("Object: " + validationError.Entry.Entity.ToString());
+
+
+                    foreach (DbValidationError err in validationError.ValidationErrors)
+                    {
+                        var b = string.Format(err.ErrorMessage + "");
+
+                    }
+                }
             }
         }
 

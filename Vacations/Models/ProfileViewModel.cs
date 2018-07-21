@@ -5,7 +5,7 @@ namespace Vacations.Models
 {
     public class ProfileViewModel
     {
-        public string Email { get; set; }
+        public string WorkEmail { get; set; }
 
         public string Name { get; set; }
 

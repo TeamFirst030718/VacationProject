@@ -45,23 +45,9 @@ namespace VacationsBLL
             return jobTitles.Select(jobTitle => mapper.Map<JobTitle, JobTitleDTO>(jobTitle)).ToList();
         }
 
-        public List<JobTitleDTO> GetJobTitles()
-        {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<JobTitle, JobTitleDTO>()).CreateMapper();
-
-            var jobTitles = _unitOfWork.JobTitles.GetAll();
-
-            return jobTitles.Select(jobTitle => mapper.Map<JobTitle, JobTitleDTO>(jobTitle)).ToList();
-        }
-
         public string GetJobTitleIdByName(string jobTitleName)
         {
             return _jobTitles.GetAll().FirstOrDefault(x => x.JobTitleName.Equals(jobTitleName)).JobTitleID;
-        }
-
-        public void SaveChanges()
-        {
-            _employees.Save();
         }
 
         public void Dispose()
