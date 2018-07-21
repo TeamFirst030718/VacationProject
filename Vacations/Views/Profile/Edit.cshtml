@@ -9,7 +9,7 @@
     ViewData["aspNetRolesSelectList"] = service.AspNetRolesSelectList();
 }
 
-@using (Html.BeginForm("Register", "Profile", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Edit", "Profile", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <div class="container m-0 py-3">
