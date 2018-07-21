@@ -107,7 +107,7 @@ namespace Vacations.Controllers
                 model.JobTitleID = jobTitleParam;
                 model.Status = statusParam.AsBool();
                 _employeeService.UpdateValue(_mapService.Map<EmployeeViewModel, EmployeeDTO>(model));
-                return View("MyProfile");
+                return View("MyProfile", _profileDataService);
             }
 
             return View("Edit");

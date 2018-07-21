@@ -70,6 +70,11 @@ namespace VacationsDAL.Repositories
             }
         }
 
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
+        }
+
         public void Dispose()
         {
             _context.Dispose();
