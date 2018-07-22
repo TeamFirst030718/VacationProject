@@ -130,9 +130,15 @@ namespace Vacations.Controllers
                     }
                 }
             }
-
-            return View(model);
-        }
-
+        
+ 
+        return View(model);
     }
+
+        public ActionResult ListOfEmployees()
+        {
+            var employeeList = _employeeService.EmployeeList();
+            return View();
+        }
+}
 }

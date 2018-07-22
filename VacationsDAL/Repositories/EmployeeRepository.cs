@@ -22,7 +22,7 @@ namespace VacationsDAL.Repositories
 
         public IEnumerable<Employee> GetAll()
         {
-            return _context.Employees.ToList();
+            return _context.Employees.Include(x=>x.Teams).ToList();
         }
 
         public Employee GetById(string id)
@@ -75,6 +75,7 @@ namespace VacationsDAL.Repositories
 
             _context.SaveChanges();            
         }
+
 
         public void Dispose()
         {
