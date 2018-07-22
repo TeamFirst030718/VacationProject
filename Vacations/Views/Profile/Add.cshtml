@@ -58,8 +58,8 @@
                 </div>
                 <div class="col-4 border-right  border-grey   bg-dark ">
                     <div class="form-group container">
-                        @Html.LabelFor(m => m.Email, new { @class = " control-label" })
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "example@softheme.com" })
+                        @Html.LabelFor(m => m.WorkEmail, new { @class = " control-label" })
+                        @Html.TextBoxFor(m => m.WorkEmail, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "example@softheme.com" })
                     </div>
                 </div>
             </div>
@@ -138,13 +138,13 @@
                 <div class="col-4 border border-top-0 border-bottom-rounded-left border-grey  bg-dark ">
                     <div class="form-group container">
                         @Html.LabelFor(m => m.VacationBalance, new { @class = "control-label" })
-                        @Html.TextBoxFor(m => m.VacationBalance, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "" })
+                        @Html.TextBoxFor(m => m.VacationBalance, new { @class = "form-control bg-dark border-grey colorWhite",id="yourphone", placeholder = "" })
                     </div>
                 </div>
 
                 <div class="col-4 border-bottom border-grey  bg-dark">
                     <div class="form-group container ">
-                        @Html.Label("temp",new { @class = "control-label invisible" })
+                        @Html.Label("temp", new { @class = "control-label invisible" })
                         <input type="reset" class="form-control bg-dark button-cancel border-grey" value="CANCEL" />
                     </div>
                 </div>
@@ -159,3 +159,7 @@
     </form>
 
 </div>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+        crossorigin="anonymous">
+</script>

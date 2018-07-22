@@ -24,10 +24,12 @@
 
                     <li class="ml-5 float-left">
                         <div class="container p-0 underline">
-                            @Html.ActionLink("MyProfile", "Index", "Profile", new { @class = "nav-link text-light" })
+                            <a class="nav-link text-light" href="@Url.Action("Index","Profile")">My Profile</a>
                         </div>
                     </li>   
-                    <li class="ml-5 float-right underline">@Html.ActionLink("Request Vacation", "RequestVacation", "Profile", new { @class = "nav-link text-light" })</li>
+                    <li class="ml-5 float-right underline">
+                        <a class="nav-link text-light" href="@Url.Action("RequestVacation","Profile")">Request Vacation</a>
+                    </li>
                 </ul>
 
 

@@ -10356,9 +10356,6 @@ jQuery.noConflict = function( deep ) {
 if ( !noGlobal ) {
 	window.jQuery = window.$ = jQuery;
 }
-
-
-
-
+jQuery.curCSS = jQuery.css;
 return jQuery;
 } );

@@ -23,12 +23,12 @@ namespace IdentitySample
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/Styles/css").Include(
-                      "~/Content/Styles/bootstrap.css",
-                      "~/Content/Styles/Site.css",
-                      "~/Content/Styles/forgotPasswordStyles.css",
-                      "~/Content/Styles/loginStyles.css",
-                      "~/Content/Styles/profile-Styles.css",
-                      "~/Content/Styles/AddNewEmployee-Styles.css"));
+                          "~/Content/Styles/bootstrap.css",
+                          "~/Content/Styles/Site.css",
+                          "~/Content/Styles/forgotPasswordStyles.css",
+                          "~/Content/Styles/loginStyles.css",
+                          "~/Content/Styles/profile-Styles.css",
+                          "~/Content/Styles/AddNewEmployee-Styles.css"));
         }
     }
 }

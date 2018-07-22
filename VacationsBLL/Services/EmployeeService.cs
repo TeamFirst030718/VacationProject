@@ -51,13 +51,15 @@ namespace VacationsBLL
             return _jobTitles.GetAll().FirstOrDefault(x => x.JobTitleName.Equals(jobTitleName)).JobTitleID;
         }
 
-        public void UpdateValue(EmployeeDTO employee)
+        public void UpdateEmployee(EmployeeDTO employee)
         {
             var employeeToUpdate = _employees.GetAll().FirstOrDefault(x => x.WorkEmail == employee.WorkEmail);
+
             if (employeeToUpdate!=null)
             {
                 employeeToUpdate = _mapService.Map<EmployeeDTO, Employee>(employee);
             }
+
             _employees.Update(employeeToUpdate);
         }
 

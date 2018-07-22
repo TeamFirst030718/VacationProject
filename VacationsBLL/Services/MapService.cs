@@ -10,11 +10,18 @@ namespace VacationsBLL.Services
 {
     public class MapService : IMapService
     {
-        public TypeToMappTo Map<TypeToMappFrom, TypeToMappTo>(TypeToMappFrom model)
+        public TypeToMapTo Map<TypeToMapFrom, TypeToMapTo>(TypeToMapFrom model)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TypeToMappFrom, TypeToMappTo>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TypeToMapFrom, TypeToMapTo>()).CreateMapper();
 
-            return mapper.Map<TypeToMappFrom, TypeToMappTo>(model);
+            return mapper.Map<TypeToMapFrom, TypeToMapTo>(model);
+        }
+
+        public IEnumerable<TypeToMapTo> MapCollection<TypeToMapFrom, TypeToMapTo>(IEnumerable<TypeToMapFrom> model)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TypeToMapFrom, TypeToMapTo>()).CreateMapper();
+
+            return mapper.Map<IEnumerable<TypeToMapFrom>, IEnumerable<TypeToMapTo>>(model);
         }
     }
 }

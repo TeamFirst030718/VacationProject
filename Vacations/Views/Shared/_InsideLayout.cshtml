@@ -6,35 +6,31 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/Styles/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link href="css/bootstrap.css" rel="stylesheet">
 </head>
 <body class="p-0">
     <div class="col-12">
 
-            <div class="row  bg-dark backColor">
-                <div class="col-ms-0 col-lg-2 col-md-2 m-0 p-0"></div>
-                <div class="col-12 col-md-8 col-lg-8 m-0 p-0">
-                    @Html.Partial("_NavbarTopPartial")
-                </div>
+        <div class="row  bg-dark">
+            <div class="col-ms-0 col-lg-2 col-md-2 m-0 p-0"></div>
+            <div class="col-12 col-md-8 col-lg-8 m-0 p-0">
+                @Html.Partial("_NavbarTopPartial")
             </div>
+        </div>
         <div class="row row-second">
             <div class="col-2 m-0 p-0">
-                @Html.Partial("_LeftMenuPartial")
+                 @Html.Partial("_LeftMenuPartial")
             </div>
             <div class="col-8 p-0">
                 <div class="container">
                     @RenderBody()
                 </div>
             </div>
-
         </div>
     </div>
-       
+   
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="js/bootstrap.js"></script>
 </body>
 </html>

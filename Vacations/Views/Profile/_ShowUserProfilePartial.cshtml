@@ -4,18 +4,19 @@
         <div class="col-8">
             <div class="text-light m-auto my-auto">My Profile</div>
         </div>
-        <div class="col-4 my-auto">
-           <a href="#"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a> 
-
-        </div>
-
+        @if (User.IsInRole("Administrator"))
+        {
+            <div class="col-4 my-auto">
+                <a href="#"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
+            </div>
+        }
     </div>
 
-    <div class="row border-top border-grey ">
+    <div class="row border-top ">
         <div class="container">
             <div class="row m-auto" style="padding-top:20px !important;padding-bottom:20px !important">
                 <div class="float-left my-auto ">
-                    <img src="~/Content/Icons/user profile icon.svg" class="m-auto" style="min-height:70px;"/>
+                    <img src="~/Content/Icons/user profile icon.svg" class="m-auto" style="min-width:70px;"/>
                 </div>
                 <div class="my-auto float-left ml-4">
                     <div class="row text-primary text-light">@($"{Model.Name} {Model.Surname}")</div>

@@ -1,4 +1,5 @@
 ﻿@model Vacations.Models.EmployeeViewModel
+@using VacationsBLL.Interfaces
 @{
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 
@@ -9,7 +10,7 @@
     ViewData["aspNetRolesSelectList"] = service.AspNetRolesSelectList();
 }
 
-@using (Html.BeginForm("Register", "Profile", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Register", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <div class="container m-0 py-3">
@@ -17,7 +18,7 @@
             <div class="container pb-5 text-light-grey">
                 <div class="row">
                     <div class="container-fluid border border-bottom-0 border-grey container-rounded-top bg-global text-white p-2 py-2">
-                        <strong>Add New Employee</strong>
+                        <strong  class="text-light-grey">Add New Employee</strong>
                     </div>
                 </div>
                 <div class="row">
@@ -53,7 +54,7 @@
                     <!--2-->
                     <div class="col-4  border-left border-right  border-grey  bg-dark">
                         <div class="form-group container">
-                            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                            @Html.LabelFor(m => m.Name, new { @class = "control-label" })   
                             @Html.TextBoxFor(m => m.Name, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Enter Name", autocomplete = "off" })
                         </div>
 
@@ -78,7 +79,7 @@
                     <div class="col-4 border-left border-right border-grey  bg-dark ">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Enter Surname",autocomplete ="off" })
+                            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Enter Surname", autocomplete = "off" })
                         </div>
 
                     </div>
@@ -86,10 +87,8 @@
                     <div class="col-4  bg-dark">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.PhoneNumber, new { @class = " control-label" })
-                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "+380 00 000 0000" })
-  
-                            </div>
-
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control bg-dark border-grey colorWhite", id = "phonenumber", placeholder = "xxx xxx xxxx" })
+                        </div>
                     </div>
                     <div class="col-4 border-right border-grey   bg-dark">
                         <div class="form-group container">
@@ -102,7 +101,7 @@
                     <div class="col-4 border-left border-right border-grey  bg-dark ">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.JobTitleID, new { @class = "control-label" })
-                            @Html.DropDownList("jobTitlesSelectList", null, null, new { @class = "form-control bg-dark border-grey colorWhite"})
+                            @Html.DropDownList("jobTitlesSelectList", null, null, new { @class = "form-control bg-dark border-grey colorWhite" })
                         </div>
 
                     </div>
@@ -171,11 +170,14 @@
     </div>
 }
 
-<script>
-    $(function () {
-        $("#datepicker").datepicker();
-    });
-</script>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/dist/jquery-input-mask-phone-number.js")
+    <script>
+        $(function () {
+            $('#phonenumber').usPhoneFormat({
+                format: '(xxx) xxx-xxxx'
+            });
+        });
+    </script>
 }

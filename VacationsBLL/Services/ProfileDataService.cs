@@ -12,7 +12,7 @@ using VacationsDAL.Repositories;
 
 namespace VacationsBLL.Services
 {
-    public  class ProfileDataService : IProfileDataService
+    public  class ProfileDataService :  IProfileDataService
     {
         private IEmployeeRepository _employees;
 
@@ -20,13 +20,28 @@ namespace VacationsBLL.Services
 
         private IAspNetUsersRepository _users;
 
+        private IVacationRepository _vacations;
+
+        private IVacationStatusTypeRepository _vacationStatusTypes;
+
+        private IVacationTypeRepository _vacationTypes;
+
         private IMapService _mapService;
 
-        public ProfileDataService(IMapService mapService, IEmployeeRepository employees, IJobTitleRepository jobTitles, IAspNetUsersRepository users)
+        public ProfileDataService(IMapService mapService, 
+                           IEmployeeRepository employees,
+                           IJobTitleRepository jobTitles,
+                           IAspNetUsersRepository users, 
+                           IVacationRepository vacations,
+                           IVacationStatusTypeRepository vacationStatusTypes,
+                           IVacationTypeRepository vacationTypes)
         {
             _employees = employees;
             _jobTitles = jobTitles;
             _mapService = mapService;
+            _vacations = vacations;
+            _vacationTypes = vacationTypes;
+            _vacationStatusTypes = vacationStatusTypes;
             _users = users;
         }
 
@@ -62,11 +77,21 @@ namespace VacationsBLL.Services
             return userData;
         }
 
-        public List<VacationDTO> GetUserVacationsData(string userEmail)
+        public List<ProfileVacationDTO> GetUserVacationsData(string userEmail)
         {
             var employee = _employees.GetByEmail(userEmail);
 
-            return _mapService.Map<ICollection<Vacation>, List<VacationDTO>>(employee.Vacations.ToList());
+            var vacations = _vacations.GetAll().Where(x => x.EmployeeID.Equals(employee.EmployeeID)).Select(x => new ProfileVacationDTO
+            {
+                VacationType = _vacationTypes.GetById(x.VacationTypeID).VacationTypeName,
+                VacationStatusType = _vacationStatusTypes.GetById(x.VacationStatusTypeID).VacationStatusName,
+                Comment = x.Comment,
+                DateOfBegin = x.DateOfBegin,
+                DateOfEnd = x.DateOfEnd,
+                Duration = x.Duration
+            }).ToList();
+
+            return vacations;/* vacations.ToList();*/
         }
 
         public VacationBalanceDTO GetUserVacationBalance(string userEmail)
@@ -78,7 +103,13 @@ namespace VacationsBLL.Services
 
         public EntityMapTo MapEntity<EntityToMapFrom, EntityMapTo>(EntityToMapFrom entity)
         { 
-           return _mapService.Map<EntityToMapFrom, EntityMapTo >(entity);
+            var a = _mapService.Map<EntityToMapFrom, EntityMapTo>(entity);
+            return _mapService.Map<EntityToMapFrom, EntityMapTo >(entity);
+        }
+
+        public IEnumerable<EntityMapTo> MapCollection<EntityToMapFrom, EntityMapTo>(IEnumerable<EntityToMapFrom> entityCollection)
+        {
+            return _mapService.MapCollection<EntityToMapFrom, EntityMapTo>(entityCollection);
         }
 
         public void Dispose()

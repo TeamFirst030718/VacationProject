@@ -7,8 +7,7 @@ using VacationsDAL.Entities;
 
 namespace VacationsDAL.Interfaces
 {
-    public interface IVacationStatusTypeRepository : IRepository<VacationStatusType>
+    public interface IVacationTypeRepository : IRepository<VacationType>
     {
-        string GetByType(string type);
     }
 }

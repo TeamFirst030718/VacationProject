@@ -12,11 +12,15 @@ namespace VacationsBLL.Services
 
         IAspNetRolesRepository _roles;
 
-        public PageListsService(IJobTitleRepository jobTitles, IAspNetRolesRepository roles)
+        IVacationTypeRepository _vacationTypes;
+
+        public PageListsService(IJobTitleRepository jobTitles, IAspNetRolesRepository roles, IVacationTypeRepository types)
         {
             _jobTitles = jobTitles;
 
             _roles = roles;
+
+            _vacationTypes = types;
         }
 
         public List<SelectListItem> AspNetRolesSelectList()
@@ -74,6 +78,24 @@ namespace VacationsBLL.Services
             };
 
             return statusSelectList;
+        }
+
+        public List<SelectListItem> VacationTypesSelectList()
+        {
+            var vacationTypesList = _vacationTypes.GetAll();
+
+            var vacationTypesSelectList = new List<SelectListItem>();
+
+            foreach (var vacationType in vacationTypesList)
+            {
+                vacationTypesSelectList.Add(new SelectListItem
+                {
+                    Text = vacationType.VacationTypeName,
+                    Value = vacationType.VacationTypeID
+                });
+            }
+
+            return vacationTypesSelectList;
         }
 
         public void Dispose()
