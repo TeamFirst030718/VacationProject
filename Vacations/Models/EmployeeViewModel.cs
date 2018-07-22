@@ -21,6 +21,7 @@ namespace Vacations.Models
         public string Surname { get; set; }
 
         [Display(Name = "date of birth")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime BirthDate { get; set; }
 
         [Required]
@@ -35,12 +36,14 @@ namespace Vacations.Models
         public string Skype { get; set; }
 
         [Display(Name = "hire date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime HireDate { get; set; }
 
         [Display(Name = "status")]
         public bool Status { get; set; }
-
+        
         [Display(Name = "date of dismissal")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? DateOfDismissal { get; set; }
 
         [Display(Name = "days in vacation")]

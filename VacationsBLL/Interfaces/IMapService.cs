@@ -1,7 +1,10 @@
-﻿namespace VacationsBLL.Interfaces
+﻿using System.Collections.Generic;
+
+namespace VacationsBLL.Interfaces
 {
     public interface IMapService
     {
-        TypeToMappTo Map<TypeToMappFrom, TypeToMappTo>(TypeToMappFrom model);
+        TypeToMapTo Map<TypeToMapFrom, TypeToMapTo>(TypeToMapFrom model);
+        IEnumerable<TypeToMapTo> MapCollection<TypeToMapFrom, TypeToMapTo>(IEnumerable<TypeToMapFrom> model);
     }
 }

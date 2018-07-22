@@ -19,7 +19,8 @@ namespace VacationsBLL.DIModules
             Bind<IEmployeeService>().To<EmployeeService>();
             Bind<IPageListsService>().To<PageListsService>();
             Bind<IProfileDataService>().To<ProfileDataService>();
-            Bind<IMapService>().To<MapService>().InSingletonScope();
+            Bind<IVacationCreationService>().To<VacationCreationService>();
+            Bind<IMapService>().To<MapService>().InSingletonScope(); 
         }   
     }
 }

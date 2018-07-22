@@ -7,9 +7,7 @@ using VacationsDAL.Entities;
 
 namespace VacationsDAL.Interfaces
 {
-    public interface IEmployeeRepository : IRepository<Employee>
+    public interface IVacationTypeRepository : IRepository<VacationType>
     {
-        Employee GetByEmail(string email);
-        void Update(Employee employee);
     }
 }

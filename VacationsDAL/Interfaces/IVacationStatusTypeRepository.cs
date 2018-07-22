@@ -9,5 +9,6 @@ namespace VacationsDAL.Interfaces
 {
     public interface IVacationStatusTypeRepository : IRepository<VacationStatusType>
     {
+        string GetByType(string type);
     }
 }
