@@ -6,10 +6,7 @@
     var vacationCreationModel = new Vacations.Models.VacationCreationModel();
     var userData = profileDataService.MapEntity<UserProfileDTO, ProfileViewModel>(profileDataService.GetUserData(User.Identity.Name));
     var vacationBalance = profileDataService.MapEntity<VacationBalanceDTO, VacationBalanceModel>(profileDataService.GetUserVacationBalance(User.Identity.Name));
-    Layout = "~/Views/Shared/_InsideLayout.cshtml";
-}
-@{
-    ViewBag.Title = "RequestVocation";
+
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 }
 

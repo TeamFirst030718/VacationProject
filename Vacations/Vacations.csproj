@@ -229,10 +229,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
+    <Compile Include="Controllers\TeamLeaderController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="Enums\VacationStatusTypesEnum.cs" />
     <Compile Include="Global.asax.cs">
@@ -372,14 +373,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Profile\Register.cshtml" />
+    <Content Include="Views\Admin\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
@@ -422,16 +420,17 @@
     <Content Include="Views\Profile\RequestVacation.cshtml" />
     <Content Include="Views\Profile\_LeftDaysProfilePartial.cshtml" />
     <Content Include="Views\Profile\_LeftDaysRequestPartial.cshtml" />
-    <Content Include="Views\Profile\_LeftMenuPartial.cshtml" />
+    <Content Include="Views\Shared\_LeftMenuPartial.cshtml" />
     <Content Include="Views\Profile\_MyVacationsPartial.cshtml" />
     <Content Include="Views\Profile\_ShowUserProfilePartial.cshtml" />
     <Content Include="Views\Profile\_VacationRequestPartial.cshtml" />
     <Content Include="Views\Shared\_NavbarTopPartial.cshtml" />
     <Content Include="Views\Shared\_InsideLayout.cshtml" />
-    <Content Include="Views\Profile\Edit.cshtml" />
+    <Content Include="Views\Admin\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\TeamLeader\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

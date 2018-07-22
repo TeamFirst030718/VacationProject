@@ -4,11 +4,12 @@
         <div class="col-8">
             <div class="text-light m-auto my-auto">My Profile</div>
         </div>
-        <div class="col-4 my-auto">
-           <a href="#"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a> 
-
-        </div>
-
+        @if (User.IsInRole("Administrator"))
+        {
+            <div class="col-4 my-auto">
+                <a href="#"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
+            </div>
+        }
     </div>
 
     <div class="row border-top ">

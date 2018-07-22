@@ -18,7 +18,7 @@ using VacationsBLL.Interfaces;
 
 namespace Vacations.Controllers
 {
-    /*[Authorize(Roles ="Administrator, Employee, TeamLeader")]*/
+    [Authorize(Roles = "Administrator, Employee, TeamLeader")]
     public class ProfileController : Controller
     {
         private readonly IPageListsService _pageListsService;
@@ -143,14 +143,7 @@ namespace Vacations.Controllers
             return View("Edit");
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            ViewBag.ListService = _pageListsService;
-    
-            return View();
-        }
+       
 
         private IAuthenticationManager AuthenticationManager
         {
@@ -166,65 +159,6 @@ namespace Vacations.Controllers
             AuthenticationManager.SignOut();
             return RedirectToAction("Login", "Account");
         }
-        //
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-
-        public async Task<ActionResult> Register(EmployeeViewModel model)
-        {
-
-            ViewBag.ListService = _pageListsService;
-
-            if (ModelState.IsValid)
-            {               
-                var jobTitleParam = Request.Params["jobTitlesSelectList"];
-
-                var statusParam = Request.Params["statusSelectList"];
-                
-                var user = new ApplicationUser { UserName = model.WorkEmail, Email = model.WorkEmail, PhoneNumber = model.PhoneNumber };
-
-                model.JobTitleID = Request.Params["jobTitlesSelectList"];
-
-                model.EmployeeID = user.Id;
-
-                model.Status = Request.Params["statusSelectList"].AsBool();
-
-                using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {
-                    var result = await UserManager.CreateAsync(user,"123asdQ!");
-
-                    if (result.Succeeded)
-                    {
-                        var roleParam = Request.Params["aspNetRolesSelectList"];
-
-                        UserManager.AddToRole(user.Id, roleParam);
-
-                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-
-                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
-
-                        var email = new EmailService();
-
-                        var _employee = _mapService.Map<EmployeeViewModel, EmployeeDTO>(model);
-
-                        _employeeService.Create(_employee);
-
-                        await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
-                            "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
-
-                        ViewBag.Link = callbackUrl;
-
-                        transaction.Complete();
-
-                        return View("Register");
-                    }            
-                }
-            }
-           
-            return View(model);
-        }
-
+      
     }
 }

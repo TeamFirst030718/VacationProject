@@ -9,10 +9,8 @@
     ViewData["jobTitlesSelectList"] = service.JobTitlesSelectList();
     ViewData["aspNetRolesSelectList"] = service.AspNetRolesSelectList();
 }
-@Styles.Render("~/Content/datepicker/css/base.css")
-@Styles.Render("~/Content/datepicker/css/dark.css")
 
-@using (Html.BeginForm("Register", "Profile", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Register", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <div class="container m-0 py-3">
@@ -20,7 +18,7 @@
             <div class="container pb-5 text-light-grey">
                 <div class="row">
                     <div class="container-fluid border border-bottom-0 border-grey container-rounded-top bg-global text-white p-2 py-2">
-                        <strong>Add New Employee</strong>
+                        <strong  class="text-light-grey">Add New Employee</strong>
                     </div>
                 </div>
                 <div class="row">
