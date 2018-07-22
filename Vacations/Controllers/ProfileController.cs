@@ -11,6 +11,7 @@ using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
+using Vacations.Enums;
 using Vacations.Models;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
@@ -26,14 +27,17 @@ namespace Vacations.Controllers
 
         private IEmployeeService _employeeService;
 
+        private IVacationCreationService _vacationCreationService;
+
         private IMapService _mapService;
 
-        public ProfileController(IProfileDataService profileDataService, IEmployeeService employees, IPageListsService pageLists, IMapService mapper)
+        public ProfileController(IProfileDataService profileDataService, IEmployeeService employees, IPageListsService pageLists,IVacationCreationService vacationService, IMapService mapper)
         {
             _profileDataService = profileDataService;
             _employeeService = employees;
             _pageListsService = pageLists;
             _mapService = mapper;
+            _vacationCreationService = vacationService;
         }
 
         public ProfileController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -76,13 +80,33 @@ namespace Vacations.Controllers
         [HttpGet]
         public ActionResult RequestVacation()
         {
+            ViewBag.PageListsService = _pageListsService;
+
             return View(_profileDataService);
         }
 
-        [HttpGet]
-        public ActionResult AddNewEmployee(EmployeeViewModel model)
-        {
-            return View("Register", model);
+        [HttpPost]
+        public ActionResult RequestVacation(VacationCreationModel model)
+            {
+            model.EmployeeID = UserManager.FindByEmail(User.Identity.Name).Id;
+            model.VacationID = Guid.NewGuid().ToString();
+            model.VacationTypeID = Request.Params["VacationTypesSelectList"];
+            model.VacationStatusTypeID = _vacationCreationService.GetStatusIdByType(VacationStatusTypesEnum.Pending.ToString());
+
+            if (ModelState.IsValid)
+            {
+                _vacationCreationService.CreateVacation(_mapService.Map<VacationCreationModel, VacationDTO>(model));
+
+                ViewBag.PageListsService = _pageListsService;
+
+                return View(_profileDataService);
+            }
+            else
+            {
+                ViewBag.PageListsService = _pageListsService;
+
+                return View(_profileDataService);
+            }         
         }
 
         [HttpGet]
@@ -90,7 +114,9 @@ namespace Vacations.Controllers
         public ActionResult Edit()
         {
             ViewBag.ListService = _pageListsService;
+
             var model = _mapService.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(User.Identity.GetUserId<string>()));
+
             return View(model);
         }
 
@@ -102,12 +128,10 @@ namespace Vacations.Controllers
             if (ModelState.IsValid)
             {
                 ViewBag.ListService = _pageListsService;
-                var jobTitleParam = Request.Params["jobTitlesSelectList"];
-                var statusParam = Request.Params["statusSelectList"];
                 model.EmployeeID = User.Identity.GetUserId<string>();
-                model.JobTitleID = jobTitleParam;
-                model.Status = statusParam.AsBool();
-                _employeeService.UpdateValue(_mapService.Map<EmployeeViewModel, EmployeeDTO>(model));
+                model.JobTitleID = Request.Params["jobTitlesSelectList"];
+                model.Status = Request.Params["statusSelectList"].AsBool();
+                _employeeService.UpdateEmployee(_mapService.Map<EmployeeViewModel, EmployeeDTO>(model));
                 return View("MyProfile", _profileDataService);
             }
 
@@ -148,18 +172,14 @@ namespace Vacations.Controllers
             if (ModelState.IsValid)
             {
                 ViewBag.ListService = _pageListsService;
-
-                var jobTitleParam = Request.Params["jobTitlesSelectList"];
-
-                var statusParam = Request.Params["statusSelectList"];
                 
                 var user = new ApplicationUser { UserName = model.WorkEmail, Email = model.WorkEmail, PhoneNumber = model.PhoneNumber };
 
-                model.JobTitleID = jobTitleParam;
+                model.JobTitleID = Request.Params["jobTitlesSelectList"];
 
                 model.EmployeeID = user.Id;
 
-                model.Status = statusParam.AsBool();
+                model.Status = Request.Params["statusSelectList"].AsBool();
 
                 using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {

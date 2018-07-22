@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using VacationsDAL.Contexts;
 using VacationsDAL.Entities;
@@ -14,9 +15,7 @@ namespace VacationsDAL.Repositories
         public VacationRepository(VacationsContext dbContext)
         {
             _context = dbContext;
-        }
-
-        
+        }     
 
         public IEnumerable<Vacation> GetAll()
         {
@@ -41,8 +40,25 @@ namespace VacationsDAL.Repositories
 
         public void Add(Vacation Vacation)
         {
-            _context.Vacations.Add(Vacation);
-            _context.SaveChanges();
+            try
+            {
+                _context.Vacations.Add(Vacation);
+                _context.SaveChanges();
+            }   
+             catch (DbEntityValidationException ex)
+            {
+                foreach (DbEntityValidationResult validationError in ex.EntityValidationErrors)
+                {
+                    var a = string.Format("Object: " + validationError.Entry.Entity.ToString());
+
+
+                    foreach (DbValidationError err in validationError.ValidationErrors)
+                    {
+                        var b = string.Format(err.ErrorMessage + "");
+
+                    }
+                }
+            }
         }
 
         public void Dispose()

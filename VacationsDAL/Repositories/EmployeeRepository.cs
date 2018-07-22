@@ -13,8 +13,7 @@ namespace VacationsDAL.Repositories
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        private readonly VacationsContext _context;
-        
+        private readonly VacationsContext _context; 
             
         public EmployeeRepository(VacationsContext dbContext)
         {
@@ -71,13 +70,10 @@ namespace VacationsDAL.Repositories
         }
 
         public void Update(Employee employee)
-        {
-            using (var context = new VacationsContext())
-            {
-                context.Entry(employee).State = EntityState.Modified;
+        {       
+            _context.Entry(employee).State = EntityState.Modified;
 
-                context.SaveChanges();
-            }
+            _context.SaveChanges();            
         }
 
         public void Dispose()

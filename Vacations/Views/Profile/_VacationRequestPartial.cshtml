@@ -1,41 +1,46 @@
-﻿<div class="container m-0 p-0" style="color:white">
-    <div class="container pb-5">
-        <div class="row">
-            <div class="container-fluid border border-bottom-0 container-rounded-top border-light bg-global text-white">
-                <strong>Vacation Request</strong>
+﻿@using Vacations.Enums;
+@model Vacations.Models.VacationCreationModel
+@{ 
+    var service= ViewBag.PageListsService;
+
+    ViewData["VacationTypesSelectList"] = service.VacationTypesSelectList();
+}
+@using (Html.BeginForm("RequestVacation", "Profile", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="container m-0 p-0" style="color:white;">
+        <div class="container">
+            <div class="row" style="border-bottom:solid #808080 1px;">
+                <div class="container-fluid bg-global text-white" style="background-color:#2e2e2e !important;">
+                    <strong>Vacation Request</strong>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="container-fluid border container-rounded-buttom border-light bg-dark text-white">
-                <form class="my-2 bg-dark">
+            <div class="row">
+                <div class="container-fluid bg-dark text-white">
                     <div class="row">
                         <div class="col-6 col-ms-12">
                             <ul class="list-unstyled zebra">
-                                <li> <label for="vacationTypeSelect">vocation type</label></li>
-                                <li>
-                                    <select class="form-control bg-dark text-light" id="vacationTypeSelect">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                    </select>
-                                </li>
+                                <li> <label for="vacationTypeSelect">vacation type</label></li>
+                                @Html.DropDownList("VacationTypesSelectList", null, null, new { @class = "form-control bg-dark border-grey colorWhite" })
                             </ul>
                         </div>
                         <div class="col-6 col-ms-12">
                             <ul class="list-unstyled zebra">
-                                <li> <label for="dateFrom">from</label></li>
+                                <li>  @Html.LabelFor(m => m.DateOfBegin, new { @class = "control-label" })</li>
                                 <li>
-                                    <input type="date"  max="3000-12-31" min="1000-01-01" class="form-control bg-dark" name="dateFrom">
+                                    <input type="date" max="3000-12-31" min="1000-01-01" class="form-control bg-dark border-grey colorWhite" name="DateOfBegin">
                                 </li>
                             </ul>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-6 col-ms-12">
                             <ul class="list-unstyled zebra">
-                                <li> <label for="coment">comment</label></li>
                                 <li>
-                                    <textarea class="form-control bg-dark" name="coment" rows="6"></textarea>
+                                    @Html.LabelFor(m => m.Comment, new { @class = "control-label" })
+                                </li>
+                                <li>
+                                    <textarea class="form-control bg-dark border-grey" name="Comment" rows="6" style="resize:none;color:white;"></textarea>
                                 </li>
                             </ul>
                         </div>
@@ -43,39 +48,49 @@
                             <div class="row">
                                 <div class="col-12 col-ms-12">
                                     <ul class="list-unstyled zebra">
-                                        <li> <label for="dateTo">to</label></li>
+                                        <li> @Html.LabelFor(m => m.DateOfEnd, new { @class = "control-label" })</li>
                                         <li>
-                                            <input type="date" name="dateTo" max="3000-12-31" min="1000-01-01" class="form-control bg-dark">
+                                            <input type="date" max="3000-12-31" min="1000-01-01" class="form-control bg-dark colorWhite border-grey" name="DateOfEnd"> 
                                         </li>
                                     </ul>
                                 </div>
-                                
+
                             </div>
                             <div class="row">
                                 <div class="col-4 col-xs-12">
                                     <ul class="list-unstyled zebra m-0">
-                                        <li> <label for="among">among</label></li>                                       
+                                        <li> <label for="among">amount</label></li>
                                     </ul>
-                                </div>                                
-                            </div> 
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="container m-0 p-0 text-light"><input type="text" class="form-control bg-dark field-days-width " maxlength="2" name="among" placeholder="XX" style="display:inline; max-width:45px"/> days in vacations</div>
+                                    <div class="container m-0 p-0 text-light"><input type="text" class="form-control bg-dark field-days-width border-grey colorWhite" maxlength="2" name="Duration" placeholder="XX" style="display:inline; max-width:45px;" /> days in vacations</div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6 pr-5">
-                            <button type="submit" class="btn btn-block border bg-dark">CANCEL</button>
+                        <div class="col-6 col-ms-12">
+                            <ul class="list-unstyled zebra">         
+                                <li>
+                                    <input type="reset" class="float-left form-control bg-dark button-cancel border-grey" value="CANCEL" />
+                                </li>
+                            </ul>
                         </div>
-                        <div class="col-6">
-                            <button type="submit" class="btn btn-block login" >SEND REQUEST</button>
+                      
+                        <div class="col-6 bg-dark ">
+                                <ul class="list-unstyled zebra">
+                                    <li>
+                                        <input type="submit" class="form-control bg-dark button-done border-grey bt-gradient" style="height:40px !important; padding-top:5px;" value="DONE" />
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>    
-</div>
+}
+

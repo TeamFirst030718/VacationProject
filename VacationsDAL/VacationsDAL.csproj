@@ -71,6 +71,7 @@
     <Compile Include="Interfaces\ITransactionTypeRepository.cs" />
     <Compile Include="Interfaces\IVacationRepository.cs" />
     <Compile Include="Interfaces\IVacationStatusTypeRepository.cs" />
+    <Compile Include="Interfaces\IVacationTypeRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AspNetRolesRepository.cs" />
     <Compile Include="Repositories\AspNetUsersRepository.cs" />
@@ -83,6 +84,8 @@
     <Compile Include="Repositories\TransactionTypeRepository.cs" />
     <Compile Include="Repositories\VacationRepository.cs" />
     <Compile Include="Repositories\VacationStatusTypeRepository.cs" />
+    <Compile Include="Entities\VacationType.cs" />
+    <Compile Include="Repositories\VacationTypeRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

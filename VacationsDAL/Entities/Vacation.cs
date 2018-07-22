@@ -7,6 +7,8 @@ namespace VacationsDAL.Entities
     [Table("Vacation")]
     public partial class Vacation
     {
+        [Required]
+        [StringLength(128)]
         public string VacationID { get; set; }
 
         [Required]
@@ -26,13 +28,17 @@ namespace VacationsDAL.Entities
         [StringLength(128)]
         public string VacationStatusTypeID { get; set; }
 
+        [Required]
+        [StringLength(128)]
+        public string VacationTypeID { get; set; }
+
         [StringLength(128)]
         public string TransactionID { get; set; }
 
-        [Required]
         [StringLength(128)]
-
         public string ProcessedByID { get; set; }
+
+        public int Duration { get; set; }
 
         public virtual Employee Employee { get; set; }
 

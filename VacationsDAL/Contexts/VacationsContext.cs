@@ -21,6 +21,7 @@ namespace VacationsDAL.Contexts
         public virtual DbSet<TransactionType> TransactionTypes { get; set; }
         public virtual DbSet<Vacation> Vacations { get; set; }
         public virtual DbSet<VacationStatusType> VacationStatusTypes { get; set; }
+        public virtual DbSet<VacationType> VacationTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

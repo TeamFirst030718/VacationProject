@@ -102,6 +102,7 @@
     <Compile Include="DIModules\RepositoriesDIModules.cs" />
     <Compile Include="DTOs\AspNetRoleDTO.cs" />
     <Compile Include="DTOs\EmployeeDTO.cs" />
+    <Compile Include="DTOs\ProfileVacationDTO.cs" />
     <Compile Include="DTOs\UserProfileDTO.cs" />
     <Compile Include="DTOs\VacationBalanceDTO.cs" />
     <Compile Include="DTOs\VacationDTO.cs" />
@@ -116,9 +117,11 @@
     <Compile Include="Interfaces\IAspNetUserService.cs" />
     <Compile Include="Interfaces\IProfileDataService.cs" />
     <Compile Include="Interfaces\IMapService.cs" />
+    <Compile Include="Interfaces\IVacationCreationService.cs" />
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\PageListsService.cs" />
     <Compile Include="Services\ProfileDataService.cs" />
+    <Compile Include="Services\VacationCreationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

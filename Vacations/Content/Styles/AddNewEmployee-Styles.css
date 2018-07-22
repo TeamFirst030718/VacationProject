@@ -17,7 +17,9 @@
 .text-light-grey{
     color: #959595;
 }
-
+.tdBorderNone{
+    border-top:none;
+}
 .button-cancel, .button-cancel:hover,
 .button-cancel:active {
     font-family: Muli-SemiBold;
