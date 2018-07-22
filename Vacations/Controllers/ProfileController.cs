@@ -65,6 +65,11 @@ namespace Vacations.Controllers
             private set { _signInManager = value; }
         }
 
+        [HttpGet]
+        public ActionResult Add()
+        {
+            return View();
+        }
 
         [HttpGet]
         public ActionResult Index()
@@ -114,11 +119,12 @@ namespace Vacations.Controllers
         [ValidateAntiForgeryToken]
 
         public async Task<ActionResult> Register(EmployeeViewModel model)
-        {   
-            if (ModelState.IsValid)
-            {
-                ViewBag.ListService = _pageListsService;
+        {
 
+            ViewBag.ListService = _pageListsService;
+
+            if (ModelState.IsValid)
+            {               
                 var jobTitleParam = Request.Params["jobTitlesSelectList"];
 
                 var statusParam = Request.Params["statusSelectList"];

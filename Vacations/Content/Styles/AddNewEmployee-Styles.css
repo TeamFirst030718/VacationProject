@@ -18,6 +18,8 @@
     color: #959595;
 }
 
+
+
 .button-cancel, .button-cancel:hover,
 .button-cancel:active {
     font-family: Muli-SemiBold;
@@ -74,7 +76,7 @@
     height: 40px;
     border-radius: 6px;
     color: #667eea;
-    background-image: url('~/Content/Images/gragient box.svg');
+    background-image: url('../Images/gragient_box .svg');
     border: 1px solid;
     background-color: #2a2a2a;
 }

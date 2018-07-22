@@ -23,6 +23,8 @@ namespace Vacations.Models
         [Display(Name = "date of birth")]
         public DateTime BirthDate { get; set; }
 
+        [Required]
+        [EmailAddress]
         [Display(Name = "personal email")]
         public string PersonalMail { get; set; }
 
