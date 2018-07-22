@@ -421,8 +421,8 @@
     <Content Include="Views\Profile\_VacationRequestPartial.cshtml" />
     <Content Include="Views\Shared\_NavbarTopPartial.cshtml" />
     <Content Include="Views\Shared\_InsideLayout.cshtml" />
-    <Content Include="Views\Profile\AddNewEmployee.cshtml" />
     <Content Include="Views\Profile\Add.cshtml" />
+    <Content Include="Views\Profile\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

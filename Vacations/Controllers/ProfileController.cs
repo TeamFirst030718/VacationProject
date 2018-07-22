@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -16,7 +17,7 @@ using VacationsBLL.Interfaces;
 
 namespace Vacations.Controllers
 {
-    [Authorize(Roles ="Administrator, Employee, TeamLeader")]
+    /*[Authorize(Roles ="Administrator, Employee, TeamLeader")]*/
     public class ProfileController : Controller
     {
         private readonly IPageListsService _pageListsService;
@@ -79,9 +80,38 @@ namespace Vacations.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddNewEmployee()
+        public ActionResult AddNewEmployee(EmployeeViewModel model)
         {
-            return View("Add");
+            return View("Register", model);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Edit()
+        {
+            ViewBag.ListService = _pageListsService;
+            var model = _mapService.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(User.Identity.GetUserId<string>()));
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(EmployeeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ViewBag.ListService = _pageListsService;
+                var jobTitleParam = Request.Params["jobTitlesSelectList"];
+                var statusParam = Request.Params["statusSelectList"];
+                model.EmployeeID = User.Identity.GetUserId<string>();
+                model.JobTitleID = jobTitleParam;
+                model.Status = statusParam.AsBool();
+                _employeeService.UpdateValue(_mapService.Map<EmployeeViewModel, EmployeeDTO>(model));
+                return View("MyProfile", _profileDataService);
+            }
+
+            return View("Edit");
         }
 
         [HttpGet]
