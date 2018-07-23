@@ -428,11 +428,11 @@
     <Content Include="Views\Shared\_NavbarTopPartial.cshtml" />
     <Content Include="Views\Shared\_InsideLayout.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
-    <Content Include="Views\Admin\ListOfEmployees.cshtml" />
     <Content Include="Views\Admin\RequestVacation.cshtml" />
     <Content Include="Views\Admin\_LeftDaysRequestPartial.cshtml" />
     <Content Include="Views\Admin\_ShowUserProfilePartial.cshtml" />
     <Content Include="Views\Admin\_VacationRequestPartial.cshtml" />
+    <Content Include="Views\Admin\EmployeesList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,34 @@
+﻿@using VacationsBLL.DTOs
+@model List<VacationsBLL.DTOs.EmployeeListDTO>
+@{
+    ViewBag.Title = "EmployeesList";
+}
+
+<h2>EmployeesList</h2>
+
+
+    @{
+        var employeesListGroups = from employeeListDto in Model
+            group employeeListDto by employeeListDto.TeamDto.TeamID;
+
+        var result = employeesListGroups.ToString();
+        foreach (IGrouping<string, EmployeeListDTO>
+            g in employeesListGroups)
+        {
+          
+            <p style="color:white">@g.Key</p>
+            foreach (var t in g)
+            {
+                <div class="container">
+                    <p style="color:white">@t.EmployeeDto.Name</p>
+                    <p style="color:white">@t.EmployeeDto.Surname</p>
+                    <p style="color:white">@t.EmployeeDto.PhoneNumber</p>
+                    <p style="color:white">@t.EmployeeDto.WorkEmail</p>
+                    <p style="color:white">@t.EmployeeDto.VacationBalance</p>
+                    @Html.ActionLink("Edit", "Edit", new { id = t.EmployeeDto.EmployeeID })
+                </div>
+            }
+           
+        }
+    }
+
