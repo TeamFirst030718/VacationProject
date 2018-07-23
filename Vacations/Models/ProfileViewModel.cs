@@ -11,7 +11,7 @@ namespace Vacations.Models
 
         public string Surname { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:d}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime BirthDate { get; set; }
 
         public string PersonalMail { get; set; }
@@ -20,7 +20,7 @@ namespace Vacations.Models
 
         public string PhoneNumber { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:d}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime HireDate { get; set; }
 
         public bool Status { get; set; }

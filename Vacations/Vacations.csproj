@@ -274,6 +274,7 @@
     <Content Include="Content\Icons\message-icon.svg" />
     <Content Include="Content\Icons\new request icon.svg" />
     <Content Include="Content\Icons\next icon.svg" />
+    <Content Include="Content\Icons\offline icon.svg" />
     <Content Include="Content\Icons\online icon.svg" />
     <Content Include="Content\Icons\password-icon.svg" />
     <Content Include="Content\Icons\user profile icon.svg" />
