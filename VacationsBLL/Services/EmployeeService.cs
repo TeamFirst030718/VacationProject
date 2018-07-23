@@ -16,15 +16,19 @@ namespace VacationsBLL
 
         private IJobTitleRepository _jobTitles;
 
+        private ITeamRepository _teams;
+
         private IMapService _mapService;
 
-        public EmployeeService(IEmployeeRepository employees, IJobTitleRepository jobTitles, IMapService mapService)
+        public EmployeeService(IEmployeeRepository employees, IJobTitleRepository jobTitles, IMapService mapService, ITeamRepository teams)
         {
             _employees = employees;
 
             _jobTitles = jobTitles;
 
             _mapService = mapService;
+
+            _teams = teams;
         }
 
         public void Create(EmployeeDTO employee)
@@ -104,6 +108,11 @@ namespace VacationsBLL
             }
 
             return result;
+        }
+
+        public string GetTeamNameById(string id)
+        {
+            return _teams.GetById(id).TeamName;
         }
 
         public void Dispose()

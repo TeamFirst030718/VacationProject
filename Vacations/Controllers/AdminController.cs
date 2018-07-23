@@ -186,6 +186,8 @@ namespace Vacations.Controllers
         {
             var employeeList = _employeeService.EmployeeList();
 
+            ViewBag.EmployeeService = _employeeService;
+
             return View(employeeList);
         }
 }
