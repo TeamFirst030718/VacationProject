@@ -2,7 +2,9 @@
 using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Mvc;
+using System;
 using System.Data.Entity;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -25,6 +27,21 @@ namespace IdentitySample
             NinjectModule servicesDIModule = new ServicesDIModule();
             var kernel = new StandardKernel(servicesDIModule, repositoriesDIModule);
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            HttpContext httpContext = HttpContext.Current;
+            if (httpContext != null)
+            {
+                RequestContext requestContext = ((MvcHandler)httpContext.CurrentHandler).RequestContext;
+                Exception exception = Server.GetLastError();
+                // Log the exception.
+                /*NLog.Logger logger = NLog.LogManager.GetLogger(requestContext.RouteData.GetRequiredString("controller"));
+                logger.Error(exception);*/
+            }
+            Response.Clear();
+            Context.Response.Redirect("~/Shared/Error"); // it will redirect to ErrorPage
         }
     }
 }
