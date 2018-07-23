@@ -197,6 +197,7 @@ namespace IdentitySample.Controllers
                 var employee = _employeeService.GetUserById(user.Id);
 
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
 
                 await email.SendAsync(user.Email, employee.Name + " " + employee.Surname, "Restore password", "Please restore your password",

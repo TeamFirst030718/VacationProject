@@ -18,7 +18,17 @@ body {
 .row-second {
     height: 70vh;
 }
+.Pending {
+    color: #6b6dd2;
+}
 
+.Approved {
+    color: #56b59e;
+}
+
+.Denied {
+    color: #ad545f;
+}
 div .image {/*для jumotrone */
     background-image: url('../Images/home request background.png'); 
 }

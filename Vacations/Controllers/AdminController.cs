@@ -9,27 +9,29 @@ using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
+using Vacations.Enums;
 using Vacations.Models;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 
 namespace Vacations.Controllers
 {
+    [Authorize(Roles ="Administrator")]
     public class AdminController : Controller
     {
         private readonly IPageListsService _pageListsService;
-
-        private IProfileDataService _AdminDataService;
 
         private IEmployeeService _employeeService;
 
         private IVacationCreationService _vacationCreationService;
 
+        private IProfileDataService _profileDataService;
+
         private IMapService _mapService;
 
         public AdminController(IProfileDataService AdminDataService, IEmployeeService employees, IPageListsService pageLists, IVacationCreationService vacationService, IMapService mapper)
         {
-            _AdminDataService = AdminDataService;
+            _profileDataService = AdminDataService;
             _employeeService = employees;
             _pageListsService = pageLists;
             _mapService = mapper;
@@ -134,6 +136,67 @@ namespace Vacations.Controllers
  
         return View(model);
     }
+
+        [HttpGet]
+        public ActionResult RequestVacation()
+        {
+            ViewBag.PageListsService = _pageListsService;
+
+            return View(_profileDataService);
+        }
+
+        [HttpPost]
+        public ActionResult RequestVacation(VacationCreationModel model)
+        {
+            model.EmployeeID = UserManager.FindByEmail(User.Identity.Name).Id;
+            model.VacationID = Guid.NewGuid().ToString();
+            model.VacationTypeID = Request.Params["VacationTypesSelectList"];
+            model.VacationStatusTypeID = _vacationCreationService.GetStatusIdByType(VacationStatusTypesEnum.Approved.ToString());
+
+            if (ModelState.IsValid)
+            {
+                _vacationCreationService.CreateVacation(_mapService.Map<VacationCreationModel, VacationDTO>(model));
+
+                ViewBag.PageListsService = _pageListsService;
+
+                return View(_profileDataService);
+            }
+            else
+            {
+                ViewBag.PageListsService = _pageListsService;
+
+                return View(_profileDataService);
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Edit()
+        {
+            ViewBag.ListService = _pageListsService;
+
+            var model = _mapService.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(User.Identity.GetUserId<string>()));
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(EmployeeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ViewBag.ListService = _pageListsService;
+                model.EmployeeID = User.Identity.GetUserId<string>();
+                model.JobTitleID = Request.Params["jobTitlesSelectList"];
+                model.Status = Request.Params["statusSelectList"].AsBool();
+                _employeeService.UpdateEmployee(_mapService.Map<EmployeeViewModel, EmployeeDTO>(model));
+                return View("MyProfile", _profileDataService);
+            }
+
+            return View("Edit");
+        }
 
         public ActionResult ListOfEmployees()
         {

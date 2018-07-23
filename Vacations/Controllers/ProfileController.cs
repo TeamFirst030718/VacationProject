@@ -71,12 +71,6 @@ namespace Vacations.Controllers
         }
 
         [HttpGet]
-        public ActionResult Add()
-        {
-            return View();
-        }
-
-        [HttpGet]
         public ActionResult Index()
         {
             return View("MyProfile", _profileDataService);
@@ -112,38 +106,7 @@ namespace Vacations.Controllers
 
                 return View(_profileDataService);
             }         
-        }
-
-        [HttpGet]
-        [Authorize]
-        public ActionResult Edit()
-        {
-            ViewBag.ListService = _pageListsService;
-
-            var model = _mapService.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(User.Identity.GetUserId<string>()));
-
-            return View(model);
-        }
-
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(EmployeeViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                ViewBag.ListService = _pageListsService;
-                model.EmployeeID = User.Identity.GetUserId<string>();
-                model.JobTitleID = Request.Params["jobTitlesSelectList"];
-                model.Status = Request.Params["statusSelectList"].AsBool();
-                _employeeService.UpdateEmployee(_mapService.Map<EmployeeViewModel, EmployeeDTO>(model));
-                return View("MyProfile", _profileDataService);
-            }
-
-            return View("Edit");
-        }
-
-       
+        }     
 
         private IAuthenticationManager AuthenticationManager
         {

@@ -7,7 +7,6 @@
             </div>
 
         </div>
-        @*string.Format($"{vacation.DateOfBegin} - {vacation.DateOfEnd}")*@
         <table class="table text-white m-0 p-0 backColor " style="font-size:15px; border-top:none;">
             <tr class="text-light-grey border-grey" style="font-size:12px; border-bottom:solid 1px gray !important;">
                 <th style="border-top:none"></th>
@@ -30,7 +29,7 @@
                         <th style="border-top:none"></th>
                         <td style="border-top:none">@Html.DisplayFor(x=>vacation.DateOfBegin) - @Html.DisplayFor(x => vacation.DateOfEnd)</td>
                         <td style="border-top:none">@vacation.VacationType</td>
-                        <td style="border-top:none">@vacation.VacationStatusType</td>
+                        <td style="border-top:none" class="@vacation.VacationStatusType">@vacation.VacationStatusType</td>
                         <td style="text-align:center;border-top:none">@vacation.Duration</td>
                     </tr>
                 }
