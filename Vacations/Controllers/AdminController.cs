@@ -138,38 +138,6 @@ namespace Vacations.Controllers
     }
 
         [HttpGet]
-        public ActionResult RequestVacation()
-        {
-            ViewBag.PageListsService = _pageListsService;
-
-            return View(_profileDataService);
-        }
-
-        [HttpPost]
-        public ActionResult RequestVacation(VacationCreationModel model)
-        {
-            model.EmployeeID = UserManager.FindByEmail(User.Identity.Name).Id;
-            model.VacationID = Guid.NewGuid().ToString();
-            model.VacationTypeID = Request.Params["VacationTypesSelectList"];
-            model.VacationStatusTypeID = _vacationCreationService.GetStatusIdByType(VacationStatusTypesEnum.Approved.ToString());
-
-            if (ModelState.IsValid)
-            {
-                _vacationCreationService.CreateVacation(_mapService.Map<VacationCreationModel, VacationDTO>(model));
-
-                ViewBag.PageListsService = _pageListsService;
-
-                return View(_profileDataService);
-            }
-            else
-            {
-                ViewBag.PageListsService = _pageListsService;
-
-                return View(_profileDataService);
-            }
-        }
-
-        [HttpGet]
         [Authorize]
         public ActionResult Edit()
         {
