@@ -2,11 +2,11 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var service = ViewBag.ListService;
+    var listService = ViewBag.ListService;
 
-    ViewData["statusSelectList"] = service.StatusSelectList();
-    ViewData["jobTitlesSelectList"] = service.JobTitlesSelectList();
-    ViewData["aspNetRolesSelectList"] = service.AspNetRolesSelectList();
+    ViewData["statusSelectList"] = listService.StatusSelectList(Model.Status.ToString());
+    ViewData["jobTitlesSelectList"] = listService.JobTitlesSelectList(Model.JobTitleID);
+    ViewData["aspNetRolesSelectList"] = listService.AspNetRolesSelectList(ViewBag.Role);
 }
 
 @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -45,6 +45,7 @@
                     <div class="col-4 border-right border-top border-grey   bg-dark pt-1">
                         <div class="form-group container">
                             <label>role</label>
+                            
                             @Html.DropDownList("aspNetRolesSelectList", null, null, new { @class = "form-control bg-dark border-grey colorWhite" })
                         </div>
                     </div>
@@ -118,7 +119,7 @@
 
                         <div class="form-group container">
                             @Html.LabelFor(m => m.DateOfDismissal, new { @class = " control-label" })
-                            <input class="form-control bg-dark border-grey" type="date" id="datepickerDateOfDismissal" name="DateOfDismissal" value="@if (Model.DateOfDismissal != null)
+                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerDateOfDismissal" name="DateOfDismissal" value="@if (Model.DateOfDismissal != null)
                                                                                                                                                      {
                                                                                                                                                          @Model.DateOfDismissal.Value.ToString("yyyy-MM-dd")
                                                                                                                                                      }">

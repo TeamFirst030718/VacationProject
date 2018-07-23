@@ -29,19 +29,5 @@ namespace IdentitySample
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
 
-        protected void Application_Error(object sender, EventArgs e)
-        {
-            HttpContext httpContext = HttpContext.Current;
-            if (httpContext != null)
-            {
-                RequestContext requestContext = ((MvcHandler)httpContext.CurrentHandler).RequestContext;
-                Exception exception = Server.GetLastError();
-                // Log the exception.
-                /*NLog.Logger logger = NLog.LogManager.GetLogger(requestContext.RouteData.GetRequiredString("controller"));
-                logger.Error(exception);*/
-            }
-            Response.Clear();
-            Context.Response.Redirect("~/Shared/Error"); // it will redirect to ErrorPage
-        }
     }
 }
