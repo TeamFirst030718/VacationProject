@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Vacations.Models;
+using VacationsBLL.Services;
+
 
 namespace Vacations.Controllers
 {
@@ -27,6 +30,13 @@ namespace Vacations.Controllers
         {
             return View();
         }
+
+        public ActionResult TestView()
+        {
+            ViewBag.ListService
+            return View();
+        }
+        
 
     }
 }

@@ -3,7 +3,7 @@
     ViewBag.Title = "AddNewTeam";
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 }
-
+<link href="~/Content/chosen.min.css" rel="stylesheet" />
 <div class="container m-0 py-3">
     <form>
         <div class="container pb-5 text-light-grey">
@@ -22,8 +22,11 @@
                 </div>
                 <div class="col-8 border-top border-right border-grey  bg-dark pt-1">
                     <div class="form-group container">
-                        <label>members</label>
-                        <select name="members" multiple="" class="form-control container-fluid bg-dark text-light border-grey">
+                        <label class="container-fluid p-0">members</label>
+                        @*
+        @Html.DropDownListFor(x => Model.SelectedMembers, new SelectList(Model.Members, "Value", "Text"), htmlAttributes: new { @class = "outlinegradient-left-rigth", multiple = "multiple", id = "Members" })
+                        *@
+                        <select name="members" class="form-control team-member-select container-fluid bg-dark text-light border-grey" multiple>
                             <option value="">Skills</option>
                             <option value="angular">Angular</option>
                             <option value="css">CSS</option>
@@ -75,3 +78,10 @@
 
 </div>
 
+<script>
+
+    $(function () {
+        $(".team-member-select").chosen();
+    })
+</script>
+<script src="~/Scripts/chosen.jquery.min.js"></script>
