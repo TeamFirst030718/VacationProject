@@ -182,10 +182,11 @@ namespace Vacations.Controllers
             return View("Edit");
         }
 
-        public ActionResult ListOfEmployees()
+        public ActionResult EmployeesList()
         {
             var employeeList = _employeeService.EmployeeList();
-            return View();
+
+            return View(employeeList);
         }
 }
 }
