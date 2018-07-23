@@ -101,6 +101,7 @@
     <Compile Include="DIModules\ServicesDIModule.cs" />
     <Compile Include="DIModules\RepositoriesDIModules.cs" />
     <Compile Include="DTOs\AspNetRoleDTO.cs" />
+    <Compile Include="DTOs\AspNetUserDTO.cs" />
     <Compile Include="DTOs\EmployeeDTO.cs" />
     <Compile Include="DTOs\EmployeeListDTO.cs" />
     <Compile Include="DTOs\ProfileVacationDTO.cs" />

@@ -53,7 +53,7 @@ namespace VacationsBLL
 
         public void UpdateEmployee(EmployeeDTO employee)
         {
-            var employeeToUpdate = _employees.GetAll().FirstOrDefault(x => x.WorkEmail == employee.WorkEmail);
+            var employeeToUpdate = _employees.GetAll().FirstOrDefault(x => x.EmployeeID == employee.EmployeeID);
 
             if (employeeToUpdate!=null)
             {

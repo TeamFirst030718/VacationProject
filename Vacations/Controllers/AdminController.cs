@@ -9,6 +9,7 @@ using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Vacations.Enums;
 using Vacations.Models;
 using VacationsBLL.DTOs;
@@ -23,20 +24,20 @@ namespace Vacations.Controllers
 
         private IEmployeeService _employeeService;
 
-        private IVacationCreationService _vacationCreationService;
-
         private IProfileDataService _profileDataService;
 
         private IMapService _mapService;
 
-        public AdminController(IProfileDataService AdminDataService, IEmployeeService employees, IPageListsService pageLists, IVacationCreationService vacationService, IMapService mapper)
+        private IAspNetUserService _aspNetUserService;
+
+        public AdminController(IAspNetUserService AspNetUserService, IProfileDataService AdminDataService, IEmployeeService employees, IPageListsService pageLists, IVacationCreationService vacationService, IMapService mapper)
         {
             _profileDataService = AdminDataService;
             _employeeService = employees;
             _pageListsService = pageLists;
             _mapService = mapper;
-            _vacationCreationService = vacationService;
-        }
+            _aspNetUserService = AspNetUserService;
+        } 
 
         public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
@@ -138,7 +139,6 @@ namespace Vacations.Controllers
     }
 
         [HttpGet]
-        [Authorize]
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -146,24 +146,35 @@ namespace Vacations.Controllers
                 return View("Error");
             }
 
+            ViewBag.Role = UserManager.GetRoles(id).FirstOrDefault();
+
             ViewBag.ListService = _pageListsService;
 
             var model = _mapService.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(id));
-
+            
             return View(model);
         }
 
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EmployeeViewModel model)
+        public ActionResult Edit(EmployeeViewModel model, string id)
         {
+            model.EmployeeID = id;
             if (ModelState.IsValid)
             {
                 ViewBag.ListService = _pageListsService;
-                model.EmployeeID = User.Identity.GetUserId<string>();
                 model.JobTitleID = Request.Params["jobTitlesSelectList"];
                 model.Status = Request.Params["statusSelectList"].AsBool();
+                var roleParam = Request.Params["aspNetRolesSelectList"];
+
+                var userRole = UserManager.GetRoles(model.EmployeeID).First();
+
+                if (userRole != roleParam)
+                {
+                    UserManager.RemoveFromRole(model.EmployeeID, userRole);
+                    UserManager.AddToRoles(model.EmployeeID, roleParam);
+                }
+                
                 _employeeService.UpdateEmployee(_mapService.Map<EmployeeViewModel, EmployeeDTO>(model));
                 return RedirectToAction("Index","Profile", _profileDataService);
             }
