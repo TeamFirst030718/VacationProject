@@ -139,11 +139,16 @@ namespace Vacations.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult Edit()
+        public ActionResult Edit(string id)
         {
+            if (id == null)
+            {
+                return View("Error");
+            }
+
             ViewBag.ListService = _pageListsService;
 
-            var model = _mapService.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(User.Identity.GetUserId<string>()));
+            var model = _mapService.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(id));
 
             return View(model);
         }
@@ -160,7 +165,7 @@ namespace Vacations.Controllers
                 model.JobTitleID = Request.Params["jobTitlesSelectList"];
                 model.Status = Request.Params["statusSelectList"].AsBool();
                 _employeeService.UpdateEmployee(_mapService.Map<EmployeeViewModel, EmployeeDTO>(model));
-                return View("MyProfile", _profileDataService);
+                return RedirectToAction("Index","Profile", _profileDataService);
             }
 
             return View("Edit");
