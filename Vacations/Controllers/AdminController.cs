@@ -122,10 +122,13 @@ namespace Vacations.Controllers
 
                         _employeeService.Create(_employee);
 
-                        await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
-                            "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
+                        var codeToSetPassword = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 
-                        ViewBag.Link = callbackUrl;
+                        var callbackUrlToSetPassword = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = codeToSetPassword }, protocol: Request.Url.Scheme);
+
+                        await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
+                            "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>. " 
+                            + "Set Password by clicking this <a href=\"" + callbackUrlToSetPassword +"\">link</a>.");
 
                         transaction.Complete();
 
