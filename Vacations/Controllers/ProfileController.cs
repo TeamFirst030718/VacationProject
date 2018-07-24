@@ -33,7 +33,7 @@ namespace Vacations.Controllers
 
         public ActionResult TestView()
         {
-            ViewBag.ListService
+            //ViewBag.ListService
             return View();
         }
         

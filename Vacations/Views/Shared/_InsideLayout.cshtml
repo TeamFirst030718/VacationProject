@@ -10,8 +10,9 @@
 
     @Scripts.Render("~/bundles/bootstrap")
 
+    <script src="~/Scripts/bootstrap.js"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="~/Scripts/popper.min.js"></script>
+
 </head>
 <body class="p-0">
     <div class="col-12">
@@ -44,6 +45,6 @@
 
 <script>
     $(function () {
-        $('[data-toggle="popover"]').popover();
+        $('[data-toggle="popover"]').Popover();
     })
 </script>

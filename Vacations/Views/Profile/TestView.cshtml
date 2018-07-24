@@ -1,4 +1,4 @@
-﻿<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+﻿
 @{ 
     Layout = "~/Views/Shared/_InsideLayout.cshtml";
 }
@@ -6,12 +6,14 @@
 <a href="#" class="btn btn-primary btn-lg" data-toggle="popover" tabindex="0" data-trigger="focus" title="Popover Title" data-content="Content of Popover like a simple form etc.">Show popup</a>
 
 
-<script type="text/javascript">
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
 
-    $(document).ready(function () {
-
-        $('[data-toggle="popover"]').popover();
-
-    });
-
+    $(function () {
+        $('.example-popover').popover({
+            container: 'body'
+        })
+    })
 </script>
