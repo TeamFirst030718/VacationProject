@@ -129,8 +129,6 @@ namespace Vacations.Controllers
 
                         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
-                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
-
                         var email = new EmailService();
 
                         var _employee = _mapService.Map<EmployeeViewModel, EmployeeDTO>(model);
@@ -139,11 +137,10 @@ namespace Vacations.Controllers
 
                         var codeToSetPassword = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 
-                        var callbackUrlToSetPassword = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = codeToSetPassword }, protocol: Request.Url.Scheme);
+                        var callbackUrlToSetPassword = Url.Action("ResetPasswordAndConfirmEmail", "Account", new { codeToResetPassword = codeToSetPassword, codeToConfirmationEmail = code, userId = user.Id}, protocol: Request.Url.Scheme);
 
                         await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
-                            "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>. " 
-                            + "Set Password by clicking this <a href=\"" + callbackUrlToSetPassword +"\">link</a>.");
+                            "Set Password and confirm your account by clicking this <a href=\"" + callbackUrlToSetPassword +"\">link</a>.");
 
                         transaction.Complete();
 
