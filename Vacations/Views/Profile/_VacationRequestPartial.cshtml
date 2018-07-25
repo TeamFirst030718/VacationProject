@@ -1,5 +1,4 @@
-﻿@using Vacations.Enums;
-@model Vacations.Models.VacationCreationModel
+﻿    @model Vacations.Models.RequestCreationModel
 @{ 
     var service= ViewBag.PageListsService;
 
@@ -28,7 +27,7 @@
                             <ul class="list-unstyled zebra">
                                 <li>  @Html.LabelFor(m => m.DateOfBegin, new { @class = "control-label" })</li>
                                 <li>
-                                    <input type="date" max="3000-12-31" min="1000-01-01" class="form-control bg-dark border-grey colorWhite" name="DateOfBegin">
+                                    <input type="date"max="3000-12-31" min="1000-01-01" class="form-control bg-dark border-grey colorWhite" id="DateOfBegin"  onchange="CalcDiff()" name="DateOfBegin">
                                 </li>
                             </ul>
                         </div>
@@ -40,7 +39,7 @@
                                     @Html.LabelFor(m => m.Comment, new { @class = "control-label" })
                                 </li>
                                 <li>
-                                    <textarea class="form-control bg-dark border-grey" name="Comment" rows="6" style="resize:none;color:white;"></textarea>
+                                    <textarea class="form-control bg-dark border-grey" name="Comment" rows="6" style="resize:none;color:white; width:300px;height:200px;"></textarea>
                                 </li>
                             </ul>
                         </div>
@@ -50,13 +49,12 @@
                                     <ul class="list-unstyled zebra">
                                         <li> @Html.LabelFor(m => m.DateOfEnd, new { @class = "control-label" })</li>
                                         <li>
-                                            <input type="date" max="3000-12-31" min="1000-01-01" class="form-control bg-dark colorWhite border-grey" name="DateOfEnd"> 
+                                            <input type="date"max="3000-12-31" min="1000-01-01"  onchange="CalcDiff()" class="form-control bg-dark colorWhite border-grey" id="DateOfEnd" name="DateOfEnd"> 
                                         </li>
                                     </ul>
                                 </div>
-
                             </div>
-                            <div class="row">
+                            <div class="row" style="margin-top:68px;">
                                 <div class="col-4 col-xs-12">
                                     <ul class="list-unstyled zebra m-0">
                                         <li> <label for="among">amount</label></li>
@@ -65,7 +63,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="container m-0 p-0 text-light"><input type="text" class="form-control bg-dark field-days-width border-grey colorWhite" maxlength="2" name="Duration" placeholder="XX" style="display:inline; max-width:45px;" /> days in vacations</div>
+                                    <div class="container m-0 p-0 text-light"><input type="text" readonly="readonly" class="form-control bg-dark field-days-width border-grey colorWhite" maxlength="2" id="Duration" name="Duration" placeholder="XX" style="display:inline; max-width:45px;" /> days in vacations</div>
                                 </div>
 
                             </div>
@@ -75,7 +73,7 @@
                         <div class="col-6 col-ms-12">
                             <ul class="list-unstyled zebra">         
                                 <li>
-                                    <input type="reset" class="float-left form-control bg-dark button-cancel border-grey" value="CANCEL" />
+                                    <input type="reset" style="width:120px;" class="float-right form-control bg-dark button-cancel border-grey" value="CANCEL" />
                                 </li>
                             </ul>
                         </div>
@@ -93,4 +91,7 @@
             </div>
         </div>
 }
+<script>
+ 
+</script>
 

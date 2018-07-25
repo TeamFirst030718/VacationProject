@@ -47,38 +47,21 @@ namespace VacationsDAL.Repositories
         }
 
         public void Add(Employee employee)
-        {
-            try
-            {
+        {          
                 _context.Employees.Add(employee);
-                _context.SaveChanges();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                foreach (DbEntityValidationResult validationError in ex.EntityValidationErrors)
-                {
-                    var a = string.Format("Object: " + validationError.Entry.Entity.ToString());
-
-
-                    foreach (DbValidationError err in validationError.ValidationErrors)
-                    {
-                        var b = string.Format(err.ErrorMessage + "");
-
-                    }
-                }
-            }
+                _context.SaveChanges();        
         }
 
         public void Update(Employee employee)
         {
-            using (var context = new VacationsContext())
-                            {
-                context.Entry(employee).State = EntityState.Modified;
-                
-                    context.SaveChanges();
-                            }
-        }
+            if (employee != null)
+            {
+                    _context.Entry(employee).State = EntityState.Modified;
 
+                    _context.SaveChanges();
+            }                        
+
+        }
 
         public void Dispose()
         {

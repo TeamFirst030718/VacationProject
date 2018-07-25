@@ -28,7 +28,7 @@ body.image {
     background-size: cover;
 }
 
-i.icon-user + input, i.icon-key + input {
+i.icon-user + input, i.icon-key + input {   
     padding-left: 40px;
 }
 

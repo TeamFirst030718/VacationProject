@@ -381,6 +381,7 @@ namespace IdentitySample.Controllers
         }
 
         //
+
         // POST: /Account/LogOff
         [HttpGet]
         public ActionResult LogOff()
@@ -390,6 +391,7 @@ namespace IdentitySample.Controllers
         }
 
         //
+
         // GET: /Account/ExternalLoginFailure
         [HttpGet]
         [AllowAnonymous]
@@ -401,9 +403,7 @@ namespace IdentitySample.Controllers
         protected override void Dispose(bool disposing)
         {
             _aspNetUserService.Dispose();
-            _pageListsService.Dispose();
-            _aspNetUserService.Dispose();
-            _employeeService.Dispose();
+            _employeeService.Dispose(); 
             _aspNetRoleService.Dispose();
             _pageListsService.Dispose();
             base.Dispose(disposing);

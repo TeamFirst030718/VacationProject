@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Vacations.Models
 {
-    public class VacationCreationModel
+    public class RequestCreationModel
     {
         [StringLength(128)]
         public string VacationID { get; set; }
@@ -16,11 +16,11 @@ namespace Vacations.Models
         public string EmployeeID { get; set; }
 
         [Display(Name = "From")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateOfBegin { get; set; }
 
         [Display(Name = "To")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateOfEnd { get; set; }
 
         [StringLength(100)]
@@ -35,5 +35,8 @@ namespace Vacations.Models
         public string VacationStatusTypeID { get; set; }
 
         public int Duration { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime Created { get; set; }
     }
 }

@@ -3,7 +3,7 @@
 @model VacationsBLL.Interfaces.IProfileDataService
 @{
     var profileDataService = Model;
-    var vacationCreationModel = new Vacations.Models.VacationCreationModel();
+    var requestCreationModel = new Vacations.Models.RequestCreationModel();
     var userData = profileDataService.MapEntity<UserProfileDTO, ProfileViewModel>(profileDataService.GetUserData(User.Identity.Name));
     var vacationBalance = profileDataService.MapEntity<VacationBalanceDTO, VacationBalanceModel>(profileDataService.GetUserVacationBalance(User.Identity.Name));
 
@@ -24,8 +24,22 @@
         </div>
         <div class="row" style="max-width:690px;">
             <div class="container bg-dark border border-grey container-rounded backColorm-0 p-0">
-                @Html.Partial("_VacationRequestPartial", vacationCreationModel)
+                @Html.Partial("_VacationRequestPartial", requestCreationModel)
             </div>
         </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+    function GetDiff() {
+        var dropdt = new Date(document.getElementById("DateOfEnd").value);
+        var pickdt = new Date(document.getElementById("DateOfBegin").value);
+    return parseInt((dropdt - pickdt) / (24 * 3600 * 1000));
+    }
+    function CalcDiff() {
+        if (document.getElementById("DateOfBegin").value && document.getElementById("DateOfEnd").value) {
+    document.getElementById("Duration").value = GetDiff();
+    }
+    }
+    </script>
+}

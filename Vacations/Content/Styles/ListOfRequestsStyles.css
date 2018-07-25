@@ -1,0 +1,51 @@
+﻿table.requestsList td.first {
+    width: 20%;
+    border-top: none;
+}
+
+table.requestsList td.second {
+    width: 15%;
+    border-top: none;
+    text-align: center;
+}
+
+.underlined{
+    border-bottom:solid 1px gray !important;
+}
+
+
+
+.icon-pending {
+    background: url('../Icons/online icon.svg') no-repeat;
+    background-position: center center;
+}
+
+table.requestsList th{
+    width: 2%;
+    border-top: none;
+
+}
+.ownTextarea:active, .ownTextarea:hover, .ownTextarea:focus {
+    outline: 0px !important;
+    box-shadow: none !important;
+}
+  
+
+.ownPopup:active, .ownPopup:hover, .ownPopup:focus {
+    outline: none;
+    border: none;
+}
+
+.comment-area, .comment-area:active, .comment-area:hover, .comment-area:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow:none !important;
+
+}
+.requestStatusBox {
+    border-top: solid 50px #6b6dd2 !important;
+    width:100px;
+    height:50px;
+}
+
+

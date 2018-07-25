@@ -8,6 +8,9 @@
     ViewData["statusSelectList"] = service.StatusSelectList();
     ViewData["jobTitlesSelectList"] = service.JobTitlesSelectList();
     ViewData["aspNetRolesSelectList"] = service.AspNetRolesSelectList();
+    var dateBirth = DateTime.UtcNow.ToString("yyyy-MM-dd");
+    var dateHire = DateTime.UtcNow.ToString("yyyy-MM-dd");
+
 }
 
 @using (Html.BeginForm("Register", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -40,7 +43,7 @@
                     <div class="col-4 border-top border-grey  bg-dark pt-1">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.BirthDate, new { @class = "control-label " })
-                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepicker" name="BirthDate">
+                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepicker" name="BirthDate" value="@dateBirth">
                         </div>
                     </div>
                     <div class="col-4 border-right border-top border-grey   bg-dark pt-1">
@@ -63,14 +66,14 @@
                     <div class="col-4  bg-dark ">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.PersonalMail, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.PersonalMail, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "example@mail.com" })
+                            @Html.TextBoxFor(m => m.PersonalMail, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "example@mail.com", autocomplete = "off" })
                         </div>
 
                     </div>
                     <div class="col-4 border-right  border-grey   bg-dark ">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.WorkEmail, new { @class = " control-label" })
-                            @Html.TextBoxFor(m => m.WorkEmail, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "example@softheme.com" })
+                            @Html.TextBoxFor(m => m.WorkEmail, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "example@softheme.com", autocomplete = "off" })
                         </div>
                     </div>
                 </div>
@@ -87,13 +90,13 @@
                     <div class="col-4  bg-dark">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.PhoneNumber, new { @class = " control-label" })
-                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control bg-dark border-grey colorWhite", id = "phonenumber", placeholder = "xxx xxx xxxx" })
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control bg-dark border-grey colorWhite",autocomplete="off", id = "phonenumber", placeholder = "xxx xxx xxxx" })
                         </div>
                     </div>
                     <div class="col-4 border-right border-grey   bg-dark">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.Skype, new { @class = " control-label" })
-                            @Html.TextBoxFor(m => m.Skype, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "userskype" })
+                            @Html.TextBoxFor(m => m.Skype, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "userskype", autocomplete = "off" })
                         </div>
                     </div>
                 </div>
@@ -110,7 +113,7 @@
 
                         <div class="form-group container">
                             @Html.LabelFor(m => m.HireDate, new { @class = "control-label" })
-                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepicker" name="HireDate">
+                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepicker" name="HireDate" value="@dateHire">
                         </div>
                     </div>
                     <div class="col-4 border-right border-grey   bg-dark ">
@@ -148,7 +151,7 @@
                     <div class="col-4 border border-top-0 border-bottom-rounded-left border-grey  bg-dark ">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.VacationBalance, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.VacationBalance, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "" })
+                            @Html.TextBoxFor(m => m.VacationBalance, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Balance", autocomplete = "off" })
                         </div>
                     </div>
 
@@ -178,6 +181,7 @@
             $('#phonenumber').usPhoneFormat({
                 format: '(xxx) xxx-xxxx'
             });
-        });
+        })
+       
     </script>
 }

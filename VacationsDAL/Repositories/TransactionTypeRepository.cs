@@ -41,11 +41,18 @@ namespace VacationsDAL.Repositories
         {
             _context.TransactionTypes.Add(TransactionType);
             _context.SaveChanges();
-        }  
+        }
 
+        public TransactionType GetByType(string type)
+        {
+            return _context.TransactionTypes.FirstOrDefault(x => x.TransactionTypeName.Equals(type));
+
+        }
         public void Dispose()
         {
             _context.Dispose();
         }
+
+       
     }
 }

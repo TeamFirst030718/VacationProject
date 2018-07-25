@@ -10,7 +10,7 @@ using VacationsDAL.Entities;
 
 namespace VacationsBLL.Services
 {
-    public class VacationCreationService : IVacationCreationService
+    public class RequestCreationService : IRequestCreationService
     {
         private IVacationRepository _vacations;
 
@@ -20,10 +20,10 @@ namespace VacationsBLL.Services
 
         public string GetStatusIdByType(string type)
         {
-            return _vacationStatusTypes.GetByType(type);
+            return _vacationStatusTypes.GetByType(type).VacationStatusTypeID;
         }
 
-        public VacationCreationService(IVacationRepository vacations, IMapService mapService, IVacationStatusTypeRepository vacationStatusTypes)
+        public RequestCreationService(IVacationRepository vacations, IMapService mapService, IVacationStatusTypeRepository vacationStatusTypes)
         {
             _vacations = vacations;
             _mapService = mapService;
@@ -32,7 +32,14 @@ namespace VacationsBLL.Services
 
         public void CreateVacation(VacationDTO vacation)
         {
+            
             _vacations.Add(_mapService.Map<VacationDTO, Vacation>(vacation));
+        }
+
+        public void Dispose()
+        {
+            _vacations.Dispose();
+            _vacationStatusTypes.Dispose();
         }
     }
 }
