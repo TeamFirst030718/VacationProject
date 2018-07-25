@@ -60,5 +60,22 @@ namespace VacationsDAL.Repositories
                 }
             }
         }
+
+        public void Update(Vacation vacation)
+        {
+            if (vacation != null)
+            {
+                
+                    _context.Entry(vacation).State = EntityState.Modified;
+
+                    _context.SaveChanges();
+                
+            }
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
     }
 }

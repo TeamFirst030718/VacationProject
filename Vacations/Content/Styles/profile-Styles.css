@@ -34,11 +34,11 @@ div .image {/*для jumotrone */
 }
 
 .bt-gradient, .bt-gradient:active, .bt-gradient:hover {
-    font-family: Muli-SemiBold;
+    font-family:         Muli-SemiBold;
     font-weight: bold;
     height: 50px;
     border-radius: 10px;
-    color: white;
+    color: white !important;
     background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1)) !important;
     border: none;
     text-align: center;
@@ -56,26 +56,27 @@ div .image {/*для jumotrone */
     color: white;
     padding-bottom: 2px;
 }
-
-.underline a:after {/*Подчеркивание ссылок, пока не работает идеально*/
-    display: block;
-    position: relative;
-    left: 0;
-    width: 0; 
-    height: 2px; 
-    background-image: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1)); 
-    content: "";
-    transition: width 0.3s ease-out; /*задаём время анимации*/
+@media screen and (min-width: 1900px) {
+    .left-menu {
+        height: 93.8vh;
+    }
 }
 
-.underline a:focus:after,
-.underline a:hover:after {
-    width: 100%;    
+@media screen and (max-width: 2000px) {
+    .left-menu {
+        height: 92.3vh;
+    }
 }
 
-.left-menu {
-    height: 90vh;
+li .textUnderline:hover, li .textUnderline:active {
+    color: #6b6dd2 !important;
 }
+.underline a:hover, .underline a:active {
+    color: white !important;
+    background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1)) !important;
+}
+
+
 
 .colorWhite{
     color:white !important;
@@ -138,3 +139,11 @@ a.left-menu-element, a.left-menu-element:hover, a.left-menu-element:active {
 .text-grey{
     color:grey;
 }
+.badge {
+    background: linear-gradient(to right, #667EEA, #764BA3);
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left:20px;
+}
+

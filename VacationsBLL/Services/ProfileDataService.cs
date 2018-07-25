@@ -47,34 +47,27 @@ namespace VacationsBLL.Services
 
         public UserProfileDTO GetUserData(string userEmail)
         {
-            string teamName = "None";
 
-            string teamLeaderName = "None";
+            var employees = _employees.GetAll();
 
-            var employee = _employees.GetByEmail(userEmail);
+            var employee = employees.FirstOrDefault(x => x.WorkEmail.Equals(userEmail));
 
-            employee.JobTitle = _jobTitles.GetById(employee.JobTitleID);
+            var jobTitles = _jobTitles.GetAll();
 
-            if (!employee.EmployeesTeam.Count.Equals(0))
+            if (employee != null)
             {
-                var employeeTeam = employee.EmployeesTeam.First();
+                var userData = _mapService.Map<Employee, UserProfileDTO>(employee);
 
-                teamName = employeeTeam.TeamName;
+                userData.TeamName = employee.EmployeesTeam.Count.Equals(0) ? "None" : employee.EmployeesTeam.First().TeamName;
 
-                var teamLeader = _employees.GetById(employeeTeam.TeamLeadID);
+                userData.TeamLeader = employee.EmployeesTeam.Count.Equals(0) ? "None" : string.Format($"{employees.FirstOrDefault(x=>x.EmployeeID.Equals(employee.EmployeesTeam.First().TeamLeadID)).Name} {employees.FirstOrDefault(x => x.EmployeeID.Equals(employee.EmployeesTeam.First().TeamLeadID)).Surname}") ;
 
-                teamLeaderName = teamLeader.Name + teamLeader.Surname;
+                userData.JobTitle = jobTitles.FirstOrDefault(x => x.JobTitleID.Equals(employee.JobTitleID)).JobTitleName;
+
+                return userData;
             }
 
-           var userData = _mapService.Map<Employee, UserProfileDTO>(employee);
-
-            userData.TeamName = teamName;
-
-            userData.TeamLeader = teamLeaderName;
-
-            userData.JobTitle = _jobTitles.GetById(employee.JobTitleID).JobTitleName;
-
-            return userData;
+            return null;         
         }
 
         public List<ProfileVacationDTO> GetUserVacationsData(string userEmail)
@@ -91,7 +84,7 @@ namespace VacationsBLL.Services
                 Duration = x.Duration
             }).ToList();
 
-            return vacations;/* vacations.ToList();*/
+            return vacations;
         }
 
         public VacationBalanceDTO GetUserVacationBalance(string userEmail)

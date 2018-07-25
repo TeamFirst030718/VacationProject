@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using VacationsDAL.Entities;
 
 namespace VacationsBLL.DTOs
 {
@@ -17,5 +19,6 @@ namespace VacationsBLL.DTOs
         public string JobTitleID { get; set; }
         public string PhoneNumber { get; set; }
         public string WorkEmail { get; set; }
+        public ICollection<TeamDTO> EmployeesTeam { get; set; }
     }
 }

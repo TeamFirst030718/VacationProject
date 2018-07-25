@@ -65,6 +65,7 @@ namespace VacationsBLL
             _employees.Update(employeeToUpdate);
         }
 
+
         private void MapChanges(Employee entity, EmployeeDTO changes)
         {
             var entityChanges = _mapService.Map<EmployeeDTO, Employee>(changes);
@@ -145,6 +146,11 @@ namespace VacationsBLL
             }
 
             return result;
+
+        public List<EmployeeDTO> GetEmployees()
+        {
+            return _mapService.MapCollection<Employee, EmployeeDTO>(_employees.GetAll()).ToList();
+
         }
 
         public string GetTeamNameById(string id)

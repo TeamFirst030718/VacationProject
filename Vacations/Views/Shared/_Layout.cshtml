@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>SofthemeVacations</title>
     @Styles.Render("~/Content/Styles/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -18,7 +18,7 @@
         </div>
         <div class="row row-second">
             <div class="col-2 m-0 p-0">
-                 @Html.Partial("_LeftMenuPartial")
+                @Html.Partial("_LeftMenuPartial")
             </div>
             <div class="col-8 p-0">
                 <div class="container">
@@ -27,10 +27,11 @@
             </div>
         </div>
     </div>
-   
 
-    @Scripts.Render("~/bundles/jquery")
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

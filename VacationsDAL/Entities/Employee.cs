@@ -60,8 +60,6 @@ namespace VacationsDAL.Entities
         [StringLength(200)]
         public string PhoneNumber { get; set; }
 
-   
-
         public virtual AspNetUser AspNetUser { get; set; }
 
         public virtual JobTitle JobTitle { get; set; }

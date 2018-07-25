@@ -15,10 +15,10 @@ namespace VacationsDAL.Entities
 
         public string TransactionTypeID { get; set; }
 
-        [Column("TransactionType")]
+        [Column("TransactionTypeName")]
         [Required]
         [StringLength(30)]
-        public string TransactionType1 { get; set; }
+        public string TransactionTypeName{ get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transaction> Transactions { get; set; }
