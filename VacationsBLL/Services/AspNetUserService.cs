@@ -22,7 +22,7 @@ namespace VacationsBLL.Services
         {
             return _users.GetById(id) != null;
         }
-
+        
         public IEnumerable<AspNetUserDTO> GetUsers()
         {
             return _mapService.MapCollection<AspNetUser, AspNetUserDTO>(_users.GetAll());

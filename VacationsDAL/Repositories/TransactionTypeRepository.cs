@@ -41,7 +41,9 @@ namespace VacationsDAL.Repositories
         {
             _context.TransactionTypes.Add(TransactionType);
             _context.SaveChanges();
-        }
+
+        }  
+
 
         public TransactionType GetByType(string type)
         {
@@ -53,6 +55,5 @@ namespace VacationsDAL.Repositories
             _context.Dispose();
         }
 
-       
     }
 }

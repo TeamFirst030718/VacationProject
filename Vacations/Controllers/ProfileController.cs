@@ -118,12 +118,12 @@ namespace Vacations.Controllers
             return RedirectToAction("Login", "Account");
         }
 
+
         
         public ActionResult _ShowUserProfilePartial()
         {
             var userData = _profileDataService.MapEntity<UserProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.Name));
             return PartialView(userData);
         }
-
     }
 }

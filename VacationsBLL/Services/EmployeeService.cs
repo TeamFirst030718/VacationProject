@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using AutoMapper;
 using System.Linq;
+using System.Web.UI.WebControls;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using VacationsBLL.Services;
@@ -59,17 +60,97 @@ namespace VacationsBLL
         {
             var employeeToUpdate = _employees.GetAll().FirstOrDefault(x => x.EmployeeID == employee.EmployeeID);
 
-            if (employeeToUpdate!=null)
-            {
-                employeeToUpdate = _mapService.Map<EmployeeDTO, Employee>(employee);
-            }
+            MapChanges(employeeToUpdate, employee);
 
             _employees.Update(employeeToUpdate);
         }
 
+
+        private void MapChanges(Employee entity, EmployeeDTO changes)
+        {
+            var entityChanges = _mapService.Map<EmployeeDTO, Employee>(changes);
+            entity.BirthDate = entityChanges.BirthDate;
+            entity.DateOfDismissal = entityChanges.DateOfDismissal;
+            entity.EmployeeID = entityChanges.EmployeeID;
+            entity.HireDate = entityChanges.HireDate;
+            entity.JobTitleID = entityChanges.JobTitleID;
+            entity.Name = entityChanges.Name;
+            entity.PersonalMail = entityChanges.PersonalMail;
+            entity.PhoneNumber = entityChanges.PhoneNumber;
+            entity.Skype = entityChanges.Skype;
+            entity.Status = entityChanges.Status;
+            entity.Surname = entityChanges.Surname;
+            entity.VacationBalance = entityChanges.VacationBalance;
+            entity.WorkEmail = entityChanges.WorkEmail;
+
+        }
+
+        public List<EmployeeListDTO> EmployeeList()
+        {
+            var list = _employees.GetAll();
+
+            var result = new List<EmployeeListDTO>();
+
+            foreach (var employee in list)
+            {
+                if (employee.EmployeesTeam.Count == 0 && employee.Teams.Count == 0)
+                {
+                    result.Add(new EmployeeListDTO
+                    {
+                        EmployeeDto = _mapService.Map<Employee,EmployeeDTO>(employee),
+                        TeamDto = new TeamDTO
+                        {
+                            TeamID = "Empty",
+                            TeamLeadID = "Empty",
+                            TeamName = "Empty"
+                        }
+                    });
+                }
+                else if (employee.Teams.Count != 0)
+                {
+                    foreach (var team in employee.Teams)
+                    {
+                        result.Add(new EmployeeListDTO
+                        {
+                            EmployeeDto = _mapService.Map<Employee, EmployeeDTO>(employee),
+                            TeamDto = new TeamDTO
+                            {
+
+                                TeamID = team.TeamID,
+                                TeamLeadID = team.TeamLeadID,
+                                TeamName = team.TeamName
+                            }
+                        });
+
+                    }
+                }
+                else
+                {
+                    foreach (var team in employee.EmployeesTeam)
+                    {
+                        result.Add(new EmployeeListDTO
+                        {
+                            EmployeeDto = _mapService.Map<Employee,EmployeeDTO>(employee),
+                            TeamDto = new TeamDTO
+                            {
+
+                                TeamID = team.TeamID,
+                                TeamLeadID = team.TeamLeadID,
+                                TeamName = team.TeamName
+                            }
+                        });
+
+                    }
+                }
+                
+            }
+
+            return result;
+
         public List<EmployeeDTO> GetEmployees()
         {
             return _mapService.MapCollection<Employee, EmployeeDTO>(_employees.GetAll()).ToList();
+
         }
 
         public string GetTeamNameById(string id)
@@ -77,10 +158,26 @@ namespace VacationsBLL
             return _teams.GetById(id).TeamName;
         }
 
-        public void Dispose()
+        public IEnumerable<EmployeeDTO> GetAll()
         {
-            _jobTitles.Dispose();
-            _employees.Dispose();
+           
+            return _mapService.MapCollection<Employee, EmployeeDTO>(_employees.GetAll());
+        }
+
+        public void AddToTeam(string EmployeeID, string TeamID)
+        {
+            var team = _teams.GetById(TeamID);
+            var employee = _employees.GetById(EmployeeID);
+           
+            team.Employees.Add(employee);
+
+            _teams.Update(team);
+            
+        }
+
+        public IEnumerable<EmployeeDTO> GetAllFreeEmployees()
+        {
+            return _mapService.MapCollection<Employee, EmployeeDTO>(_employees.GetAll().Where(x=>x.EmployeesTeam.Count == 0));
         }
     }
 }

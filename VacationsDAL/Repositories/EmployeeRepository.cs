@@ -54,19 +54,12 @@ namespace VacationsDAL.Repositories
 
         public void Update(Employee employee)
         {
-            if (employee != null)
-            {
-                    _context.Entry(employee).State = EntityState.Modified;
-
-                    _context.SaveChanges();
-            }                        
-
+                _context.SaveChanges();
         }
-
+        
         public void Dispose()
         {
             _context.Dispose();
         }
-
     }
 }

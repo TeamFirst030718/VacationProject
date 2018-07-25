@@ -15,6 +15,7 @@ using Vacations.Enums;
 using Vacations.Models;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
+using VacationsBLL.Services;
 using System.Web.WebPages;
 using Newtonsoft.Json;
 
@@ -36,9 +37,14 @@ namespace Vacations.Controllers
         private IAdminEmployeeListService _adminEmployeeListService;
 
         private IMapService _mapService;
+        
+        private ITeamService _teamService;
 
+        public AdminController(IAspNetUserService AspNetUserService, IProfileDataService AdminDataService, IEmployeeService employees, 
+        IPageListsService pageLists, IMapService mapper, ITeamService TeamService,
+        IRequestCreationService requestCreationService, IAdminEmployeeListService adminEmployeeListService,
+        IAdminRequestService requestService)
 
-        public AdminController(IProfileDataService AdminDataService, IEmployeeService employees, IPageListsService pageLists, IRequestCreationService requestCreationService, IAdminEmployeeListService adminEmployeeListService,IAdminRequestService requestService, IMapService mapper)
         {
             _profileDataService = AdminDataService;
             _employeeService = employees;
@@ -47,9 +53,8 @@ namespace Vacations.Controllers
             _requestCreationService = requestCreationService;
             _adminEmployeeListService = adminEmployeeListService;
             _requestService = requestService;
-        }
-
             _aspNetUserService = AspNetUserService;
+            _teamService = TeamService;
         } 
 
 
@@ -208,6 +213,50 @@ namespace Vacations.Controllers
         }
 
         [HttpGet]
+        public ActionResult RegisterTeam()
+        {
+            ViewBag.ListService = _pageListsService;
+            ViewBag.ListOfEmployees = _mapService.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees());
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegisterTeam(TeamViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.TeamLeadID = Request.Params["employeesSelectList"];
+                model.TeamID = Guid.NewGuid().ToString();
+
+                _teamService.CreateTeam(_mapService.Map<TeamViewModel, TeamDTO>(new TeamViewModel
+                {
+                    TeamLeadID = model.TeamLeadID,
+                    TeamID = model.TeamID,
+                    TeamName = model.TeamName
+                }));
+                string temp = Request.Params["members"];
+                if (temp != null)
+                {
+                    var result = temp.Split(',');
+                    foreach (var employeeId in result)
+                    {
+                        if (employeeId != model.TeamLeadID)
+                        {
+                            _employeeService.AddToTeam(employeeId, model.TeamID);
+                        }
+                    }
+                }
+                ViewBag.ListService = _pageListsService;
+                ViewBag.ListOfEmployees = _mapService.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAll());
+            }
+           
+            return View();
+        }
+
+    }
+
+}
         public ActionResult Requests()
         {
             ViewBag.RequestService = _requestService;

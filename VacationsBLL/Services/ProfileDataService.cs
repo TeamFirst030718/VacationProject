@@ -105,12 +105,5 @@ namespace VacationsBLL.Services
             return _mapService.MapCollection<EntityToMapFrom, EntityMapTo>(entityCollection);
         }
 
-        public void Dispose()
-        {
-            _jobTitles.Dispose();
-            _employees.Dispose();
-            _users.Dispose();
-        }
-
     }
 }

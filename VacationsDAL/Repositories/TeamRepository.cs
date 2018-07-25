@@ -37,17 +37,15 @@ namespace VacationsDAL.Repositories
             }
         }
 
-        public void Add(Team Team)
+        public void Add(Team team)
         {
-            _context.Teams.Add(Team);
+            _context.Teams.Add(team);
             _context.SaveChanges();
         }
 
-     
-
-        public void Dispose()
+        public void Update(Team team)
         {
-            _context.Dispose();
+            _context.SaveChanges();
         }
     }
 }
