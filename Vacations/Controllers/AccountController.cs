@@ -381,16 +381,6 @@ namespace IdentitySample.Controllers
         }
 
         //
-        // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
-        {
-            AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
-        }
-
-        //
         // GET: /Account/ExternalLoginFailure
         [HttpGet]
         [AllowAnonymous]
@@ -402,9 +392,7 @@ namespace IdentitySample.Controllers
         protected override void Dispose(bool disposing)
         {
             _aspNetUserService.Dispose();
-            _pageListsService.Dispose();
-            _aspNetUserService.Dispose();
-            _employeeService.Dispose();
+            _employeeService.Dispose(); 
             _aspNetRoleService.Dispose();
             _pageListsService.Dispose();
             base.Dispose(disposing);

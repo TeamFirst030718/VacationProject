@@ -64,6 +64,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -101,16 +102,25 @@
     <Compile Include="DIModules\ServicesDIModule.cs" />
     <Compile Include="DIModules\RepositoriesDIModules.cs" />
     <Compile Include="DTOs\AspNetRoleDTO.cs" />
+    <Compile Include="DTOs\AspNetUserDTO.cs" />
     <Compile Include="DTOs\EmployeeDTO.cs" />
     <Compile Include="DTOs\EmployeeListDTO.cs" />
     <Compile Include="DTOs\ProfileVacationDTO.cs" />
+    <Compile Include="DTOs\RequestDTO.cs" />
+    <Compile Include="DTOs\RequestProcessDTO.cs" />
+    <Compile Include="DTOs\RequestProcessResultDTO.cs" />
     <Compile Include="DTOs\TeamDTO.cs" />
+    <Compile Include="DTOs\TransactionDTO.cs" />
     <Compile Include="DTOs\UserProfileDTO.cs" />
     <Compile Include="DTOs\VacationBalanceDTO.cs" />
     <Compile Include="DTOs\VacationDTO.cs" />
     <Compile Include="DTOs\JobTitleDTO.cs" />
+    <Compile Include="Enums\RoleEnum.cs" />
+    <Compile Include="Enums\TransactionTypeEnum.cs" />
+    <Compile Include="Enums\VacationStatusTypeEnum.cs" />
     <Compile Include="Interfaces\IAspNetRoleService.cs" />
     <Compile Include="Interfaces\IPageListsService.cs" />
+    <Compile Include="Services\AdminEmployeeListService.cs" />
     <Compile Include="Services\AspNetRoleService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\AspNetUserService.cs" />
@@ -119,11 +129,14 @@
     <Compile Include="Interfaces\IAspNetUserService.cs" />
     <Compile Include="Interfaces\IProfileDataService.cs" />
     <Compile Include="Interfaces\IMapService.cs" />
-    <Compile Include="Interfaces\IVacationCreationService.cs" />
+    <Compile Include="Interfaces\IRequestCreationService.cs" />
+    <Compile Include="Interfaces\IAdminEmployeeListService.cs" />
+    <Compile Include="Interfaces\IAdminRequestService.cs" />
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\PageListsService.cs" />
     <Compile Include="Services\ProfileDataService.cs" />
-    <Compile Include="Services\VacationCreationService.cs" />
+    <Compile Include="Services\AdminRequestService.cs" />
+    <Compile Include="Services\RequestCreationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

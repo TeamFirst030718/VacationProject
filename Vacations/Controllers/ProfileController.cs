@@ -3,15 +3,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.WebPages;
-using Vacations.Enums;
+using VacationsBLL.Enums;
 using Vacations.Models;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
@@ -27,11 +21,11 @@ namespace Vacations.Controllers
 
         private IEmployeeService _employeeService;
 
-        private IVacationCreationService _vacationCreationService;
+        private IRequestCreationService _vacationCreationService;
 
         private IMapService _mapService;
 
-        public ProfileController(IProfileDataService profileDataService, IEmployeeService employees, IPageListsService pageLists,IVacationCreationService vacationService, IMapService mapper)
+        public ProfileController(IProfileDataService profileDataService, IEmployeeService employees, IPageListsService pageLists,IRequestCreationService vacationService, IMapService mapper)
         {
             _profileDataService = profileDataService;
             _employeeService = employees;
@@ -85,16 +79,17 @@ namespace Vacations.Controllers
         }
 
         [HttpPost]
-        public ActionResult RequestVacation(VacationCreationModel model)
+        public ActionResult RequestVacation(RequestCreationModel model)
             {
             model.EmployeeID = UserManager.FindByEmail(User.Identity.Name).Id;
             model.VacationID = Guid.NewGuid().ToString();
             model.VacationTypeID = Request.Params["VacationTypesSelectList"];
-            model.VacationStatusTypeID = _vacationCreationService.GetStatusIdByType(VacationStatusTypesEnum.Pending.ToString());
+            model.VacationStatusTypeID = _vacationCreationService.GetStatusIdByType(VacationStatusTypeEnum.Pending.ToString());
+            model.Created = DateTime.UtcNow;
 
             if (ModelState.IsValid)
             {
-                _vacationCreationService.CreateVacation(_mapService.Map<VacationCreationModel, VacationDTO>(model));
+                _vacationCreationService.CreateVacation(_mapService.Map<RequestCreationModel, VacationDTO>(model));
 
                 ViewBag.PageListsService = _pageListsService;
 
@@ -122,6 +117,13 @@ namespace Vacations.Controllers
             AuthenticationManager.SignOut();
             return RedirectToAction("Login", "Account");
         }
-      
+
+        
+        public ActionResult _ShowUserProfilePartial()
+        {
+            var userData = _profileDataService.MapEntity<UserProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.Name));
+            return PartialView(userData);
+        }
+
     }
 }

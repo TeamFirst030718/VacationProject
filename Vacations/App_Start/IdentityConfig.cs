@@ -88,7 +88,7 @@ namespace IdentitySample.Models
 
     public class EmailService : IIdentityMessageService
     {
-        private string SendGridApiKeyName = "SendGridApiKey";
+        private readonly string SendGridApiKeyName = "SendGridApiKey";
 
         public async Task SendAsync(string address, string name, string title, string plainTextContent, string message)
         {
@@ -145,7 +145,6 @@ namespace IdentitySample.Models
                 role = new IdentityRole(roleName);
                 var roleresult = roleManager.Create(role);
             }
-
             var user = userManager.FindByName(name);
             if (user == null) {
                 user = new ApplicationUser { UserName = name, Email = name };

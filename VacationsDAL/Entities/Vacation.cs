@@ -38,6 +38,9 @@ namespace VacationsDAL.Entities
         [StringLength(128)]
         public string ProcessedByID { get; set; }
 
+        [Column(TypeName = "date")]
+        public DateTime Created { get; set; }
+
         public int Duration { get; set; }
 
         public virtual Employee Employee { get; set; }

@@ -63,42 +63,11 @@ namespace VacationsBLL
             _employees.Update(employeeToUpdate);
         }
 
-        public List<EmployeeListDTO> EmployeeList()
+       
+
+        public List<EmployeeDTO> GetEmployees()
         {
-            var list = _employees.GetAll();
-
-            var result = new List<EmployeeListDTO>();
-
-            foreach (var employee in list)
-            {
-                if (employee.Teams.Count == 0)
-                {
-                    result.Add(new EmployeeListDTO
-                    {
-                        EmployeeDto = _mapService.Map<Employee,EmployeeDTO>(employee),
-                        TeamDto = null
-                    });
-                }
-                else
-                {
-                    foreach (var team in employee.Teams)
-                    {
-                        result.Add(new EmployeeListDTO
-                        {
-                            EmployeeDto = _mapService.Map<Employee,EmployeeDTO>(employee),
-                            TeamDto = new TeamDTO
-                            {
-                                TeamID = team.TeamID,
-                                TeamLeadID = team.TeamLeadID,
-                                TeamName = team.TeamName
-                            }
-                        });
-
-                    }
-                } 
-            }
-
-            return result;
+            return _mapService.MapCollection<Employee, EmployeeDTO>(_employees.GetAll()).ToList();
         }
 
         public void Dispose()

@@ -21,5 +21,7 @@ namespace VacationsBLL.DTOs
         public string TransactionID { get; set; }
 
         public string Duration { get; set; }
+
+        public DateTime Created { get; set; }
     }
 }

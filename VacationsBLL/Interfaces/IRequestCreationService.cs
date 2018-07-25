@@ -1,9 +1,10 @@
-﻿using VacationsBLL.DTOs;
+﻿using System;
+using VacationsBLL.DTOs;
 
 namespace VacationsBLL.Interfaces
 {
-    public interface IVacationCreationService
-    {
+    public interface IRequestCreationService : IDisposable
+    { 
         void CreateVacation(VacationDTO vacation);
         string GetStatusIdByType(string type);
     }

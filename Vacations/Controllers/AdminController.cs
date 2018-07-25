@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.WebPages;
-using Vacations.Enums;
+using VacationsBLL.Enums;
 using Vacations.Models;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
+using System.Web.WebPages;
+using Newtonsoft.Json;
 
 namespace Vacations.Controllers
 {
@@ -23,19 +24,25 @@ namespace Vacations.Controllers
 
         private IEmployeeService _employeeService;
 
-        private IVacationCreationService _vacationCreationService;
+        private IRequestCreationService _requestCreationService;
 
         private IProfileDataService _profileDataService;
 
+        private IAdminRequestService _requestService;
+
+        private IAdminEmployeeListService _adminEmployeeListService;
+
         private IMapService _mapService;
 
-        public AdminController(IProfileDataService AdminDataService, IEmployeeService employees, IPageListsService pageLists, IVacationCreationService vacationService, IMapService mapper)
+        public AdminController(IProfileDataService AdminDataService, IEmployeeService employees, IPageListsService pageLists, IRequestCreationService requestCreationService, IAdminEmployeeListService adminEmployeeListService,IAdminRequestService requestService, IMapService mapper)
         {
             _profileDataService = AdminDataService;
             _employeeService = employees;
             _pageListsService = pageLists;
             _mapService = mapper;
-            _vacationCreationService = vacationService;
+            _requestCreationService = requestCreationService;
+            _adminEmployeeListService = adminEmployeeListService;
+            _requestService = requestService;
         }
 
         public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -72,6 +79,7 @@ namespace Vacations.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+
             ViewBag.ListService = _pageListsService;
 
             return View();
@@ -80,11 +88,9 @@ namespace Vacations.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(EmployeeViewModel model)
         {
-
             ViewBag.ListService = _pageListsService;
 
             if (ModelState.IsValid)
@@ -135,7 +141,7 @@ namespace Vacations.Controllers
         
  
         return View(model);
-    }
+        }
 
         [HttpGet]
         [Authorize]
@@ -168,8 +174,46 @@ namespace Vacations.Controllers
 
         public ActionResult ListOfEmployees()
         {
-            var employeeList = _employeeService.EmployeeList();
+            var employeeList = _adminEmployeeListService.EmployeeList();
             return View();
         }
-}
-}
+
+        [HttpGet]
+        public ActionResult Requests()
+        {
+            ViewBag.RequestService = _requestService;
+           
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ProcessPopupPartial(string id)
+        {
+            var request = _mapService.Map<RequestProcessDTO, RequestProcessViewModel>(_requestService.GetRequestDataById(id));
+
+            return PartialView("ProcessPopupPartial", request);
+        }
+
+
+        [HttpPost]
+        public ActionResult ProcessPopupPartial(RequestProcessResultModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.Result.Equals(VacationStatusTypeEnum.Approved.ToString()))
+                {                
+                    _requestService.ApproveVacation(_mapService.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
+                }
+                else
+                {
+                    _requestService.DenyVacation(_mapService.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
+                }
+            }
+
+            ViewBag.RequestService = _requestService;
+
+            return RedirectToAction("Requests", "Admin");
+
+        }
+    }
+}   

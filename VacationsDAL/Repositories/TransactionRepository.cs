@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using VacationsDAL.Contexts;
 using VacationsDAL.Entities;
@@ -39,8 +40,12 @@ namespace VacationsDAL.Repositories
 
         public void Add(Transaction Transaction)
         {
-            _context.Transactions.Add(Transaction);
-            _context.SaveChanges();
+       
+            
+                _context.Transactions.Add(Transaction);
+                _context.SaveChanges();
+            
+           
         }
 
     

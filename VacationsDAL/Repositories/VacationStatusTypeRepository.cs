@@ -26,9 +26,9 @@ namespace VacationsDAL.Repositories
             return _context.VacationStatusTypes.FirstOrDefault(x => x.VacationStatusTypeID == id);
         }
 
-        public string GetByType(string type)
+        public VacationStatusType GetByType(string type)
         {
-            return _context.VacationStatusTypes.FirstOrDefault(x => x.VacationStatusName.Equals(type)).VacationStatusTypeID;
+            return _context.VacationStatusTypes.FirstOrDefault(x => x.VacationStatusName.Equals(type));
         }
 
         public void Remove(string id)
