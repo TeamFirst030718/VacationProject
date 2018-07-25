@@ -32,5 +32,10 @@ namespace VacationsDAL.Repositories
         {
             return _context.AspNetUsers.FirstOrDefault(x => x.UserName.Equals(email));
         }
+
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
     }
 }

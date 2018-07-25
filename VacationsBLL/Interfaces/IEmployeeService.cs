@@ -4,7 +4,7 @@ using VacationsBLL.DTOs;
 
 namespace VacationsBLL.Interfaces
 {
-    public interface IEmployeeService
+    public interface IEmployeeService: IDisposable
     {
         void Create(EmployeeDTO employee);
         EmployeeDTO GetUserById(string id);

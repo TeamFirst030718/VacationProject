@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace VacationsDAL.Interfaces
 {
-    public interface IRepository<T>
+    public interface IRepository<T>: IDisposable
     {
         void Add(T entity);
         IEnumerable<T> GetAll();

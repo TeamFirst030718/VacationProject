@@ -131,7 +131,6 @@
     <Compile Include="Interfaces\IMapService.cs" />
     <Compile Include="Interfaces\ITeamService.cs" />
     <Compile Include="Services\TeamService.cs" />
-    <Compile Include="Services\VacationCreationService.cs" />
     <Compile Include="Interfaces\IRequestCreationService.cs" />
     <Compile Include="Interfaces\IAdminEmployeeListService.cs" />
     <Compile Include="Interfaces\IAdminRequestService.cs" />
