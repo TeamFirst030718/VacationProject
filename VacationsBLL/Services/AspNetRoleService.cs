@@ -41,5 +41,10 @@ namespace VacationsBLL.Services
 
             return aspNetRolesDTO;
         }
+
+        public void Dispose()
+        {
+            _roles.Dispose();
+        }
     }
 }

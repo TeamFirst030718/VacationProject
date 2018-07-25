@@ -11,12 +11,10 @@ using System.Web.Mvc;
 using VacationsBLL.Enums;
 using System.Web.WebPages;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Vacations.Enums;
 using Vacations.Models;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using VacationsBLL.Services;
-using System.Web.WebPages;
 using Newtonsoft.Json;
 
 namespace Vacations.Controllers
@@ -53,7 +51,6 @@ namespace Vacations.Controllers
             _requestCreationService = requestCreationService;
             _adminEmployeeListService = adminEmployeeListService;
             _requestService = requestService;
-            _aspNetUserService = AspNetUserService;
             _teamService = TeamService;
         } 
 
@@ -254,9 +251,9 @@ namespace Vacations.Controllers
             return View();
         }
 
-    }
+    
 
-}
+
         public ActionResult Requests()
         {
             ViewBag.RequestService = _requestService;

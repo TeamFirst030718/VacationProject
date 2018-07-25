@@ -97,7 +97,7 @@ namespace VacationsBLL
                 {
                     result.Add(new EmployeeListDTO
                     {
-                        EmployeeDto = _mapService.Map<Employee,EmployeeDTO>(employee),
+                        EmployeeDto = _mapService.Map<Employee, EmployeeDTO>(employee),
                         TeamDto = new TeamDTO
                         {
                             TeamID = "Empty",
@@ -130,7 +130,7 @@ namespace VacationsBLL
                     {
                         result.Add(new EmployeeListDTO
                         {
-                            EmployeeDto = _mapService.Map<Employee,EmployeeDTO>(employee),
+                            EmployeeDto = _mapService.Map<Employee, EmployeeDTO>(employee),
                             TeamDto = new TeamDTO
                             {
 
@@ -142,10 +142,11 @@ namespace VacationsBLL
 
                     }
                 }
-                
+
             }
 
             return result;
+        }
 
         public List<EmployeeDTO> GetEmployees()
         {
@@ -178,6 +179,13 @@ namespace VacationsBLL
         public IEnumerable<EmployeeDTO> GetAllFreeEmployees()
         {
             return _mapService.MapCollection<Employee, EmployeeDTO>(_employees.GetAll().Where(x=>x.EmployeesTeam.Count == 0));
+        }
+
+        public void Dispose()
+        {
+            _employees.Dispose();
+            _jobTitles.Dispose();
+            _teams.Dispose();
         }
     }
 }

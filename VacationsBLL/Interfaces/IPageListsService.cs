@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace VacationsBLL.Interfaces
 {
-    public interface IPageListsService
+    public interface IPageListsService: IDisposable
     {
         List<SelectListItem> AspNetRolesSelectList();
         List<SelectListItem> JobTitlesSelectList();
