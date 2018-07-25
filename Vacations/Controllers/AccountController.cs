@@ -157,7 +157,7 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
-            if (userId == null || code == null || _aspNetUserService.AspNetUserExists(userId))
+            if (userId == null || code == null || !_aspNetUserService.AspNetUserExists(userId))
             {
                 return View("Error");
             }
@@ -381,6 +381,17 @@ namespace IdentitySample.Controllers
         }
 
         //
+
+        // POST: /Account/LogOff
+        [HttpGet]
+        public ActionResult LogOff()
+        {
+            AuthenticationManager.SignOut();
+            return RedirectToAction("Login", "Account");
+        }
+
+        //
+
         // GET: /Account/ExternalLoginFailure
         [HttpGet]
         [AllowAnonymous]

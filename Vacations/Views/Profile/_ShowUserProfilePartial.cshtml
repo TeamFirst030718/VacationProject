@@ -1,5 +1,7 @@
-﻿@model Vacations.Models.ProfileViewModel
-<div class="container  bg-dark border border-grey container-rounded backColor">
+@using Microsoft.AspNet.Identity
+@model Vacations.Models.ProfileViewModel
+<div class="container  bg-dark border border-grey container-rounded backColor" >
+
     <div class="row my-auto">
         <div class="col-8">
             <div class="text-light m-auto my-auto">My Profile</div>
@@ -7,7 +9,8 @@
         @if (User.IsInRole("Administrator"))
         {
             <div class="col-4 my-auto">
-                <a href="#"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
+                
+                <a href="@Url.Action("Edit","Admin", new {id = User.Identity.GetUserId()})"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto"/></a>
             </div>
         }
     </div>
@@ -24,13 +27,13 @@
                     @if (@Model.Status)
                     {
                         <div class="row" style="color:white;">
-                            <img src="~/Content/Icons/online icon.svg">Active
+                            <img src="~/Content/Icons/online icon.svg" style="padding-right: 5px">Active
                         </div>
                     }
                     else
                     {
-                        <div class="row">
-                            <img src="~/Content/Icons/online icon.svg">Fired
+                        <div class="row" style="color: white">
+                                <img src="~/Content/Icons/offline icon.svg" style="padding-right: 5px">Fired  
                         </div>
                     }
                 </div>

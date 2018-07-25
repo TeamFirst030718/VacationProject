@@ -1,0 +1,77 @@
+﻿@using VacationsBLL
+@using VacationsBLL.DTOs
+@model List<VacationsBLL.DTOs.EmployeeListDTO>
+@{
+    ViewBag.Title = "EmployeesList";
+    EmployeeService employeeService = ViewBag.EmployeeService;
+}
+
+<h2>EmployeesList</h2>
+
+<div class="container m-0 p-0 ">
+    <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
+        <div class="row m-auto text-white">
+            <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray">
+                <strong>List of Employees</strong>
+            </div>
+
+        </div>
+        <table class="table text-white m-0 p-0 backColor " style="font-size:15px; border-top:none;">
+            <tr class="text-light-grey border-grey" style="font-size: 12px; border-bottom: solid 1px gray !important;">
+                <td style="border-top: none"></td>
+                <td style="border-top: none">name</td>
+                <td style="text-align: center; border-top: none">phone number</td>
+                <td style="text-align: center; border-top: none">work email</td>
+                <td style="text-align: right; border-top: none">vacation balance</td>
+                <td style="border-top: none"></td>
+                <td style="border-top: none"></td>
+            </tr>
+            @{
+                var employeesListGroups = from employeeListDto in Model
+                                          group employeeListDto by employeeListDto.TeamDto.TeamID;
+
+                foreach (IGrouping<string, EmployeeListDTO>
+                    g in employeesListGroups)
+                {
+                    <tr style="font-size: 12px; border-bottom: solid 1px gray !important;">
+                        <td style="border-top: none; width: 15px; ">
+                            <img src="~/Content/Icons/icons8-bookmark.svg" style="height: 15px;" />
+                        </td>
+                        <td style="border-top: none;">
+
+                            @if (g.Key != "Empty")
+                            {
+                                <p>@employeeService.GetTeamNameById(g.Key)</p>
+                            }
+                            else
+                            {
+                                <p>@g.Key</p>
+                            }
+                        </td>
+                        <td style="border-top: none;">
+                        <td style="border-top: none;">
+                        <td style="border-top: none;">
+                        <td style="border-top: none;">
+                        <td style="border-top: none;">
+                    </tr>
+
+                    foreach (var t in g)
+                    {
+                        <tr style="font-size:12px; border-bottom:solid 1px gray !important;">
+                            <td style="border-top: none"></td>
+                            <td style="border-top: none">@t.EmployeeDto.Name @t.EmployeeDto.Surname</td>
+                            <td style="text-align: center; border-top: none">@t.EmployeeDto.PhoneNumber</td>
+                            <td style="text-align: center; border-top: none">@t.EmployeeDto.WorkEmail</td>
+                            <td style="text-align: right; border-top: none">@t.EmployeeDto.VacationBalance</td>
+                            <td style="border-top: none; text-align: center;">
+                                <a href="@Url.Action("Edit","Admin", new {id = t.EmployeeDto.EmployeeID})"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
+                            </td>
+                            <td style="border-top: none"></td>
+                        </tr>
+                    }
+                }
+            }
+
+        </table>
+    </div>
+</div>

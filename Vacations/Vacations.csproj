@@ -271,11 +271,13 @@
     <Content Include="Content\Icons\edit icon grey.svg" />
     <Content Include="Content\Icons\edit icon white.svg" />
     <Content Include="Content\Icons\gragient box.svg" />
+    <Content Include="Content\Icons\icons8-bookmark.svg" />
     <Content Include="Content\Icons\logo-softheme.svg" />
     <Content Include="Content\Icons\logout icon.svg" />
     <Content Include="Content\Icons\message-icon.svg" />
     <Content Include="Content\Icons\new request icon.svg" />
     <Content Include="Content\Icons\next icon.svg" />
+    <Content Include="Content\Icons\offline icon.svg" />
     <Content Include="Content\Icons\online icon.svg" />
     <Content Include="Content\Icons\password-icon.svg" />
     <Content Include="Content\Icons\user profile icon.svg" />
@@ -428,11 +430,12 @@
     <Content Include="Views\Shared\_NavbarTopPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
-    <Content Include="Views\Admin\ListOfEmployees.cshtml" />
+
     <Content Include="Views\Admin\Requests.cshtml" />
     <Content Include="Views\Admin\ProcessPopupPartial.cshtml" />
     <Content Include="Views\Admin\Calendar.cshtml" />
     <Content Include="Views\Admin\ProcessRequest.cshtml" />
+    <Content Include="Views\Admin\EmployeesList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

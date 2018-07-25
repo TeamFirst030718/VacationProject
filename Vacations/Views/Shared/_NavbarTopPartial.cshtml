@@ -1,6 +1,6 @@
 ﻿<div class="container bg-dark pt-2 m-auto">
     <div class="row">
-        <nav class="navbar navbar-expand-lg navbar-light" style="width:100%">           
+        <nav class="navbar navbar-expand-lg navbar-light" style="width:100%">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -32,19 +32,19 @@
                         </li>       
                     </ul>
                 <div class="float-md-right float-left m-md-0 ml-3" >
+
                     <div class="row">
                         <div class="logo col-8">
                             <div class="float-right">
                                 <div class="mr-auto my-auto" style="font-size:15px; padding-top:5px;">@User.Identity.Name</div>
-                            </div>                            
+                            </div>
                         </div>
                         <div class="col-4">
                             <div class="float-left">
-                                <img src="~/Content/Icons/user profile icon.svg" >
+                                <img src="~/Content/Icons/user profile icon.svg">
                             </div>
-                            
                         </div>
-                    </div>                    
+                    </div>
                 </div>
 
 
@@ -53,5 +53,11 @@
     </div>
 
 </div>
-
+@section Scripts {
+    <script>
+        $(function() {
+            $('[data-toggle="popover"]').popover();
+        })
+    </script>
+}
 

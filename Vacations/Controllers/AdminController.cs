@@ -9,6 +9,9 @@ using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using VacationsBLL.Enums;
+using System.Web.WebPages;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Vacations.Enums;
 using Vacations.Models;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
@@ -34,6 +37,7 @@ namespace Vacations.Controllers
 
         private IMapService _mapService;
 
+
         public AdminController(IProfileDataService AdminDataService, IEmployeeService employees, IPageListsService pageLists, IRequestCreationService requestCreationService, IAdminEmployeeListService adminEmployeeListService,IAdminRequestService requestService, IMapService mapper)
         {
             _profileDataService = AdminDataService;
@@ -44,6 +48,10 @@ namespace Vacations.Controllers
             _adminEmployeeListService = adminEmployeeListService;
             _requestService = requestService;
         }
+
+            _aspNetUserService = AspNetUserService;
+        } 
+
 
         public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
@@ -127,10 +135,13 @@ namespace Vacations.Controllers
 
                         _employeeService.Create(_employee);
 
-                        await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
-                            "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
+                        var codeToSetPassword = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 
-                        ViewBag.Link = callbackUrl;
+                        var callbackUrlToSetPassword = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = codeToSetPassword }, protocol: Request.Url.Scheme);
+
+                        await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
+                            "Please confirm your account by clicking this <a href=\"" + callbackUrl + "\">link</a>. " 
+                            + "Set Password by clicking this <a href=\"" + callbackUrlToSetPassword +"\">link</a>.");
 
                         transaction.Complete();
 
@@ -144,38 +155,56 @@ namespace Vacations.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-        public ActionResult Edit()
+        public ActionResult Edit(string id)
         {
+            if (id == null)
+            {
+                return View("Error");
+            }
+
+            ViewBag.Role = UserManager.GetRoles(id).FirstOrDefault();
+
             ViewBag.ListService = _pageListsService;
 
-            var model = _mapService.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(User.Identity.GetUserId<string>()));
-
+            var model = _mapService.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(id));
+            
             return View(model);
         }
 
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EmployeeViewModel model)
+        public ActionResult Edit(EmployeeViewModel model, string id)
         {
+            model.EmployeeID = id;
             if (ModelState.IsValid)
             {
                 ViewBag.ListService = _pageListsService;
-                model.EmployeeID = User.Identity.GetUserId<string>();
                 model.JobTitleID = Request.Params["jobTitlesSelectList"];
                 model.Status = Request.Params["statusSelectList"].AsBool();
+                var roleParam = Request.Params["aspNetRolesSelectList"];
+
+                var userRole = UserManager.GetRoles(model.EmployeeID).First();
+
+                if (userRole != roleParam)
+                {
+                    UserManager.RemoveFromRole(model.EmployeeID, userRole);
+                    UserManager.AddToRoles(model.EmployeeID, roleParam);
+                }
+                
                 _employeeService.UpdateEmployee(_mapService.Map<EmployeeViewModel, EmployeeDTO>(model));
-                return View("MyProfile", _profileDataService);
+                return RedirectToAction("Index","Profile", _profileDataService);
             }
 
             return View("Edit");
         }
 
-        public ActionResult ListOfEmployees()
+        public ActionResult EmployeesList()
         {
-            var employeeList = _adminEmployeeListService.EmployeeList();
-            return View();
+            var employeeList = _employeeService.EmployeeList();
+
+            ViewBag.EmployeeService = _employeeService;
+
+            return View(employeeList);
         }
 
         [HttpGet]

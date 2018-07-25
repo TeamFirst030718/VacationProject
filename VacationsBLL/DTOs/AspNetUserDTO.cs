@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace VacationsBLL.DTOs
 {
     public class AspNetUserDTO
@@ -13,5 +12,6 @@ namespace VacationsBLL.DTOs
         public string Email { get; set; }
 
         public ICollection<AspNetRoleDTO> AspNetRoles { get; set; }
+
     }
 }
