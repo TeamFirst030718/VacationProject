@@ -397,17 +397,6 @@ namespace IdentitySample.Controllers
         {
             return View();
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            _aspNetUserService.Dispose();
-            _pageListsService.Dispose();
-            _aspNetUserService.Dispose();
-            _employeeService.Dispose();
-            _aspNetRoleService.Dispose();
-            _pageListsService.Dispose();
-            base.Dispose(disposing);
-        }
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

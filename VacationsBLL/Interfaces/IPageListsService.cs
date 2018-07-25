@@ -7,10 +7,11 @@ using System.Web.Mvc;
 
 namespace VacationsBLL.Interfaces
 {
-    public interface IPageListsService : IDisposable
+    public interface IPageListsService
     {
         List<SelectListItem> AspNetRolesSelectList();
         List<SelectListItem> JobTitlesSelectList();
         List<SelectListItem> StatusSelectList();
+        List<SelectListItem> EmployeesList();
     }
 }

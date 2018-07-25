@@ -250,6 +250,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
+    <Compile Include="Models\TeamViewModel.cs" />
     <Compile Include="Models\VacationBalanceModel.cs" />
     <Compile Include="Models\VacationCreationModel.cs" />
     <Compile Include="Models\ProfileVacationsViewModel.cs" />
@@ -257,6 +258,10 @@
     <Compile Include="StartupIdentity\Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen-sprite.png" />
+    <Content Include="Content\chosen.css" />
+    <Content Include="Content\chosen.min.css" />
     <Content Include="Content\dist\jquery-input-mask-phone-number.js" />
     <Content Include="Content\dist\jquery-input-mask-phone-number.min.js" />
     <Content Include="Content\Fonts\OFL.txt" />
@@ -283,6 +288,7 @@
     <Content Include="Content\Images\background.jpg" />
     <Content Include="Content\Images\gragient_box .svg" />
     <Content Include="Content\Images\home request background.png" />
+    <Content Include="Content\Styles\AddNewTeam-Styles.css" />
     <Content Include="Content\Styles\bootstrap-grid.css" />
     <Content Include="Content\Styles\bootstrap-grid.min.css" />
     <Content Include="Content\Styles\bootstrap-reboot.css" />
@@ -327,6 +333,10 @@
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\chosen.jquery.js" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\chosen.proto.js" />
+    <Content Include="Scripts\chosen.proto.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -434,6 +444,7 @@
     <Content Include="Views\Admin\_ShowUserProfilePartial.cshtml" />
     <Content Include="Views\Admin\_VacationRequestPartial.cshtml" />
     <Content Include="Views\Admin\EmployeesList.cshtml" />
+    <Content Include="Views\Admin\RegisterTeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -17,10 +17,5 @@ namespace VacationsBLL.Services
         {
             return _users.GetById(id) != null;
         }
-
-        public void Dispose()
-        {
-            _users.Dispose();
-        }
     }
 }

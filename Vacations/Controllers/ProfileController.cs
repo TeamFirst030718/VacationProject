@@ -122,6 +122,6 @@ namespace Vacations.Controllers
             AuthenticationManager.SignOut();
             return RedirectToAction("Login", "Account");
         }
-      
+
     }
 }

@@ -121,9 +121,11 @@
     <Compile Include="Interfaces\IProfileDataService.cs" />
     <Compile Include="Interfaces\IMapService.cs" />
     <Compile Include="Interfaces\IVacationCreationService.cs" />
+    <Compile Include="Interfaces\ITeamService.cs" />
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\PageListsService.cs" />
     <Compile Include="Services\ProfileDataService.cs" />
+    <Compile Include="Services\TeamService.cs" />
     <Compile Include="Services\VacationCreationService.cs" />
   </ItemGroup>
   <ItemGroup>

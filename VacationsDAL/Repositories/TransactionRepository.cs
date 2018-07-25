@@ -42,12 +42,5 @@ namespace VacationsDAL.Repositories
             _context.Transactions.Add(Transaction);
             _context.SaveChanges();
         }
-
-    
-
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
     }
 }

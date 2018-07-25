@@ -4,7 +4,7 @@ using VacationsDAL.Entities;
 
 namespace VacationsDAL.Interfaces
 {
-    public interface IAspNetUsersRepository :IDisposable
+    public interface IAspNetUsersRepository
     {
         IEnumerable<AspNetUser> GetAll();
         AspNetUser GetById(string id);

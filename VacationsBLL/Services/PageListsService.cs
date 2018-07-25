@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Interfaces;
@@ -14,13 +15,36 @@ namespace VacationsBLL.Services
 
         IVacationTypeRepository _vacationTypes;
 
-        public PageListsService(IJobTitleRepository jobTitles, IAspNetRolesRepository roles, IVacationTypeRepository types)
+        IEmployeeRepository _employees;
+
+        public PageListsService(IJobTitleRepository jobTitles, IAspNetRolesRepository roles, IVacationTypeRepository types, IEmployeeRepository employees)
         {
             _jobTitles = jobTitles;
 
             _roles = roles;
 
             _vacationTypes = types;
+
+            _employees = employees;
+        }
+
+        public List<SelectListItem> EmployeesList()
+        {
+            var employeesList = _employees.GetAll();
+
+            var employeesSelectList = new List<SelectListItem>();
+
+            foreach (var employee in employeesList)
+            {
+
+                employeesSelectList.Add(new SelectListItem
+                {
+                    Text = employee.Name + " " + employee.Surname,
+                    Value = employee.EmployeeID
+                });
+            }
+
+            return employeesSelectList;
         }
 
         public List<SelectListItem> AspNetRolesSelectList(string value)
@@ -140,6 +164,7 @@ namespace VacationsBLL.Services
 
             return statusSelectList;
         }
+
         public List<SelectListItem> VacationTypesSelectList()
         {
             var vacationTypesList = _vacationTypes.GetAll();
@@ -158,10 +183,5 @@ namespace VacationsBLL.Services
             return vacationTypesSelectList;
         }
 
-        public void Dispose()
-        {
-            _jobTitles.Dispose();
-            _roles.Dispose();
-        }
     }
 }

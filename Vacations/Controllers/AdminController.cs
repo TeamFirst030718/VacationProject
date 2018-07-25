@@ -14,6 +14,7 @@ using Vacations.Enums;
 using Vacations.Models;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
+using VacationsBLL.Services;
 
 namespace Vacations.Controllers
 {
@@ -30,13 +31,17 @@ namespace Vacations.Controllers
 
         private IAspNetUserService _aspNetUserService;
 
-        public AdminController(IAspNetUserService AspNetUserService, IProfileDataService AdminDataService, IEmployeeService employees, IPageListsService pageLists, IVacationCreationService vacationService, IMapService mapper)
+        private ITeamService _teamService;
+
+        public AdminController(IAspNetUserService AspNetUserService, IProfileDataService AdminDataService, IEmployeeService employees, IPageListsService pageLists, 
+            IVacationCreationService vacationService, IMapService mapper, ITeamService TeamService)
         {
             _profileDataService = AdminDataService;
             _employeeService = employees;
             _pageListsService = pageLists;
             _mapService = mapper;
             _aspNetUserService = AspNetUserService;
+            _teamService = TeamService;
         } 
 
         public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -193,5 +198,49 @@ namespace Vacations.Controllers
 
             return View(employeeList);
         }
-}
+
+        [HttpGet]
+        public ActionResult RegisterTeam()
+        {
+            ViewBag.ListService = _pageListsService;
+            ViewBag.ListOfEmployees = _mapService.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees());
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegisterTeam(TeamViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.TeamLeadID = Request.Params["employeesSelectList"];
+                model.TeamID = Guid.NewGuid().ToString();
+
+                _teamService.CreateTeam(_mapService.Map<TeamViewModel, TeamDTO>(new TeamViewModel
+                {
+                    TeamLeadID = model.TeamLeadID,
+                    TeamID = model.TeamID,
+                    TeamName = model.TeamName
+                }));
+                string temp = Request.Params["members"];
+                if (temp != null)
+                {
+                    var result = temp.Split(',');
+                    foreach (var employeeId in result)
+                    {
+                        if (employeeId != model.TeamLeadID)
+                        {
+                            _employeeService.AddToTeam(employeeId, model.TeamID);
+                        }
+                    }
+                }
+                ViewBag.ListService = _pageListsService;
+                ViewBag.ListOfEmployees = _mapService.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAll());
+            }
+           
+            return View();
+        }
+
+    }
+
 }
