@@ -24,7 +24,7 @@ namespace VacationsBLL.DIModules
             Bind<IEmployeeRepository>().To<EmployeeRepository>();
             Bind<IJobTitleRepository>().To<JobTitleRepository>(); 
             Bind<IVacationTypeRepository>().To<VacationTypeRepository>();
-            Bind<VacationsContext>().ToSelf().InSingletonScope();
+            Bind<VacationsContext>().ToSelf();
         }
     }
 }
