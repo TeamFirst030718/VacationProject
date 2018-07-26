@@ -249,6 +249,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
+    <Compile Include="Models\TeamListViewModel.cs" />
+    <Compile Include="Models\TeamProfileViewModel.cs" />
     <Compile Include="Models\TeamViewModel.cs" />
     <Compile Include="Models\RequestProcessResultModel.cs" />
     <Compile Include="Models\RequestVacationViewModel.cs" />
@@ -450,6 +452,8 @@
     <Content Include="Views\Admin\EmployeesList.cshtml" />
     <Content Include="Views\Admin\EmployeeView.cshtml" />
     <Content Include="Views\Admin\RegisterTeam.cshtml" />
+    <Content Include="Views\Admin\TeamsList.cshtml" />
+    <Content Include="Views\Admin\ViewTeamProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

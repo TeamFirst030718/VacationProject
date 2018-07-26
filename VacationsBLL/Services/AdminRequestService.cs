@@ -66,9 +66,10 @@ namespace VacationsBLL.Services
         {
             var users = _users.Get();
 
-            Func<Employee, bool> whereLinq = emp => (emp.EmployeesTeam.Count.Equals(1) && emp.EmployeesTeam.First().TeamLeadID.Equals(AdminID)) ||
-                                              (emp.EmployeesTeam.Count.Equals(0));
-            var temp = _employees.GetById(users.FirstOrDefault(x => x.Email.Equals("tempwork@gmail.com")).Id);
+            Func<Employee, bool> whereLinq = emp => emp.EmployeeID.Equals(AdminID) ||
+                                                    (emp.EmployeesTeam.Count.Equals(1) &&
+                                                    emp.EmployeesTeam.First().TeamLeadID.Equals(AdminID)) ||
+                                                    emp.EmployeesTeam.Count.Equals(0);
 
             Employee[] employees = _employees.Get(whereLinq);
 

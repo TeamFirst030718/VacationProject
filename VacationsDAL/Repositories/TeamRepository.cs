@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using VacationsDAL.Contexts;
 using VacationsDAL.Entities;
@@ -48,6 +49,11 @@ namespace VacationsDAL.Repositories
         public void Update(Team team)
         {
             _context.SaveChanges();
+        }
+
+        public IEnumerable<Team> GetAll()
+        {
+            return _context.Teams.ToList();
         }
 
         public void Dispose()

@@ -1,4 +1,5 @@
-﻿using VacationsBLL.DTOs;
+﻿using System.Collections.Generic;
+using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Entities;
 using VacationsDAL.Interfaces;
@@ -18,6 +19,39 @@ namespace VacationsBLL.Services
         {
             _teams.Add(Mapper.Map<TeamDTO, Team>(team));
             
+        }
+
+        public IEnumerable<TeamListDTO> GetAllTeams()
+        {
+            var result = new List<TeamListDTO>();
+            var teams = _teams.GetAll();
+
+            foreach (var team in teams)
+            {
+                result.Add(new TeamListDTO
+                {
+                    TeamID = team.TeamID,
+                    TeamLeadID = team.TeamLeadID,
+                    TeamName = team.TeamName,
+                    AmountOfEmployees = team.Employees.Count
+                } );
+            }
+            return result;
+        }
+
+        public TeamListDTO GetById(string id)
+        {
+            var team = _teams.GetById(id);
+            
+            var result = new TeamListDTO
+            {
+                TeamID = team.TeamID,
+                TeamLeadID = team.TeamLeadID,
+                TeamName = team.TeamName,
+                AmountOfEmployees = team.Employees.Count
+            };
+
+            return result;
         }
 
     }
