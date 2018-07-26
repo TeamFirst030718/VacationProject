@@ -28,7 +28,12 @@ namespace VacationsBLL.Services
                     result.Add(new EmployeeListDTO
                     {
                         EmployeeDto = Mapper.Map<Employee, EmployeeDTO>(employee),
-                        TeamDto = null
+                        TeamDto = new TeamDTO
+                        {
+                            TeamID = "Empty",
+                            TeamLeadID = "Empty",
+                            TeamName = "Empty"
+                        }
                     });
                 }
                 else
