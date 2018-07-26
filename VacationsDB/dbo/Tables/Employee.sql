@@ -10,6 +10,8 @@
     [DateOfDismissal] DATE           NULL,
     [VacationBalance] INT            NOT NULL,
     [JobTitleID]      NVARCHAR (128) NOT NULL,
+    [PhoneNumber]     NVARCHAR (200) DEFAULT ('number') NOT NULL,
+    [WorkEmail]       NVARCHAR (200) DEFAULT ('work mail') NOT NULL,
     CONSTRAINT [PK__Employee__7AD04FF188E2F61A] PRIMARY KEY CLUSTERED ([EmployeeID] ASC),
     CONSTRAINT [FK_Employee_AspNetUsers] FOREIGN KEY ([EmployeeID]) REFERENCES [dbo].[AspNetUsers] ([Id]),
     CONSTRAINT [FK_Employees_Positions] FOREIGN KEY ([JobTitleID]) REFERENCES [dbo].[JobTitle] ([JobTitleID])
