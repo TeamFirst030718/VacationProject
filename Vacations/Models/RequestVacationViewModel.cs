@@ -8,7 +8,7 @@ namespace Vacations.Models
     public class RequestVacationViewModel
     {
         public ProfileViewModel ProfileData;
-        public VacationBalanceModel VacationBalanceData;
+        public VacationBalanceViewModel VacationBalanceData;
         public RequestCreationViewModel RequestCreationData;
     }
 }

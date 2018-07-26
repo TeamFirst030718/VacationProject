@@ -22,10 +22,9 @@ namespace VacationsBLL.DIModules
             Bind<IUsersRepository>().To<UsersRepository>();
             Bind<IRolesRepository>().To<RolesRepository>();
             Bind<IEmployeeRepository>().To<EmployeeRepository>();
-            Bind<IJobTitleRepository>().To<JobTitleRepository>(); 
-
+            Bind<IJobTitleRepository>().To<JobTitleRepository>();
             Bind<IVacationTypeRepository>().To<VacationTypeRepository>();
-            Bind<VacationsContext>().ToSelf();
+            Bind<VacationsContext>().ToSelf().InSingletonScope();
         }
     }
 }

@@ -1,12 +1,6 @@
 ﻿@model Vacations.Models.EmployeeViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    var listService = ViewBag.ListService;
-
-    ViewData["statusSelectList"] = listService.StatusSelectList(Model.Status.ToString());
-    ViewData["jobTitlesSelectList"] = listService.JobTitlesSelectList(Model.JobTitleID);
-    ViewData["aspNetRolesSelectList"] = listService.AspNetRolesSelectList(ViewBag.Role);
 }
 
 @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

@@ -1,81 +1,73 @@
 ﻿@model Vacations.Models.TeamViewModel
 @{
-    ViewBag.Title = "AddNewTeam";
+    IEnumerable<Vacations.Models.EmployeeViewModel> listOfEmployees = (IEnumerable<Vacations.Models.EmployeeViewModel>)ViewData["listOfEmployees"];
+
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    var service = ViewBag.ListService;
-    IEnumerable<Vacations.Models.EmployeeViewModel> listOfEmployees = ViewBag.ListOfEmployees;
-
-    ViewData["employeesSelectList"] = service.EmployeesList();
 }
-
-
-@using (Html.BeginForm("RegisterTeam", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <link href="~/Content/chosen.min.css" rel="stylesheet" />
-    <div class="container m-0 py-3">
-        <form>
-            <div class="container pb-5 text-light-grey">
-                <div class="row">
-                    <div class="container-fluid border border-bottom-0 border-grey container-rounded-top bg-global text-white p-2 py-2">
-                        <strong>Add New Team</strong>
-                    </div>
-                </div>
-                <div class="row">
-                    <!--1-->
-                    <div class="col-4 border border-bottom-0 border-grey  bg-dark pt-1">
-                        <div class="form-group container">
-                            <label>team name</label>
-                            <input class="form-control bg-dark border-grey colorWhite" id="TeamName" name="TeamName" placeholder="Team Name" type="text" value="">
+    @using (Html.BeginForm("RegisterTeam", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <link href="~/Content/chosen.min.css" rel="stylesheet" />
+        <div class="container m-0 py-3">
+            <form>
+                <div class="container pb-5 text-light-grey">
+                    <div class="row">
+                        <div class="container-fluid border border-bottom-0 border-grey container-rounded-top bg-global text-white p-2 py-2">
+                            <strong>Add New Team</strong>
                         </div>
                     </div>
-                    <div class="col-8 border-top border-right border-grey  bg-dark pt-1">
-                        <div class="form-group container">
-                            <label class="container-fluid p-0">members</label>
-                            <select name="members" id="members" class="form-control team-member-select container-fluid bg-dark text-light border-grey" multiple>
-                                @foreach (var employee in listOfEmployees)
-                                {
-                                    <option  id="@employee.EmployeeID" value="@employee.EmployeeID">@employee.Name @employee.Surname</option>
-                                }
-                            </select>
+                    <div class="row">
+                        <!--1-->
+                        <div class="col-4 border border-bottom-0 border-grey  bg-dark pt-1">
+                            <div class="form-group container">
+                                <label>team name</label>
+                                <input class="form-control bg-dark border-grey colorWhite" id="TeamName" name="TeamName" placeholder="Team Name" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="col-8 border-top border-right border-grey  bg-dark pt-1">
+                            <div class="form-group container">
+                                <label class="container-fluid p-0">members</label>
+                                <select name="members" id="members" class="form-control team-member-select container-fluid bg-dark text-light border-grey" multiple>
+                                    @foreach (var employee in listOfEmployees)
+                                    {
+                                        <option id="@employee.EmployeeID" value="@employee.EmployeeID">@employee.Name @employee.Surname</option>
+                                    }
+                                </select>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <!--2-->
-                    <div class="col-4  border border-top-0  border-grey border-bottom-rounded-left bg-dark">
-                        <div class="form-group container">
-                            <label>team lead</label>
-                            @Html.DropDownList("employeesSelectList", null, null, new { @class = "form-control bg-dark border-grey colorWhite" })
+                    <div class="row">
+                        <!--2-->
+                        <div class="col-4  border border-top-0  border-grey border-bottom-rounded-left bg-dark">
+                            <div class="form-group container">
+                                <label>team lead</label>
+                                @Html.DropDownList("employeesSelectList", null, null, new { @class = "form-control bg-dark border-grey colorWhite" })
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-4 border-bottom border-grey  bg-dark">
-                        <div class="form-group container ">
-                            <label class="invisible">team lead</label>
-                            <input type="reset" class="form-control bg-dark button-cancel border-grey" value="CANCEL" />
+                        <div class="col-4 border-bottom border-grey  bg-dark">
+                            <div class="form-group container ">
+                                <label class="invisible">team lead</label>
+                                <input type="reset" class="form-control bg-dark button-cancel border-grey" value="CANCEL" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-4 border-right border-bottom border-bottom-rounded-right border-grey   bg-dark ">
-                        <div class="form-group container">
-                            <label class="invisible">team lead</label>
-                            <input type="submit" class="form-control bg-dark button-done border-grey" value="SAVE" />
+                        <div class="col-4 border-right border-bottom border-bottom-rounded-right border-grey   bg-dark ">
+                            <div class="form-group container">
+                                <label class="invisible">team lead</label>
+                                <input type="submit" class="form-control bg-dark button-done border-grey" value="SAVE" />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
-
-    </div>
-}
-@section Scripts{
-    <script>
-
-        $(function () {
-            $(".team-member-select").chosen();
-        })
-    </script>
-    <script src="~/Scripts/chosen.jquery.min.js"></script>
-}
+            </form>
+        </div>
+    }
+    @section Scripts{
+        <script>
+            $(function () {
+                $(".team-member-select").chosen();
+            })
+        </script>
+        <script src="~/Scripts/chosen.jquery.min.js"></script>
+    }

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Vacations.Models
 {
-    public class VacationBalanceModel
+    public class VacationBalanceViewModel
     {
         public int Balance { get; set; }
     }

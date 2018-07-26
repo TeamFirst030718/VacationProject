@@ -1,8 +1,8 @@
-﻿@{
-    var service = ViewBag.RequestService;
-    service.SetAdminID(User.Identity.Name);
-    var vacations = service.GetVacations();
+﻿@model Vacations.Models.RequestViewModel[]
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var vacations = Model;
 }
 <div class="row">
     <div class="col-12">
@@ -13,36 +13,49 @@
                         <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray; height:30px;vertical-align:middle">
                             <strong id="ModalTitle  ">List of Vacation Requests</strong>
                         </div>
-
                     </div>
                     <table class="table m-0 p-0 requestsList backColor" style="font-size:15px; border-top:none;">
-                        <tr class="text-light-grey border-grey" style="font-size:12px; border-bottom:solid 1px gray !important;">
-                            <th></th>
-                            <td class="first">name</td>
-                            <td class="first grayFont" style="text-align:center;">team</td>
-                            <td class="first" style="text-align:center">vaccation dates</td>
-                            <td class="second" style="text-align:center; width:10%;">amount of days</td>
-                            <td class="second" style="text-align:center">vacation balance</td>
-                            <td class="second"> </td>
-                        </tr>
-                        @foreach (var vacation in vacations)
+                        @if (!vacations.Length.Equals(0))
                         {
-                            <tr>
-                                <th class="first underlined"></th>
-                                <td class="first underlined" style="color:white;">@vacation.Name</td>
-                                <td class="first underlined" style="color:grey; text-align:center;">@vacation.TeamName</td>
-                                <td class="second underlined" style="text-align:center; color:grey;">@vacation.VacationDates</td>
-                                <td class="second underlined" style="text-align:center; color:grey;">@vacation.Duration</td>
-                                <td class="second underlined" style="text-align:center; color:white;">@vacation.EmployeesBalance</td>
-                                <td class="first underlined">
+                            <tr class="text-light-grey border-grey" style="font-size:12px; border-bottom:solid 1px gray !important;">
+                                <th></th>
+                                <td class="first">name</td>
+                                <td class="first grayFont" style="text-align:center;">team</td>
+                                <td class="first" style="text-align:center">vaccation dates</td>
+                                <td class="second" style="text-align:center; width:10%;">amount of days</td>
+                                <td class="second" style="text-align:center">vacation balance</td>
+                                <td class="second"> </td>
+                            </tr>
 
-                                    <img src="~/Content/Icons/@string.Format($"{vacation.Status}.svg")" />
-                                    <img src="~/Content/Icons/edit icon grey.svg" class="float-right ownPopup" style="padding-top:7px; cursor:pointer" onclick='ShowProcessPopup("@string.Format($"{vacation.VacationID}")")' />
-                                    <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:12px;  cursor:pointer; height:13px; width:13px" onclick="location='@Url.Action("ViewUser", new { id=vacation.EmployeeID })'" />
-                                </td>
+                            foreach (var vacation in vacations)
+                            {
+                                <tr>
+                                    <th class="first underlined"></th>
+                                    <td class="first underlined" style="color:white;">@vacation.Name</td>
+                                    <td class="first underlined" style="color:grey; text-align:center;">@vacation.TeamName</td>
+                                    <td class="second underlined" style="text-align:center; color:grey;">@vacation.VacationDates</td>
+                                    <td class="second underlined" style="text-align:center; color:grey;">@vacation.Duration</td>
+                                    <td class="second underlined" style="text-align:center; color:white;">@vacation.EmployeesBalance</td>
+                                    <td class="first underlined">
+
+                                        <img src="~/Content/Icons/@string.Format($"{vacation.Status}.svg")" />
+                                        <img src="~/Content/Icons/edit icon grey.svg" class="float-right ownPopup" style="padding-top:7px; cursor:pointer" onclick='ShowProcessPopup("@string.Format($"{vacation.VacationID}")")' />
+                                        <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:12px;  cursor:pointer; height:13px; width:13px" onclick="location='@Url.Action("ViewUser", new { id=vacation.EmployeeID })'" />
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr style="color:#dcdcdc">
+                                <td style="border-top:none">No vacations found</td>
+                                <th style="border-top:none"></th>
+                                <td style="border-top:none"></td>
+                                <td style="border-top:none"></td>
+                                <td style="border-top:none"></td>
+                                <td style="border-top:none"></td>
                             </tr>
                         }
-
                     </table>
                 </div>
             </div>

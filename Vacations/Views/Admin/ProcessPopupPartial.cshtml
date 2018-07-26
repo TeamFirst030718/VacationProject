@@ -41,9 +41,16 @@
                     </div>
                     <div class="col-6 col-ms-12">
                         <ul class="list-unstyled zebra">
-                            <li>  @Html.LabelFor(m => m.DateOfBegin, new { @class = "control-label" })</li>
+                            <li>@Html.LabelFor(m => m.DateOfBegin, new { @class = "control-label" })</li>
                             <li>
-                                <input type="date" class="form-control bg-dark border-grey colorWhite" id="begin" name="DateOfBegin" onchange="CalcDiff()" value="@dateOfBegin">
+                                @if (!Model.Status.Equals("Pending"))
+                                {
+                                    <input type="date" disabled class="form-control bg-dark border-grey colorWhite" id="begin" name="DateOfBegin" value="@dateOfBegin">
+                                }
+                                else
+                                {
+                                    <input type="date" class="form-control bg-dark border-grey colorWhite" id="begin" name="DateOfBegin" onchange="CalcDiff()" value="@dateOfBegin">
+                                }
                             </li>
                         </ul>
                     </div>
@@ -65,7 +72,14 @@
                                 <ul class="list-unstyled zebra">
                                     <li> @Html.LabelFor(m => m.DateOfEnd, new { @class = "control-label" })</li>
                                     <li>
-                                        <input type="date" class="form-control bg-dark colorWhite border-grey" id="end" name="DateOfEnd" onchange="CalcDiff()" value="@dateOfEnd">
+                                        @if (!Model.Status.Equals("Pending"))
+                                        {
+                                            <input type="date" disabled class="form-control bg-dark border-grey colorWhite" id="end" name="DateOfEnd" value="@dateOfEnd">
+                                        }
+                                        else
+                                        {
+                                            <input type="date" class="form-control bg-dark border-grey colorWhite" id="end" name="DateOfEnd" onchange="CalcDiff()" value="@dateOfEnd">
+                                        }
                                     </li>
                                 </ul>
                             </div>

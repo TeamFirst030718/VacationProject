@@ -40,8 +40,10 @@ namespace Vacations.Controllers
             _adminEmployeeListService = adminEmployeeListService;
             _requestService = requestService;
             _teamService = TeamService;
-        } 
+           
+        }
 
+        
         public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
@@ -152,16 +154,20 @@ namespace Vacations.Controllers
         [HttpGet]
         public ActionResult Edit(string id)
         {
+       
+
             if (id == null)
             {
                 return View("Error");
             }
 
-            ViewBag.Role = UserManager.GetRoles(id).FirstOrDefault();
-
-            ViewBag.ListService = _pageListsService;
+            var role = UserManager.GetRoles(id).FirstOrDefault();
 
             var model = Mapper.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(id));
+
+            ViewData["statusSelectList"] = _pageListsService.SelectEditStatuses(model.Status.ToString());
+            ViewData["jobTitlesSelectList"] = _pageListsService.SelectEditJobTitles(model.JobTitleID);
+            ViewData["aspNetRolesSelectList"] = _pageListsService.SelectEditRoles(role);
 
             return View(model);
         }
@@ -171,9 +177,13 @@ namespace Vacations.Controllers
         public ActionResult Edit(EmployeeViewModel model, string id)
         {
             model.EmployeeID = id;
+            var role = UserManager.GetRoles(id).FirstOrDefault();
+            ViewData["statusSelectList"] = _pageListsService.SelectEditStatuses(model.Status.ToString());
+            ViewData["jobTitlesSelectList"] = _pageListsService.SelectEditJobTitles(model.JobTitleID);
+            ViewData["aspNetRolesSelectList"] = _pageListsService.SelectEditRoles(role);
+
             if (ModelState.IsValid)
             {
-                ViewBag.ListService = _pageListsService;
                 model.JobTitleID = Request.Params["jobTitlesSelectList"];
                 model.Status = Request.Params["statusSelectList"].AsBool();
                 var roleParam = Request.Params["aspNetRolesSelectList"];
@@ -205,8 +215,11 @@ namespace Vacations.Controllers
         [HttpGet]
         public ActionResult RegisterTeam()
         {
-            ViewBag.ListService = _pageListsService;
-            ViewBag.ListOfEmployees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
+
+            ViewData["employeesSelectList"] = _pageListsService.EmployeesList();
+
+            ViewData["listOfEmployees"] = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
+
             return View();
         }
 
@@ -219,7 +232,7 @@ namespace Vacations.Controllers
                 model.TeamLeadID = Request.Params["employeesSelectList"];
                 model.TeamID = Guid.NewGuid().ToString();
 
-                _teamService.CreateTeam(Mapper.Map<TeamViewModel, TeamDTO>(new TeamViewModel
+                    _teamService.CreateTeam(Mapper.Map<TeamViewModel, TeamDTO>(new TeamViewModel
                 {
                     TeamLeadID = model.TeamLeadID,
                     TeamID = model.TeamID,
@@ -232,7 +245,7 @@ namespace Vacations.Controllers
                     foreach (var employeeId in result)
                     {
                         if (employeeId != model.TeamLeadID)
-                        {
+                        {   
                             _employeeService.AddToTeam(employeeId, model.TeamID);
                         }
                     }
@@ -244,15 +257,17 @@ namespace Vacations.Controllers
             return View();
         }
 
-    
-
-
+        [HttpGet]
         public ActionResult Requests()
         {
-            ViewBag.RequestService = _requestService;
+            var requestsData = new VacationRequestsViewModel();
 
-            return View();
+            _requestService.SetAdminID(User.Identity.GetUserId());
+
+            return View(Mapper.MapCollection<RequestDTO,RequestViewModel>(_requestService.GetRequests()));
         }
+
+
 
         [HttpGet]
         public ActionResult ProcessPopupPartial(string id)
@@ -277,8 +292,6 @@ namespace Vacations.Controllers
                     _requestService.DenyVacation(Mapper.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
                 }
             }
-
-            ViewBag.RequestService = _requestService;
 
             return RedirectToAction("Requests", "Admin");
 

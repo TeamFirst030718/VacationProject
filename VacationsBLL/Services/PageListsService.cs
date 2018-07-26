@@ -28,99 +28,66 @@ namespace VacationsBLL.Services
             _employees = employees;
         }
 
-        public List<SelectListItem> EmployeesList()
+        public SelectListItem[] EmployeesList()
         {
-            var employeesList = _employees.Get();
-
-            var employeesSelectList = new List<SelectListItem>();
-
-            foreach (var employee in employeesList)
+            var employeesList = _employees.Get().Select(emp=>new SelectListItem
             {
+                Text = emp.Name + " " + emp.Surname,
+                Value = emp.EmployeeID
+            });
 
-                employeesSelectList.Add(new SelectListItem
-                {
-                    Text = employee.Name + " " + employee.Surname,
-                    Value = employee.EmployeeID
-                });
-            }
-
-            return employeesSelectList;
+            return employeesList.ToArray();
         }
 
         public SelectListItem[] SelectEditRoles(string value)
         {
-
-            var aspNetRolesList = _roles.Get();
-
-            var tt = aspNetRolesList.Select(aspNetRole => new SelectListItem
+            var roles = _roles.Get().Select(role => new SelectListItem
             {
-                Text = aspNetRole.Name,
-                Value = aspNetRole.Name,
-                Selected = aspNetRole.Name == value
+                Text = role.Name,
+                Value = role.Name,
+                Selected = role.Name == value
             }).ToArray();
 
-            return tt;
+            return roles;
         }
 
-        public List<SelectListItem> SelectRoles()
+        public SelectListItem[] SelectRoles()
         {
-           
-            var aspNetRolesList = _roles.Get();
-
-            var aspNetRolesSelectList = new List<SelectListItem>();
-
-            foreach (var aspNetRole in aspNetRolesList)
+            var roles = _roles.Get().Select(role => new SelectListItem
             {
-                aspNetRolesSelectList.Add(new SelectListItem
-                {
-                    Text = aspNetRole.Name,
-                    Value = aspNetRole.Name,
-                });
-            }
+                Text = role.Name,
+                Value = role.Name,
+            }).ToArray();
 
-            return aspNetRolesSelectList;
+            return roles;
         }
 
-        public List<SelectListItem> SelectJobTitles()
+        public SelectListItem[] SelectJobTitles()
         {
-            var jobTitlesList = _jobTitles.Get();
-
-            var jobTitlesSelectList = new List<SelectListItem>();
-
-            foreach (var jobTitle in jobTitlesList)
+            var jobTitles = _jobTitles.Get().Select(jobTitle => new SelectListItem
             {
-                jobTitlesSelectList.Add(new SelectListItem
-                {
-                    Text = jobTitle.JobTitleName,
-                    Value = jobTitle.JobTitleID
-                });
-            }
+                Text = jobTitle.JobTitleName,
+                Value = jobTitle.JobTitleID,
+            }).ToArray();
 
-            return jobTitlesSelectList;
+            return jobTitles;
         }
 
-        public List<SelectListItem> SelectEditJobTitles(string value)
+        public SelectListItem[] SelectEditJobTitles(string value)
         {
-            var jobTitlesList = _jobTitles.Get();
-
-            var jobTitlesSelectList = new List<SelectListItem>();
-
-            foreach (var jobTitle in jobTitlesList)
+            var jobTitles = _jobTitles.Get().Select(jobTitle => new SelectListItem
             {
-                jobTitlesSelectList.Add(new SelectListItem
-                {
-                    Text = jobTitle.JobTitleName,
-                    Value = jobTitle.JobTitleID,
-                    Selected = jobTitle.JobTitleID == value
-                });
-            }
+                Text = jobTitle.JobTitleName,
+                Value = jobTitle.JobTitleID,
+                Selected = jobTitle.JobTitleID == value
+            }).ToArray();
 
-            return jobTitlesSelectList;
+            return jobTitles;
         }
 
-        public List<SelectListItem> SelectStatuses()
+        public SelectListItem[] SelectStatuses()
         {
-            var statusSelectList = new List<SelectListItem>
+            var statusSelectList = new SelectListItem[]
             {
                 new SelectListItem
                 {
@@ -138,9 +105,9 @@ namespace VacationsBLL.Services
             return statusSelectList;
         }
 
-        public List<SelectListItem> SelectEditStatuses(string value)
+        public SelectListItem[] SelectEditStatuses(string value)
         {
-            var statusSelectList = new List<SelectListItem>
+            var statusSelectList = new SelectListItem[]
             {
                 new SelectListItem
                 {
@@ -162,20 +129,14 @@ namespace VacationsBLL.Services
 
         public SelectListItem[] SelectVacationTypes()
         {
-            var vacationTypesList = _vacationTypes.Get();
 
-            var vacationTypesSelectList = new List<SelectListItem>();
-
-            foreach (var vacationType in vacationTypesList)
+            var vacationTypes = _vacationTypes.Get().Select(type => new SelectListItem
             {
-                vacationTypesSelectList.Add(new SelectListItem
-                {
-                    Text = vacationType.VacationTypeName,
-                    Value = vacationType.VacationTypeID
-                });
-            }
+                Text = type.VacationTypeName,
+                Value = type.VacationTypeID
+            }).ToArray();
 
-            return vacationTypesSelectList.ToArray();
+            return vacationTypes;
         }
 
         public void Dispose()

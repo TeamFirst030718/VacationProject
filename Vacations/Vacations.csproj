@@ -255,9 +255,10 @@
     <Compile Include="Models\RequestViewModel.cs" />
     <Compile Include="Models\RequestProcessViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
-    <Compile Include="Models\VacationBalanceModel.cs" />
+    <Compile Include="Models\VacationBalanceViewModel.cs" />
     <Compile Include="Models\RequestCreationViewModel.cs" />
     <Compile Include="Models\ProfileVacationsViewModel.cs" />
+    <Compile Include="Models\VacationRequestsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartupIdentity\Startup.cs" />
   </ItemGroup>

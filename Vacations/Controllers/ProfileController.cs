@@ -22,13 +22,13 @@ namespace Vacations.Controllers
         private IRequestCreationService _vacationCreationService;
 
         public ProfileController(IProfileDataService profileDataService,
-                                 IEmployeeService employees,
-                                 IPageListsService pageLists,
+                                 IEmployeeService employeesService,
+                                 IPageListsService pageListsService,
                                  IRequestCreationService vacationService)
         {
             _profileDataService = profileDataService;
-            _employeeService = employees;
-            _pageListsService = pageLists;
+            _employeeService = employeesService;
+            _pageListsService = pageListsService;
             _vacationCreationService = vacationService;
         }
 
@@ -77,7 +77,7 @@ namespace Vacations.Controllers
         {
             var userData = new UserViewModel();
             userData.ProfileData = Mapper.Map<ProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.Name));
-            userData.VacationBalanceData = Mapper.Map<VacationBalanceDTO, VacationBalanceModel>(_profileDataService.GetUserVacationBalance(User.Identity.Name));
+            userData.VacationBalanceData = Mapper.Map<VacationBalanceDTO, VacationBalanceViewModel>(_profileDataService.GetUserVacationBalance(User.Identity.Name));
             userData.VacationsData = Mapper.MapCollection<ProfileVacationDTO, ProfileVacationsViewModel>(_profileDataService.GetUserVacationsData(User.Identity.Name));
             return View("MyProfile", userData);
         }
@@ -88,7 +88,7 @@ namespace Vacations.Controllers
             ViewData["VacationTypesSelectList"] = _pageListsService.SelectVacationTypes();
             var requestVacationData = new RequestVacationViewModel();
             requestVacationData.ProfileData = Mapper.Map<ProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.Name));
-            requestVacationData.VacationBalanceData = Mapper.Map<VacationBalanceDTO, VacationBalanceModel>(_profileDataService.GetUserVacationBalance(User.Identity.Name));
+            requestVacationData.VacationBalanceData = Mapper.Map<VacationBalanceDTO, VacationBalanceViewModel>(_profileDataService.GetUserVacationBalance(User.Identity.Name));
             requestVacationData.RequestCreationData = new RequestCreationViewModel();
             return View(requestVacationData);
         }
@@ -99,7 +99,7 @@ namespace Vacations.Controllers
             ViewData["VacationTypesSelectList"] = _pageListsService.SelectVacationTypes();
             var requestVacationData = new RequestVacationViewModel();
             requestVacationData.ProfileData = Mapper.Map<ProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.Name));
-            requestVacationData.VacationBalanceData = Mapper.Map<VacationBalanceDTO, VacationBalanceModel>(_profileDataService.GetUserVacationBalance(User.Identity.Name));
+            requestVacationData.VacationBalanceData = Mapper.Map<VacationBalanceDTO, VacationBalanceViewModel>(_profileDataService.GetUserVacationBalance(User.Identity.Name));
             requestVacationData.RequestCreationData = new RequestCreationViewModel();
 
             if (ModelState.IsValid)
