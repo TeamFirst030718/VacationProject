@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using VacationsDAL.Contexts;
 using VacationsDAL.Entities;
@@ -46,9 +47,15 @@ namespace VacationsDAL.Repositories
         }
 
         public void Add(Employee employee)
-        {          
+        {
+            try
+            {
                 _context.Employees.Add(employee);
-                _context.SaveChanges();        
+                _context.SaveChanges();
+            }       
+            catch (DbUpdateException e)
+            {
+            }
         }
 
         public void Update(Employee employee)

@@ -1,7 +1,7 @@
 @using Microsoft.AspNet.Identity
 @model Vacations.Models.ProfileViewModel
     @{ 
-       var birthDate = Model.BirthDate.ToString("MMMM");
+        var birthDate = string.Format($"{Model.BirthDate.Day} {Model.BirthDate.ToString("MMMM")} {Model.BirthDate.Year} "); 
     }
 <div class="container  bg-dark border border-grey container-rounded backColor" >
 
@@ -51,7 +51,7 @@
                     @Html.LabelFor(x => x.BirthDate, new { style = "font-size:12px;" })
                 </li>
                 <li>
-                    @Html.Display(birthDate, new { style = "font-size:12px;" })
+                    @Html.Label(birthDate, new { style = "font-size:12px;" })
                 </li>
                 <li>
                     @Html.LabelFor(x => x.PersonalMail, new { style = "font-size:12px;" })
