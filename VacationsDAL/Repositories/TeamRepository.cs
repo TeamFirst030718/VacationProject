@@ -44,12 +44,15 @@ namespace VacationsDAL.Repositories
         {
             var obj = _context.Teams.FirstOrDefault(x => x.TeamID == TeamID);
 
-            var employee = obj?.Employees.FirstOrDefault(x => x.EmployeeID == EmployeeID);
-
-            if (employee != null)
+            if (obj != null)
             {
-                _context.Employees.Remove(employee);
-                _context.SaveChanges();
+                var employee = obj.Employees.FirstOrDefault(x => x.EmployeeID == EmployeeID);
+
+                if (employee != null)
+                {
+                    _context.Employees.Remove(employee);
+                    _context.SaveChanges();
+                }
             }
         }
 
@@ -57,13 +60,17 @@ namespace VacationsDAL.Repositories
         {
             var obj = _context.Teams.FirstOrDefault(x => x.TeamID == TeamID);
 
-            var employee = obj?.Employees.FirstOrDefault(x => x.EmployeeID == EmployeeID);
-
-            if (employee != null)
+            if (obj != null)
             {
-                _context.Employees.Add(employee);
-                _context.SaveChanges();
+                var employee = obj.Employees.FirstOrDefault(x => x.EmployeeID == EmployeeID);
+
+                if (employee != null)
+                {
+                    _context.Employees.Add(employee);
+                    _context.SaveChanges();
+                }
             }
+            
         }
 
         public void Add(Team team)
