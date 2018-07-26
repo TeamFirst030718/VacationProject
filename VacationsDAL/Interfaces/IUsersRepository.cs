@@ -4,9 +4,9 @@ using VacationsDAL.Entities;
 
 namespace VacationsDAL.Interfaces
 {
-    public interface IAspNetUsersRepository :IDisposable
+    public interface IUsersRepository :IDisposable
     {
-        IEnumerable<AspNetUser> GetAll();
+        AspNetUser[] Get(Func<AspNetUser, bool> condition = null);
         AspNetUser GetById(string id);
         AspNetUser GetByUserName(string email);
     }

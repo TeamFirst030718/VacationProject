@@ -15,14 +15,13 @@ namespace VacationsBLL.DIModules
         public override void Load()
         {
             Bind<IAdminRequestService>().To<AdminRequestService>();
-            Bind<IAspNetRoleService>().To<AspNetRoleService>();
-            Bind<IAspNetUserService>().To<AspNetUserService>();
+            Bind<IRoleService>().To<RoleService>();
+            Bind<IUserService>().To<UserService>();
             Bind<IEmployeeService>().To<EmployeeService>();
             Bind<IPageListsService>().To<PageListsService>();
             Bind<IProfileDataService>().To<ProfileDataService>();
             Bind<IRequestCreationService>().To<RequestCreationService>();
             Bind<IAdminEmployeeListService>().To<AdminEmployeeListService>();
-            Bind<IMapService>().To<MapService>().InSingletonScope(); 
         }   
     }
 }

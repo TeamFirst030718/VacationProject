@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using VacationsDAL.Contexts;
@@ -16,9 +17,12 @@ namespace VacationsDAL.Repositories
             _context = dbContext;
         }
 
-        public IEnumerable<TransactionType> GetAll()
+        public TransactionType[] Get(Func<TransactionType, bool> whereCondition = null)
         {
-            return _context.TransactionTypes.ToList();
+            IQueryable<TransactionType> baseCondition = _context.TransactionTypes;
+            return whereCondition == null ?
+                baseCondition.ToArray() :
+                baseCondition.Where(whereCondition).ToArray();
         }
 
         public TransactionType GetById(string id)

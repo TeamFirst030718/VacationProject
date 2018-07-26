@@ -1,18 +1,11 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
-using IdentitySample.Models;
+﻿using IdentitySample.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.WebPages;
-using Vacations.Models;
-using VacationsBLL;
-using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 
 namespace IdentitySample.Controllers
@@ -21,11 +14,11 @@ namespace IdentitySample.Controllers
     public class AccountController : Controller
     {
         private IEmployeeService _employeeService;
-        private IAspNetRoleService _aspNetRoleService;
+        private IRoleService _aspNetRoleService;
         private IPageListsService _pageListsService;
-        private IAspNetUserService _aspNetUserService;
+        private IUserService _aspNetUserService;
 
-        public AccountController(IEmployeeService employeeService, IAspNetRoleService roleService, IPageListsService pageListsService, IAspNetUserService userService)
+        public AccountController(IEmployeeService employeeService, IRoleService roleService, IPageListsService pageListsService, IUserService userService)
         {
             _employeeService = employeeService;
             _aspNetRoleService = roleService;

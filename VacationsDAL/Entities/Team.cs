@@ -7,7 +7,6 @@ namespace VacationsDAL.Entities
     [Table("Team")]
     public partial class Team
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Team()
         {
             Employees = new HashSet<Employee>();
@@ -25,7 +24,6 @@ namespace VacationsDAL.Entities
 
         public virtual Employee Employee { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
     }
 }

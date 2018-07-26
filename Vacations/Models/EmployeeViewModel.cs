@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace Vacations.Models
 {
@@ -26,8 +24,7 @@ namespace Vacations.Models
         [Display(Name = "date of birth")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime BirthDate { get; set; }
-
-
+        
         [Required]
         [EmailAddress]
         [Display(Name = "personal email")]
@@ -60,6 +57,5 @@ namespace Vacations.Models
 
         [Display(Name = "job title")]
         public string JobTitleID { get; set; }
-
     }
 }

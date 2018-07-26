@@ -8,20 +8,20 @@ using VacationsBLL.Interfaces;
 
 namespace VacationsBLL.Services
 {
-    public class MapService : IMapService
+    public static class Mapper
     {
-        public TypeToMapTo Map<TypeToMapFrom, TypeToMapTo>(TypeToMapFrom model)
+        public static TypeToMapTo Map<TypeToMapFrom, TypeToMapTo>(TypeToMapFrom model)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TypeToMapFrom, TypeToMapTo>()).CreateMapper();
 
             return mapper.Map<TypeToMapFrom, TypeToMapTo>(model);
         }
 
-        public IEnumerable<TypeToMapTo> MapCollection<TypeToMapFrom, TypeToMapTo>(IEnumerable<TypeToMapFrom> model)
+        public static TypeToMapTo[] MapCollection<TypeToMapFrom, TypeToMapTo>(TypeToMapFrom[] model)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TypeToMapFrom, TypeToMapTo>()).CreateMapper();
 
-            return mapper.Map<IEnumerable<TypeToMapFrom>, IEnumerable<TypeToMapTo>>(model);
+            return mapper.Map<TypeToMapFrom[], TypeToMapTo[]>(model);
         }
     }
 }

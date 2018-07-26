@@ -4,9 +4,9 @@ using VacationsBLL.DTOs;
 
 namespace VacationsBLL.Interfaces
 {
-    public interface IAspNetUserService : IDisposable
+    public interface IUserService : IDisposable
     {
         bool AspNetUserExists(string id);
-        IEnumerable<AspNetUserDTO> GetUsers();
+        UserDTO[] GetUsers();
     }
 }

@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 namespace VacationsBLL.DTOs
 {
-    public class AspNetUserDTO
+    public class UserDTO
     {
         public string Id { get; set; }
 
         public string Email { get; set; }
 
-        public ICollection<AspNetRoleDTO> AspNetRoles { get; set; }
+        public ICollection<RoleDTO> AspNetRoles { get; set; }
 
     }
 }

@@ -10,18 +10,21 @@ using VacationsDAL.Interfaces;
 
 namespace VacationsDAL.Repositories
 {
-    public class AspNetRolesRepository: IAspNetRolesRepository
+    public class RolesRepository: IRolesRepository
     {
         private readonly VacationsContext _context;
 
-        public AspNetRolesRepository(VacationsContext dbContext)
+        public RolesRepository(VacationsContext dbContext)
         {
             _context = dbContext;
         }
 
-        public IEnumerable<AspNetRole> GetAll()
+        public AspNetRole[] Get(Func<AspNetRole, bool> whereCondition = null)
         {
-            return _context.AspNetRoles.ToList();
+            IQueryable<AspNetRole> baseCondition = _context.AspNetRoles;
+            return whereCondition == null ?
+                baseCondition.ToArray() :
+                baseCondition.Where(whereCondition).ToArray();
         }
 
         public AspNetRole GetById(string id)

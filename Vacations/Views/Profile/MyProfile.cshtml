@@ -1,11 +1,6 @@
-﻿@using Vacations.Models;
-@using VacationsBLL.DTOs;
-@model VacationsBLL.Interfaces.IProfileDataService
+﻿
+@model Vacations.Models.UserViewModel
 @{
-    var profileDataService = Model;
-    var userData = profileDataService.MapEntity<UserProfileDTO, ProfileViewModel>(profileDataService.GetUserData(User.Identity.Name));
-    var vacationBalance = profileDataService.MapEntity<VacationBalanceDTO, VacationBalanceModel>(profileDataService.GetUserVacationBalance(User.Identity.Name));
-    var vacations = profileDataService.MapCollection<ProfileVacationDTO, ProfileVacationsViewModel>(profileDataService.GetUserVacationsData(User.Identity.Name));
 
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -14,18 +9,18 @@
 <div class="row">
     <div class="col-12 col-xl-4">
         <div class="container mt-3">
-            @Html.Partial("_ShowUserProfilePartial", userData)
+            @Html.Partial("_ShowUserProfilePartial", Model.ProfileData)
         </div>
     </div>
     <div class="col-12 col-xl-8">
         <div class="row">
             <div class="container m-0 p-0 mt-2" style="max-width:690px;">
-                @Html.Partial("_LeftDaysProfilePartial", vacationBalance)
+                @Html.Partial("_LeftDaysProfilePartial", Model.VacationBalanceData)
             </div>
         </div>
         <div class="row">
             <div class="container m-0 p-0" style="max-width:690px;">
-                @Html.Partial("_MyVacationsPartial", vacations)
+                @Html.Partial("_MyVacationsPartial", Model.VacationsData)
             </div>
         </div>
     </div>

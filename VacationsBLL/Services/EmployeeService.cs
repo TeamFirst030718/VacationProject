@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
-using AutoMapper;
 using System.Linq;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
@@ -18,58 +16,69 @@ namespace VacationsBLL
 
         private ITeamRepository _teams;
 
-        private IMapService _mapService;
-
-        public EmployeeService(IEmployeeRepository employees, IJobTitleRepository jobTitles, IMapService mapService, ITeamRepository teams)
+        public EmployeeService(IEmployeeRepository employees,
+                               IJobTitleRepository jobTitles,
+                               ITeamRepository teams)
         {
             _employees = employees;
 
             _jobTitles = jobTitles;
-
-            _mapService = mapService;
 
             _teams = teams;
         }
 
         public void Create(EmployeeDTO employee)
         {
-            _employees.Add(_mapService.Map<EmployeeDTO, Employee>(employee));
+            _employees.Add(Mapper.Map<EmployeeDTO, Employee>(employee));
         }
 
         public EmployeeDTO GetUserById(string id)
         {
-            return _mapService.Map<Employee,EmployeeDTO>(_employees.GetById(id)); 
+            return Mapper.Map<Employee, EmployeeDTO>(_employees.GetById(id)); 
         }
 
         public List<JobTitleDTO> GetJobTitles()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<JobTitle, JobTitleDTO>()).CreateMapper();
+            var jobTitles = _jobTitles.Get();
 
-            var jobTitles = _jobTitles.GetAll();
-
-            return jobTitles.Select(jobTitle => mapper.Map<JobTitle, JobTitleDTO>(jobTitle)).ToList();
+            return jobTitles.Select(jobTitle => Mapper.Map<JobTitle, JobTitleDTO>(jobTitle)).ToList();
         }
 
         public string GetJobTitleIdByName(string jobTitleName)
         {
-            return _jobTitles.GetAll().FirstOrDefault(x => x.JobTitleName.Equals(jobTitleName)).JobTitleID;
+            return _jobTitles.Get().FirstOrDefault(x => x.JobTitleName.Equals(jobTitleName)).JobTitleID;
+        }
+
+        public EmployeeDTO[] GetEmployees()
+        {
+            return Mapper.MapCollection<Employee, EmployeeDTO>(_employees.Get());
         }
 
         public void UpdateEmployee(EmployeeDTO employee)
         {
-            var employeeToUpdate = _employees.GetAll().FirstOrDefault(x => x.EmployeeID == employee.EmployeeID);
+            var employeeToUpdate = _employees.GetById(employee.EmployeeID);
 
-            if (employeeToUpdate!=null)
-            {
-                employeeToUpdate = _mapService.Map<EmployeeDTO, Employee>(employee);
-            }
+            MapChanges(employeeToUpdate, employee);
 
             _employees.Update(employeeToUpdate);
         }
 
-        public List<EmployeeDTO> GetEmployees()
+        private void MapChanges(Employee entity, EmployeeDTO changes)
         {
-            return _mapService.MapCollection<Employee, EmployeeDTO>(_employees.GetAll()).ToList();
+            var entityChanges = Mapper.Map<EmployeeDTO, Employee>(changes);
+            entity.BirthDate = entityChanges.BirthDate;
+            entity.DateOfDismissal = entityChanges.DateOfDismissal;
+            entity.EmployeeID = entityChanges.EmployeeID;
+            entity.HireDate = entityChanges.HireDate;
+            entity.JobTitleID = entityChanges.JobTitleID;
+            entity.Name = entityChanges.Name;
+            entity.PersonalMail = entityChanges.PersonalMail;
+            entity.PhoneNumber = entityChanges.PhoneNumber;
+            entity.Skype = entityChanges.Skype;
+            entity.Status = entityChanges.Status;
+            entity.Surname = entityChanges.Surname;
+            entity.VacationBalance = entityChanges.VacationBalance;
+            entity.WorkEmail = entityChanges.WorkEmail;
         }
 
         public string GetTeamNameById(string id)

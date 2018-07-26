@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using System.Collections.Generic;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Entities;
@@ -7,15 +8,13 @@ using VacationsDAL.Repositories;
 
 namespace VacationsBLL.Services
 {
-    public class AspNetUserService : IAspNetUserService
+    public class UserService : IUserService
     {
-        private IAspNetUsersRepository _users;
-        private IMapService _mapService;
+        private IUsersRepository _users;
 
-        public AspNetUserService(IAspNetUsersRepository users, IMapService mapService)
+        public UserService(IUsersRepository users)
         {
             _users = users;
-            _mapService = mapService;
         }
 
         public bool AspNetUserExists(string id)
@@ -23,9 +22,9 @@ namespace VacationsBLL.Services
             return _users.GetById(id) != null;
         }
 
-        public IEnumerable<AspNetUserDTO> GetUsers()
+        public UserDTO[] GetUsers()
         {
-            return _mapService.MapCollection<AspNetUser, AspNetUserDTO>(_users.GetAll());
+           return Mapper.MapCollection<AspNetUser, UserDTO>(_users.Get());
         }
 
         public void Dispose()

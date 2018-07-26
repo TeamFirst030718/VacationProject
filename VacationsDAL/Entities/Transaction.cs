@@ -8,7 +8,6 @@ namespace VacationsDAL.Entities
     [Table("Transaction")]
     public partial class Transaction
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Transaction()
         {
             Vacations = new HashSet<Vacation>();
@@ -37,7 +36,6 @@ namespace VacationsDAL.Entities
 
         public virtual TransactionType TransactionType { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vacation> Vacations { get; set; }
     }
 }

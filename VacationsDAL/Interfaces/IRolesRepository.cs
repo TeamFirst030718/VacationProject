@@ -7,7 +7,7 @@ using VacationsDAL.Entities;
 
 namespace VacationsDAL.Interfaces
 {
-    public interface IAspNetRolesRepository : IRepository<AspNetRole>
+    public interface IRolesRepository : IRepository<AspNetRole>
     {
     }
 }

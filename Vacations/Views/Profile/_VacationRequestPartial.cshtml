@@ -1,9 +1,5 @@
-﻿    @model Vacations.Models.RequestCreationModel
-@{ 
-    var service= ViewBag.PageListsService;
+﻿    @model Vacations.Models.RequestCreationViewModel
 
-    ViewData["VacationTypesSelectList"] = service.VacationTypesSelectList();
-}
 @using (Html.BeginForm("RequestVacation", "Profile", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
@@ -39,7 +35,7 @@
                                     @Html.LabelFor(m => m.Comment, new { @class = "control-label" })
                                 </li>
                                 <li>
-                                    <textarea class="form-control bg-dark border-grey" name="Comment" rows="6" style="resize:none;color:white; width:300px;height:200px;"></textarea>
+                                    <textarea class="form-control bg-dark border-grey" name="Comment" rows="6" style="resize:none;color:white; width:314px;height:200px;"></textarea>
                                 </li>
                             </ul>
                         </div>

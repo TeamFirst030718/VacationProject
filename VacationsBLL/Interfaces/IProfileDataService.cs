@@ -6,10 +6,8 @@ namespace VacationsBLL.Interfaces
 {
     public interface IProfileDataService : IDisposable
     {
-        UserProfileDTO GetUserData(string userEmail);
+        ProfileDTO GetUserData(string userEmail);
         VacationBalanceDTO GetUserVacationBalance(string userEmail);
-        List<ProfileVacationDTO> GetUserVacationsData(string userEmail);
-        MapTo MapEntity<MapFrom, MapTo>(MapFrom entity);
-        IEnumerable<EntityMapTo> MapCollection<EntityToMapFrom, EntityMapTo>(IEnumerable<EntityToMapFrom> entityCollection);
+        ProfileVacationDTO[] GetUserVacationsData(string userEmail);
     }
 }

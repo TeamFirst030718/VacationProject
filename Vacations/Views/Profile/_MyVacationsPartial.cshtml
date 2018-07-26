@@ -1,4 +1,4 @@
-﻿@model List<Vacations.Models.ProfileVacationsViewModel>
+﻿@model Vacations.Models.ProfileVacationsViewModel[]
 <div class="container m-0 p-0 ">
     <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
         <div class="row m-auto text-white">
@@ -8,6 +8,19 @@
 
         </div>
         <table class="table text-white m-0 p-0 backColor " style="font-size:15px; border-top:none;">
+            @if (Model.Length == 0)
+            {
+            <tr style="color:#dcdcdc">
+                <td style="border-top:none">No vacations found</td>
+                <th style="border-top:none"></th>
+                <td style="border-top:none"></td>
+                <td style="border-top:none"></td>
+                <td style="border-top:none"></td>
+                <td style="border-top:none"></td>
+            </tr>
+            }
+            else
+            {
             <tr class="text-light-grey border-grey" style="font-size:12px; border-bottom:solid 1px gray !important;">
                 <th style="border-top:none"></th>
                 <td style="border-top:none">vacation dates</td>
@@ -15,25 +28,21 @@
                 <td style="border-top:none">status</td>
                 <td style="border-top:none">vacation balance</td>
             </tr>
-            @if (Model.Count.Equals(0))
-            {
-                <tr  style="border-bottom:solid 2px gray !important;color:#dcdcdc">
-                    <td>No vacations found</td>
-                </tr>
-            }
-            else
-            {
+
+
                 foreach (var vacation in Model)
                 {
-                    <tr>
-                        <th style="border-top:none"></th>
-                        <td style="border-top:none">@Html.DisplayFor(x=>vacation.DateOfBegin) - @Html.DisplayFor(x => vacation.DateOfEnd)</td>
-                        <td style="border-top:none">@vacation.VacationType</td>
-                        <td style="border-top:none" class="@vacation.VacationStatusType">@vacation.VacationStatusType</td>
-                        <td style="text-align:center;border-top:none">@vacation.Duration</td>
-                    </tr>
+            <tr>
+                <th style="border-top:none"></th>
+                <td style="border-top:none">@Html.DisplayFor(x => vacation.DateOfBegin) - @Html.DisplayFor(x => vacation.DateOfEnd)</td>
+                <td style="border-top:none">@vacation.VacationType</td>
+                <td style="border-top:none" class="@vacation.VacationStatusType">@vacation.VacationStatusType</td>
+                <td style="text-align:center;border-top:none; padding-right:55px;">@vacation.Duration</td>
+            </tr>
                 }
             }
+
+
         </table>
     </div>
 </div>

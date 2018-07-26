@@ -20,9 +20,12 @@ namespace VacationsDAL.Repositories
             _context = dbContext;
         }
 
-        public IEnumerable<Employee> GetAll()
+        public Employee[] Get(Func<Employee,bool> whereCondition = null)
         {
-            return _context.Employees.Include(x=>x.Teams).ToList();
+            var baseCondition = _context.Employees.Include(x=> x.Teams);
+            return whereCondition == null ?
+                baseCondition.ToArray() :
+                baseCondition.Where(whereCondition).ToArray();
         }
 
         public Employee GetById(string id)
@@ -54,13 +57,7 @@ namespace VacationsDAL.Repositories
 
         public void Update(Employee employee)
         {
-            if (employee != null)
-            {
-                    _context.Entry(employee).State = EntityState.Modified;
-
-                    _context.SaveChanges();
-            }                        
-
+            _context.SaveChanges();                    
         }
 
         public void Dispose()
