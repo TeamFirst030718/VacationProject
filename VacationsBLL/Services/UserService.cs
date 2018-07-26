@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Entities;
@@ -21,7 +20,7 @@ namespace VacationsBLL.Services
         {
             return _users.GetById(id) != null;
         }
-
+		
         public UserDTO[] GetUsers()
         {
            return Mapper.MapCollection<AspNetUser, UserDTO>(_users.Get());

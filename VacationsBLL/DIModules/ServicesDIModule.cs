@@ -20,6 +20,7 @@ namespace VacationsBLL.DIModules
             Bind<IEmployeeService>().To<EmployeeService>();
             Bind<IPageListsService>().To<PageListsService>();
             Bind<IProfileDataService>().To<ProfileDataService>();
+            Bind<ITeamService>().To<TeamService>();
             Bind<IRequestCreationService>().To<RequestCreationService>();
             Bind<IAdminEmployeeListService>().To<AdminEmployeeListService>();
         }   

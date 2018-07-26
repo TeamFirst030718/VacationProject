@@ -150,7 +150,7 @@ namespace VacationsBLL.Services
 
                     employee.VacationBalance -= result.BalanceChange;
 
-                    //_employees.Update(employee);
+                    _employees.Update(employee);
 
                     var transaction = new VacationsDAL.Entities.Transaction
                     {

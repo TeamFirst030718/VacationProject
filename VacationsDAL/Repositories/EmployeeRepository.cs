@@ -22,7 +22,7 @@ namespace VacationsDAL.Repositories
 
         public Employee[] Get(Func<Employee,bool> whereCondition = null)
         {
-            var baseCondition = _context.Employees.Include(x=> x.Teams);
+            IQueryable<Employee> baseCondition = _context.Employees.Include(x=> x.Teams);
             return whereCondition == null ?
                 baseCondition.ToArray() :
                 baseCondition.Where(whereCondition).ToArray();
@@ -58,12 +58,12 @@ namespace VacationsDAL.Repositories
         public void Update(Employee employee)
         {
             _context.SaveChanges();                    
-        }
 
+        }
+        
         public void Dispose()
         {
             _context.Dispose();
         }
-
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -195,9 +196,6 @@ namespace IdentitySample.Controllers
 
                 await email.SendAsync(user.Email, employee.Name + " " + employee.Surname, "Restore password", "Please restore your password",
                     "Please restore your password by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
-
-                ViewBag.Link = callbackUrl;
-                return View("ForgotPasswordResponse");
             }
 
             // If we got this far, something failed, redisplay form
@@ -220,6 +218,23 @@ namespace IdentitySample.Controllers
         public ActionResult ResetPassword(string code)
         {
             return code == null ? View("Error") : View();
+        }
+
+        //
+        // GET: /Account/ResetPassword and EmailConfirmation
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<RedirectToRouteResult> ResetPasswordAndConfirmEmail(string codeToResetPassword, string codeToConfirmationEmail, string userId)
+        {
+            if (userId == null || codeToConfirmationEmail == null || !_aspNetUserService.AspNetUserExists(userId))
+            {
+                return RedirectToAction("Error");
+            }
+            var result = await UserManager.ConfirmEmailAsync(userId, codeToConfirmationEmail);
+
+
+        
+            return codeToResetPassword == null ? RedirectToAction("Error") : RedirectToAction("ResetPassword", new {code = codeToResetPassword});
         }
 
         //
@@ -401,6 +416,7 @@ namespace IdentitySample.Controllers
             _pageListsService.Dispose();
             base.Dispose(disposing);
         }
+        
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

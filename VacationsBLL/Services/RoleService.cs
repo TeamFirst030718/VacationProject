@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using System.Collections.Generic;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Entities;

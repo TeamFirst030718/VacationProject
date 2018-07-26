@@ -11,8 +11,8 @@ using System.Web.WebPages;
 using Vacations.Models;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
+using System;
 using VacationsBLL.Services;
-using AutoMapper;
 
 namespace Vacations.Controllers
 {
@@ -24,22 +24,24 @@ namespace Vacations.Controllers
         private readonly IProfileDataService _profileDataService;
         private readonly IAdminRequestService _requestService;
         private readonly IAdminEmployeeListService _adminEmployeeListService;
+        private readonly ITeamService _teamService;
 
         public AdminController(
             IProfileDataService profileDataService,
             IEmployeeService employeeService,
             IPageListsService pageListsService,
             IAdminEmployeeListService adminEmployeeListService,
-            IAdminRequestService requestService)
+            IAdminRequestService requestService,
+            ITeamService TeamService)
         {
             _profileDataService = profileDataService;
             _employeeService = employeeService;
             _pageListsService = pageListsService;
             _adminEmployeeListService = adminEmployeeListService;
             _requestService = requestService;
-        }
+            _teamService = TeamService;
+        } 
 
-        // TODO: Investigate if this can be removed
         public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
@@ -121,20 +123,20 @@ namespace Vacations.Controllers
 
                         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
-                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
-
                         var email = new EmailService();
 
-                        var _employee = AutoMapper.Mapper.Map<EmployeeViewModel, EmployeeDTO>(model);
+                        var _employee = Mapper.Map<EmployeeViewModel, EmployeeDTO>(model);
 
                         _employeeService.Create(_employee);
 
                         var codeToSetPassword = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 
-                        var callbackUrlToSetPassword = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = codeToSetPassword }, protocol: Request.Url.Scheme);
+                        var callbackUrlToSetPassword = Url.Action("ResetPasswordAndConfirmEmail", "Account", new { codeToResetPassword = codeToSetPassword, codeToConfirmationEmail = code, userId = user.Id}, protocol: Request.Url.Scheme);
 
-                        await email.SendAsync(model.WorkEmail, $"{model.Name} {model.Surname}", "Confirm your account", "Please confirm your account",
-                            $"Please confirm your account by clicking this <a href=\"{callbackUrl}\">link</a>. Set Password by clicking this <a href=\"{callbackUrlToSetPassword}\">link</a>.");
+
+                        await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
+                            "Set Password and confirm your account by clicking this <a href=\"" + callbackUrlToSetPassword +"\">link</a>.");
+
 
                         transaction.Complete();
 
@@ -159,7 +161,7 @@ namespace Vacations.Controllers
 
             ViewBag.ListService = _pageListsService;
 
-            var model = AutoMapper.Mapper.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(id));
+            var model = Mapper.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(id));
 
             return View(model);
         }
@@ -184,7 +186,7 @@ namespace Vacations.Controllers
                     UserManager.AddToRoles(model.EmployeeID, roleParam);
                 }
 
-                _employeeService.UpdateEmployee(AutoMapper.Mapper.Map<EmployeeViewModel, EmployeeDTO>(model));
+                _employeeService.UpdateEmployee(Mapper.Map<EmployeeViewModel, EmployeeDTO>(model));
                 return RedirectToAction("Index", "Profile", _profileDataService);
             }
 
@@ -201,6 +203,50 @@ namespace Vacations.Controllers
         }
 
         [HttpGet]
+        public ActionResult RegisterTeam()
+        {
+            ViewBag.ListService = _pageListsService;
+            ViewBag.ListOfEmployees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegisterTeam(TeamViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.TeamLeadID = Request.Params["employeesSelectList"];
+                model.TeamID = Guid.NewGuid().ToString();
+
+                _teamService.CreateTeam(Mapper.Map<TeamViewModel, TeamDTO>(new TeamViewModel
+                {
+                    TeamLeadID = model.TeamLeadID,
+                    TeamID = model.TeamID,
+                    TeamName = model.TeamName
+                }));
+                string temp = Request.Params["members"];
+                if (temp != null)
+                {
+                    var result = temp.Split(',');
+                    foreach (var employeeId in result)
+                    {
+                        if (employeeId != model.TeamLeadID)
+                        {
+                            _employeeService.AddToTeam(employeeId, model.TeamID);
+                        }
+                    }
+                }
+                ViewBag.ListService = _pageListsService;
+                ViewBag.ListOfEmployees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAll().ToArray());
+            }
+           
+            return View();
+        }
+
+    
+
+
         public ActionResult Requests()
         {
             ViewBag.RequestService = _requestService;
@@ -211,7 +257,7 @@ namespace Vacations.Controllers
         [HttpGet]
         public ActionResult ProcessPopupPartial(string id)
         {
-            var request = AutoMapper.Mapper.Map<RequestProcessDTO, RequestProcessViewModel>(_requestService.GetRequestDataById(id));
+            var request = Mapper.Map<RequestProcessDTO, RequestProcessViewModel>(_requestService.GetRequestDataById(id));
 
             return PartialView("ProcessPopupPartial", request);
         }
@@ -224,11 +270,11 @@ namespace Vacations.Controllers
             {
                 if (model.Result.Equals(VacationStatusTypeEnum.Approved.ToString()))
                 {
-                    _requestService.ApproveVacation(AutoMapper.Mapper.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
+                    _requestService.ApproveVacation(Mapper.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
                 }
                 else
                 {
-                    _requestService.DenyVacation(AutoMapper.Mapper.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
+                    _requestService.DenyVacation(Mapper.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
                 }
             }
 
@@ -238,4 +284,5 @@ namespace Vacations.Controllers
 
         }
     }
+
 }

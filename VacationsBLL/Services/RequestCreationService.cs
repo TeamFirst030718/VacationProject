@@ -7,7 +7,6 @@ using VacationsBLL.Interfaces;
 using VacationsDAL.Interfaces;
 using VacationsBLL.DTOs;
 using VacationsDAL.Entities;
-using AutoMapper;
 
 namespace VacationsBLL.Services
 {

@@ -118,7 +118,6 @@
     <Compile Include="Enums\RoleEnum.cs" />
     <Compile Include="Enums\TransactionTypeEnum.cs" />
     <Compile Include="Enums\VacationStatusTypeEnum.cs" />
-    <Compile Include="Interfaces\IMapService.cs" />
     <Compile Include="Interfaces\IRoleService.cs" />
     <Compile Include="Interfaces\IPageListsService.cs" />
     <Compile Include="Services\AdminEmployeeListService.cs" />
@@ -130,6 +129,8 @@
     <Compile Include="Interfaces\IEmployeeService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IProfileDataService.cs" />
+    <Compile Include="Interfaces\ITeamService.cs" />
+    <Compile Include="Services\TeamService.cs" />
     <Compile Include="Interfaces\IRequestCreationService.cs" />
     <Compile Include="Interfaces\IAdminEmployeeListService.cs" />
     <Compile Include="Interfaces\IAdminRequestService.cs" />

@@ -4,7 +4,7 @@ using VacationsBLL.DTOs;
 
 namespace VacationsBLL.Interfaces
 {
-    public interface IProfileDataService : IDisposable
+    public interface IProfileDataService
     {
         ProfileDTO GetUserData(string userEmail);
         VacationBalanceDTO GetUserVacationBalance(string userEmail);

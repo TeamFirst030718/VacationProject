@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web.UI.WebControls;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using VacationsBLL.Services;
@@ -63,6 +64,7 @@ namespace VacationsBLL
             _employees.Update(employeeToUpdate);
         }
 
+
         private void MapChanges(Employee entity, EmployeeDTO changes)
         {
             var entityChanges = Mapper.Map<EmployeeDTO, Employee>(changes);
@@ -79,6 +81,70 @@ namespace VacationsBLL
             entity.Surname = entityChanges.Surname;
             entity.VacationBalance = entityChanges.VacationBalance;
             entity.WorkEmail = entityChanges.WorkEmail;
+
+        }
+
+        public List<EmployeeListDTO> EmployeeList()
+        {
+            var list = _employees.Get();
+
+            var result = new List<EmployeeListDTO>();
+
+            foreach (var employee in list)
+            {
+                if (employee.EmployeesTeam.Count == 0 && employee.Teams.Count == 0)
+                {
+                    result.Add(new EmployeeListDTO
+                    {
+                        EmployeeDto = Mapper.Map<Employee, EmployeeDTO>(employee),
+                        TeamDto = new TeamDTO
+                        {
+                            TeamID = "Empty",
+                            TeamLeadID = "Empty",
+                            TeamName = "Empty"
+                        }
+                    });
+                }
+                else if (employee.Teams.Count != 0)
+                {
+                    foreach (var team in employee.Teams)
+                    {
+                        result.Add(new EmployeeListDTO
+                        {
+                            EmployeeDto = Mapper.Map<Employee, EmployeeDTO>(employee),
+                            TeamDto = new TeamDTO
+                            {
+
+                                TeamID = team.TeamID,
+                                TeamLeadID = team.TeamLeadID,
+                                TeamName = team.TeamName
+                            }
+                        });
+
+                    }
+                }
+                else
+                {
+                    foreach (var team in employee.EmployeesTeam)
+                    {
+                        result.Add(new EmployeeListDTO
+                        {
+                            EmployeeDto = Mapper.Map<Employee, EmployeeDTO>(employee),
+                            TeamDto = new TeamDTO
+                            {
+
+                                TeamID = team.TeamID,
+                                TeamLeadID = team.TeamLeadID,
+                                TeamName = team.TeamName
+                            }
+                        });
+
+                    }
+                }
+
+            }
+
+            return result;
         }
 
         public string GetTeamNameById(string id)
@@ -86,10 +152,32 @@ namespace VacationsBLL
             return _teams.GetById(id).TeamName;
         }
 
+        public IEnumerable<EmployeeDTO> GetAll()
+        {
+            return Mapper.MapCollection<Employee, EmployeeDTO>(_employees.Get());
+        }
+
+        public void AddToTeam(string EmployeeID, string TeamID)
+        {
+            var team = _teams.GetById(TeamID);
+            var employee = _employees.GetById(EmployeeID);
+           
+            team.Employees.Add(employee);
+
+            _teams.Update(team);
+            
+        }
+
+        public IEnumerable<EmployeeDTO> GetAllFreeEmployees()
+        {
+            return Mapper.MapCollection<Employee, EmployeeDTO>(_employees.Get(x => x.EmployeesTeam.Count == 0));
+        }
+
         public void Dispose()
         {
-            _jobTitles.Dispose();
             _employees.Dispose();
+            _jobTitles.Dispose();
+            _teams.Dispose();
         }
     }
 }

@@ -15,13 +15,36 @@ namespace VacationsBLL.Services
 
         IVacationTypeRepository _vacationTypes;
 
-        public PageListsService(IJobTitleRepository jobTitles, IRolesRepository roles, IVacationTypeRepository types)
+        IEmployeeRepository _employees;
+
+        public PageListsService(IJobTitleRepository jobTitles, IRolesRepository roles, IVacationTypeRepository types, IEmployeeRepository employees)
         {
             _jobTitles = jobTitles;
 
             _roles = roles;
 
             _vacationTypes = types;
+
+            _employees = employees;
+        }
+
+        public List<SelectListItem> EmployeesList()
+        {
+            var employeesList = _employees.Get();
+
+            var employeesSelectList = new List<SelectListItem>();
+
+            foreach (var employee in employeesList)
+            {
+
+                employeesSelectList.Add(new SelectListItem
+                {
+                    Text = employee.Name + " " + employee.Surname,
+                    Value = employee.EmployeeID
+                });
+            }
+
+            return employeesSelectList;
         }
 
         public SelectListItem[] SelectEditRoles(string value)
@@ -136,6 +159,7 @@ namespace VacationsBLL.Services
 
             return statusSelectList;
         }
+
         public SelectListItem[] SelectVacationTypes()
         {
             var vacationTypesList = _vacationTypes.Get();
@@ -157,7 +181,9 @@ namespace VacationsBLL.Services
         public void Dispose()
         {
             _jobTitles.Dispose();
+            _employees.Dispose();
             _roles.Dispose();
+            _vacationTypes.Dispose();
         }
     }
 }

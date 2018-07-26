@@ -4,7 +4,7 @@ using VacationsBLL.DTOs;
 
 namespace VacationsBLL.Interfaces
 {
-    public interface IEmployeeService : IDisposable
+    public interface IEmployeeService: IDisposable
     {
         void Create(EmployeeDTO employee);
         EmployeeDTO GetUserById(string id);
@@ -12,5 +12,8 @@ namespace VacationsBLL.Interfaces
         string GetJobTitleIdByName(string jobTitleName);
         void UpdateEmployee(EmployeeDTO employee);
         string GetTeamNameById(string id);
+        IEnumerable<EmployeeDTO> GetAll();
+        IEnumerable<EmployeeDTO> GetAllFreeEmployees();
+        void AddToTeam(string EmployeeID, string TeamID);
     }
 }
