@@ -155,11 +155,17 @@ namespace VacationsBLL
         {
             var team = _teams.GetById(TeamID);
             var employee = _employees.GetById(EmployeeID);
-           
-            team.Employees.Add(employee);
-
-            _teams.Update(team);
+            _teams.AddEmployee(EmployeeID, TeamID);
+            /*team.Employees.Add(employee);
+            _teams.Update(team);*/
             
+        }
+
+        public void RemoveFromTeam(string EmployeeID, string TeamID)
+        {
+            var team = _teams.GetById(TeamID);
+            var employee = _employees.GetById(EmployeeID);
+            _teams.RemoveEmployee(EmployeeID, TeamID);
         }
 
         public IEnumerable<EmployeeDTO> GetAllFreeEmployees()
