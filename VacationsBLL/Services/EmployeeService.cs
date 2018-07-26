@@ -172,6 +172,27 @@ namespace VacationsBLL
             return Mapper.MapCollection<Employee, EmployeeDTO>(_employees.Get(x => x.EmployeesTeam.Count == 0));
         }
 
+        public IEnumerable<EmployeeDTO> GetEmployeesByTeamId(string id)
+        {
+            var result = new List<EmployeeDTO>();
+
+            var employees = _employees.Get().ToList();
+
+            foreach (var employee in employees)
+            {
+                foreach (var team in employee.EmployeesTeam)
+                {
+                    if (team.TeamID == id)
+                    {
+                        result.Add(Mapper.Map<Employee, EmployeeDTO>(employee));
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public void Dispose()
         {
             _employees.Dispose();
