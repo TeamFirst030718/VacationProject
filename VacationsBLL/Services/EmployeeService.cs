@@ -49,11 +49,6 @@ namespace VacationsBLL
             return _jobTitles.Get().FirstOrDefault(x => x.JobTitleName.Equals(jobTitleName)).JobTitleID;
         }
 
-        public EmployeeDTO[] GetEmployees()
-        {
-            return Mapper.MapCollection<Employee, EmployeeDTO>(_employees.Get());
-        }
-
         public void UpdateEmployee(EmployeeDTO employee)
         {
             var employeeToUpdate = _employees.GetById(employee.EmployeeID);
@@ -169,7 +164,7 @@ namespace VacationsBLL
 
         public IEnumerable<EmployeeDTO> GetAllFreeEmployees()
         {
-            return Mapper.MapCollection<Employee, EmployeeDTO>(_employees.Get(x => x.EmployeesTeam.Count == 0));
+            return Mapper.MapCollection<Employee, EmployeeDTO>(_employees.Get(x => x.EmployeesTeam.Count == 0)).ToArray();
         }
 
         public IEnumerable<EmployeeDTO> GetEmployeesByTeamId(string id)

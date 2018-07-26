@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Ajax.Utilities;
 using VacationsBLL.Services;
+using Vacations.Subservice;
 
 namespace Vacations.Controllers
 {
@@ -102,59 +103,38 @@ namespace Vacations.Controllers
 
             if (ModelState.IsValid)
             {
-                var jobTitleParam = Request.Params["jobTitlesSelectList"];
-
-                var statusParam = Request.Params["statusSelectList"];
-
-                var roleParam = Request.Params["aspNetRolesSelectList"];
+                var role = Request.Params["aspNetRolesSelectList"];
 
                 var user = new ApplicationUser { UserName = model.WorkEmail, Email = model.WorkEmail, PhoneNumber = model.PhoneNumber };
+
                 model.EmployeeID = user.Id;
 
                 model.JobTitleID = Request.Params["jobTitlesSelectList"];
 
                 model.Status = Request.Params["statusSelectList"].AsBool();
 
-                using (TransactionScope transaction = new TransactionScope())
+                if (await EmployeeCreationService.CreateAndRegisterEmployee(model, role, UserManager, user, _employeeService))
                 {
-                    var result = await UserManager.CreateAsync(user, "123asdQ!");
+                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
-                    if (result.Succeeded)
-                    {
-                        UserManager.AddToRole(user.Id, roleParam);
+                    var email = new EmailService();
 
-                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var codeToSetPassword = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 
-                        var email = new EmailService();
+                    var callbackUrlToSetPassword = Url.Action("ResetPasswordAndConfirmEmail", "Account", new { codeToResetPassword = codeToSetPassword, codeToConfirmationEmail = code, userId = user.Id }, protocol: Request.Url.Scheme);
 
-                        var _employee = Mapper.Map<EmployeeViewModel, EmployeeDTO>(model);
-
-                        _employeeService.Create(_employee);
-
-                        var codeToSetPassword = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-
-                        var callbackUrlToSetPassword = Url.Action("ResetPasswordAndConfirmEmail", "Account", new { codeToResetPassword = codeToSetPassword, codeToConfirmationEmail = code, userId = user.Id }, protocol: Request.Url.Scheme);
-
-
-                        await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
-                            "Set Password and confirm your account by clicking this <a href=\"" + callbackUrlToSetPassword + "\">link</a>.");
-
-
-                        transaction.Complete();
-
-                        return View("Register");
-                    }
+                    await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
+                        "Set Password and confirm your account by clicking this <a href=\"" + callbackUrlToSetPassword + "\">link</a>.");
                 }
-            }
 
+                return View("Register");
+            }
             return View(model);
         }
 
         [HttpGet]
         public ActionResult Edit(string id)
         {
-
-
             if (id == null)
             {
                 return View("Error");
@@ -226,6 +206,10 @@ namespace Vacations.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RegisterTeam(TeamViewModel model)
         {
+            ViewData["employeesSelectList"] = _pageListsService.EmployeesList();
+
+            ViewData["listOfEmployees"] = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
+
             if (ModelState.IsValid)
             {
                 model.TeamLeadID = Request.Params["employeesSelectList"];
@@ -288,9 +272,11 @@ namespace Vacations.Controllers
                     _requestService.DenyVacation(Mapper.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
                 }
             }
+            var requestsData = new VacationRequestsViewModel();
 
-            return RedirectToAction("Requests", "Admin");
+            _requestService.SetAdminID(User.Identity.GetUserId());
 
+            return View("Requests", Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequests()));
         }
 
         [HttpGet]

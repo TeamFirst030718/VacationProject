@@ -407,6 +407,7 @@ namespace IdentitySample.Controllers
             return View();
         }
 
+
         /*protected override void Dispose(bool disposing)
         {
             _aspNetUserService.Dispose();
@@ -415,6 +416,7 @@ namespace IdentitySample.Controllers
             _pageListsService.Dispose();
             base.Dispose(disposing);
         }*/
+
         
         #region Helpers
         // Used for XSRF protection when adding external logins

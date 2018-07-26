@@ -2,14 +2,13 @@
 @using VacationsBLL.DTOs
 @model List<VacationsBLL.DTOs.EmployeeListDTO>
 @{
-    ViewBag.Title = "EmployeesList";
     EmployeeService employeeService = ViewBag.EmployeeService;
 }
 
 <h2>EmployeesList</h2>
 
 <div class="container m-0 p-0 ">
-    <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
+    <div class="container container-rounded m-0 p-0" >
         <div class="row m-auto text-white">
             <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray">
                 <strong>List of Employees</strong>
@@ -18,7 +17,7 @@
         </div>
         <table class="table text-white m-0 p-0 backColor " style="font-size:15px; border-top:none;">
             <tr class="text-light-grey border-grey" style="font-size: 12px; border-bottom: solid 1px gray !important;">
-                <td style="border-top: none"></td>
+                <td style="border-top: none"></td> 
                 <td style="border-top: none">name</td>
                 <td style="text-align: center; border-top: none">phone number</td>
                 <td style="text-align: center; border-top: none">work email</td>

@@ -66,27 +66,28 @@ namespace VacationsBLL.Services
         {
             var users = _users.Get();
 
-            Func<Employee, bool> whereLinq = emp => users.FirstOrDefault(u => u.Id.Equals(emp.EmployeeID)).AspNetRoles.Any(x=>x.Name.Equals(RoleEnum.Administrator.ToString())) ||
-                                              (emp.EmployeesTeam.Count.Equals(1) && emp.EmployeesTeam.First().TeamLeadID.Equals(AdminID)) ||
-                                              (emp.EmployeesTeam.Count.Equals(0));
+            Func<Employee, bool> whereLinq = emp => emp.EmployeeID.Equals(AdminID) ||
+                                                    (emp.EmployeesTeam.Count.Equals(1) &&
+                                                    emp.EmployeesTeam.First().TeamLeadID.Equals(AdminID)) ||
+                                                    emp.EmployeesTeam.Count.Equals(0);
 
             Employee[] employees = _employees.Get(whereLinq);
 
             if(employees !=null)
             {
-                var requestsList = _vacations.Get(vac => employees.Any(emp => emp.EmployeeID.Equals(vac.EmployeeID))).
-                                                Join(employees, vac => vac.EmployeeID, emp => emp.EmployeeID, (vac, emp) => new RequestDTO
-                                                {
-                                                    EmployeeID = emp.EmployeeID,
-                                                    VacationID = vac.VacationID,
-                                                    Name = string.Format($"{emp.Name} {emp.Surname}"),
-                                                    TeamName = emp.EmployeesTeam.Count.Equals(0) ? empty : emp.EmployeesTeam.First().TeamName,
-                                                    Duration = vac.Duration,
-                                                    VacationDates = string.Format($"{vac.DateOfBegin.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}-{vac.DateOfEnd.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}"),
-                                                    EmployeesBalance = emp.VacationBalance,
-                                                    Created = vac.Created,
-                                                    Status = _vacationStatusTypes.Get(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).First().VacationStatusName
-                                                }).OrderBy(req => VacationSortFunc(req.Status)).ThenByDescending(req => req.Created).ToArray();
+                var requestsList = _vacations.Get().Join(employees, vac => vac.EmployeeID, emp => emp.EmployeeID, (vac, emp) => new RequestDTO
+                {
+                    EmployeeID = emp.EmployeeID,
+                    VacationID = vac.VacationID,
+                    Name = string.Format($"{emp.Name} {emp.Surname}"),
+                    TeamName = emp.EmployeesTeam.Count.Equals(0) ? empty : emp.EmployeesTeam.First().TeamName,
+                    Duration = vac.Duration,
+                    VacationDates = string.Format($"{vac.DateOfBegin.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}-{vac.DateOfEnd.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}"),
+                    EmployeesBalance = emp.VacationBalance,
+                    Created = vac.Created,
+                    Status = _vacationStatusTypes.Get(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).First().VacationStatusName
+                }).OrderBy(req => VacationSortFunc(req.Status)).ThenByDescending(req => req.Created).ToArray();
+
                 return requestsList;
             }
             else
@@ -142,6 +143,8 @@ namespace VacationsBLL.Services
                     vacation.Duration = result.BalanceChange;
                     vacation.DateOfBegin = result.DateOfBegin;
                     vacation.DateOfEnd = result.DateOfEnd;
+                    vacation.ProcessedByID = AdminID;
+
                     _vacations.Update(vacation);
 
                     employee.VacationBalance -= result.BalanceChange;
@@ -172,6 +175,8 @@ namespace VacationsBLL.Services
                 using (TransactionScope scope = new TransactionScope())
                 {
                     vacation.VacationStatusTypeID = _vacationStatusTypes.GetByType(VacationStatusTypeEnum.Denied.ToString()).VacationStatusTypeID;
+
+                    vacation.ProcessedByID = AdminID;
 
                     _vacations.Update(vacation);
 

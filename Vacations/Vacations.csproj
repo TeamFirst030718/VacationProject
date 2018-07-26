@@ -263,6 +263,7 @@
     <Compile Include="Models\VacationRequestsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartupIdentity\Startup.cs" />
+    <Compile Include="Subservices\EmployeeCreationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\chosen-sprite%402x.png" />
@@ -273,10 +274,10 @@
     <Content Include="Content\dist\jquery-input-mask-phone-number.min.js" />
     <Content Include="Content\Fonts\OFL.txt" />
     <Content Include="Content\Icons\approved by icon.svg" />
-    <Content Include="Content\Icons\approved request.svg" />
+    <Content Include="Content\Icons\Approved.svg" />
     <Content Include="Content\Icons\calendar.svg" />
     <Content Include="Content\Icons\cansel icon.svg" />
-    <Content Include="Content\Icons\denied request.svg" />
+    <Content Include="Content\Icons\Denied.svg" />
     <Content Include="Content\Icons\down icon.svg" />
     <Content Include="Content\Icons\edit icon grey.svg" />
     <Content Include="Content\Icons\edit icon white.svg" />
@@ -285,11 +286,11 @@
     <Content Include="Content\Icons\logo-softheme.svg" />
     <Content Include="Content\Icons\logout icon.svg" />
     <Content Include="Content\Icons\message-icon.svg" />
-    <Content Include="Content\Icons\new request icon.svg" />
     <Content Include="Content\Icons\next icon.svg" />
     <Content Include="Content\Icons\offline icon.svg" />
     <Content Include="Content\Icons\online icon.svg" />
     <Content Include="Content\Icons\password-icon.svg" />
+    <Content Include="Content\Icons\Pending.svg" />
     <Content Include="Content\Icons\user profile icon.svg" />
     <Content Include="Content\Icons\user-icon.svg" />
     <Content Include="Content\Images\background.jpg" />
