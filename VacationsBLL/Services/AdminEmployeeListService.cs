@@ -23,7 +23,7 @@ namespace VacationsBLL.Services
 
             foreach (var employee in list)
             {
-                if (employee.Teams.Count == 0)
+                if (employee.EmployeesTeam.Count == 0)
                 {
                     result.Add(new EmployeeListDTO
                     {
@@ -38,7 +38,7 @@ namespace VacationsBLL.Services
                 }
                 else
                 {
-                    foreach (var team in employee.Teams)
+                    foreach (var team in employee.EmployeesTeam)
                     {
                         result.Add(new EmployeeListDTO
                         {
