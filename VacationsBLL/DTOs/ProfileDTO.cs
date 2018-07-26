@@ -2,7 +2,7 @@
 
 namespace VacationsBLL.DTOs
 {
-    public class UserProfileDTO
+    public class ProfileDTO
     {
         public string WorkEmail { get; set; }
        

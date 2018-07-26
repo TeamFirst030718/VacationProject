@@ -19,12 +19,12 @@ namespace VacationsBLL.DIModules
             Bind<ITransactionTypeRepository>().To<TransactionTypeRepository>();
             Bind<IVacationRepository>().To<VacationRepository>();
             Bind<IVacationStatusTypeRepository>().To<VacationStatusTypeRepository>();
-            Bind<IAspNetUsersRepository>().To<AspNetUsersRepository>();
-            Bind<IAspNetRolesRepository>().To<AspNetRolesRepository>();
+            Bind<IUsersRepository>().To<UsersRepository>();
+            Bind<IRolesRepository>().To<RolesRepository>();
             Bind<IEmployeeRepository>().To<EmployeeRepository>();
             Bind<IJobTitleRepository>().To<JobTitleRepository>(); 
             Bind<IVacationTypeRepository>().To<VacationTypeRepository>(); 
-            Bind<VacationsContext>().ToSelf().InTransientScope();
+            Bind<VacationsContext>().ToSelf().InSingletonScope();
         }
     }
 }

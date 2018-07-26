@@ -11,7 +11,6 @@ namespace VacationsBLL.Interfaces
         List<JobTitleDTO> GetJobTitles();
         string GetJobTitleIdByName(string jobTitleName);
         void UpdateEmployee(EmployeeDTO employee);
-        List<EmployeeListDTO> EmployeeList();
         string GetTeamNameById(string id);
     }
 }

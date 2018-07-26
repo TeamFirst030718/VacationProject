@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -17,9 +18,13 @@ namespace VacationsDAL.Repositories
             _context = dbContext;
         }
 
-        public IEnumerable<Transaction> GetAll()
+
+        public Transaction[] Get(Func<Transaction, bool> whereCondition = null)
         {
-            return _context.Transactions.ToList();
+            IQueryable<Transaction> baseCondition = _context.Transactions;
+            return whereCondition == null ?
+                baseCondition.ToArray() :
+                baseCondition.Where(whereCondition).ToArray();
         }
 
         public Transaction GetById(string id)

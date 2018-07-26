@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -15,11 +16,14 @@ namespace VacationsDAL.Repositories
         public VacationRepository(VacationsContext dbContext)
         {
             _context = dbContext;
-        }     
+        }
 
-        public IEnumerable<Vacation> GetAll()
+        public Vacation[] Get(Func<Vacation, bool> whereCondition = null)
         {
-            return _context.Vacations.ToList();
+            IQueryable<Vacation> baseCondition = _context.Vacations;
+            return whereCondition == null ?
+                baseCondition.ToArray() :
+                baseCondition.Where(whereCondition).ToArray();
         }
 
         public Vacation GetById(string id)

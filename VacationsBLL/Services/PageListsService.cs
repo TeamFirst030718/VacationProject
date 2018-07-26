@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Interfaces;
@@ -10,11 +11,11 @@ namespace VacationsBLL.Services
     {
         IJobTitleRepository _jobTitles;
 
-        IAspNetRolesRepository _roles;
+        IRolesRepository _roles;
 
         IVacationTypeRepository _vacationTypes;
 
-        public PageListsService(IJobTitleRepository jobTitles, IAspNetRolesRepository roles, IVacationTypeRepository types)
+        public PageListsService(IJobTitleRepository jobTitles, IRolesRepository roles, IVacationTypeRepository types)
         {
             _jobTitles = jobTitles;
 
@@ -23,30 +24,25 @@ namespace VacationsBLL.Services
             _vacationTypes = types;
         }
 
-        public List<SelectListItem> AspNetRolesSelectList(string value)
+        public SelectListItem[] SelectEditRoles(string value)
         {
 
-            var aspNetRolesList = _roles.GetAll();
+            var aspNetRolesList = _roles.Get();
 
-            var aspNetRolesSelectList = new List<SelectListItem>();
-
-            foreach (var aspNetRole in aspNetRolesList)
+            var tt = aspNetRolesList.Select(aspNetRole => new SelectListItem
             {
-                aspNetRolesSelectList.Add(new SelectListItem
-                {
-                    Text = aspNetRole.Name,
-                    Value = aspNetRole.Name,
-                    Selected = aspNetRole.Name == value
-                });
-            }
+                Text = aspNetRole.Name,
+                Value = aspNetRole.Name,
+                Selected = aspNetRole.Name == value
+            }).ToArray();
 
-            return aspNetRolesSelectList;
+            return tt;
         }
 
-        public List<SelectListItem> AspNetRolesSelectList()
+        public List<SelectListItem> SelectRoles()
         {
            
-            var aspNetRolesList = _roles.GetAll();
+            var aspNetRolesList = _roles.Get();
 
             var aspNetRolesSelectList = new List<SelectListItem>();
 
@@ -62,9 +58,9 @@ namespace VacationsBLL.Services
             return aspNetRolesSelectList;
         }
 
-        public List<SelectListItem> JobTitlesSelectList()
+        public List<SelectListItem> SelectJobTitles()
         {
-            var jobTitlesList = _jobTitles.GetAll();
+            var jobTitlesList = _jobTitles.Get();
 
             var jobTitlesSelectList = new List<SelectListItem>();
 
@@ -80,9 +76,9 @@ namespace VacationsBLL.Services
             return jobTitlesSelectList;
         }
 
-        public List<SelectListItem> JobTitlesSelectList(string value)
+        public List<SelectListItem> SelectEditJobTitles(string value)
         {
-            var jobTitlesList = _jobTitles.GetAll();
+            var jobTitlesList = _jobTitles.Get();
 
             var jobTitlesSelectList = new List<SelectListItem>();
 
@@ -99,7 +95,7 @@ namespace VacationsBLL.Services
             return jobTitlesSelectList;
         }
 
-        public List<SelectListItem> StatusSelectList()
+        public List<SelectListItem> SelectStatuses()
         {
             var statusSelectList = new List<SelectListItem>
             {
@@ -119,7 +115,7 @@ namespace VacationsBLL.Services
             return statusSelectList;
         }
 
-        public List<SelectListItem> StatusSelectList(string value)
+        public List<SelectListItem> SelectEditStatuses(string value)
         {
             var statusSelectList = new List<SelectListItem>
             {
@@ -140,9 +136,9 @@ namespace VacationsBLL.Services
 
             return statusSelectList;
         }
-        public List<SelectListItem> VacationTypesSelectList()
+        public SelectListItem[] SelectVacationTypes()
         {
-            var vacationTypesList = _vacationTypes.GetAll();
+            var vacationTypesList = _vacationTypes.Get();
 
             var vacationTypesSelectList = new List<SelectListItem>();
 
@@ -155,7 +151,7 @@ namespace VacationsBLL.Services
                 });
             }
 
-            return vacationTypesSelectList;
+            return vacationTypesSelectList.ToArray();
         }
 
         public void Dispose()

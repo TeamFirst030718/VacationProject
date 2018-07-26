@@ -1,5 +1,8 @@
 @using Microsoft.AspNet.Identity
 @model Vacations.Models.ProfileViewModel
+    @{ 
+       var birthDate = Model.BirthDate.ToString("MMMM");
+    }
 <div class="container  bg-dark border border-grey container-rounded backColor" >
 
     <div class="row my-auto">
@@ -48,7 +51,7 @@
                     @Html.LabelFor(x => x.BirthDate, new { style = "font-size:12px;" })
                 </li>
                 <li>
-                    @Html.DisplayFor(x => x.BirthDate)
+                    @Html.Display(birthDate, new { style = "font-size:12px;" })
                 </li>
                 <li>
                     @Html.LabelFor(x => x.PersonalMail, new { style = "font-size:12px;" })
@@ -66,14 +69,7 @@
                     @Html.LabelFor(x => x.PhoneNumber, new { style = "font-size:12px;" })
                 </li>
                 <li>
-                    @if (Model.PhoneNumber == null)
-                    {
-                        <p>+380 000 00 00</p>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(x => x.PhoneNumber)
-                    }
+                     @Html.DisplayFor(x => x.PhoneNumber)
                 </li>
                 <li>
                     @Html.LabelFor(x => x.Skype, new { style = "font-size:12px;" })
@@ -101,7 +97,6 @@
                 </li>
             </ul>
         </div>
-
     </div>
 </div>
 @section Scripts {

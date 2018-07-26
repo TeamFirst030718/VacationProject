@@ -19,29 +19,12 @@ namespace VacationsDAL.Repositories
             _context = dbContext;
         }
 
-        public IEnumerable<VacationType> GetAll()
+        public VacationType[] Get(Func<VacationType, bool> whereCondition = null)
         {
-
-            try
-            {
-                return _context.VacationTypes.ToList();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                foreach (DbEntityValidationResult validationError in ex.EntityValidationErrors)
-                {
-                    var a = string.Format("Object: " + validationError.Entry.Entity.ToString());
-
-
-                    foreach (DbValidationError err in validationError.ValidationErrors)
-                    {
-                        var b = string.Format(err.ErrorMessage + "");
-
-                    }
-                }
-            }
-
-            return _context.VacationTypes.ToList();
+            IQueryable<VacationType> baseCondition = _context.VacationTypes;
+            return whereCondition == null ?
+                baseCondition.ToArray() :
+                baseCondition.Where(whereCondition).ToArray();
         }
 
         public VacationType GetById(string id)

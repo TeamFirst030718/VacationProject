@@ -9,18 +9,21 @@ using VacationsDAL.Interfaces;
 
 namespace VacationsDAL.Repositories
 {
-    public class AspNetUsersRepository : IAspNetUsersRepository
+    public class UsersRepository : IUsersRepository
     {
         private readonly VacationsContext _context;
 
-        public AspNetUsersRepository(VacationsContext context)
+        public UsersRepository(VacationsContext context)
         {
             _context = context;
         }
 
-        public IEnumerable<AspNetUser> GetAll()
+        public AspNetUser[] Get(Func<AspNetUser, bool> whereCondition = null)
         {
-            return _context.AspNetUsers.ToList();
+            IQueryable<AspNetUser> baseCondition = _context.AspNetUsers;
+            return whereCondition == null ?
+                baseCondition.ToArray() :
+                baseCondition.Where(whereCondition).ToArray();
         }
 
         public AspNetUser GetById(string id)

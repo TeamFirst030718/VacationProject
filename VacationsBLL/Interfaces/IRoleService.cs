@@ -7,9 +7,9 @@ using VacationsBLL.DTOs;
 
 namespace VacationsBLL.Interfaces
 {
-    public interface IAspNetRoleService : IDisposable
+    public interface IRoleService : IDisposable
     {
-        void Create(AspNetRoleDTO employee);
-        List<AspNetRoleDTO> GetRoles();
+        void Create(RoleDTO employee);
+        List<RoleDTO> GetRoles();
     }
 }

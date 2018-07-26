@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using VacationsDAL.Contexts;
@@ -16,9 +17,12 @@ namespace VacationsDAL.Repositories
             _context = dbContext;
         }
 
-        public IEnumerable<Team> GetAll()
+        public Team[] Get(Func<Team, bool> whereCondition = null)
         {
-            return _context.Teams.ToList();
+            IQueryable<Team> baseCondition = _context.Teams;
+            return whereCondition == null ?
+                baseCondition.ToArray() :
+                baseCondition.Where(whereCondition).ToArray();
         }
 
         public Team GetById(string id)

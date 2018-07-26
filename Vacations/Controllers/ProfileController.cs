@@ -9,6 +9,7 @@ using VacationsBLL.Enums;
 using Vacations.Models;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
+using VacationsBLL.Services;
 
 namespace Vacations.Controllers
 {
@@ -16,21 +17,18 @@ namespace Vacations.Controllers
     public class ProfileController : Controller
     {
         private readonly IPageListsService _pageListsService;
-
         private IProfileDataService _profileDataService;
-
         private IEmployeeService _employeeService;
-
         private IRequestCreationService _vacationCreationService;
 
-        private IMapService _mapService;
-
-        public ProfileController(IProfileDataService profileDataService, IEmployeeService employees, IPageListsService pageLists,IRequestCreationService vacationService, IMapService mapper)
+        public ProfileController(IProfileDataService profileDataService,
+                                 IEmployeeService employees,
+                                 IPageListsService pageLists,
+                                 IRequestCreationService vacationService)
         {
             _profileDataService = profileDataService;
             _employeeService = employees;
             _pageListsService = pageLists;
-            _mapService = mapper;
             _vacationCreationService = vacationService;
         }
 
@@ -38,6 +36,15 @@ namespace Vacations.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
+        }
+
+        #region IdentityProps
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
         }
 
         private ApplicationUserManager _userManager;
@@ -63,51 +70,53 @@ namespace Vacations.Controllers
             }
             private set { _signInManager = value; }
         }
+        #endregion
 
         [HttpGet]
         public ActionResult Index()
         {
-            return View("MyProfile", _profileDataService);
+            var userData = new UserViewModel();
+            userData.ProfileData = Mapper.Map<ProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.Name));
+            userData.VacationBalanceData = Mapper.Map<VacationBalanceDTO, VacationBalanceModel>(_profileDataService.GetUserVacationBalance(User.Identity.Name));
+            userData.VacationsData = Mapper.MapCollection<ProfileVacationDTO, ProfileVacationsViewModel>(_profileDataService.GetUserVacationsData(User.Identity.Name));
+            return View("MyProfile", userData);
         }
 
         [HttpGet]
         public ActionResult RequestVacation()
         {
-            ViewBag.PageListsService = _pageListsService;
-
-            return View(_profileDataService);
+            ViewData["VacationTypesSelectList"] = _pageListsService.SelectVacationTypes();
+            var requestVacationData = new RequestVacationViewModel();
+            requestVacationData.ProfileData = Mapper.Map<ProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.Name));
+            requestVacationData.VacationBalanceData = Mapper.Map<VacationBalanceDTO, VacationBalanceModel>(_profileDataService.GetUserVacationBalance(User.Identity.Name));
+            requestVacationData.RequestCreationData = new RequestCreationViewModel();
+            return View(requestVacationData);
         }
 
         [HttpPost]
-        public ActionResult RequestVacation(RequestCreationModel model)
-            {
-            model.EmployeeID = UserManager.FindByEmail(User.Identity.Name).Id;
-            model.VacationID = Guid.NewGuid().ToString();
-            model.VacationTypeID = Request.Params["VacationTypesSelectList"];
-            model.VacationStatusTypeID = _vacationCreationService.GetStatusIdByType(VacationStatusTypeEnum.Pending.ToString());
-            model.Created = DateTime.UtcNow;
+        public ActionResult RequestVacation(RequestCreationViewModel model)
+        {
+            ViewData["VacationTypesSelectList"] = _pageListsService.SelectVacationTypes();
+            var requestVacationData = new RequestVacationViewModel();
+            requestVacationData.ProfileData = Mapper.Map<ProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.Name));
+            requestVacationData.VacationBalanceData = Mapper.Map<VacationBalanceDTO, VacationBalanceModel>(_profileDataService.GetUserVacationBalance(User.Identity.Name));
+            requestVacationData.RequestCreationData = new RequestCreationViewModel();
 
             if (ModelState.IsValid)
             {
-                _vacationCreationService.CreateVacation(_mapService.Map<RequestCreationModel, VacationDTO>(model));
+                model.EmployeeID = UserManager.FindByEmail(User.Identity.Name).Id;
+                model.VacationID = Guid.NewGuid().ToString();
+                model.VacationTypeID = Request.Params["VacationTypesSelectList"];
+                model.VacationStatusTypeID = _vacationCreationService.GetStatusIdByType(VacationStatusTypeEnum.Pending.ToString());
+                model.Created = DateTime.UtcNow;
 
-                ViewBag.PageListsService = _pageListsService;
+                _vacationCreationService.CreateVacation(Mapper.Map<RequestCreationViewModel, VacationDTO>(model));
 
-                return View(_profileDataService);
+                return View(requestVacationData);
             }
             else
             {
-                ViewBag.PageListsService = _pageListsService;
-
-                return View(_profileDataService);
-            }         
-        }     
-
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
+                return View(requestVacationData);
             }
         }
 
@@ -117,13 +126,5 @@ namespace Vacations.Controllers
             AuthenticationManager.SignOut();
             return RedirectToAction("Login", "Account");
         }
-
-        
-        public ActionResult _ShowUserProfilePartial()
-        {
-            var userData = _profileDataService.MapEntity<UserProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.Name));
-            return PartialView(userData);
-        }
-
     }
 }

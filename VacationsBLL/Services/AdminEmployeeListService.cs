@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Entities;
@@ -14,18 +10,14 @@ namespace VacationsBLL.Services
     {
         private IEmployeeRepository _employees;
 
-        private IMapService _mapService;
-
-        public AdminEmployeeListService(IEmployeeRepository employees, IJobTitleRepository jobTitles, IMapService mapService)
+        public AdminEmployeeListService(IEmployeeRepository employees, IJobTitleRepository jobTitles)
         {
             _employees = employees;
-
-            _mapService = mapService;
         }
 
         public List<EmployeeListDTO> EmployeeList()
         {
-            var list = _employees.GetAll();
+            var list = _employees.Get();
 
             var result = new List<EmployeeListDTO>();
 
@@ -35,7 +27,7 @@ namespace VacationsBLL.Services
                 {
                     result.Add(new EmployeeListDTO
                     {
-                        EmployeeDto = _mapService.Map<Employee, EmployeeDTO>(employee),
+                        EmployeeDto = Mapper.Map<Employee, EmployeeDTO>(employee),
                         TeamDto = null
                     });
                 }
@@ -45,7 +37,7 @@ namespace VacationsBLL.Services
                     {
                         result.Add(new EmployeeListDTO
                         {
-                            EmployeeDto = _mapService.Map<Employee, EmployeeDTO>(employee),
+                            EmployeeDto = Mapper.Map<Employee, EmployeeDTO>(employee),
                             TeamDto = new TeamDTO
                             {
                                 TeamID = team.TeamID,
