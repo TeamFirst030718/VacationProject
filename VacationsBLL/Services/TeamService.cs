@@ -25,5 +25,38 @@ namespace VacationsBLL.Services
             
         }
 
+        public IEnumerable<TeamListDTO> GetAllTeams()
+        {
+            var result = new List<TeamListDTO>();
+            var teams = _teams.GetAll();
+
+            foreach (var team in teams)
+            {
+                result.Add(new TeamListDTO
+                {
+                    TeamID = team.TeamID,
+                    TeamLeadID = team.TeamLeadID,
+                    TeamName = team.TeamName,
+                    AmountOfEmployees = team.Employees.Count
+                } );
+            }
+            return result;
+        }
+
+        public TeamListDTO GetById(string id)
+        {
+            var team = _teams.GetById(id);
+            
+            var result = new TeamListDTO
+            {
+                TeamID = team.TeamID,
+                TeamLeadID = team.TeamLeadID,
+                TeamName = team.TeamName,
+                AmountOfEmployees = team.Employees.Count
+            };
+
+            return result;
+        }
+
     }
 }

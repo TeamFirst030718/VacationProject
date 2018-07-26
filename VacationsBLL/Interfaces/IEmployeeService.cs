@@ -14,6 +14,7 @@ namespace VacationsBLL.Interfaces
         string GetTeamNameById(string id);
         IEnumerable<EmployeeDTO> GetAll();
         IEnumerable<EmployeeDTO> GetAllFreeEmployees();
+        IEnumerable<EmployeeDTO> GetEmployeesByTeamId(string id);
         void AddToTeam(string EmployeeID, string TeamID);
     }
 }

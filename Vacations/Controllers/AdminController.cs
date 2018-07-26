@@ -12,6 +12,8 @@ using Vacations.Models;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using System;
+using System.Collections.Generic;
+using Microsoft.Ajax.Utilities;
 using VacationsBLL.Services;
 
 namespace Vacations.Controllers
@@ -282,6 +284,49 @@ namespace Vacations.Controllers
 
             return RedirectToAction("Requests", "Admin");
 
+        }
+
+        [HttpGet]
+        public ActionResult TeamsList()
+        {
+            var result = new List<TeamListViewModel>();
+
+            var teams = _teamService.GetAllTeams();
+
+            foreach (var teamListDto in teams)
+            {
+                result.Add(new TeamListViewModel
+                {
+                    TeamID = teamListDto.TeamID,
+                    TeamName = teamListDto.TeamName,
+                    TeamLeadName = _employeeService.GetUserById(teamListDto.TeamLeadID).Name,
+                    AmountOfEmployees = teamListDto.AmountOfEmployees
+                });    
+            }
+
+            return View(result);
+        }
+
+        [HttpGet]
+        public ActionResult ViewTeamProfile(string id)
+        {
+            
+            var team = _teamService.GetById(id);
+
+            var employeesDTOs = _employeeService.GetEmployeesByTeamId(team.TeamID);
+
+            var employees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(employeesDTOs);
+
+            var result = new TeamProfileViewModel
+            {
+                TeamID = team.TeamID,
+                TeamName = team.TeamName,
+                TeamLeadName = _employeeService.GetUserById(team.TeamLeadID).Name,
+                AmountOfEmployees = team.AmountOfEmployees,
+                Employees = employees
+            };
+
+            return View(result);
         }
     }
 

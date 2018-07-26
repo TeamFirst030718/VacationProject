@@ -1,0 +1,24 @@
+﻿@model Vacations.Models.TeamProfileViewModel
+@{
+    ViewBag.Title = "AddNewTeam";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<p style="color: white">team name</p>
+<p style="color: white">@Model.TeamName</p>
+<p style="color: white">team leader</p>
+<p style="color: white">@Model.TeamLeadName</p>
+<p style="color: white">members @Model.AmountOfEmployees</p>
+@foreach (var employeee in Model.Employees)
+{
+    <p style="color: white">
+        @employeee.Name @employeee.Surname
+        @if (@employeee.Status)
+        {
+            <img src="~/Content/Icons/online icon.svg" style="padding-right: 5px">
+        }
+        else
+        {
+            <img src="~/Content/Icons/offline icon.svg" style="padding-right: 5px">
+        }
+    </p>
+}

@@ -52,6 +52,11 @@ namespace VacationsDAL.Repositories
             _context.SaveChanges();
         }
 
+        public IEnumerable<Team> GetAll()
+        {
+            return _context.Teams.ToList();
+        }
+
         public void Dispose()
         {
             _context.Dispose();
