@@ -40,10 +40,10 @@ namespace Vacations.Controllers
             _adminEmployeeListService = adminEmployeeListService;
             _requestService = requestService;
             _teamService = TeamService;
-           
+
         }
 
-        
+
         public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
@@ -90,8 +90,6 @@ namespace Vacations.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(EmployeeViewModel model)
@@ -120,7 +118,7 @@ namespace Vacations.Controllers
                     var result = await UserManager.CreateAsync(user, "123asdQ!");
 
                     if (result.Succeeded)
-                    {                
+                    {
                         UserManager.AddToRole(user.Id, roleParam);
 
                         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -133,11 +131,11 @@ namespace Vacations.Controllers
 
                         var codeToSetPassword = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 
-                        var callbackUrlToSetPassword = Url.Action("ResetPasswordAndConfirmEmail", "Account", new { codeToResetPassword = codeToSetPassword, codeToConfirmationEmail = code, userId = user.Id}, protocol: Request.Url.Scheme);
+                        var callbackUrlToSetPassword = Url.Action("ResetPasswordAndConfirmEmail", "Account", new { codeToResetPassword = codeToSetPassword, codeToConfirmationEmail = code, userId = user.Id }, protocol: Request.Url.Scheme);
 
 
                         await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
-                            "Set Password and confirm your account by clicking this <a href=\"" + callbackUrlToSetPassword +"\">link</a>.");
+                            "Set Password and confirm your account by clicking this <a href=\"" + callbackUrlToSetPassword + "\">link</a>.");
 
 
                         transaction.Complete();
@@ -147,14 +145,13 @@ namespace Vacations.Controllers
                 }
             }
 
-
             return View(model);
         }
 
         [HttpGet]
         public ActionResult Edit(string id)
         {
-       
+
 
             if (id == null)
             {
@@ -202,7 +199,7 @@ namespace Vacations.Controllers
 
             return View("Edit");
         }
-         
+
         public ActionResult EmployeesList()
         {
             var employeeList = _adminEmployeeListService.EmployeeList();
@@ -232,7 +229,7 @@ namespace Vacations.Controllers
                 model.TeamLeadID = Request.Params["employeesSelectList"];
                 model.TeamID = Guid.NewGuid().ToString();
 
-                    _teamService.CreateTeam(Mapper.Map<TeamViewModel, TeamDTO>(new TeamViewModel
+                _teamService.CreateTeam(Mapper.Map<TeamViewModel, TeamDTO>(new TeamViewModel
                 {
                     TeamLeadID = model.TeamLeadID,
                     TeamID = model.TeamID,
@@ -245,7 +242,7 @@ namespace Vacations.Controllers
                     foreach (var employeeId in result)
                     {
                         if (employeeId != model.TeamLeadID)
-                        {   
+                        {
                             _employeeService.AddToTeam(employeeId, model.TeamID);
                         }
                     }
@@ -253,7 +250,7 @@ namespace Vacations.Controllers
                 ViewBag.ListService = _pageListsService;
                 ViewBag.ListOfEmployees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAll().ToArray());
             }
-           
+
             return View();
         }
 
@@ -264,10 +261,8 @@ namespace Vacations.Controllers
 
             _requestService.SetAdminID(User.Identity.GetUserId());
 
-            return View(Mapper.MapCollection<RequestDTO,RequestViewModel>(_requestService.GetRequests()));
+            return View(Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequests()));
         }
-
-
 
         [HttpGet]
         public ActionResult ProcessPopupPartial(string id)
@@ -276,7 +271,6 @@ namespace Vacations.Controllers
 
             return PartialView("ProcessPopupPartial", request);
         }
-
 
         [HttpPost]
         public ActionResult ProcessPopupPartial(RequestProcessResultModel model)
@@ -297,5 +291,4 @@ namespace Vacations.Controllers
 
         }
     }
-
 }
