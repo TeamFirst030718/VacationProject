@@ -37,6 +37,18 @@ namespace VacationsBLL.Services
             return employeesList.ToArray();
         }
 
+        public SelectListItem[] EmployeesList(string value)
+        {
+            var employeesList = _employees.Get().Select(emp => new SelectListItem
+            {
+                Text = emp.Name + " " + emp.Surname,
+                Value = emp.EmployeeID,
+                Selected = emp.EmployeeID == value
+            });
+
+            return employeesList.ToArray();
+        }
+
         public SelectListItem[] SelectEditRoles(string value)
         {
             var roles = _roles.Get().Select(role => new SelectListItem

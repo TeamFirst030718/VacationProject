@@ -7,5 +7,7 @@ namespace VacationsDAL.Interfaces
     {
         void Update(Team team);
         IEnumerable<Team> GetAll();
+        void RemoveEmployee(string EmployeeID, string TeamID);
+        void AddEmployee(string EmployeeID, string TeamID);
     }
 }

@@ -9,6 +9,7 @@ namespace VacationsBLL.Interfaces
         SelectListItem[] SelectEditRoles(string editValue);
         SelectListItem[] SelectEditJobTitles(string editValue);
         SelectListItem[] SelectEditStatuses(string editValue);
+        SelectListItem[] EmployeesList(string editValue);
         SelectListItem[] SelectRoles();
         SelectListItem[] SelectJobTitles();
         SelectListItem[] SelectStatuses();

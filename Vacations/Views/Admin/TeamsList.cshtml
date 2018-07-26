@@ -34,7 +34,7 @@
                             <a href="@Url.Action("ViewTeamProfile","Admin", new {id = @team.TeamID})">View Team Profile</a>
                         </td>
                         <td style="border-top: none; text-align: center">
-                            <a href="#"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto"/></a>
+                            <a href="@Url.Action("EditTeam","Admin", new {id = @team.TeamID})"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
                         </td>
                         
                     </tr>

@@ -54,5 +54,15 @@ namespace VacationsBLL.Services
             return result;
         }
 
+        public TeamDTO GetTeamById(string id)
+        {
+            return Mapper.Map<Team, TeamDTO>(_teams.GetById(id));
+        }
+
+        public void UpdateTeamInfo(TeamDTO team)
+        {
+            _teams.Update(Mapper.Map<TeamDTO, Team>(team));
+        }
+
     }
 }
