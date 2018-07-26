@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace VacationsBLL.Interfaces
@@ -8,12 +7,13 @@ namespace VacationsBLL.Interfaces
     {
 
         SelectListItem[] SelectEditRoles(string editValue);
-        List<SelectListItem> SelectEditJobTitles(string editValue);
-        List<SelectListItem> SelectEditStatuses(string editValue);
-        List<SelectListItem> SelectRoles();
-        List<SelectListItem> SelectJobTitles();
-        List<SelectListItem> SelectStatuses();
+        SelectListItem[] SelectEditJobTitles(string editValue);
+        SelectListItem[] SelectEditStatuses(string editValue);
+        SelectListItem[] SelectRoles();
+        SelectListItem[] SelectJobTitles();
+        SelectListItem[] SelectStatuses();
         SelectListItem[] SelectVacationTypes();
+        SelectListItem[] EmployeesList();
 
     }
 }

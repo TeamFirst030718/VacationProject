@@ -9,6 +9,6 @@ namespace Vacations.Models
     {
         public ProfileViewModel ProfileData;
         public ProfileVacationsViewModel[] VacationsData;
-        public VacationBalanceModel VacationBalanceData;
+        public VacationBalanceViewModel VacationBalanceData;
     }
 }

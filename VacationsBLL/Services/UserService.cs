@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using VacationsBLL.DTOs;
+﻿using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Entities;
 using VacationsDAL.Interfaces;
-using VacationsDAL.Repositories;
 
 namespace VacationsBLL.Services
 {

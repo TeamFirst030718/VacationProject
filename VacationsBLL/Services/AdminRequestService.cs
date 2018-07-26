@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
-using System.Web;
-using System.Web.Mvc;
 using VacationsBLL.DTOs;
 using VacationsBLL.Enums;
 using VacationsBLL.Interfaces;
@@ -18,7 +13,7 @@ namespace VacationsBLL.Services
     {
         public string AdminID { get; set; }
         private const string empty = "None";
-        private IUserService _userService;
+        private IUsersRepository _users;
         private IJobTitleRepository _jobTitles;
         private IEmployeeRepository _employees;
         private IVacationRepository _vacations;
@@ -37,22 +32,22 @@ namespace VacationsBLL.Services
                                    IJobTitleRepository jobTitles,
                                    IEmployeeRepository employees,
                                    IVacationRepository vacations,
-                                   IUserService userService,
                                    IVacationStatusTypeRepository vacationStatusTypes,
-                                   IVacationTypeRepository vacationTypes)
+                                   IVacationTypeRepository vacationTypes,
+                                   IUsersRepository users)
         {
             _jobTitles = jobTitles;
             _employees = employees;
             _vacations = vacations;
-            _userService = userService;
             _vacationStatusTypes = vacationStatusTypes;
             _vacationTypes = vacationTypes;
             _transactions = transactions;
             _transactionTypes = transactionTypes;
+            _users = users;
         }
-        public void SetAdminID(string adminEmail)
+        public void SetAdminID(string id)
         {
-            AdminID = _employees.GetByEmail(adminEmail).EmployeeID;
+            AdminID = id;
         }
 
         private int VacationSortFunc(string statusType)
@@ -67,37 +62,38 @@ namespace VacationsBLL.Services
             }
         }
 
-        public RequestDTO[] GetVacations()
+        public RequestDTO[] GetRequests()
         {
-            IEnumerable<Employee> employees = _employees.Get();
+            var users = _users.Get();
 
-            var vacations = _vacations.Get();
-
-            var users = _userService.GetUsers();
-
-            var vacationStatusTypes = _vacationStatusTypes.Get();
-
-            Func<Employee, bool> whereLinq = emp => users.FirstOrDefault(u => u.Id.Equals(emp.EmployeeID)).AspNetRoles.First().Equals(RoleEnum.Administrator.ToString()) ||
-                                              (emp.EmployeesTeam.Count.Equals(1) && emp.EmployeesTeam.First().TeamLeadID.Equals(users.FirstOrDefault(x => x.Email.Equals(AdminID)))) ||
+            Func<Employee, bool> whereLinq = emp => users.FirstOrDefault(u => u.Id.Equals(emp.EmployeeID)).AspNetRoles.Any(x=>x.Name.Equals(RoleEnum.Administrator.ToString())) ||
+                                              (emp.EmployeesTeam.Count.Equals(1) && emp.EmployeesTeam.First().TeamLeadID.Equals(AdminID)) ||
                                               (emp.EmployeesTeam.Count.Equals(0));
-            
-            employees = _employees.Get(whereLinq);
 
-            var requestsList = vacations.Where(vac => employees.Any(emp => emp.EmployeeID.Equals(vac.EmployeeID))).
-                                  Join(employees, vac => vac.EmployeeID, emp => emp.EmployeeID, (vac, emp) => new RequestDTO
-                                  {
-                                      EmployeeID = emp.EmployeeID,
-                                      VacationID = vac.VacationID,
-                                      Name = string.Format($"{emp.Name} {emp.Surname}"),
-                                      TeamName = emp.EmployeesTeam.Count.Equals(0) ? empty : emp.EmployeesTeam.First().TeamName,
-                                      Duration = vac.Duration,
-                                      VacationDates = string.Format($"{vac.DateOfBegin.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}-{vac.DateOfEnd.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}"),
-                                      EmployeesBalance = emp.VacationBalance,
-                                      Created = vac.Created,
-                                      Status = vacationStatusTypes.FirstOrDefault(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).VacationStatusName
-                                  }).OrderBy(req=> VacationSortFunc(req.Status)).ThenByDescending(req=> req.Created).ToArray();
+            Employee[] employees = _employees.Get(whereLinq);
 
-            return requestsList;
+            if(employees !=null)
+            {
+                var requestsList = _vacations.Get(vac => employees.Any(emp => emp.EmployeeID.Equals(vac.EmployeeID))).
+                                                Join(employees, vac => vac.EmployeeID, emp => emp.EmployeeID, (vac, emp) => new RequestDTO
+                                                {
+                                                    EmployeeID = emp.EmployeeID,
+                                                    VacationID = vac.VacationID,
+                                                    Name = string.Format($"{emp.Name} {emp.Surname}"),
+                                                    TeamName = emp.EmployeesTeam.Count.Equals(0) ? empty : emp.EmployeesTeam.First().TeamName,
+                                                    Duration = vac.Duration,
+                                                    VacationDates = string.Format($"{vac.DateOfBegin.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}-{vac.DateOfEnd.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}"),
+                                                    EmployeesBalance = emp.VacationBalance,
+                                                    Created = vac.Created,
+                                                    Status = _vacationStatusTypes.Get(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).First().VacationStatusName
+                                                }).OrderBy(req => VacationSortFunc(req.Status)).ThenByDescending(req => req.Created).ToArray();
+                return requestsList;
+            }
+            else
+            {
+                return new RequestDTO[0];
+            }
+          
         }
 
         public RequestProcessDTO GetRequestDataById(string id)

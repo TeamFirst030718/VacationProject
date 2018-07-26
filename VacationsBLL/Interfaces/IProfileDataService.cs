@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using VacationsBLL.DTOs;
+﻿using VacationsBLL.DTOs;
 
 namespace VacationsBLL.Interfaces
 {

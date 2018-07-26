@@ -42,7 +42,9 @@ namespace Vacations.Controllers
             _adminEmployeeListService = adminEmployeeListService;
             _requestService = requestService;
             _teamService = TeamService;
-        } 
+
+        }
+
 
         public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
@@ -90,8 +92,6 @@ namespace Vacations.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(EmployeeViewModel model)
@@ -120,7 +120,7 @@ namespace Vacations.Controllers
                     var result = await UserManager.CreateAsync(user, "123asdQ!");
 
                     if (result.Succeeded)
-                    {                
+                    {
                         UserManager.AddToRole(user.Id, roleParam);
 
                         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -133,11 +133,11 @@ namespace Vacations.Controllers
 
                         var codeToSetPassword = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 
-                        var callbackUrlToSetPassword = Url.Action("ResetPasswordAndConfirmEmail", "Account", new { codeToResetPassword = codeToSetPassword, codeToConfirmationEmail = code, userId = user.Id}, protocol: Request.Url.Scheme);
+                        var callbackUrlToSetPassword = Url.Action("ResetPasswordAndConfirmEmail", "Account", new { codeToResetPassword = codeToSetPassword, codeToConfirmationEmail = code, userId = user.Id }, protocol: Request.Url.Scheme);
 
 
                         await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
-                            "Set Password and confirm your account by clicking this <a href=\"" + callbackUrlToSetPassword +"\">link</a>.");
+                            "Set Password and confirm your account by clicking this <a href=\"" + callbackUrlToSetPassword + "\">link</a>.");
 
 
                         transaction.Complete();
@@ -147,23 +147,26 @@ namespace Vacations.Controllers
                 }
             }
 
-
             return View(model);
         }
 
         [HttpGet]
         public ActionResult Edit(string id)
         {
+
+
             if (id == null)
             {
                 return View("Error");
             }
 
-            ViewBag.Role = UserManager.GetRoles(id).FirstOrDefault();
-
-            ViewBag.ListService = _pageListsService;
+            var role = UserManager.GetRoles(id).FirstOrDefault();
 
             var model = Mapper.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(id));
+
+            ViewData["statusSelectList"] = _pageListsService.SelectEditStatuses(model.Status.ToString());
+            ViewData["jobTitlesSelectList"] = _pageListsService.SelectEditJobTitles(model.JobTitleID);
+            ViewData["aspNetRolesSelectList"] = _pageListsService.SelectEditRoles(role);
 
             return View(model);
         }
@@ -173,9 +176,13 @@ namespace Vacations.Controllers
         public ActionResult Edit(EmployeeViewModel model, string id)
         {
             model.EmployeeID = id;
+            var role = UserManager.GetRoles(id).FirstOrDefault();
+            ViewData["statusSelectList"] = _pageListsService.SelectEditStatuses(model.Status.ToString());
+            ViewData["jobTitlesSelectList"] = _pageListsService.SelectEditJobTitles(model.JobTitleID);
+            ViewData["aspNetRolesSelectList"] = _pageListsService.SelectEditRoles(role);
+
             if (ModelState.IsValid)
             {
-                ViewBag.ListService = _pageListsService;
                 model.JobTitleID = Request.Params["jobTitlesSelectList"];
                 model.Status = Request.Params["statusSelectList"].AsBool();
                 var roleParam = Request.Params["aspNetRolesSelectList"];
@@ -194,7 +201,7 @@ namespace Vacations.Controllers
 
             return View("Edit");
         }
-         
+
         public ActionResult EmployeesList()
         {
             var employeeList = _adminEmployeeListService.EmployeeList();
@@ -207,8 +214,11 @@ namespace Vacations.Controllers
         [HttpGet]
         public ActionResult RegisterTeam()
         {
-            ViewBag.ListService = _pageListsService;
-            ViewBag.ListOfEmployees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
+
+            ViewData["employeesSelectList"] = _pageListsService.EmployeesList();
+
+            ViewData["listOfEmployees"] = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
+
             return View();
         }
 
@@ -242,18 +252,18 @@ namespace Vacations.Controllers
                 ViewBag.ListService = _pageListsService;
                 ViewBag.ListOfEmployees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAll().ToArray());
             }
-           
+
             return View();
         }
 
-    
-
-
+        [HttpGet]
         public ActionResult Requests()
         {
-            ViewBag.RequestService = _requestService;
+            var requestsData = new VacationRequestsViewModel();
 
-            return View();
+            _requestService.SetAdminID(User.Identity.GetUserId());
+
+            return View(Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequests()));
         }
 
         [HttpGet]
@@ -263,7 +273,6 @@ namespace Vacations.Controllers
 
             return PartialView("ProcessPopupPartial", request);
         }
-
 
         [HttpPost]
         public ActionResult ProcessPopupPartial(RequestProcessResultModel model)
@@ -279,8 +288,6 @@ namespace Vacations.Controllers
                     _requestService.DenyVacation(Mapper.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
                 }
             }
-
-            ViewBag.RequestService = _requestService;
 
             return RedirectToAction("Requests", "Admin");
 
@@ -329,5 +336,4 @@ namespace Vacations.Controllers
             return View(result);
         }
     }
-
 }
