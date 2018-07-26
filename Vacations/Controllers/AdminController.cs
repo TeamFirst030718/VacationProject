@@ -226,7 +226,7 @@ namespace Vacations.Controllers
                 {
                     var result = temp.Split(',');
                     foreach (var employeeId in result)
-                    {
+                     {
                         if (employeeId != model.TeamLeadID)
                         {
                             _employeeService.AddToTeam(employeeId, model.TeamID);
