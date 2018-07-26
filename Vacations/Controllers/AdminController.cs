@@ -286,9 +286,11 @@ namespace Vacations.Controllers
                     _requestService.DenyVacation(Mapper.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
                 }
             }
+            var requestsData = new VacationRequestsViewModel();
 
-            return RedirectToAction("Requests", "Admin");
+            _requestService.SetAdminID(User.Identity.GetUserId());
 
+            return View("Requests", Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequests()));
         }
     }
 }

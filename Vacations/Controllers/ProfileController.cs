@@ -119,7 +119,7 @@ namespace Vacations.Controllers
                 return View(requestVacationData);
             }
         }
-
+        
         [HttpGet]
         public ActionResult LogOff()
         {
