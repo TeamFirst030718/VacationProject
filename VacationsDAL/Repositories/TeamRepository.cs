@@ -62,7 +62,7 @@ namespace VacationsDAL.Repositories
 
             if (obj != null)
             {
-                var employee = obj.Employees.FirstOrDefault(x => x.EmployeeID == EmployeeID);
+                var employee = _context.Employees.FirstOrDefault(x => x.EmployeeID == EmployeeID);
 
                 if (employee != null)
                 {
