@@ -167,17 +167,20 @@ namespace IdentitySample.Controllers
         {
             if (ModelState.IsValid)
             {
+                ViewData["response"] = "Ready! Please, check your email.";
+
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
 
-                    ViewData["response"] = "Ready! Please, check your email.";
+
 
                     return View("ForgotPasswordResponse");
                 }
 
                 var email = new EmailService();
+
                 var employee = _employeeService.GetUserById(user.Id);
 
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
@@ -215,8 +218,6 @@ namespace IdentitySample.Controllers
                 return RedirectToAction("Error");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, codeToConfirmationEmail);
-
-
         
             return codeToResetPassword == null ? RedirectToAction("Error") : RedirectToAction("ResetPassword", new {code = codeToResetPassword});
         }
@@ -376,6 +377,13 @@ namespace IdentitySample.Controllers
             return View();
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult tempResetPassword()
+        {
+            return View();
+        }
+
 
         /*protected override void Dispose(bool disposing)
         {
@@ -386,7 +394,7 @@ namespace IdentitySample.Controllers
             base.Dispose(disposing);
         }*/
 
-        
+
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
