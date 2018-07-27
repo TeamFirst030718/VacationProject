@@ -226,7 +226,7 @@ namespace Vacations.Controllers
                 {
                     var result = members.Split(',');
                     foreach (var employeeId in result)
-                     {
+                    {
                         if (employeeId != model.TeamLeadID)
                         {
                             _employeeService.AddToTeam(employeeId, model.TeamID);
@@ -294,7 +294,7 @@ namespace Vacations.Controllers
                     TeamName = teamListDto.TeamName,
                     TeamLeadName = _employeeService.GetUserById(teamListDto.TeamLeadID).Name,
                     AmountOfEmployees = teamListDto.AmountOfEmployees
-                });    
+                });
             }
 
             return View(result);
@@ -303,7 +303,7 @@ namespace Vacations.Controllers
         [HttpGet]
         public ActionResult ViewTeamProfile(string id)
         {
-            
+
             var team = _teamService.GetById(id);
 
             var employeesDTOs = _employeeService.GetEmployeesByTeamId(team.TeamID);
@@ -328,7 +328,7 @@ namespace Vacations.Controllers
         {
             var employee = _employeeService.GetUserById(id);
 
-            if(employee !=null)
+            if (employee != null)
             {
                 var model = Mapper.Map<EmployeeDTO, EmployeeViewModel>(employee);
 
@@ -342,6 +342,7 @@ namespace Vacations.Controllers
             return RedirectToAction("Requests", "Admin");
         }
 
+        [HttpGet]
         public ActionResult EditTeam(string id)
         {
             var team = Mapper.Map<TeamDTO, TeamViewModel>(_teamService.GetTeamById(id));
@@ -366,9 +367,7 @@ namespace Vacations.Controllers
             model.TeamID = id;
             string members = Request.Params["members"];
 
-            var employees =
-                Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetEmployeesByTeamId(id));
-
+            var employees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetEmployeesByTeamId(id));
 
             _teamService.UpdateTeamInfo(Mapper.Map<TeamViewModel, TeamDTO>(model));
 
@@ -381,7 +380,7 @@ namespace Vacations.Controllers
 
             if (members == null)
             {
-                foreach(var employeeId in oldEmployeesID)
+                foreach (var employeeId in oldEmployeesID)
                 {
                     if (employeeId != model.TeamLeadID)
                     {

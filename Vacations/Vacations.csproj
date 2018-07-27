@@ -281,6 +281,7 @@
     <Content Include="Content\Icons\down icon.svg" />
     <Content Include="Content\Icons\edit icon grey.svg" />
     <Content Include="Content\Icons\edit icon white.svg" />
+    <Content Include="Content\Icons\eye.svg" />
     <Content Include="Content\Icons\gragient box.svg" />
     <Content Include="Content\Icons\icons8-bookmark.svg" />
     <Content Include="Content\Icons\logo-softheme.svg" />

@@ -50,7 +50,7 @@ namespace VacationsDAL.Repositories
 
                 if (employee != null)
                 {
-                    _context.Employees.Remove(employee);
+                    obj.Employees.Remove(employee);
                     _context.SaveChanges();
                 }
             }
@@ -62,11 +62,11 @@ namespace VacationsDAL.Repositories
 
             if (obj != null)
             {
-                var employee = obj.Employees.FirstOrDefault(x => x.EmployeeID == EmployeeID);
+                var employee = _context.Employees.FirstOrDefault(x => x.EmployeeID == EmployeeID);
 
                 if (employee != null)
                 {
-                    _context.Employees.Add(employee);
+                    obj.Employees.Add(employee);
                     _context.SaveChanges();
                 }
             }
