@@ -11,7 +11,7 @@ namespace VacationsBLL.Services
 {
     public class RequestService : IRequestService
     {
-        public string AdminID { get; set; }
+        public string ReviewerID { get; set; }
         private const string empty = "None";
         private IUsersRepository _users;
         private IJobTitleRepository _jobTitles;
@@ -21,11 +21,6 @@ namespace VacationsBLL.Services
         private IVacationTypeRepository _vacationTypes;
         private IVacationStatusTypeRepository _vacationStatusTypes;
         private ITransactionTypeRepository _transactionTypes;
-        
-        public RequestService(string id)
-        {
-            AdminID = id;
-        }
 
         public RequestService(ITransactionTypeRepository transactionTypes,
                                    ITransactionRepository transactions,
@@ -45,9 +40,10 @@ namespace VacationsBLL.Services
             _transactionTypes = transactionTypes;
             _users = users;
         }
+
         public void SetAdminID(string id)
         {
-            AdminID = id;
+            ReviewerID = id;
         }
 
         private int VacationSortFunc(string statusType)
@@ -66,9 +62,9 @@ namespace VacationsBLL.Services
         {
             var users = _users.Get();
 
-            bool whereLinq(Employee emp) => emp.EmployeeID.Equals(AdminID) ||
+            bool whereLinq(Employee emp) => emp.EmployeeID.Equals(ReviewerID) ||
                                                     (emp.EmployeesTeam.Count.Equals(1) &&
-                                                    emp.EmployeesTeam.First().TeamLeadID.Equals(AdminID)) ||
+                                                    emp.EmployeesTeam.First().TeamLeadID.Equals(ReviewerID)) ||
                                                     emp.EmployeesTeam.Count.Equals(0);
             Employee[] employees = _employees.Get(whereLinq);
 
@@ -142,7 +138,7 @@ namespace VacationsBLL.Services
                     vacation.Duration = result.BalanceChange;
                     vacation.DateOfBegin = result.DateOfBegin;
                     vacation.DateOfEnd = result.DateOfEnd;
-                    vacation.ProcessedByID = AdminID;
+                    vacation.ProcessedByID = ReviewerID;
 
                     _vacations.Update(vacation);
 
@@ -159,6 +155,7 @@ namespace VacationsBLL.Services
                         TransactionTypeID = _transactionTypes.GetByType(TransactionTypeEnum.VacationTransaction.ToString()).TransactionTypeID,
                         TransactionID = Guid.NewGuid().ToString(),
                     };
+
                     _transactions.Add(transaction);
 
                     scope.Complete();
@@ -175,7 +172,7 @@ namespace VacationsBLL.Services
                 {
                     vacation.VacationStatusTypeID = _vacationStatusTypes.GetByType(VacationStatusTypeEnum.Denied.ToString()).VacationStatusTypeID;
 
-                    vacation.ProcessedByID = AdminID;
+                    vacation.ProcessedByID = ReviewerID;
 
                     _vacations.Update(vacation);
 

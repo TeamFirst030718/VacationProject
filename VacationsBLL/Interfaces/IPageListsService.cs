@@ -3,9 +3,8 @@ using System.Web.Mvc;
 
 namespace VacationsBLL.Interfaces
 {
-    public interface IPageListsService: IDisposable
+    public interface IPageListsService
     {
-
         SelectListItem[] SelectEditRoles(string editValue);
         SelectListItem[] SelectEditJobTitles(string editValue);
         SelectListItem[] SelectEditStatuses(string editValue);
@@ -15,6 +14,5 @@ namespace VacationsBLL.Interfaces
         SelectListItem[] SelectStatuses();
         SelectListItem[] SelectVacationTypes();
         SelectListItem[] EmployeesList();
-
     }
 }

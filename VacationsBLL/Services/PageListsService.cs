@@ -148,13 +148,5 @@ namespace VacationsBLL.Services
 
             return vacationTypes;
         }
-
-        public void Dispose()
-        {
-            _jobTitles.Dispose();
-            _employees.Dispose();
-            _roles.Dispose();
-            _vacationTypes.Dispose();
-        }
     }
 }

@@ -49,10 +49,5 @@ namespace VacationsDAL.Repositories
             _context.VacationStatusTypes.Add(VacationStatusType);
             _context.SaveChanges();
         }
-
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
     }
 }

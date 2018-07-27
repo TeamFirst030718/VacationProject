@@ -83,13 +83,5 @@ namespace VacationsBLL.Services
           
             return new VacationBalanceDTO { Balance = employee.VacationBalance };
         }
-
-        public void Dispose()
-        {
-            _jobTitles.Dispose();
-            _employees.Dispose();
-            _users.Dispose();
-        }
-
     }
 }

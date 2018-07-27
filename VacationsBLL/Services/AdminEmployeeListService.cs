@@ -50,7 +50,6 @@ namespace VacationsBLL.Services
                                 TeamName = team.TeamName
                             }
                         });
-
                     }
                 }
             }

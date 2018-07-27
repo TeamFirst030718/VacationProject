@@ -26,12 +26,6 @@ namespace IdentitySample.Controllers
             _aspNetUserService = userService;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
-
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
         {
@@ -172,10 +166,6 @@ namespace IdentitySample.Controllers
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
-
-
-
                     return View("ForgotPasswordResponse");
                 }
 
@@ -191,7 +181,6 @@ namespace IdentitySample.Controllers
                     "Please restore your password by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
@@ -234,7 +223,6 @@ namespace IdentitySample.Controllers
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
             {
-                // Don't reveal that the user does not exist
                 return RedirectToAction("Login", "Account");
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
@@ -302,7 +290,6 @@ namespace IdentitySample.Controllers
                 return RedirectToAction("Login");
             }
 
-            // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
             {
@@ -314,7 +301,6 @@ namespace IdentitySample.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
                 case SignInStatus.Failure:
                 default:
-                    // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
@@ -357,9 +343,6 @@ namespace IdentitySample.Controllers
             return View(model);
         }
 
-        //
-
-        // POST: /Account/LogOff
         [HttpGet]
         public ActionResult LogOff()
         {
@@ -367,9 +350,6 @@ namespace IdentitySample.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        //
-
-        // GET: /Account/ExternalLoginFailure
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
@@ -377,26 +357,7 @@ namespace IdentitySample.Controllers
             return View();
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult tempResetPassword()
-        {
-            return View();
-        }
-
-
-        /*protected override void Dispose(bool disposing)
-        {
-            _aspNetUserService.Dispose();
-            _employeeService.Dispose(); 
-            _aspNetRoleService.Dispose();
-            _pageListsService.Dispose();
-            base.Dispose(disposing);
-        }*/
-
-
         #region Helpers
-        // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
         private IAuthenticationManager AuthenticationManager

@@ -213,12 +213,5 @@ namespace VacationsBLL
 
             return result;
         }
-
-        public void Dispose()
-        {
-            _employees.Dispose();
-            _jobTitles.Dispose();
-            _teams.Dispose();
-        }
     }
 }

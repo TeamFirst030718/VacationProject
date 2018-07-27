@@ -95,10 +95,5 @@ namespace VacationsDAL.Repositories
         {
             return _context.Teams.ToList();
         }
-
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using VacationsDAL.Entities;
+﻿using VacationsDAL.Entities;
 
 namespace VacationsDAL.Interfaces
 {

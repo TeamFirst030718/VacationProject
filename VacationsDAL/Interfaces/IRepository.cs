@@ -2,7 +2,7 @@
 
 namespace VacationsDAL.Interfaces
 {
-    public interface IRepository<T>: IDisposable
+    public interface IRepository<T>
     {
         void Add(T employee);
         T[] Get(Func<T, bool> condition = null);
