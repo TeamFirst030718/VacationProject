@@ -5,8 +5,6 @@
     ViewBag.Title = "TeamList";
 }
 
-<h2>EmployeesList</h2>
-
 <div class="container m-0 p-0 ">
     <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
         <div class="row m-auto text-white">
@@ -21,7 +19,6 @@
                 <td style="text-align: center; border-top: none">team leader</td>
                 <td style="text-align: center; border-top: none">amount of employees</td>
                 <td style="border-top: none; text-align: center"></td>
-                <td style="border-top: none; text-align: center"></td>
             </tr>
             @{
                 foreach (var team in Model)
@@ -31,11 +28,13 @@
                         <td style="border-top: none; text-align: center">@team.TeamLeadName</td>
                         <td style="border-top: none; text-align: center">@team.AmountOfEmployees</td>
                         <td style="border-top: none; text-align: center">
-                            <a href="@Url.Action("ViewTeamProfile","Admin", new {id = @team.TeamID})">View Team Profile</a>
+                            
+                                <img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" style="cursor: pointer" onclick="location='@Url.Action("EditTeam", "Admin", new {id = @team.TeamID})'"/>
+                           
+                                <img alt="View Team Profile" src="~/Content/Icons/eye.svg" class="float-right m-auto my-auto" style="height: 12px; cursor: pointer" onclick="location='@Url.Action("ViewTeamProfile", "Admin", new {id = @team.TeamID})'"/>
+                         
                         </td>
-                        <td style="border-top: none; text-align: center">
-                            <a href="@Url.Action("EditTeam","Admin", new {id = @team.TeamID})"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
-                        </td>
+                       
                         
                     </tr>
                 }
