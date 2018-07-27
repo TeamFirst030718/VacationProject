@@ -50,7 +50,7 @@ namespace VacationsDAL.Repositories
 
                 if (employee != null)
                 {
-                    _context.Employees.Remove(employee);
+                    obj.Employees.Remove(employee);
                     _context.SaveChanges();
                 }
             }
@@ -66,7 +66,7 @@ namespace VacationsDAL.Repositories
 
                 if (employee != null)
                 {
-                    _context.Employees.Add(employee);
+                    obj.Employees.Add(employee);
                     _context.SaveChanges();
                 }
             }
