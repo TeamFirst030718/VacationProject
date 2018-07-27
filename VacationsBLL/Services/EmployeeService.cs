@@ -34,7 +34,7 @@ namespace VacationsBLL
 
         public EmployeeDTO GetUserById(string id)
         {
-            return Mapper.Map<Employee, EmployeeDTO>(_employees.GetById(id)); 
+            return Mapper.Map<Employee, EmployeeDTO>(_employees.GetById(id));
         }
 
         public List<JobTitleDTO> GetJobTitles()
@@ -62,6 +62,7 @@ namespace VacationsBLL
         private void MapChanges(Employee entity, EmployeeDTO changes)
         {
             var entityChanges = Mapper.Map<EmployeeDTO, Employee>(changes);
+
             entity.BirthDate = entityChanges.BirthDate;
             entity.DateOfDismissal = entityChanges.DateOfDismissal;
             entity.EmployeeID = entityChanges.EmployeeID;
@@ -75,7 +76,6 @@ namespace VacationsBLL
             entity.Surname = entityChanges.Surname;
             entity.VacationBalance = entityChanges.VacationBalance;
             entity.WorkEmail = entityChanges.WorkEmail;
-
         }
 
         public List<EmployeeListDTO> EmployeeList()
@@ -155,11 +155,11 @@ namespace VacationsBLL
         {
             var team = _teams.GetById(TeamID);
             var employee = _employees.GetById(EmployeeID);
-           
+
             team.Employees.Add(employee);
 
             _teams.Update(team);
-            
+
         }
 
         public IEnumerable<EmployeeDTO> GetAllFreeEmployees()

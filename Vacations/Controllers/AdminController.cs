@@ -321,5 +321,19 @@ namespace Vacations.Controllers
 
             return View(result);
         }
+
+        [HttpGet]
+        public ActionResult EmployeeView(string id)
+        {
+            var role = UserManager.GetRoles(id).FirstOrDefault();
+
+            var model = Mapper.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(id));
+
+            ViewData["Status"] = _pageListsService.SelectEditStatuses(model.Status.ToString());
+            ViewData["JobTitle"] = _pageListsService.SelectEditJobTitles(model.JobTitleID);
+            ViewData["Role"] = _pageListsService.SelectEditRoles(role);
+
+            return View(model);
+        }
     }
 }

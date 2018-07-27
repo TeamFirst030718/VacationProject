@@ -2,171 +2,169 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <div class="container m-0 py-3">
-        <form style="color:white;">
-            <div class="container pb-5 text-light-grey">
-                <div class="row">
-                    <div class="container-fluid border border-bottom-0 border-grey container-rounded-top bg-global text-white p-2 py-2">
-                        <strong>Edit Profile</strong>
-                    </div>
+<div class="container m-0 py-3">
+    <form style="color:white;">
+        <div class="container pb-5 text-light-grey">
+            <div class="row">
+                <div class="container-fluid border border-bottom-0 border-grey container-rounded-top bg-global text-white p-2 py-2">
+                    <strong>Employee Profile</strong>
                 </div>
-                <div class="row">
-                    <!--1-->
-                    <div class="col-4 border border-bottom-0 border-grey  bg-dark pt-1">
-                        <!--1-->
-                        <div class="container text-center  m-auto my-auto position-absolute" style="bottom:0;">
-                            <div class="form-group">
-                                <div class="row m-auto my-auto">
-                                    <div class="float-left my-auto ">
-                                        <img src="~/Content/Icons/user profile icon.svg" class="m-auto" style="height:70px" />
-                                    </div>
-                                    <button class="my-auto m-1 button-add-photo ml-2">Add Photo</button>
+            </div>
+            <div class="row">
+                <div class="col-4 border border-bottom-0 border-grey  bg-dark pt-1">
+                    <div class="container text-center  m-auto my-auto position-absolute" style="bottom:0;">
+                        <div class="form-group">
+                            <div class="row m-auto my-auto">
+                                <div class="float-left my-auto ">
+                                    <img src="~/Content/Icons/user profile icon.svg" class="m-auto" style="height:70px" />
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-4 border-top border-grey  bg-dark pt-1">
-                        <div class="form-group container">
-                            @Html.LabelFor(m => m.BirthDate, new { @class = "control-label " })
-                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerBirthDate" name="BirthDate" value="@Model.BirthDate.ToString("yyyy-MM-dd")">
-                        </div>
-                    </div>
-                    <div class="col-4 border-right border-top border-grey   bg-dark pt-1">
-                        <div class="form-group container">
-                            <label>role</label>
-
-                            @Html.DropDownList("aspNetRolesSelectList", null, null, new { @class = "form-control bg-dark border-grey colorWhite" })
-                        </div>
+                <div class="col-4 border-top border-grey  bg-dark pt-1">
+                    <div class="form-group container">
+                        @Html.LabelFor(m => m.BirthDate, new { @class = "control-label " })
+                        <input disabled class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerBirthDate" name="BirthDate" value="@Model.BirthDate.ToString("yyyy-MM-dd")">
                     </div>
                 </div>
-                <div class="row">
-                    <!--2-->
-                    <div class="col-4  border-left border-right  border-grey  bg-dark">
-                        <div class="form-group container">
-                            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Enter Name", autocomplete = "off" })
-                        </div>
+                <div class="col-4 border-right border-top border-grey   bg-dark pt-1">
+                    <div class="form-group container">
+                        <label>role</label>
 
-                    </div>
-
-                    <div class="col-4  bg-dark ">
-                        <div class="form-group container">
-                            @Html.LabelFor(m => m.PersonalMail, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.PersonalMail, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "example@mail.com" })
-                        </div>
-
-                    </div>
-                    <div class="col-4 border-right  border-grey   bg-dark ">
-                        <div class="form-group container">
-                            @Html.LabelFor(m => m.WorkEmail, new { @class = " control-label" })
-                            @Html.TextBoxFor(m => m.WorkEmail, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "example@softheme.com" })
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <!--3-->
-                    <div class="col-4 border-left border-right border-grey  bg-dark ">
-                        <div class="form-group container">
-                            @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Enter Surname", autocomplete = "off" })
-                        </div>
-
-                    </div>
-
-                    <div class="col-4  bg-dark">
-                        <div class="form-group container">
-                            @Html.LabelFor(m => m.PhoneNumber, new { @class = " control-label" })
-                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control bg-dark border-grey colorWhite", id = "phonenumber", placeholder = "xxx xxx xxxx" })
-
-                        </div>
-
-                    </div>
-                    <div class="col-4 border-right border-grey   bg-dark">
-                        <div class="form-group container">
-                            @Html.LabelFor(m => m.Skype, new { @class = " control-label" })
-                            @Html.TextBoxFor(m => m.Skype, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "userskype" })
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 border-left border-right border-grey  bg-dark ">
-                        <div class="form-group container">
-                            @Html.LabelFor(m => m.JobTitleID, new { @class = "control-label" })
-                            @Html.DropDownList("jobTitlesSelectList", null, null, new { @class = "form-control bg-dark border-grey colorWhite" })
-                        </div>
-
-                    </div>
-
-                    <div class="col-4  bg-dark">
-
-                        <div class="form-group container">
-                            @Html.LabelFor(m => m.HireDate, new { @class = "control-label" })
-                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerHireDate" name="HireDate" value="@Model.HireDate.ToString("yyyy-MM-dd")">
-                        </div>
-                    </div>
-                    <div class="col-4 border-right border-grey   bg-dark ">
-
-                        <div class="form-group container">
-                            @Html.LabelFor(m => m.DateOfDismissal, new { @class = " control-label" })
-                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerDateOfDismissal" name="DateOfDismissal" value="@if (Model.DateOfDismissal != null)
-                                                                                                                                                     {
-                                                                                                                                                         @Model.DateOfDismissal.Value.ToString("yyyy-MM-dd")
-                                                                                                                                                     }">
-                        </div>
-
-                    </div>
-                </div>
-                <div class="row  ">
-                    <div class="col-4 border-left border-right border-grey  bg-dark ">
-                        <div class="form-group container">
-                            @Html.LabelFor(m => m.Status, new { @class = "control-label" })
-                            @Html.DropDownList("statusSelectList", null, null, new { @class = "form-control bg-dark border-grey colorWhite" })
-                        </div>
-
-                    </div>
-
-                    <div class="col-4  bg-dark">
-                        <div class="form-group container">
-                            <label>team name</label>
-                            <input type="text" class="form-control bg-dark border-grey colorWhite" placeholder="Team Name" />
-                        </div>
-                    </div>
-                    <div class="col-4 border-right border-grey   bg-dark ">
-                        <div class="form-group container">
-                            <label>team lead</label>
-                            <input type="text" class="form-control bg-dark border-grey colorWhite" placeholder="Team Lead" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4 border border-top-0 border-bottom-rounded-left border-grey  bg-dark ">
-                        <div class="form-group container">
-                            @Html.LabelFor(m => m.VacationBalance, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.VacationBalance, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Vacation Balance" })
-                        </div>
-                    </div>
-
-                    <div class="col-4 border-bottom border-grey  bg-dark">
-                        <div class="form-group container ">
-                            @Html.Label("temp", new { @class = "control-label invisible" })
-                            <input type="reset" class="form-control bg-dark button-cancel border-grey" value="CANCEL" />
-                        </div>
-                    </div>
-                    <div class="col-4 border-right border-bottom border-bottom-rounded-right border-grey   bg-dark ">
-                        <div class="form-group container">
-                            @Html.Label("temp", new { @class = "control-label invisible" })
-                            <input type="submit" class="form-control bg-dark button-done border-grey bt-gradient" style="height:40px !important; padding-top:5px;" value="DONE" />
-                        </div>
+                        @Html.Label("1", new { @class = "form-control bg-dark border-grey colorWhite", disabled = "true" })
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
-}
+            <div class="row">
+                <!--2-->
+                <div class="col-4  border-left border-right  border-grey  bg-dark">
+                    <div class="form-group container">
+                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Enter Name", autocomplete = "off", disabled = "true" })
+                    </div>
 
+                </div>
+
+                <div class="col-4  bg-dark ">
+                 
+                        @Html.LabelFor(m => m.PersonalMail, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.PersonalMail, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "example@mail.com", disabled = "true" })
+                    </div>
+
+                </div>
+                <div class="col-4 border-right  border-grey   bg-dark ">
+                    <div class="form-group container">
+                        @Html.LabelFor(m => m.WorkEmail, new { @class = " control-label" })
+                        @Html.TextBoxFor(m => m.WorkEmail, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "example@softheme.com", disabled = "true" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!--3-->
+                <div class="col-4 border-left border-right border-grey  bg-dark ">
+                    <div class="form-group container">
+                        @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Surname, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Enter Surname", autocomplete = "off", disabled = "true" })
+                    </div>
+
+                </div>
+
+                <div class="col-4  bg-dark">
+                    <div class="form-group container">
+                        @Html.LabelFor(m => m.PhoneNumber, new { @class = " control-label" })
+                        @Html.Label(Model.PhoneNumber, new { @class = "bg-dark colorWhite", id = "phonenumber", placeholder = "xxx xxx xxxx", disabled = "true" })
+
+                    </div>
+
+                </div>
+                <div class="col-4 border-right border-grey   bg-dark">
+                    <div class="form-group container">
+                        @Html.LabelFor(m => m.Skype, new { @class = " control-label" })
+                        @Html.TextBoxFor(m => m.Skype, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "userskype", disabled = "true", style="border:none;" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 border-left border-right border-grey  bg-dark ">
+                    <div class="form-group container">
+                        @Html.LabelFor(m => m.JobTitleID, new { @class = "control-label" })
+                        @Html.DropDownList("JobTitle", null, null, new { @class = "form-control bg-dark border-grey colorWhite customDrowDown", disabled = "true" })
+                    </div>
+
+                </div>
+
+                <div class="col-4  bg-dark">
+
+                    <div class="form-group container">
+                        @Html.LabelFor(m => m.HireDate, new { @class = "control-label" })
+                        <input disabled class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerHireDate" name="HireDate" value="@Model.HireDate.ToString("yyyy-MM-dd")">
+                    </div>
+                </div>
+                <div class="col-4 border-right border-grey   bg-dark ">
+                    <div class="form-group container">
+                        @Html.LabelFor(m => m.DateOfDismissal, new { @class = " control-label" })
+                        @if (Model.DateOfDismissal != null)
+                        {
+                            <input disabled class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerDateOfDismissal" name="DateOfDismissal" value="@Model.DateOfDismissal.Value.ToString("dd-MM-yyyy")} " />
+                        }
+                        else
+                        {
+                            @Html.TextBox("DateOfDismissal", "None", new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Vacation Balance", disabled = "true" })
+                        }
+                    </div>                  
+                </div>
+            </div>
+            <div class="row  ">
+                <div class="col-4 border-left border-right border-grey  bg-dark ">
+                    <div class="form-group container">
+                        @Html.LabelFor(m => m.Status, new { @class = "control-label" })
+                        @Html.DropDownList("Status", null, null, new { @class = "form-control bg-dark border-grey colorWhite customDrowDown", disabled = "true" })
+                    </div>
+
+                </div>
+
+                <div class="col-4  bg-dark">
+                    <div class="form-group container">
+                        <label>team name</label>
+                        <input  disabled type="text" class="form-control bg-dark border-grey colorWhite" placeholder="Team Name" />
+                    </div>
+                </div>
+                <div class="col-4 border-right border-grey   bg-dark ">
+                    <div class="form-group container">
+                        <label>team lead</label>
+                        <input disabled type="text" class="form-control bg-dark border-grey colorWhite" placeholder="Team Lead" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 border border-top-0 border-bottom-rounded-left border-grey  bg-dark ">
+                    <div class="form-group container">
+                        @Html.LabelFor(m => m.VacationBalance, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.VacationBalance, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Vacation Balance", disabled = "true" })
+                    </div>
+                </div>
+
+                <div class="col-4 border-bottom border-grey  bg-dark">
+                    <div class="form-group container ">
+                    </div>
+                </div>
+                <div class="col-4 border-right border-bottom border-bottom-rounded-right border-grey   bg-dark ">
+                    <div class="form-group container">
+                        @Html.Label("temp", new { @class = "control-label invisible" })
+                        <input onclick="Back()" class="form-control bg-dark button-done border-grey bt-gradient" style="height:40px !important; padding-top:5px;" value="CLOSE" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    <script>
+        function Back() {
+            window.history.back();
+        }
+    </script>
+}
 
