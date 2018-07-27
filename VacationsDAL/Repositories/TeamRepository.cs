@@ -40,6 +40,39 @@ namespace VacationsDAL.Repositories
             }
         }
 
+        public void RemoveEmployee(string EmployeeID, string TeamID)
+        {
+            var obj = _context.Teams.FirstOrDefault(x => x.TeamID == TeamID);
+
+            if (obj != null)
+            {
+                var employee = obj.Employees.FirstOrDefault(x => x.EmployeeID == EmployeeID);
+
+                if (employee != null)
+                {
+                    _context.Employees.Remove(employee);
+                    _context.SaveChanges();
+                }
+            }
+        }
+
+        public void AddEmployee(string EmployeeID, string TeamID)
+        {
+            var obj = _context.Teams.FirstOrDefault(x => x.TeamID == TeamID);
+
+            if (obj != null)
+            {
+                var employee = obj.Employees.FirstOrDefault(x => x.EmployeeID == EmployeeID);
+
+                if (employee != null)
+                {
+                    _context.Employees.Add(employee);
+                    _context.SaveChanges();
+                }
+            }
+            
+        }
+
         public void Add(Team team)
         {
             _context.Teams.Add(team);
@@ -48,7 +81,14 @@ namespace VacationsDAL.Repositories
 
         public void Update(Team team)
         {
-            _context.SaveChanges();
+            var obj = _context.Teams.FirstOrDefault(x => x.TeamID == team.TeamID);
+
+            if (obj != null)
+            {
+                obj.TeamName = team.TeamName;
+                obj.TeamLeadID = team.TeamLeadID;
+                _context.SaveChanges();
+            }
         }
 
         public IEnumerable<Team> GetAll()

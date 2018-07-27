@@ -455,6 +455,7 @@
     <Content Include="Views\Admin\RegisterTeam.cshtml" />
     <Content Include="Views\Admin\TeamsList.cshtml" />
     <Content Include="Views\Admin\ViewTeamProfile.cshtml" />
+    <Content Include="Views\Admin\EditTeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

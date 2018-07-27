@@ -25,7 +25,7 @@ namespace Vacations.Controllers
         private readonly IPageListsService _pageListsService;
         private readonly IEmployeeService _employeeService;
         private readonly IProfileDataService _profileDataService;
-        private readonly IAdminRequestService _requestService;
+        private readonly IRequestService _requestService;
         private readonly IAdminEmployeeListService _adminEmployeeListService;
         private readonly ITeamService _teamService;
 
@@ -34,7 +34,7 @@ namespace Vacations.Controllers
             IEmployeeService employeeService,
             IPageListsService pageListsService,
             IAdminEmployeeListService adminEmployeeListService,
-            IAdminRequestService requestService,
+            IRequestService requestService,
             ITeamService TeamService)
         {
             _profileDataService = profileDataService;
@@ -221,10 +221,10 @@ namespace Vacations.Controllers
                     TeamID = model.TeamID,
                     TeamName = model.TeamName
                 }));
-                string temp = Request.Params["members"];
-                if (temp != null)
+                string members = Request.Params["members"];
+                if (members != null)
                 {
-                    var result = temp.Split(',');
+                    var result = members.Split(',');
                     foreach (var employeeId in result)
                      {
                         if (employeeId != model.TeamLeadID)
@@ -323,17 +323,97 @@ namespace Vacations.Controllers
         }
 
         [HttpGet]
+
         public ActionResult EmployeeView(string id)
         {
-            var role = UserManager.GetRoles(id).FirstOrDefault();
+            var employee = _employeeService.GetUserById(id);
 
-            var model = Mapper.Map<EmployeeDTO, EmployeeViewModel>(_employeeService.GetUserById(id));
+            if(employee !=null)
+            {
+                var model = Mapper.Map<EmployeeDTO, EmployeeViewModel>(employee);
 
-            ViewData["Status"] = _pageListsService.SelectEditStatuses(model.Status.ToString());
-            ViewData["JobTitle"] = _pageListsService.SelectEditJobTitles(model.JobTitleID);
-            ViewData["Role"] = _pageListsService.SelectEditRoles(role);
+                ViewData["Status"] = _employeeService.GetStatusByEmployeeId(model.EmployeeID);
+                ViewData["JobTitle"] = _employeeService.GetJobTitleById(model.JobTitleID).JobTitleName;
+                ViewData["Role"] = _employeeService.GetRoleByUserId(model.EmployeeID);
 
-            return View(model);
+                return View(model);
+            }
+
+            return RedirectToAction("Requests", "Admin");
+        }
+
+        public ActionResult EditTeam(string id)
+        {
+            var team = Mapper.Map<TeamDTO, TeamViewModel>(_teamService.GetTeamById(id));
+
+            var employees =
+                Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetEmployeesByTeamId(id));
+
+            ViewData["employeesSelectList"] = _pageListsService.EmployeesList(team.TeamLeadID);
+            /*list of Employees - AllFreeUsers*/
+            ViewData["listOfEmployees"] = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
+            ViewData["Employees"] = employees;
+            ViewData["Team"] = team;
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTeam(TeamViewModel model, string id)
+        {
+            model.TeamLeadID = Request.Params["employeesSelectList"];
+            model.TeamID = id;
+            string members = Request.Params["members"];
+
+            var employees =
+                Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetEmployeesByTeamId(id));
+
+
+            _teamService.UpdateTeamInfo(Mapper.Map<TeamViewModel, TeamDTO>(model));
+
+            var oldEmployeesID = new List<string>();
+
+            foreach (var employee in employees)
+            {
+                oldEmployeesID.Add(employee.EmployeeID);
+            }
+
+            if (members == null)
+            {
+                foreach(var employeeId in oldEmployeesID)
+                {
+                    if (employeeId != model.TeamLeadID)
+                    {
+                        _employeeService.RemoveFromTeam(employeeId, model.TeamID);
+                    }
+                }
+
+                return RedirectToAction("Index", "Profile", _profileDataService);
+            }
+            var newEmployeesID = members.Split(',').ToList();
+
+            var employeesToRemove = oldEmployeesID.Except(newEmployeesID);
+
+            var employeesToAdd = newEmployeesID.Except(oldEmployeesID);
+
+            foreach (var employeeId in employeesToAdd)
+            {
+                if (employeeId != model.TeamLeadID)
+                {
+                    _employeeService.AddToTeam(employeeId, model.TeamID);
+                }
+            }
+
+            foreach (var employeeId in employeesToRemove)
+            {
+                if (employeeId != model.TeamLeadID)
+                {
+                    _employeeService.RemoveFromTeam(employeeId, model.TeamID);
+                }
+            }
+
+            return RedirectToAction("Index", "Profile", _profileDataService);
         }
     }
 }

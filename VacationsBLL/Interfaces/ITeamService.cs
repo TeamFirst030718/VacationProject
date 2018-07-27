@@ -8,5 +8,7 @@ namespace VacationsBLL.Interfaces
         void CreateTeam(TeamDTO team);
         IEnumerable<TeamListDTO> GetAllTeams();
         TeamListDTO GetById(string id);
+        TeamDTO GetTeamById(string id);
+        void UpdateTeamInfo(TeamDTO team);
     }
 }

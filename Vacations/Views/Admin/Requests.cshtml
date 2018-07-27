@@ -38,7 +38,6 @@
                                             <td class="second underlined" style="text-align:center; color:grey;">@vacation.Duration</td>
                                             <td class="second underlined" style="text-align:center; color:white;">@vacation.EmployeesBalance</td>
                                             <td class="first underlined">
-
                                                 <img src="~/Content/Icons/@string.Format($"{vacation.Status}.svg")" />
                                                 <img src="~/Content/Icons/edit icon grey.svg" class="float-right ownPopup" style="padding-top:7px; cursor:pointer" onclick='ShowProcessPopup("@string.Format($"{vacation.VacationID}")")' />
                                                 <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:12px;  cursor:pointer; height:13px; width:13px" onclick="location='@Url.Action("EmployeeView", new { id=vacation.EmployeeID })'" />

@@ -134,10 +134,10 @@
     <Compile Include="Services\TeamService.cs" />
     <Compile Include="Interfaces\IRequestCreationService.cs" />
     <Compile Include="Interfaces\IAdminEmployeeListService.cs" />
-    <Compile Include="Interfaces\IAdminRequestService.cs" />
+    <Compile Include="Interfaces\IRequestService.cs" />
     <Compile Include="Services\PageListsService.cs" />
     <Compile Include="Services\ProfileDataService.cs" />
-    <Compile Include="Services\AdminRequestService.cs" />
+    <Compile Include="Services\RequestService.cs" />
     <Compile Include="Services\RequestCreationService.cs" />
   </ItemGroup>
   <ItemGroup>

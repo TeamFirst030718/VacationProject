@@ -1,7 +1,7 @@
 ﻿using VacationsBLL.DTOs;
 namespace VacationsBLL.Interfaces
 {
-    public interface IAdminRequestService
+    public interface IRequestService
     {
         RequestProcessDTO GetRequestDataById(string id);
         void SetAdminID(string email);

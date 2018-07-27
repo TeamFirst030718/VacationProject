@@ -1,4 +1,12 @@
-﻿html, body {
+﻿#fontBody {
+    font-family: Muli-SemiBold;
+}
+
+@font-face {
+    font-family: Muli-SemiBold;
+    src: url(/Content/Fonts/Muli-SemiBold.ttf);
+}
+html, body {
     height: 100%;
 }
 
@@ -117,10 +125,6 @@ div.center {
     color: white !important;
 }
 
-@font-face {
-    font-family: Muli-SemiBold;
-    src: url(../Fonts/Muli-SemiBold.ttf);
-}
 
 .icon-user {
     background: url(../Icons/user-icon.svg) no-repeat;
@@ -134,7 +138,7 @@ div.center {
 
 button.login, button.login:hover,
 button.login:active {
-    font-family: Muli-SemiBold;
+    font-family: Muli-Bold;
     font-weight: bold;
     height: 50px;
     border-radius: 6px;
