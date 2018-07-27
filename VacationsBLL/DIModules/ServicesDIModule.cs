@@ -14,7 +14,7 @@ namespace VacationsBLL.DIModules
     {
         public override void Load()
         {
-            Bind<IAdminRequestService>().To<AdminRequestService>();
+            Bind<IRequestService>().To<RequestService>();
             Bind<IRoleService>().To<RoleService>();
             Bind<IUserService>().To<UserService>();
             Bind<IEmployeeService>().To<EmployeeService>();

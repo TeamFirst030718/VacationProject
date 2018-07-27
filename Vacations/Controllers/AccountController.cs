@@ -141,11 +141,6 @@ namespace IdentitySample.Controllers
             }
         }
 
-        //
-        // GET: /Account/Register
-     
-        //
-        // GET: /Account/ConfirmEmail
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
@@ -158,8 +153,6 @@ namespace IdentitySample.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        //
-        // GET: /Account/ForgotPassword
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ForgotPassword()
@@ -167,8 +160,6 @@ namespace IdentitySample.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -201,8 +192,6 @@ namespace IdentitySample.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Account/ForgotPasswordResponse
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ForgotPasswordResponse()
@@ -210,8 +199,6 @@ namespace IdentitySample.Controllers
             return View();
         }
 
-        //
-        // GET: /Account/ResetPassword
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
@@ -219,8 +206,6 @@ namespace IdentitySample.Controllers
             return code == null ? View("Error") : View();
         }
 
-        //
-        // GET: /Account/ResetPassword and EmailConfirmation
         [HttpGet]
         [AllowAnonymous]
         public async Task<RedirectToRouteResult> ResetPasswordAndConfirmEmail(string codeToResetPassword, string codeToConfirmationEmail, string userId)
@@ -236,8 +221,6 @@ namespace IdentitySample.Controllers
             return codeToResetPassword == null ? RedirectToAction("Error") : RedirectToAction("ResetPassword", new {code = codeToResetPassword});
         }
 
-        //
-        // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -262,8 +245,6 @@ namespace IdentitySample.Controllers
             return View();
         }
 
-        //
-        // GET: /Account/ResetPasswordConfirmation
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
@@ -271,19 +252,14 @@ namespace IdentitySample.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
-            // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
-        //
-        // GET: /Account/SendCode
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
@@ -298,8 +274,6 @@ namespace IdentitySample.Controllers
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
-        // POST: /Account/SendCode
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -310,7 +284,6 @@ namespace IdentitySample.Controllers
                 return View();
             }
 
-            // Generate the token and send it
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
                 return View("Error");
@@ -318,8 +291,6 @@ namespace IdentitySample.Controllers
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
 
-        //
-        // GET: /Account/ExternalLoginCallback
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
@@ -349,8 +320,6 @@ namespace IdentitySample.Controllers
             }
         }
 
-        //
-        // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

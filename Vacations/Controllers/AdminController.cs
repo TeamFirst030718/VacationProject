@@ -25,7 +25,7 @@ namespace Vacations.Controllers
         private readonly IPageListsService _pageListsService;
         private readonly IEmployeeService _employeeService;
         private readonly IProfileDataService _profileDataService;
-        private readonly IAdminRequestService _requestService;
+        private readonly IRequestService _requestService;
         private readonly IAdminEmployeeListService _adminEmployeeListService;
         private readonly ITeamService _teamService;
 
@@ -34,7 +34,7 @@ namespace Vacations.Controllers
             IEmployeeService employeeService,
             IPageListsService pageListsService,
             IAdminEmployeeListService adminEmployeeListService,
-            IAdminRequestService requestService,
+            IRequestService requestService,
             ITeamService TeamService)
         {
             _profileDataService = profileDataService;
@@ -226,7 +226,7 @@ namespace Vacations.Controllers
                 {
                     var result = members.Split(',');
                     foreach (var employeeId in result)
-                     {
+                    {
                         if (employeeId != model.TeamLeadID)
                         {
                             _employeeService.AddToTeam(employeeId, model.TeamID);
@@ -294,7 +294,7 @@ namespace Vacations.Controllers
                     TeamName = teamListDto.TeamName,
                     TeamLeadName = _employeeService.GetUserById(teamListDto.TeamLeadID).Name,
                     AmountOfEmployees = teamListDto.AmountOfEmployees
-                });    
+                });
             }
 
             return View(result);
@@ -303,7 +303,7 @@ namespace Vacations.Controllers
         [HttpGet]
         public ActionResult ViewTeamProfile(string id)
         {
-            
+
             var team = _teamService.GetById(id);
 
             var employeesDTOs = _employeeService.GetEmployeesByTeamId(team.TeamID);
@@ -320,6 +320,26 @@ namespace Vacations.Controllers
             };
 
             return View(result);
+        }
+
+        [HttpGet]
+
+        public ActionResult EmployeeView(string id)
+        {
+            var employee = _employeeService.GetUserById(id);
+
+            if (employee != null)
+            {
+                var model = Mapper.Map<EmployeeDTO, EmployeeViewModel>(employee);
+
+                ViewData["Status"] = _employeeService.GetStatusByEmployeeId(model.EmployeeID);
+                ViewData["JobTitle"] = _employeeService.GetJobTitleById(model.JobTitleID).JobTitleName;
+                ViewData["Role"] = _employeeService.GetRoleByUserId(model.EmployeeID);
+
+                return View(model);
+            }
+
+            return RedirectToAction("Requests", "Admin");
         }
 
         [HttpGet]
@@ -347,9 +367,7 @@ namespace Vacations.Controllers
             model.TeamID = id;
             string members = Request.Params["members"];
 
-            var employees =
-                Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetEmployeesByTeamId(id));
-
+            var employees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetEmployeesByTeamId(id));
 
             _teamService.UpdateTeamInfo(Mapper.Map<TeamViewModel, TeamDTO>(model));
 
@@ -362,7 +380,7 @@ namespace Vacations.Controllers
 
             if (members == null)
             {
-                foreach(var employeeId in oldEmployeesID)
+                foreach (var employeeId in oldEmployeesID)
                 {
                     if (employeeId != model.TeamLeadID)
                     {
@@ -396,6 +414,5 @@ namespace Vacations.Controllers
 
             return RedirectToAction("Index", "Profile", _profileDataService);
         }
-
     }
 }

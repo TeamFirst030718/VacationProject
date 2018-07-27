@@ -16,15 +16,21 @@ namespace VacationsBLL
 
         private ITeamRepository _teams;
 
+        private IRolesRepository _roles;
+
+        private IUsersRepository _users;
+
         public EmployeeService(IEmployeeRepository employees,
                                IJobTitleRepository jobTitles,
-                               ITeamRepository teams)
+                               ITeamRepository teams,
+                               IUsersRepository users,
+                               IRolesRepository roles)
         {
             _employees = employees;
-
             _jobTitles = jobTitles;
-
             _teams = teams;
+            _roles = roles;
+            _users = users;
         }
 
         public void Create(EmployeeDTO employee)
@@ -34,7 +40,22 @@ namespace VacationsBLL
 
         public EmployeeDTO GetUserById(string id)
         {
-            return Mapper.Map<Employee, EmployeeDTO>(_employees.GetById(id)); 
+            return Mapper.Map<Employee, EmployeeDTO>(_employees.GetById(id));
+        }
+
+        public JobTitleDTO GetJobTitleById(string id)
+        {
+            return Mapper.Map<JobTitle,JobTitleDTO>(_jobTitles.GetById(id));
+        }
+
+        public string GetRoleByUserId(string id)
+        {
+            return _roles.GetById(_users.GetById(id).AspNetRoles.First().Id).Name;
+        }
+
+        public string GetStatusByEmployeeId(string id)
+        {
+            return _employees.GetById(id).Status.Equals(true) ? "Active" : "Fired";
         }
 
         public List<JobTitleDTO> GetJobTitles()
@@ -62,6 +83,7 @@ namespace VacationsBLL
         private void MapChanges(Employee entity, EmployeeDTO changes)
         {
             var entityChanges = Mapper.Map<EmployeeDTO, Employee>(changes);
+
             entity.BirthDate = entityChanges.BirthDate;
             entity.DateOfDismissal = entityChanges.DateOfDismissal;
             entity.EmployeeID = entityChanges.EmployeeID;
@@ -75,7 +97,6 @@ namespace VacationsBLL
             entity.Surname = entityChanges.Surname;
             entity.VacationBalance = entityChanges.VacationBalance;
             entity.WorkEmail = entityChanges.WorkEmail;
-
         }
 
         public List<EmployeeListDTO> EmployeeList()
@@ -158,7 +179,6 @@ namespace VacationsBLL
             _teams.AddEmployee(EmployeeID, TeamID);
             /*team.Employees.Add(employee);
             _teams.Update(team);*/
-            
         }
 
         public void RemoveFromTeam(string EmployeeID, string TeamID)

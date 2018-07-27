@@ -17,5 +17,8 @@ namespace VacationsBLL.Interfaces
         IEnumerable<EmployeeDTO> GetEmployeesByTeamId(string id);
         void AddToTeam(string EmployeeID, string TeamID);
         void RemoveFromTeam(string EmployeeID, string TeamID);
+        string GetRoleByUserId(string id);
+        JobTitleDTO GetJobTitleById(string id);
+        string GetStatusByEmployeeId(string id);
     }
 }

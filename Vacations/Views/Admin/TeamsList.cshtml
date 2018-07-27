@@ -5,41 +5,45 @@
     ViewBag.Title = "TeamList";
 }
 
-<div class="container m-0 p-0 ">
-    <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
-        <div class="row m-auto text-white">
-            <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray">
-                <strong>List of Teams</strong>
+<div class="row">
+    <div class="col-12">
+        <div class="container mt-3">
+            <div class="container m-0 p-0 ">
+                <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
+                    <div class="row m-auto text-white">
+                        <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray">
+                            <strong>List of Teams</strong>
+                        </div>
+
+                    </div>
+                    <table class="table text-white m-0 p-0 backColor " style="font-size:15px; border-top:none;">
+                        <tr class="text-light-grey border-grey" style="font-size: 12px; border-bottom: solid 1px gray !important;">
+                            <td style="border-top: none; text-align: left">team name</td>
+                            <td style="text-align: center; border-top: none">team leader</td>
+                            <td style="text-align: center; border-top: none">amount of employees</td>
+                            <td style="border-top: none; text-align: center"></td>
+                            <td style="border-top: none; text-align: center"></td>
+                        </tr>
+                        @{
+                            foreach (var team in Model)
+                            {
+                                <tr style="font-size: 12px; border-bottom: solid 1px gray !important; height: 30px !important">
+                                    <td style="border-top: none; text-align: left">@team.TeamName</td>
+                                    <td style="border-top: none; text-align: center">@team.TeamLeadName</td>
+                                    <td style="border-top: none; text-align: center">@team.AmountOfEmployees</td>
+                                    <td style="border-top: none; text-align: center">
+                                        <a href="@Url.Action("ViewTeamProfile","Admin", new {id = @team.TeamID})">View Team Profile</a>
+                                    </td>
+                                    <td style="border-top: none; text-align: center">
+                                        <a href="@Url.Action("EditTeam","Admin", new {id = @team.TeamID})"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
             </div>
-
         </div>
-        <table class="table text-white m-0 p-0 backColor " style="font-size:15px; border-top:none;">
-            <tr class="text-light-grey border-grey" style="font-size: 12px; border-bottom: solid 1px gray !important;">
-                <td style="border-top: none; text-align: left">team name</td>
-                <td style="text-align: center; border-top: none">team leader</td>
-                <td style="text-align: center; border-top: none">amount of employees</td>
-                <td style="border-top: none; text-align: center"></td>
-            </tr>
-            @{
-                foreach (var team in Model)
-                {
-                    <tr style="font-size: 12px; border-bottom: solid 1px gray !important; height: 30px !important">
-                        <td style="border-top: none; text-align: left">@team.TeamName</td>
-                        <td style="border-top: none; text-align: center">@team.TeamLeadName</td>
-                        <td style="border-top: none; text-align: center">@team.AmountOfEmployees</td>
-                        <td style="border-top: none; text-align: center">
-                            
-                                <img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" style="cursor: pointer" onclick="location='@Url.Action("EditTeam", "Admin", new {id = @team.TeamID})'"/>
-                           
-                                <img alt="View Team Profile" src="~/Content/Icons/eye.svg" class="float-right m-auto my-auto" style="height: 12px; cursor: pointer" onclick="location='@Url.Action("ViewTeamProfile", "Admin", new {id = @team.TeamID})'"/>
-                         
-                        </td>
-                       
-                        
-                    </tr>
-                }
-            }
-
-        </table>
     </div>
 </div>

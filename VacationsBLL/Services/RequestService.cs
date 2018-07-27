@@ -9,7 +9,7 @@ using VacationsDAL.Entities;
 using VacationsDAL.Interfaces;
 namespace VacationsBLL.Services
 {
-    public class AdminRequestService : IAdminRequestService
+    public class RequestService : IRequestService
     {
         public string AdminID { get; set; }
         private const string empty = "None";
@@ -22,12 +22,12 @@ namespace VacationsBLL.Services
         private IVacationStatusTypeRepository _vacationStatusTypes;
         private ITransactionTypeRepository _transactionTypes;
         
-        public AdminRequestService(string id)
+        public RequestService(string id)
         {
             AdminID = id;
         }
 
-        public AdminRequestService(ITransactionTypeRepository transactionTypes,
+        public RequestService(ITransactionTypeRepository transactionTypes,
                                    ITransactionRepository transactions,
                                    IJobTitleRepository jobTitles,
                                    IEmployeeRepository employees,
@@ -66,11 +66,10 @@ namespace VacationsBLL.Services
         {
             var users = _users.Get();
 
-            Func<Employee, bool> whereLinq = emp => emp.EmployeeID.Equals(AdminID) ||
+            bool whereLinq(Employee emp) => emp.EmployeeID.Equals(AdminID) ||
                                                     (emp.EmployeesTeam.Count.Equals(1) &&
                                                     emp.EmployeesTeam.First().TeamLeadID.Equals(AdminID)) ||
                                                     emp.EmployeesTeam.Count.Equals(0);
-
             Employee[] employees = _employees.Get(whereLinq);
 
             if(employees !=null)
