@@ -8,8 +8,7 @@
         <div class="row">
             <div class="container-fluid border border-bottom-0 border-grey container-rounded-top bg-global text-white p-2 py-2">
                 <strong>Edit Team Profile</strong>
-                <a href="@Url.Action("EditTeam", "Admin", new {id = @Model.TeamID})">
-                    <img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" alt="Edit Team"/>
+                    <img src="~/Content/Icons/edit icon grey.svg" style="float:right; margin-top:5px; height:15px; cursor:pointer" onclick="location='@Url.Action("EditTeam", "Admin", new {id = @Model.TeamID})'" />
                 </a>
             </div>
         </div>

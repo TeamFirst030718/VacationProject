@@ -63,6 +63,5 @@ namespace VacationsBLL.Services
         {
             _teams.Update(Mapper.Map<TeamDTO, Team>(team));
         }
-
     }
 }

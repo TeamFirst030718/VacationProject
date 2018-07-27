@@ -19,7 +19,7 @@ namespace VacationsDAL.Entities
 
         [Column("VacationTypeName")]
         [Required]
-        [StringLength(128)]
+        [StringLength(128)]     
         public string VacationTypeName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

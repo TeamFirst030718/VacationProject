@@ -32,12 +32,6 @@ namespace Vacations.Controllers
             _vacationCreationService = vacationService;
         }
 
-        public ProfileController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
-
         #region IdentityProps
         private IAuthenticationManager AuthenticationManager
         {

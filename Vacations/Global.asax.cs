@@ -1,14 +1,7 @@
-﻿using IdentitySample.Models;
-using Ninject;
-using Ninject.Modules;
-using Ninject.Web.Mvc;
-using System;
-using System.Data.Entity;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using VacationsBLL.DIModules;
+using VacationsBLL.SimpleInjectorConfig;
 
 namespace IdentitySample
 {
@@ -22,11 +15,8 @@ namespace IdentitySample
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            SimpleInjectorConfig.RegisterComponents();
 
-            NinjectModule repositoriesDIModule = new RepositoriesDIModules();
-            NinjectModule servicesDIModule = new ServicesDIModule();
-            var kernel = new StandardKernel(servicesDIModule, repositoriesDIModule);
-            DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
 
     }

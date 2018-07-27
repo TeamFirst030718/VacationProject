@@ -44,10 +44,5 @@ namespace VacationsDAL.Repositories
             _context.JobTitles.Add(jobTitle);
             _context.SaveChanges();
         }
-
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
     }
 }

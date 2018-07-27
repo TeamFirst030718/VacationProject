@@ -23,10 +23,5 @@ namespace VacationsBLL.Services
         {
            return Mapper.MapCollection<AspNetUser, UserDTO>(_users.Get());
         }
-
-        public void Dispose()
-        {
-            _users.Dispose();
-        }
     }
 }

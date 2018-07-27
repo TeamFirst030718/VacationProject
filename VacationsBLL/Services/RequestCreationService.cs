@@ -26,11 +26,5 @@ namespace VacationsBLL.Services
         {
             _vacations.Add(Mapper.Map<VacationDTO, Vacation>(vacation));
         }
-
-        public void Dispose()
-        {
-            _vacations.Dispose();
-            _vacationStatusTypes.Dispose();
-        }
     }
 }

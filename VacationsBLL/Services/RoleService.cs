@@ -17,15 +17,11 @@ namespace VacationsBLL.Services
 
         public void Create(RoleDTO aspNetRole)
         {
-
-
             _roles.Add(Mapper.Map<RoleDTO, AspNetRole>(aspNetRole));
         }
 
         public List<RoleDTO> GetRoles()
         {
-
-
             var roles = _roles.Get();
             var rolesDTO = new List<RoleDTO>();
 
@@ -35,11 +31,6 @@ namespace VacationsBLL.Services
             }
 
             return rolesDTO;
-        }
-
-        public void Dispose()
-        {
-            _roles.Dispose();
         }
     }
 }

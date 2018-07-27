@@ -3,7 +3,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using VacationsBLL.Enums;
@@ -13,7 +12,6 @@ using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using System;
 using System.Collections.Generic;
-using Microsoft.Ajax.Utilities;
 using VacationsBLL.Services;
 using Vacations.Subservice;
 
@@ -44,13 +42,6 @@ namespace Vacations.Controllers
             _requestService = requestService;
             _teamService = TeamService;
 
-        }
-
-
-        public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
         }
 
         #region Props
@@ -272,6 +263,7 @@ namespace Vacations.Controllers
                     _requestService.DenyVacation(Mapper.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
                 }
             }
+
             var requestsData = new VacationRequestsViewModel();
 
             _requestService.SetAdminID(User.Identity.GetUserId());
