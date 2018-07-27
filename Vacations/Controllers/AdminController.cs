@@ -307,6 +307,7 @@ namespace Vacations.Controllers
                 TeamID = team.TeamID,
                 TeamName = team.TeamName,
                 TeamLeadName = _employeeService.GetUserById(team.TeamLeadID).Name,
+                Status = _employeeService.GetUserById(team.TeamLeadID).Status,
                 AmountOfEmployees = team.AmountOfEmployees,
                 Employees = employees
             };

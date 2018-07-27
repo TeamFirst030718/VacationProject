@@ -3,22 +3,84 @@
     ViewBag.Title = "AddNewTeam";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<p style="color: white">team name</p>
-<p style="color: white">@Model.TeamName</p>
-<p style="color: white">team leader</p>
-<p style="color: white">@Model.TeamLeadName</p>
-<p style="color: white">members @Model.AmountOfEmployees</p>
-@foreach (var employeee in Model.Employees)
-{
-    <p style="color: white">
-        @employeee.Name @employeee.Surname
-        @if (@employeee.Status)
-        {
-            <img src="~/Content/Icons/online icon.svg" style="padding-right: 5px">
-        }
-        else
-        {
-            <img src="~/Content/Icons/offline icon.svg" style="padding-right: 5px">
-        }
-    </p>
-}
+<div class="container m-0 py-3">
+    <div class="container pb-5 text-light-grey">
+        <div class="row">
+            <div class="container-fluid border border-bottom-0 border-grey container-rounded-top bg-global text-white p-2 py-2">
+                <strong>Edit Team Profile</strong>
+                <a href="@Url.Action("EditTeam", "Admin", new {id = @Model.TeamID})">
+                    <img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" alt="Edit Team"/>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <!--1-->
+            <div class="col-4 border border-bottom-0 border-grey  bg-dark pt-1 ">
+                <div class="container">
+                    <label>team name</label>
+                    <p class="colorWhite text-light-grey" >@Model.TeamName</p>
+                </div>
+                <div class="container">
+                    <label>team lead</label>
+                    <p class="colorWhite">
+                        <img src="~/Content/Icons/user profile icon.svg">
+                        @Model.TeamLeadName
+                        
+                        @if (@Model.Status)
+                        {
+                            <img src="~/Content/Icons/online icon.svg" style="padding-right: 5px">
+                        }
+                        else
+                        {
+                            <img src="~/Content/Icons/offline icon.svg" style="padding-right: 5px">
+                        }
+
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-8 border-top border-right border-grey  bg-dark pt-1">
+                <div class="container">
+                    <label class="container-fluid p-0">members • @Model.AmountOfEmployees</label>
+                    @foreach (var employeee in Model.Employees)
+                    {
+                        <p class="colorWhite">
+
+                            <img src="~/Content/Icons/user profile icon.svg">
+
+                            @employeee.Name @employeee.Surname
+                            @if (@employeee.Status)
+                            {
+                                <img src="~/Content/Icons/online icon.svg" style="padding-right: 5px">
+                            }
+                            else
+                            {
+                                <img src="~/Content/Icons/offline icon.svg" style="padding-right: 5px">
+                            }
+                        </p>
+                    }
+
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="row">
+            <!--2-->
+            <div class="col-4  border border-top-0  border-grey border-bottom-rounded-left bg-dark">
+
+            </div>
+
+            <div class="col-4 border-bottom border-grey  bg-dark">
+                <div class="form-group container ">
+
+                </div>
+            </div>
+            <div class="col-4 border-right border-bottom border-bottom-rounded-right border-grey   bg-dark ">
+                <div class="form-group container">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
