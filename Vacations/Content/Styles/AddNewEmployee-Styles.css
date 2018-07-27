@@ -77,8 +77,11 @@
     background-image: url('../Images/gragient_box .svg');
     border: 1px solid;
     background-color: #2a2a2a;
+ 
+
 }
     .button-add-photo:hover,
     .button-add-photo:active {
         color: #667eea;
     }
+
