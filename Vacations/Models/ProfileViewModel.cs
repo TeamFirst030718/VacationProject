@@ -5,6 +5,8 @@ namespace Vacations.Models
 {
     public class ProfileViewModel
     {
+        public string EmployeeID { get; set; }
+
         public string WorkEmail { get; set; }
 
         public string Name { get; set; }

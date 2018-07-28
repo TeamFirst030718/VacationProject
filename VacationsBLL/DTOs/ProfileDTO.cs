@@ -4,6 +4,8 @@ namespace VacationsBLL.DTOs
 {
     public class ProfileDTO
     {
+        public string EmployeeID { get; set; }
+
         public string WorkEmail { get; set; }
        
         public string Name { get; set; }

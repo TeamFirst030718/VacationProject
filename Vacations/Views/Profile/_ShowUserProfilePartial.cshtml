@@ -1,10 +1,11 @@
 @using Microsoft.AspNet.Identity
 @model Vacations.Models.ProfileViewModel
-    @{ 
-        var birthDate = string.Format($"{Model.BirthDate.Day} {Model.BirthDate.ToString("MMMM")} {Model.BirthDate.Year} "); 
-    }
-<div class="container  bg-dark border border-grey container-rounded backColor" >
-
+@{
+    var birthDate = string.Format($"{Model.BirthDate.Day} {Model.BirthDate.ToString("MMMM")} {Model.BirthDate.Year} ");
+    string url = "https://teamresponse418storage.blob.core.windows.net/photos/" + string.Format($"{Model.EmployeeID}.jpg");
+}
+<div onload="check(@url)" class="container  bg-dark border border-grey container-rounded backColor">
+    
     <div class="row my-auto">
         <div class="col-8">
             <div class="text-light m-auto my-auto">My Profile</div>
@@ -12,17 +13,17 @@
         @if (User.IsInRole("Administrator"))
         {
             <div class="col-4 my-auto">
-                
-                <a href="@Url.Action("Edit","Admin", new {id = User.Identity.GetUserId()})"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto"/></a>
+
+                <a href="@Url.Action("Edit","Admin", new {id = User.Identity.GetUserId()})"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
             </div>
         }
     </div>
 
-    <div class="row border-top ">
+    <div class="row " style="border-top:1px solid gray">
         <div class="container">
             <div class="row m-auto" style="padding-top:20px !important;padding-bottom:20px !important">
                 <div class="float-left my-auto ">
-                    <img src="~/Content/Icons/user profile icon.svg" class="m-auto" style="min-width:70px;" />
+                    <img src="@url" class="m-auto  rounded-circle profilePhoto" />
                 </div>
                 <div class="my-auto float-left ml-4">
                     <div class="row text-primary text-light">@($"{Model.Name} {Model.Surname}")</div>
@@ -36,7 +37,7 @@
                     else
                     {
                         <div class="row" style="color: white">
-                                <img src="~/Content/Icons/offline icon.svg" style="padding-right: 5px">Fired  
+                            <img src="~/Content/Icons/offline icon.svg" style="padding-right: 5px">Fired
                         </div>
                     }
                 </div>
@@ -46,7 +47,6 @@
     <div class="row border-top border-grey">
         <div class="container m-auto ">
             <ul class="list-unstyled my-auto list-inline-item zebra">
-
                 <li>
                     @Html.LabelFor(x => x.BirthDate, new { style = "font-size:12px;" })
                 </li>
@@ -69,7 +69,7 @@
                     @Html.LabelFor(x => x.PhoneNumber, new { style = "font-size:12px;" })
                 </li>
                 <li>
-                     @Html.DisplayFor(x => x.PhoneNumber)
+                    @Html.DisplayFor(x => x.PhoneNumber)
                 </li>
                 <li>
                     @Html.LabelFor(x => x.Skype, new { style = "font-size:12px;" })

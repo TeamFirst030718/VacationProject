@@ -4,6 +4,7 @@
     var status = ViewData["Status"];
     var role = ViewData["Role"];
     var jobTitle = ViewData["JobTitle"];
+    string url = "https://teamresponse418storage.blob.core.windows.net/photos/";
 }
 <div class="container m-0 py-3">
     <form style="color:white;">
@@ -18,7 +19,7 @@
                 <div class="col-4 border border-bottom-0 border-grey  bg-dark pt-1">            
                         <div class="form-group">
                                 <div style="float: left;">
-                                    <img src="~/Content/Icons/user profile icon.svg" class="rounded-circle" style="min-width:100px;padding-left:5px;margin-top:15px; width:90px;height:80px" />
+                                    <img src="@string.Format($"{url}{Model.EmployeeID}.jpg")" class="rounded-circle ProfilePhoto" style="padding-left:5px;margin-top:15px; width:90px;height:80px" />
                                 </div>
                                 <div class="float-right" style="padding-right:100px; margin-top:20px;">
                                     <p style="color:white !important">@Html.DisplayFor(m => m.Name)</p>
@@ -31,13 +32,13 @@
                 <div class="col-4 border-top border-grey  bg-dark pt-1">
                     <div class="form-group container" style="margin-top:20px;">
                         @Html.LabelFor(m => m.BirthDate, new { @class = "control-label " })
-                        <input class="form-control bg-dark border-grey colorWhite" type="date"  style = "border:none; color:white; padding:0", id="datepickerBirthDate" name="BirthDate" value="@Model.BirthDate.ToString("yyyy-MM-dd")">
+                        <input class="form-control bg-dark border-grey colorWhite" type="date" disabled style = "border:none; color:white; padding:0", id="datepickerBirthDate" name="BirthDate" value="@Model.BirthDate.ToString("yyyy-MM-dd")">
                     </div>
                 </div>
                 <div class="col-4 border-right border-top border-grey   bg-dark pt-1">
                     <div class="form-group container" style="margin-top:20px;">
                         <label>role</label>
-                        @Html.Label(role.ToString(), new { @class = "form-control bg-dark border-grey colorWhite", id = "phonenumber", style = "border:none; color:white; padding:0", @readonly = "true", placeholder = "xxx xxx xxxx" })
+                        @Html.Label(role.ToString(), new { @class = "form-control bg-dark border-grey colorWhite", id = "phonenumber", style = "border:none; color:white; padding:0", @disabled="true", placeholder = "xxx xxx xxxx" })
 
                     </div>
                 </div>
@@ -47,21 +48,21 @@
                 <div class="col-4  border-left border-right  border-grey  bg-dark">
                     <div class="form-group container" style="margin-top:20px;">
                         @Html.LabelFor(m => m.JobTitleID)
-                        @Html.Label(jobTitle.ToString(), new { @class = "form-control bg-dark border-grey colorWhite", id = "phonenumber", style = "border:none; color:white; padding:0", @readonly = "true", placeholder = "xxx xxx xxxx" })
+                        @Html.Label(jobTitle.ToString(), new { @class = "form-control bg-dark border-grey colorWhite", id = "phonenumber", style = "border:none; color:white; padding:0", @disabled="true", placeholder = "xxx xxx xxxx" })
                     </div>
                 </div>
 
                 <div class="col-4  bg-dark ">
                     <div class="form-group container" style="margin-top:20px;">
                         @Html.LabelFor(m => m.PersonalMail)
-                        @Html.TextBoxFor(m => m.PersonalMail, new { @class = "form-control bg-dark border-grey colorWhite",style = "border:none; color:white; padding:0", @readonly="true", placeholder = "example@mail.com" })
+                        @Html.TextBoxFor(m => m.PersonalMail, new { @class = "form-control bg-dark border-grey colorWhite",style = "border:none; color:white; padding:0",@disabled="true", placeholder = "example@mail.com" })
                     </div>
 
                 </div>
                 <div class="col-4 border-right  border-grey   bg-dark ">
                     <div class="form-group container" style="margin-top:20px;">
                         @Html.LabelFor(m => m.WorkEmail, new { @class = " control-label" })
-                        @Html.TextBoxFor(m => m.WorkEmail, new { @class = "form-control bg-dark border-grey colorWhite",style = "border:none; color:white; padding:0", @readonly="true", placeholder = "example@softheme.com" })
+                        @Html.TextBoxFor(m => m.WorkEmail, new { @class = "form-control bg-dark border-grey colorWhite",style = "border:none; color:white; padding:0", @disabled="true", placeholder = "example@softheme.com" })
                     </div>
                 </div>
             </div>
@@ -69,19 +70,19 @@
                 <div class="col-4 border-left border-right border-grey  bg-dark ">
                     <div class="form-group container" style="margin-top:20px;" ">
                         @Html.LabelFor(m => m.Status)
-                        @Html.Label(status.ToString(), new { @class = "form-control bg-dark border-grey colorWhite", id = "phonenumber", style = "border:none; color:white; padding:0", @readonly = "true", placeholder = "xxx xxx xxxx" })
+                        @Html.Label(status.ToString(), new { @class = "form-control bg-dark border-grey colorWhite", id = "phonenumber", style = "border:none; color:white; padding:0", @disabled="true", placeholder = "xxx xxx xxxx" })
                     </div>
                 </div>
                 <div class="col-4  bg-dark">
                     <div class="form-group container" style="margin-top:20px;">
                         @Html.LabelFor(m => m.PhoneNumber, new { @class = " control-label" })
-                        @Html.Label(Model.PhoneNumber, new { @class = "form-control bg-dark border-grey colorWhite", id = "phonenumber",style = "border:none; color:white; padding:0", @readonly="true", placeholder = "xxx xxx xxxx" })
+                        @Html.Label(Model.PhoneNumber, new { @class = "form-control bg-dark border-grey colorWhite", id = "phonenumber",style = "border:none; color:white; padding:0", @disabled="true", placeholder = "xxx xxx xxxx" })
                     </div>
                 </div>
                 <div class="col-4 border-right border-grey   bg-dark">
                     <div class="form-group container" style="margin-top:20px;">
                         @Html.LabelFor(m => m.Skype, new { @class = " control-label" })
-                        @Html.Label(Model.Skype, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "userskype", style = "border:none; color:white; padding:0", @readonly="true" })
+                        @Html.Label(Model.Skype, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "userskype", style = "border:none; color:white; padding:0", @disabled="true" })
                     </div>
                 </div>
             </div>
@@ -89,13 +90,13 @@
                 <div class="col-4 border-left border-right border-grey  bg-dark ">
                     <div class="form-group container" style="margin-top:20px;">
                          @Html.LabelFor(m => m.VacationBalance)
-                         @Html.Label(Model.VacationBalance.ToString(), new { @class = "form-control bg-dark border-grey", placeholder = "Vacation Balance", style = "border:none; color:white; padding:0", @readonly="true" })
+                         @Html.Label(Model.VacationBalance.ToString(), new { @class = "form-control bg-dark border-grey", placeholder = "Vacation Balance", style = "border:none; color:white; padding:0", @disabled="true" })
                     </div>
                 </div>
-                <div class="col-4  bg-dark">
+                <div class="col-4  bg-dark">    
                     <div class="form-group container" style="margin-top:20px;">
                         @Html.LabelFor(m => m.HireDate)
-                        <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerHireDate" style = "border:none; color:white; padding:0",  name="HireDate" value="@Model.HireDate.ToString("yyyy-MM-dd")">
+                        <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerHireDate" disabled style = "border:none; color:white; padding:0",  name="HireDate" value="@Model.HireDate.ToString("yyyy-MM-dd")">
                     </div>
                 </div>
                 <div class="col-4 border-right border-grey   bg-dark ">
@@ -103,11 +104,11 @@
                         @Html.LabelFor(m => m.DateOfDismissal, new { @class = " control-label" })
                         @if (Model.DateOfDismissal != null)
                         {
-                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerDateOfDismissal" style="border:none; color:white; padding:0" name="DateOfDismissal" value="@Model.DateOfDismissal" />
+                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerDateOfDismissal" disabled style="border:none; color:white; padding:0" name="DateOfDismissal" value="@Model.DateOfDismissal" />
                         }
                         else
                         {
-                            @Html.Label("None", new { @class = "form-control bg-dark border-grey", style = "border:none; color:white; padding:0", @readonly="true"})
+                            @Html.Label("None", new { @class = "form-control bg-dark border-grey", style = "border:none; color:white; padding:0", @disabled="true"})
                         }
                     </div>
                 </div>
