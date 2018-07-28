@@ -26,6 +26,7 @@ namespace Vacations.Controllers
         private readonly IRequestService _requestService;
         private readonly IAdminEmployeeListService _adminEmployeeListService;
         private readonly ITeamService _teamService;
+        private readonly IPhotoUploadService _photoUploadService;
 
         public AdminController(
             IProfileDataService profileDataService,
@@ -33,15 +34,16 @@ namespace Vacations.Controllers
             IPageListsService pageListsService,
             IAdminEmployeeListService adminEmployeeListService,
             IRequestService requestService,
-            ITeamService TeamService)
+            ITeamService teamService,
+            IPhotoUploadService photoUploadService)
         {
             _profileDataService = profileDataService;
             _employeeService = employeeService;
             _pageListsService = pageListsService;
             _adminEmployeeListService = adminEmployeeListService;
             _requestService = requestService;
-            _teamService = TeamService;
-
+            _teamService = teamService;
+            _photoUploadService = photoUploadService;
         }
 
         #region Props
@@ -85,8 +87,8 @@ namespace Vacations.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(EmployeeViewModel model)
+        [ValidateAntiForgeryToken]          
+        public async Task<ActionResult> Register(EmployeeViewModel model, HttpPostedFileBase photo)
         {
             ViewData["statusSelectList"] = _pageListsService.SelectStatuses();
             ViewData["jobTitlesSelectList"] = _pageListsService.SelectJobTitles();
@@ -106,6 +108,9 @@ namespace Vacations.Controllers
 
                 if (await EmployeeCreationService.CreateAndRegisterEmployee(model, role, UserManager, user, _employeeService))
                 {
+
+                    _photoUploadService.UploadPhoto(photo, model.EmployeeID);   
+
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
                     var email = new EmailService();
@@ -144,7 +149,7 @@ namespace Vacations.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EmployeeViewModel model, string id)
+        public ActionResult Edit(EmployeeViewModel model, string id, HttpPostedFileBase photo)
         {
             model.EmployeeID = id;
             var role = UserManager.GetRoles(id).FirstOrDefault();
@@ -167,6 +172,11 @@ namespace Vacations.Controllers
                 }
 
                 _employeeService.UpdateEmployee(Mapper.Map<EmployeeViewModel, EmployeeDTO>(model));
+
+                if (photo != null)
+                {
+                    _photoUploadService.UploadPhoto(photo, model.EmployeeID);
+                }
                 return RedirectToAction("Index", "Profile", _profileDataService);
             }
 

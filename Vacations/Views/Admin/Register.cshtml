@@ -6,7 +6,7 @@
     var dateHire = DateTime.UtcNow.ToString("yyyy-MM-dd");
 }
 
-@using (Html.BeginForm("Register", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Register", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="container m-0 py-3">
@@ -14,23 +14,25 @@
             <div class="container pb-5 text-light-grey">
                 <div class="row">
                     <div class="container-fluid border border-bottom-0 border-grey container-rounded-top bg-global text-white p-2 py-2">
-                        <strong  class="text-light-grey">Add New Employee</strong>
+                        <strong class="text-light-grey">Add New Employee</strong>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-4 border border-bottom-0 border-grey  bg-dark pt-1">
-                        <div class="container text-center  m-auto my-auto position-absolute" style="bottom:0;">
-                            <div class="form-group">
-                                <div class="row m-auto my-auto">
-                                    <div class="float-left my-auto ">
-                                        <img src="~/Content/Icons/user profile icon.svg" class="m-auto" style="height:70px" />
+                        <div class="form-group container">
+                            <div class="row m-auto my-auto">
+                                <div class="float-left my-auto">
+                                    <img src="~/Content/Icons/user profile icon.svg" id="imgProfile" class="m-auto rounded-circle profilePhoto" style="margin:20px;"/>
+                                </div>
+                                <div class="fileinputs">
+                                    <input type="file" class="file" id="inputFile" style="opacity:0; width:120px !important; height:40px !important;margin-top:25px; margin-left:60px" name="photo" />
+                                    <div class="fakefile" style="margin-top:25px; padding-right:15px; margin-left:50px;">
+                                        <button class="my-auto m-1 button-add-photo ml-2" style="width:120px !important;">Add photo</button>
                                     </div>
-                                    <button class="my-auto m-1 button-add-photo ml-2">Add Photo</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="col-4 border-top border-grey  bg-dark pt-1">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.BirthDate, new { @class = "control-label " })
@@ -45,21 +47,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <!--2-->
                     <div class="col-4  border-left border-right  border-grey  bg-dark">
                         <div class="form-group container">
-                            @Html.LabelFor(m => m.Name, new { @class = "control-label" })   
+                            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
                             @Html.TextBoxFor(m => m.Name, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Enter Name", autocomplete = "off" })
                         </div>
-
                     </div>
-
                     <div class="col-4  bg-dark ">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.PersonalMail, new { @class = "control-label" })
                             @Html.TextBoxFor(m => m.PersonalMail, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "example@mail.com", autocomplete = "off" })
                         </div>
-
                     </div>
                     <div class="col-4 border-right  border-grey   bg-dark ">
                         <div class="form-group container">
@@ -69,19 +67,16 @@
                     </div>
                 </div>
                 <div class="row">
-                    <!--3-->
                     <div class="col-4 border-left border-right border-grey  bg-dark ">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
                             @Html.TextBoxFor(m => m.Surname, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Enter Surname", autocomplete = "off" })
                         </div>
-
                     </div>
-
                     <div class="col-4  bg-dark">
                         <div class="form-group container">
                             @Html.LabelFor(m => m.PhoneNumber, new { @class = " control-label" })
-                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control bg-dark border-grey colorWhite",autocomplete="off", id = "phonenumber", placeholder = "xxx xxx xxxx" })
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control bg-dark border-grey colorWhite", autocomplete = "off", id = "phonenumber", placeholder = "xxx xxx xxxx" })
                         </div>
                     </div>
                     <div class="col-4 border-right border-grey   bg-dark">
@@ -97,23 +92,18 @@
                             @Html.LabelFor(m => m.JobTitleID, new { @class = "control-label" })
                             @Html.DropDownList("jobTitlesSelectList", null, null, new { @class = "form-control bg-dark border-grey colorWhite" })
                         </div>
-
                     </div>
-
                     <div class="col-4  bg-dark">
-
                         <div class="form-group container">
                             @Html.LabelFor(m => m.HireDate, new { @class = "control-label" })
                             <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepicker" name="HireDate" value="@dateHire">
                         </div>
                     </div>
                     <div class="col-4 border-right border-grey   bg-dark ">
-
                         <div class="form-group container">
                             @Html.LabelFor(m => m.DateOfDismissal, new { @class = " control-label" })
                             <input class="form-control bg-dark border-grey" type="date" id="datepicker" name="DateOfDismissal">
                         </div>
-
                     </div>
                 </div>
                 <div class="row  ">
@@ -122,17 +112,13 @@
                             @Html.LabelFor(m => m.Status, new { @class = "control-label" })
                             @Html.DropDownList("statusSelectList", null, null, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Not Chosen" })
                         </div>
-
                     </div>
-
                     <div class="col-4  bg-dark">
                         <div class="form-group container">
-                           
                         </div>
                     </div>
                     <div class="col-4 border-right border-grey   bg-dark ">
                         <div class="form-group container">
-                           
                         </div>
                     </div>
                 </div>
@@ -147,13 +133,13 @@
                     <div class="col-4 border-bottom border-grey  bg-dark">
                         <div class="form-group container ">
                             @Html.Label("temp", new { @class = "control-label invisible" })
-                            <input onclick="window.history.back()" class="form-control bg-dark button-cancel border-grey" style="text-align:center" value="CANCEL" />
+                            <input onclick="window.history.back()" class="form-control bg-dark button-cancel border-grey" style="cursor:pointer;text-align:center" value="CANCEL" />
                         </div>
                     </div>
                     <div class="col-4 border-right border-bottom border-bottom-rounded-right border-grey   bg-dark ">
                         <div class="form-group container">
                             @Html.Label("temp", new { @class = "control-label invisible" })
-                            <input type="submit" class="form-control bg-dark button-done border-grey bt-gradient" style="height:40px !important; padding-top:5px;" value="DONE" />
+                            <input type="submit" class="form-control bg-dark button-done border-grey bt-gradient" style="cursor:pointer;height:40px !important; padding-top:5px;" value="DONE" />
                         </div>
                     </div>
                 </div>
@@ -170,6 +156,23 @@
             $('#phonenumber').usPhoneFormat({
                 format: '(xxx) xxx-xxxx'
             });
-        })      
+        })
+        $(function () {
+            $("#inputFile").change(function () {
+                readURL(this);
+            });
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    //alert(e.target.result);
+                    $('#imgProfile').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 }

@@ -3,6 +3,7 @@
 @{
     var dateOfBegin = Model.DateOfBegin.ToString("yyyy-MM-dd");
     var dateOfEnd = Model.DateOfEnd.ToString("yyyy-MM-dd");
+    string url = "https://teamresponse418storage.blob.core.windows.net/photos/";
 }
 
 @Html.Hidden("EmployeeID", Model.EmployeeID)
@@ -16,7 +17,7 @@
         <div class="form-group">
             <div style="overflow: hidden">
                 <div style="float: left;">
-                    <img src="~/Content/Icons/user profile icon.svg" style="min-width:70px;padding-left:5px;width:100px;" />
+                    <img src="@string.Format($"{url}{Model.EmployeeID}.jpg")" class="rounded-circle profilePhoto"style="padding-left:5px;" />
                 </div>
                 <div class="float-right" style="padding-right:150px;">
                     <p style="color:white !important">@Html.DisplayFor(m => m.EmployeeName)</p>
@@ -147,7 +148,7 @@
                             <div class="col-6">
                                 <ul class="list-unstyled zebra float-left">
                                     <li>
-                                        <input  type="reset" class="form-control bg-dark button-done border-grey bt-gradient float-right" data-dismiss="modal" style="height:40px !important; padding-top:5px; width:220px;" value="CLOSE" />
+                                        <input  type="reset" class="form-control bg-dark button-done border-grey bt-gradient float-right" data-dismiss="modal" style="height:40px !important; padding-top:5px;cursor:pointer; width:220px;" value="CLOSE" />
                                     </li>
                                 </ul>
                             </div>

@@ -29,7 +29,8 @@ namespace IdentitySample
                           "~/Content/Styles/profile-Styles.css",
                           "~/Content/Styles/AddNewEmployee-Styles.css",
                           "~/Content/Styles/AddNewTeam-Styles.css",
-                          "~/Content/Styles/ListOfRequestsStyles.css"));
+                          "~/Content/Styles/ListOfRequestsStyles.css",
+                          "~/Content/Styles/EmployeeViewStyles.css"));
         }
     }
 }

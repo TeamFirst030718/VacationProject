@@ -15,7 +15,6 @@
                             <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray">
                                 <strong>List of Employees</strong>
                             </div>
-
                         </div>
                         <table class="table text-white m-0 p-0 backColor " style="font-size:15px; border-top:none;">
                             <tr class="text-light-grey border-grey" style="font-size: 12px; border-bottom: solid 1px gray !important;">
@@ -63,7 +62,7 @@
                                             <td style="border-top: none">@t.EmployeeDto.Name @t.EmployeeDto.Surname</td>
                                             <td style="text-align: center; border-top: none">@t.EmployeeDto.PhoneNumber</td>
                                             <td style="text-align: center; border-top: none">@t.EmployeeDto.WorkEmail</td>
-                                            <td style="text-align: right; border-top: none">@t.EmployeeDto.VacationBalance</td>
+                                            <td style="text-align: right; border-top: none">@t.EmployeeDto.VacationBalance days</td>
                                             <td style="border-top: none; text-align: center;">
                                                 <a href="@Url.Action("Edit","Admin", new {id = t.EmployeeDto.EmployeeID})"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
                                             </td>

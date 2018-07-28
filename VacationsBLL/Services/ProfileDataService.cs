@@ -8,6 +8,7 @@ namespace VacationsBLL.Services
 {
     public  class ProfileDataService :  IProfileDataService
     {
+        private const string empty = "None";
         private IEmployeeRepository _employees;
 
         private IJobTitleRepository _jobTitles;
@@ -46,14 +47,11 @@ namespace VacationsBLL.Services
             if (employee != null)
             {
                 var userData = Mapper.Map<Employee, ProfileDTO>(employee);
-
-                userData.TeamName = employee.EmployeesTeam.Count.Equals(0) ? "None" : employee.EmployeesTeam.First().TeamName;
-
-                userData.TeamLeader = employee.EmployeesTeam.Count.Equals(0) ? "None" : string.Format($"{ _employees.Get(x => x.EmployeeID.Equals(employee.EmployeesTeam.First().TeamLeadID)).First().Name}" +
+                userData.TeamName = employee.EmployeesTeam.Count.Equals(0) ? empty : employee.EmployeesTeam.First().TeamName;
+                userData.TeamLeader = employee.EmployeesTeam.Count.Equals(0) ? empty : string.Format($"{ _employees.Get(x => x.EmployeeID.Equals(employee.EmployeesTeam.First().TeamLeadID)).First().Name}" +
                                                                                                       $"{ _employees.Get(x => x.EmployeeID.Equals(employee.EmployeesTeam.First().TeamLeadID)).First().Surname}");
-
                 userData.JobTitle = jobTitles.FirstOrDefault(x => x.JobTitleID.Equals(employee.JobTitleID)).JobTitleName;
-
+                userData.EmployeeID = employee.EmployeeID;
                 return userData;
             }
 

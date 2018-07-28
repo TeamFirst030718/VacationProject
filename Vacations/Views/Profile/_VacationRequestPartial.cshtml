@@ -3,8 +3,8 @@
 @using (Html.BeginForm("RequestVacation", "Profile", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <div class="container m-0 p-0" style="color:white;">
-        <div class="container">
+<div class="container m-0 p-0 ">
+    <div class="container container-rounded" style="border: 1px solid #757575 !important;">
             <div class="row" style="border-bottom:solid #808080 1px;">
                 <div class="container-fluid bg-global text-white" style="background-color:#2e2e2e !important;">
                     <strong>Vacation Request</strong>
@@ -23,7 +23,7 @@
                             <ul class="list-unstyled zebra">
                                 <li>  @Html.LabelFor(m => m.DateOfBegin, new { @class = "control-label" })</li>
                                 <li>
-                                    <input type="date"max="3000-12-31" min="1000-01-01" class="form-control bg-dark border-grey colorWhite" id="DateOfBegin"  onchange="CalcDiff()" name="DateOfBegin">
+                                    <input type="date" max="3000-12-31" min="1000-01-01" class="form-control bg-dark border-grey colorWhite" id="DateOfBegin" onchange="CalcDiff()" name="DateOfBegin">
                                 </li>
                             </ul>
                         </div>
@@ -45,7 +45,7 @@
                                     <ul class="list-unstyled zebra">
                                         <li> @Html.LabelFor(m => m.DateOfEnd, new { @class = "control-label" })</li>
                                         <li>
-                                            <input type="date"max="3000-12-31" min="1000-01-01"  onchange="CalcDiff()" class="form-control bg-dark colorWhite border-grey" id="DateOfEnd" name="DateOfEnd"> 
+                                            <input type="date" max="3000-12-31" min="1000-01-01" onchange="CalcDiff()" class="form-control bg-dark colorWhite border-grey" id="DateOfEnd" name="DateOfEnd">
                                         </li>
                                     </ul>
                                 </div>
@@ -67,27 +67,27 @@
                     </div>
                     <div class="row">
                         <div class="col-6 col-ms-12">
-                            <ul class="list-unstyled zebra">         
+                            <ul class="list-unstyled zebra">
                                 <li>
-                                    <input type="reset" style="width:120px;" class="float-right form-control bg-dark button-cancel border-grey" value="CANCEL" />
+                                    <input onclick="window.history.back()" style="width:120px;text-align:center" class="float-right form-control bg-dark button-cancel border-grey" value="CANCEL" />
                                 </li>
                             </ul>
                         </div>
-                      
+
                         <div class="col-6 bg-dark ">
-                                <ul class="list-unstyled zebra">
-                                    <li>
-                                        <input type="submit" class="form-control bg-dark button-done border-grey bt-gradient" style="height:40px !important; padding-top:5px;" value="DONE" />
-                                    </li>
-                                </ul>
-                            </div>
+                            <ul class="list-unstyled zebra">
+                                <li>
+                                    <input type="submit" class="form-control bg-dark button-done border-grey bt-gradient" style="height:40px !important; padding-top:5px;" value="DONE" />
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-}
-<script>
- 
-</script>
+    </div>
+    }
+    <script>
+
+    </script>
 

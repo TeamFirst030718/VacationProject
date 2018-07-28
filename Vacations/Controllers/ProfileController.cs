@@ -67,6 +67,7 @@ namespace Vacations.Controllers
         #endregion
 
         [HttpGet]
+        [Authorize]
         public ActionResult Index()
         {
             var userData = new UserViewModel
