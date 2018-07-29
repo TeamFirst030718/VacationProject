@@ -52,6 +52,12 @@
                                             <td style="border-top: none;">
                                             <td style="border-top: none;">
                                             <td style="border-top: none;">
+                                                @if (g.Key != "Empty")
+                                                {
+                                                    <a href="@Url.Action("ViewTeamProfile", "TeamLeader", new {id = @g.Key})"><img src="~/Content/Icons/eye.svg" class="float-right m-auto my-auto" height="15" alt="View Team Profile" /></a>
+                                                }
+                                            </td>
+
                                         </tr>
 
                                         foreach (var t in g)
@@ -63,7 +69,10 @@
                                                 <td style="text-align: center; border-top: none">@t.EmployeeDto.WorkEmail</td>
                                                 <td style="text-align: right; border-top: none">@t.EmployeeDto.VacationBalance days</td>
 
-                                                <td style="border-top: none"></td>
+                                                <td style="border-top: none">
+                                                    <img src="~/Content/Icons/user-icon.svg" class="float-right m-auto my-auto ownPopup" style="margin-left:12px;  cursor:pointer; height:13px; width:13px" onclick="location='@Url.Action("EmployeeView", new { id=t.EmployeeDto.EmployeeID })'" />
+
+                                                </td>
                                             </tr>
                                         }
                                     }
