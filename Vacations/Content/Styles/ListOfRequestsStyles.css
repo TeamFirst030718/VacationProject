@@ -13,8 +13,6 @@ table.requestsList td.second {
     border-bottom:solid 1px gray !important;
 }
 
-
-
 .icon-pending {
     background: url('../Icons/online icon.svg') no-repeat;
     background-position: center center;
@@ -46,6 +44,11 @@ table.requestsList th{
     border-top: solid 50px #6b6dd2 !important;
     width:100px;
     height:50px;
+}
+
+.pageMenu{
+    position:absolute;
+    left:44.6%;
 }
 
 

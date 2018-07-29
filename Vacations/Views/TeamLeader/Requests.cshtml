@@ -1,4 +1,5 @@
-﻿@model Vacations.Models.RequestViewModel[]
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<Vacations.Models.RequestViewModel>
 @{
     var vacations = Model;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,7 +9,7 @@
         <div class="container mt-3">
             <div class="container m-0 p-0 ">
                 <div class="container container-rounded m-0 p-0">
-                    <div class="container container-rounded m-0 p-0" style="border: 2   px solid #757575 !important;">
+                    <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
                         <div class="toInsert">
                             <div class="row m-auto text-white">
                                 <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray; height:30px;vertical-align:middle">
@@ -16,7 +17,7 @@
                                 </div>
                             </div>
                             <table class="table m-0 p-0 requestsList backColor" style="font-size:15px; border-top:none;">
-                                @if (!vacations.Length.Equals(0))
+                                @if (!vacations.Count.Equals(0))
                                 {
                                     <tr class="text-light-grey border-grey" style="font-size:12px; border-bottom:solid 1px gray !important;">
                                         <th></th>
@@ -60,19 +61,32 @@
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
     </div>
+</div>
 <div class="modal fade" data-backdrop="static" id="vacationModal" tabindex="-1">
     <div class="modal-dialog">
         <div id="toReplace"></div>
     </div>
 </div>
+@if (vacations.FirstItemOnPage.Equals(1) || vacations.FirstItemOnPage > 15)
+{
+    <div class="btn-group pageMenu">
+        @Html.PagedListPager(Model, page => Url.Action("Requests", new { page }), new PagedListRenderOptions {
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                             MaximumPageNumbersToDisplay = 3
+    }))
+    </div>
+}
 @section Scripts {
     <script>
         function ShowProcessPopup(RequestID) {
-            var url = "/Admin/ProcessPopupPartial?id=" + RequestID;
+            var url = "/TeamLeader/ProcessPopupPartial?id=" + RequestID;
             $("#ModalTitle").html("Vacation Request");
             $('#vacationModal').modal();
             $.ajax({
@@ -85,7 +99,7 @@
             })
         }
         function SubmitRequest(obj) {
-            var url = '@Url.Action("ProcessPopupPartial", "Admin")'
+            var url = '@Url.Action("ProcessPopupPartial", "TeamLeader")'
             var modelToSend = {
                 EmployeeID: obj.EmployeeID,
                 VacationID: obj.VacationID,

@@ -10,12 +10,13 @@ using Vacations.Models;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using VacationsBLL.Services;
-
+using PagedList;
 namespace Vacations.Controllers
 {
     [Authorize(Roles = "Administrator, Employee, TeamLeader")]
     public class ProfileController : Controller
     {
+        private const int pageSize = 9;
         private readonly IPageListsService _pageListsService;
         private IProfileDataService _profileDataService;
         private IEmployeeService _employeeService;
@@ -68,7 +69,7 @@ namespace Vacations.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
             var userData = new UserViewModel
             {
@@ -79,7 +80,7 @@ namespace Vacations.Controllers
                         _profileDataService.GetUserVacationBalance(User.Identity.Name)),
                 VacationsData =
                     Mapper.MapCollection<ProfileVacationDTO, ProfileVacationsViewModel>(
-                        _profileDataService.GetUserVacationsData(User.Identity.Name))
+                        _profileDataService.GetUserVacationsData(User.Identity.Name)).ToPagedList(page,pageSize)
             };
             return View("MyProfile", userData);
         }

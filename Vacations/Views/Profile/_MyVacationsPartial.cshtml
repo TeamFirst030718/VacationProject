@@ -1,4 +1,5 @@
-﻿@model Vacations.Models.ProfileVacationsViewModel[]
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<Vacations.Models.ProfileVacationsViewModel>
 <div class="container m-0 p-0 ">
     <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
         <div class="row m-auto text-white">
@@ -8,43 +9,54 @@
 
         </div>
         <table class="table text-white m-0 p-0 backColor " style="font-size:15px; border-top:none;">
-            @if (Model.Length == 0)
+            @if (Model.Count.Equals(0))
             {
-            <tr style="color:#dcdcdc">
-                <td style="border-top:none">No vacations found</td>
-                <th style="border-top:none"></th>
-                <td style="border-top:none"></td>
-                <td style="border-top:none"></td>
-                <td style="border-top:none"></td>
-                <td style="border-top:none"></td>
-            </tr>
+                <tr style="color:#dcdcdc">
+                    <td style="border-top:none">No vacations found</td>
+                    <th style="border-top:none"></th>
+                    <td style="border-top:none"></td>
+                    <td style="border-top:none"></td>
+                    <td style="border-top:none"></td>
+                    <td style="border-top:none"></td>
+                </tr>
             }
             else
             {
-            <tr class="text-light-grey border-grey" style="font-size:12px; border-bottom:solid 1px gray !important;">
-                <th style="border-top:none"></th>
-                <td style="border-top:none">vacation dates</td>
-                <td style="border-top:none">description</td>
-                <td style="border-top:none">status</td>
-                <td style="border-top:none">vacation balance</td>
-            </tr>
+                <tr class="text-light-grey border-grey" style="font-size:12px; border-bottom:solid 1px gray !important;">
+                    <th style="border-top:none"></th>
+                    <td style="border-top:none">vacation dates</td>
+                    <td style="border-top:none">description</td>
+                    <td style="border-top:none">status</td>
+                    <td style="border-top:none">vacation balance</td>
+                </tr>
 
 
                 foreach (var vacation in Model)
                 {
-            <tr>
-                <th style="border-top:none"></th>
-                <td style="border-top:none">@Html.DisplayFor(x => vacation.DateOfBegin) - @Html.DisplayFor(x => vacation.DateOfEnd)</td>
-                <td style="border-top:none">@vacation.VacationType</td>
-                <td style="border-top:none" class="@vacation.VacationStatusType">@vacation.VacationStatusType</td>
-                <td style="text-align:center;border-top:none; padding-right:55px;">@vacation.Duration</td>
-            </tr>
+                    <tr>
+                        <th style="border-top:none"></th>
+                        <td style="border-top:none">@Html.DisplayFor(x => vacation.DateOfBegin) - @Html.DisplayFor(x => vacation.DateOfEnd)</td>
+                        <td style="border-top:none">@vacation.VacationType</td>
+                        <td style="border-top:none" class="@vacation.VacationStatusType">@vacation.VacationStatusType</td>
+                        <td style="text-align:center;border-top:none; padding-right:55px;">@vacation.Duration</td>
+                    </tr>
                 }
             }
-
 
         </table>
     </div>
 </div>
-
+@if ((Model.FirstItemOnPage.Equals(1) && Model.Count>=9) || Model.FirstItemOnPage > 9)
+{
+    <div class="btn-group pageMenu">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions {
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                             MaximumPageNumbersToDisplay = 3
+    }))
+    </div>
+}
 
