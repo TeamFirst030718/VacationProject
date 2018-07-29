@@ -433,6 +433,11 @@
     <Content Include="Views\Admin\Requests.cshtml" />
     <Content Include="Views\Admin\TeamsList.cshtml" />
     <Content Include="Views\Admin\ViewTeamProfile.cshtml" />
+    <Content Include="Views\Admin\EditTeam.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\TeamLeader\EmployeesList.cshtml" />
+    <Content Include="Views\TeamLeader\TeamsList.cshtml" />
+    <Content Include="Views\TeamLeader\ViewTeamProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
