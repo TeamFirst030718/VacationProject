@@ -190,7 +190,7 @@ namespace VacationsBLL
 
         public IEnumerable<EmployeeDTO> GetAllFreeEmployees()
         {
-            return Mapper.MapCollection<Employee, EmployeeDTO>(_employees.Get(x => x.EmployeesTeam.Count == 0)).ToArray();
+            return Mapper.MapCollection<Employee, EmployeeDTO>(_employees.Get(x => x.EmployeesTeam.Count == 0).ToArray());
         }
 
         public IEnumerable<EmployeeDTO> GetEmployeesByTeamId(string id)

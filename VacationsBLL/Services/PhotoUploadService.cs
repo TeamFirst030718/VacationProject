@@ -33,6 +33,7 @@ namespace VacationsBLL.Services
 
                     content = ms.ToArray();
                 }
+
                 return content;
             }
 
@@ -52,8 +53,7 @@ namespace VacationsBLL.Services
                 var bytePhoto = ConvertFileIntoByteArray(file);
                 var fileName = string.Format($"{id}.jpg");
                 UploadFileInBlocks(bytePhoto, fileName);
-            }
-         
+            }        
         }
 
         private byte[] DownloadFileInBlocks(string fileName)
@@ -98,8 +98,7 @@ namespace VacationsBLL.Services
             int blockId = 0;
 
             while (fileSize > 0)
-            {
-                    
+            {                  
                 int blockLength = (int)Math.Min(blockSize, fileSize);
 
 
@@ -114,13 +113,11 @@ namespace VacationsBLL.Services
                     {
                         RetryPolicy = new ExponentialRetry(TimeSpan.FromSeconds(2), 1)
                     });
-
                 }
 
                 blockId++;
                 fileSize -= blockLength;
             }
-
 
             blob.PutBlockList(blockIDs);
         }
@@ -142,6 +139,5 @@ namespace VacationsBLL.Services
 
             return container;
         }
-
     }
 }

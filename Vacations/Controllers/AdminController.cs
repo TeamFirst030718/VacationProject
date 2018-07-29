@@ -246,9 +246,9 @@ namespace Vacations.Controllers
         {
             var requestsData = new VacationRequestsViewModel();
 
-            _requestService.SetAdminID(User.Identity.GetUserId());
+            _requestService.SetReviewerID(User.Identity.GetUserId());
 
-            return View(Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequests()));
+            return View(Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin()));
         }
 
         [HttpGet]
@@ -276,9 +276,9 @@ namespace Vacations.Controllers
 
             var requestsData = new VacationRequestsViewModel();
 
-            _requestService.SetAdminID(User.Identity.GetUserId());
+            _requestService.SetReviewerID(User.Identity.GetUserId());
 
-            return View("Requests", Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequests()));
+            return View("Requests", Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin()));
         }
 
         [HttpGet]
@@ -326,7 +326,6 @@ namespace Vacations.Controllers
         }
 
         [HttpGet]
-
         public ActionResult EmployeeView(string id)
         {
             var employee = _employeeService.GetUserById(id);
