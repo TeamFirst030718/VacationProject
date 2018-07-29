@@ -124,14 +124,14 @@
                             <div class="col-5" style="padding:0">
                                 <ul class="list-unstyled zebra">
                                     <li>
-                                        <input type="reset" class="float-left form-control bg-dark button-cancel border-grey float-left" style="width:175px" data-dismiss="modal" value="CANCEL" />
+                                        <input type="button" class="float-left form-control bg-dark button-cancel border-grey float-left" style="width:175px;cursor:pointer;" data-dismiss="modal" value="CANCEL" />
                                     </li>
                                 </ul>
                             </div>
                             <div class="col-7 bg-dark " style="padding-right:10px;">
                                 <ul class="list-unstyled zebra ">
                                     <li>
-                                        <input onclick='SubmitRequest(@Html.Raw(Json.Encode(Model)))' data-dismiss="modal" class="form-control bg-dark button-done border-grey bt-gradient float-right" style="height:40px !important; padding-top:5px; width:220px;" value="DONE" />
+                                        <input onclick='SubmitRequest(@Html.Raw(Json.Encode(Model)))' type="button" data-dismiss="modal" class="form-control bg-dark button-done border-grey bt-gradient float-right" style="height:40px !important;cursor:pointer; padding-top:5px; width:220px;" value="DONE" />
                                     </li>
                                 </ul>
                             </div>
@@ -148,7 +148,7 @@
                             <div class="col-6">
                                 <ul class="list-unstyled zebra float-left">
                                     <li>
-                                        <input  type="reset" class="form-control bg-dark button-done border-grey bt-gradient float-right" data-dismiss="modal" style="height:40px !important; padding-top:5px;cursor:pointer; width:220px;" value="CLOSE" />
+                                        <input class="form-control bg-dark button-done border-grey bt-gradient float-right" type="button" data-dismiss="modal" style="height:40px !important; padding-top:5px;cursor:pointer; width:220px;" value="CLOSE" />
                                     </li>
                                 </ul>
                             </div>

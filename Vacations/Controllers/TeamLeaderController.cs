@@ -5,11 +5,13 @@ using VacationsBLL.DTOs;
 using VacationsBLL.Enums;
 using VacationsBLL.Interfaces;
 using VacationsBLL.Services;
+using PagedList;
 
 namespace Vacations.Controllers
 {
     public class TeamLeaderController : Controller
     {
+        private const int pageSize = 15;
         private readonly IPageListsService _pageListsService;
         private readonly IEmployeeService _employeeService;
         private readonly IProfileDataService _profileDataService;
@@ -37,13 +39,13 @@ namespace Vacations.Controllers
         }
 
         [HttpGet]
-        public ActionResult Requests()
+        public ActionResult Requests(int page = 1)
         {
             var requestsData = new VacationRequestsViewModel();
-
             _requestService.SetReviewerID(User.Identity.GetUserId());
-
-            return View(Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForTeamLeader()));
+            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForTeamLeader());
+            var list = map.ToPagedList(page, pageSize);
+            return View(list);
         }
 
         [HttpGet]

@@ -30,7 +30,8 @@ namespace IdentitySample
                           "~/Content/Styles/AddNewEmployee-Styles.css",
                           "~/Content/Styles/AddNewTeam-Styles.css",
                           "~/Content/Styles/ListOfRequestsStyles.css",
-                          "~/Content/Styles/EmployeeViewStyles.css"));
+                          "~/Content/Styles/EmployeeViewStyles.css",
+                          "~/Content/PagedList.css"));
         }
     }
 }
