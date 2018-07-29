@@ -1,0 +1,124 @@
+﻿@model Vacations.Models.RequestViewModel[]
+@{
+    var vacations = Model;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="container mt-3">
+            <div class="container m-0 p-0 ">
+                <div class="container container-rounded m-0 p-0">
+                    <div class="container container-rounded m-0 p-0" style="border: 2   px solid #757575 !important;">
+                        <div class="toInsert">
+                            <div class="row m-auto text-white">
+                                <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray; height:30px;vertical-align:middle">
+                                    <strong id="ModalTitle  ">List of Vacation Requests</strong>
+                                </div>
+                            </div>
+                            <table class="table m-0 p-0 requestsList backColor" style="font-size:15px; border-top:none;">
+                                @if (!vacations.Length.Equals(0))
+                                {
+                                    <tr class="text-light-grey border-grey" style="font-size:12px; border-bottom:solid 1px gray !important;">
+                                        <th></th>
+                                        <td class="first">name</td>
+                                        <td class="first grayFont" style="text-align:center;">team</td>
+                                        <td class="first" style="text-align:center">vaccation dates</td>
+                                        <td class="second" style="text-align:center; width:10%;">amount of days</td>
+                                        <td class="second" style="text-align:center">vacation balance</td>
+                                        <td class="second"> </td>
+                                    </tr>
+
+                                    foreach (var vacation in vacations)
+                                    {
+                                        <tr>
+                                            <th class="first underlined"></th>
+                                            <td class="first underlined" style="color:white;">@vacation.Name</td>
+                                            <td class="first underlined" style="color:grey; text-align:center;">@vacation.TeamName</td>
+                                            <td class="second underlined" style="text-align:center; color:grey;">@vacation.VacationDates</td>
+                                            <td class="second underlined" style="text-align:center; color:grey;">@vacation.Duration</td>
+                                            <td class="second underlined" style="text-align:center; color:white;">@vacation.EmployeesBalance</td>
+                                            <td class="first underlined">
+                                                <img src="~/Content/Icons/@string.Format($"{vacation.Status}.svg")" />
+                                                <img src="~/Content/Icons/edit icon grey.svg" class="float-right ownPopup" style="padding-top:7px; cursor:pointer" onclick='ShowProcessPopup("@string.Format($"{vacation.VacationID}")")' />
+                                                <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:12px;  cursor:pointer; height:13px; width:13px" onclick="location='@Url.Action("EmployeeView", new { id=vacation.EmployeeID })'" />
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr style="color:#dcdcdc">
+                                        <td style="border-top:none">No vacations found</td>
+                                        <th style="border-top:none"></th>
+                                        <td style="border-top:none"></td>
+                                        <td style="border-top:none"></td>
+                                        <td style="border-top:none"></td>
+                                        <td style="border-top:none"></td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="modal fade" data-backdrop="static" id="vacationModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div id="toReplace"></div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function ShowProcessPopup(RequestID) {
+            var url = "/Admin/ProcessPopupPartial?id=" + RequestID;
+            $("#ModalTitle").html("Vacation Request");
+            $('#vacationModal').modal();
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+
+                    $("#toReplace").html(data);
+                }
+            })
+        }
+        function SubmitRequest(obj) {
+            var url = '@Url.Action("ProcessPopupPartial", "Admin")'
+            var modelToSend = {
+                EmployeeID: obj.EmployeeID,
+                VacationID: obj.VacationID,
+                Description: $('#Discription').val(),
+                BalanceChange: $('#BalanceChange').val(),
+                Result: $('#Result:checked').val(),
+                DateOfBegin: $('#begin').val(),
+                DateOfEnd: $('#end').val()
+            };
+            $.post(url, modelToSend);
+            $(document).ajaxStop(function () {
+                window.location.reload();
+            });
+        }
+        function GetDiff() {
+            var dropdt = new Date(document.getElementById("end").value);
+            var pickdt = new Date(document.getElementById("begin").value);
+            return parseInt((dropdt - pickdt) / (24 * 3600 * 1000));
+        }
+        function CalcDiff() {
+            if (document.getElementById("begin").value && document.getElementById("end").value) {
+                document.getElementById("BalanceChange").value = GetDiff();
+            }
+        }
+
+    </script>
+
+}
+
+
+
+
+
+
+
+

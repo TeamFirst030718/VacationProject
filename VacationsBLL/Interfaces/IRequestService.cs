@@ -4,8 +4,9 @@ namespace VacationsBLL.Interfaces
     public interface IRequestService
     {
         RequestProcessDTO GetRequestDataById(string id);
-        void SetAdminID(string email);
-        RequestDTO[] GetRequests();
+        void SetReviewerID(string email);
+        RequestDTO[] GetRequestsForAdmin();
+        RequestDTO[] GetRequestsForTeamLeader();
         void DenyVacation(RequestProcessResultDTO result);
         void ApproveVacation(RequestProcessResultDTO result);
     }
