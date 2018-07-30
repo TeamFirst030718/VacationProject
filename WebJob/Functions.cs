@@ -1,52 +1,72 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using VacationsBLL.Interfaces;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using VacationsBLL.Enums;
+using VacationsDAL.Contexts;
+using VacationsDAL.Entities;
 
 namespace WebJob
 {
     public class Functions
     {
-        private static IVacationService _vacationService;
-        private static IEmailSendService _emailSendService;
-        private static IEmployeeService _employeeService;
+        private readonly string SendGridApiKeyName = "SendGridApiKey";
 
-        public Functions(IVacationService vacationService, IEmailSendService emailSendService,
-            IEmployeeService employeeService)
+        private bool IsApproved(VacationsContext context, string id)
         {
-            _vacationService = vacationService;
-            _emailSendService = emailSendService;
-            _employeeService = employeeService;
+            
+                var obj = context.VacationStatusTypes.FirstOrDefault(x => x.VacationStatusTypeID == id);
+                return obj != null && obj.VacationStatusName == VacationStatusTypeEnum.Approved.ToString();
+            
         }
 
-
-        public void ProcessMessage()
+        private async Task SendAsync(string address, string name, string title, string plainTextContent, string message)
         {
-            var vacations = _vacationService.GetVacations();
+            var apiKey = ConfigurationManager.AppSettings[SendGridApiKeyName];
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("test@example.com", "Softheme Vacations");
+            var subject = title;
+            var to = new EmailAddress(address, name);
+            var htmlContent = "<strong>" + message + "</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
+        }
 
-            var date = DateTime.Today;
+        private Employee GetUserById(VacationsContext context, string id)
+        {
+                var obj = context.Employees.FirstOrDefault(x => x.EmployeeID == id);
+                return obj;
+        }
 
-            foreach (var vacationDto in vacations)
+        public async Task ProcessMessage()
+        {
+            using (var context = new VacationsContext())
             {
-                if ((date - vacationDto.DateOfBegin).Days == 14 &&
-                    _vacationService.IsApproved(vacationDto.VacationStatusTypeID))
-                {
-                    var employee = _employeeService.GetUserById(vacationDto.EmployeeID);
-                    var team = employee.EmployeesTeam.FirstOrDefault();
-                    if (team != null)
-                    {
-                        var teamLeader = _employeeService.GetUserById(team.TeamLeadID);
+                var vacations = context.Vacations.ToList();
 
-                         _emailSendService.SendAsync(teamLeader.WorkEmail,
-                            teamLeader.Name + " " + teamLeader.Surname, "Soon the vacation of your employee",
-                            employee.Name + " " + employee.Surname,
-                            employee.Name + " " + employee.Surname + "will go on vacation after two weeks");
+                var date = DateTime.Today;
+
+                foreach (var vacation in vacations)
+                {
+                    if ((vacation.DateOfBegin - date).Days == 14 &&
+                        IsApproved(context, vacation.VacationStatusTypeID))
+                    {
+                        var employee = GetUserById(context, vacation.EmployeeID);
+                        var team = employee.EmployeesTeam.FirstOrDefault();
+                        if (team != null)
+                        {
+                            var teamLeader = GetUserById(context, team.TeamLeadID);
+
+                            await SendAsync(teamLeader.WorkEmail,
+                                teamLeader.Name + " " + teamLeader.Surname, "Soon the vacation of your employee",
+                                employee.Name + " " + employee.Surname,
+                                employee.Name + " " + employee.Surname + "will go on vacation after two weeks");
+                        }
                     }
                 }
             }
-
         }
     }
 }
