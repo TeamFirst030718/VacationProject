@@ -59,7 +59,6 @@ namespace Vacations.Models
 
         [Display(Name = "days in vacation")]
         [Range(1,28, ErrorMessage = "Duration should be positive number.")]
-        [Remote("ValidateBalance", "RemoteValidation")]
         public int VacationBalance { get; set; }
 
         [Display(Name = "job title")]
