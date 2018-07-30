@@ -1,5 +1,5 @@
-﻿@model List<Vacations.Models.TeamListViewModel>
-
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<Vacations.Models.TeamListViewModel>
 <div class="row">
     <div class="col-12">
         <div class="container mt-3">
@@ -27,10 +27,10 @@
                                     <td style="border-top: none; text-align: center">@team.TeamLeadName</td>
                                     <td style="border-top: none; text-align: center">@team.AmountOfEmployees</td>
                                     <td style="border-top: none; text-align: center">
-                                        <a href="@Url.Action("ViewTeamProfile","Admin", new {id = @team.TeamID})"><img src="~/Content/Icons/eye.svg" class="float-right m-auto my-auto" height="15" alt="View Team Profile"/></a>
+                                        <a href="@Url.Action("ViewTeamProfile","Admin", new {id = @team.TeamID})"><img src="~/Content/Icons/eye.svg" class="float-right m-auto my-auto" height="15" alt="View Team Profile" /></a>
                                     </td>
                                     <td style="border-top: none; text-align: center">
-                                        <a href="@Url.Action("EditTeam","Admin", new {id = @team.TeamID})"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" alt="Edit Team"/></a>
+                                        <a href="@Url.Action("EditTeam","Admin", new {id = @team.TeamID})"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" alt="Edit Team" /></a>
                                     </td>
 
                                 </tr>
@@ -42,3 +42,16 @@
         </div>
     </div>
 </div>
+@if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 15) || Model.FirstItemOnPage > 15)
+{
+    <div class="btn-group pageMenu">
+        @Html.PagedListPager(Model, page => Url.Action("TeamsList", new { page }), new PagedListRenderOptions {
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                             MaximumPageNumbersToDisplay = 3
+    }))
+    </div>
+}

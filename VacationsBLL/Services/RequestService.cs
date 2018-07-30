@@ -4,6 +4,7 @@ using System.Linq;
 using System.Transactions;
 using VacationsBLL.DTOs;
 using VacationsBLL.Enums;
+using VacationsBLL.Functions;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Entities;
 using VacationsDAL.Interfaces;
@@ -46,17 +47,7 @@ namespace VacationsBLL.Services
             ReviewerID = id;
         }
 
-        private int VacationSortFunc(string statusType)
-        {
-            if (statusType.Equals(VacationStatusTypeEnum.Pending.ToString()))
-            {
-                return 0;
-            }
-            else
-            {
-                return 1;
-            }
-        }
+       
 
         public RequestDTO[] GetRequestsForAdmin()
         {
@@ -81,7 +72,7 @@ namespace VacationsBLL.Services
                     EmployeesBalance = emp.VacationBalance,
                     Created = vac.Created,
                     Status = _vacationStatusTypes.Get(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).First().VacationStatusName
-                }).OrderBy(req => VacationSortFunc(req.Status)).ThenByDescending(req => req.Created).ToArray();
+                }).OrderBy(req => FunctionHelper.VacationSortFunc(req.Status)).ThenBy(req => req.Created).ToArray();
 
                 return requestsList;
             }
@@ -111,7 +102,7 @@ namespace VacationsBLL.Services
                     EmployeesBalance = emp.VacationBalance,
                     Created = vac.Created,
                     Status = _vacationStatusTypes.Get(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).First().VacationStatusName
-                }).OrderBy(req => VacationSortFunc(req.Status)).ThenByDescending(req => req.Created).ToArray();
+                }).OrderBy(req => FunctionHelper.VacationSortFunc(req.Status)).ThenByDescending(req => req.Created).ToArray();
 
                 return requestsList;
             }

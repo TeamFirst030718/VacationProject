@@ -22,13 +22,11 @@
         </div>
         <div class="input_icon">
             <i class="icon-key"></i>
-            <input type="password" style="border: none; box-shadow: none;" class="form-control loginInput" placeholder="password" name="Password">
+            <input type="password" style="border: none; box-shadow: none;" class="form-control loginInput" placeholder="password" name="Password" autocomplete="off">
         </div>
-        <div class="input_icon"><p>@ViewData["message"]</p></div>
 
         <button type="submit" class="btn btn-block login">LOG IN</button>
     }
-
     <a style="color: #6971d8; text-decoration: none; text-align: center" href=@Url.Action("ForgotPassword","Account")>forgot password?</a>
 
 </div>
