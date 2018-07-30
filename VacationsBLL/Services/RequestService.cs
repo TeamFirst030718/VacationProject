@@ -13,7 +13,7 @@ namespace VacationsBLL.Services
     public class RequestService : IRequestService
     {
         public string ReviewerID { get; set; }
-        private const string empty = "None";
+        private const string Empty = "None";
         private IUsersRepository _users;
         private IJobTitleRepository _jobTitles;
         private IEmployeeRepository _employees;
@@ -47,12 +47,8 @@ namespace VacationsBLL.Services
             ReviewerID = id;
         }
 
-       
-
         public RequestDTO[] GetRequestsForAdmin()
         {
-            var users = _users.Get();
-
             bool whereLinq(Employee emp) => _users.GetById(emp.EmployeeID).AspNetRoles.Any(role=>role.Name.Equals(RoleEnum.Administrator.ToString())) ||
                                                     (emp.EmployeesTeam.Count.Equals(1) &&
                                                     emp.EmployeesTeam.First().TeamLeadID.Equals(ReviewerID)) ||
@@ -66,7 +62,7 @@ namespace VacationsBLL.Services
                     EmployeeID = emp.EmployeeID,
                     VacationID = vac.VacationID,
                     Name = string.Format($"{emp.Name} {emp.Surname}"),
-                    TeamName = emp.EmployeesTeam.Count.Equals(0) ? empty : emp.EmployeesTeam.First().TeamName,
+                    TeamName = emp.EmployeesTeam.Count.Equals(0) ? Empty : emp.EmployeesTeam.First().TeamName,
                     Duration = vac.Duration,
                     VacationDates = string.Format($"{vac.DateOfBegin.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}-{vac.DateOfEnd.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}"),
                     EmployeesBalance = emp.VacationBalance,
@@ -76,11 +72,9 @@ namespace VacationsBLL.Services
 
                 return requestsList;
             }
-            else
-            {
-                return new RequestDTO[0];
-            }
-          
+
+            return new RequestDTO[0];
+
         }
 
         public RequestDTO[] GetRequestsForTeamLeader()
@@ -96,7 +90,7 @@ namespace VacationsBLL.Services
                     EmployeeID = emp.EmployeeID,
                     VacationID = vac.VacationID,
                     Name = string.Format($"{emp.Name} {emp.Surname}"),
-                    TeamName = emp.EmployeesTeam.Count.Equals(0) ? empty : emp.EmployeesTeam.First().TeamName,
+                    TeamName = emp.EmployeesTeam.Count.Equals(0) ? Empty : emp.EmployeesTeam.First().TeamName,
                     Duration = vac.Duration,
                     VacationDates = string.Format($"{vac.DateOfBegin.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}-{vac.DateOfEnd.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}"),
                     EmployeesBalance = emp.VacationBalance,
@@ -135,8 +129,8 @@ namespace VacationsBLL.Services
                     JobTitle = jobTitle,
                     Status = status,
                     VacationType = vacationType,
-                    TeamLeadName = employee.EmployeesTeam.Count.Equals(0) ? empty : _employees.GetById(employee.EmployeesTeam.First().TeamLeadID).Name + _employees.GetById(employee.EmployeesTeam.First().TeamLeadID).Surname,
-                    TeamName = employee.EmployeesTeam.Count.Equals(0) ? empty : employee.EmployeesTeam.First().TeamName
+                    TeamLeadName = employee.EmployeesTeam.Count.Equals(0) ? Empty : _employees.GetById(employee.EmployeesTeam.First().TeamLeadID).Name + _employees.GetById(employee.EmployeesTeam.First().TeamLeadID).Surname,
+                    TeamName = employee.EmployeesTeam.Count.Equals(0) ? Empty : employee.EmployeesTeam.First().TeamName
                 };
 
                 return request;
@@ -170,7 +164,7 @@ namespace VacationsBLL.Services
                     var transaction = new VacationsDAL.Entities.Transaction
                     {
                         BalanceChange = result.BalanceChange,
-                        Discription = result.Discription ?? empty,
+                        Discription = result.Discription ?? Empty,
                         EmployeeID = result.EmployeeID,
                         TransactionDate = DateTime.UtcNow,
                         TransactionTypeID = _transactionTypes.GetByType(TransactionTypeEnum.VacationTransaction.ToString()).TransactionTypeID,
