@@ -58,7 +58,13 @@ div.center {
 .input_icon {
     /*Need it. Believe me.*/
 }
+.DeniedLoginText {
+    color: #ad545f !important;
+}
 
+.DeniedLoginBorder {
+    border: 2px solid #ad545f !important;
+}
 @media screen and (min-width: 800px) {
     div.center {
         position: absolute;

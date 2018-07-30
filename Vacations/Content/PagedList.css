@@ -19,7 +19,7 @@
   color:gray;
   text-decoration: none;
   background-color: #2e2e2e;
-  border: 1px solid gray;
+  border: none;
 }
 
 .pagination > li:first-child > a,

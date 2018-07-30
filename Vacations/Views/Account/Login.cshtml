@@ -22,7 +22,11 @@
         </div>
         <div class="input_icon">
             <i class="icon-key"></i>
-            <input type="password" style="border: none; box-shadow: none;" class="form-control loginInput" placeholder="password" name="Password" autocomplete="off">
+            <input type="password" style="border: none; box-shadow: none;" class="form-control loginInput @ViewData["DeniedLoginBorder"]" placeholder="password" name="Password" autocomplete="off">
+            @if (ViewData["DeniedLoginText"] == "DeniedLoginText")
+            {
+                <p class="@ViewData["DeniedLoginText"]">Incorrect credentials.</p>
+            }
         </div>
 
         <button type="submit" class="btn btn-block login">LOG IN</button>

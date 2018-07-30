@@ -230,6 +230,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\RemoteValidationController.cs" />
     <Compile Include="Controllers\TeamLeaderController.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="FilterConfig.cs" />
@@ -356,8 +357,6 @@
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
     <None Include="Properties\PublishProfiles\SofthemeVacations - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\SofthemeVacations - Web Deploy1.pubxml" />
-    <None Include="Properties\PublishProfiles\SofthemeVacationsTop - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\Vacations20180729081953 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -432,7 +431,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\RegisterTeam.cshtml" />
-    <Content Include="Views\Admin\EditTeam.cshtml" />
     <Content Include="Views\TeamLeader\EmployeeView.cshtml" />
     <Content Include="Views\TeamLeader\ProcessPopupPartial.cshtml" />
     <Content Include="Views\TeamLeader\Requests.cshtml" />
@@ -443,15 +441,16 @@
     <Content Include="Views\Admin\Requests.cshtml" />
     <Content Include="Views\Admin\TeamsList.cshtml" />
     <Content Include="Views\Admin\ViewTeamProfile.cshtml" />
-    <Content Include="Views\Admin\EditTeam.cshtml" />
     <Content Include="Views\TeamLeader\EmployeesList.cshtml" />
     <Content Include="Views\TeamLeader\TeamsList.cshtml" />
     <Content Include="Views\TeamLeader\ViewTeamProfile.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ErrorPage.cshtml" />
+    <Content Include="Views\Admin\EditTeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\RemoteValidation\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,10 +1,9 @@
-﻿    @model Vacations.Models.RequestCreationViewModel
-
+﻿@model Vacations.Models.RequestCreationViewModel
 @using (Html.BeginForm("RequestVacation", "Profile", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-<div class="container m-0 p-0 ">
-    <div class="container container-rounded" style="border: 1px solid #757575 !important;">
+    <div class="container m-0 p-0 ">
+        <div class="container container-rounded" style="border: 1px solid #757575 !important;">
             <div class="row" style="border-bottom:solid #808080 1px;">
                 <div class="container-fluid bg-global text-white" style="background-color:#2e2e2e !important;">
                     <strong>Vacation Request</strong>
@@ -59,9 +58,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="container m-0 p-0 text-light"><input type="text" readonly="readonly" class="form-control bg-dark field-days-width border-grey colorWhite" maxlength="2" id="Duration" name="Duration" placeholder="XX" style="display:inline; max-width:45px;" /> days in vacations</div>
+                                    <div class="container m-0 p-0 text-light">@Html.TextBoxFor(m => m.Duration, new { @class = "form-control bg-dark field-days-width border-grey colorWhite", @readonly = "readonly", @maxlength = "2", @id = "Duration", @name = "Duration", @placeholder = "XX", @style = "display:inline; max-width:45px;" }) Duration @Html.ValidationMessageFor(m => m.Duration, "", new { @class = "Denied" })</div>
                                 </div>
-
+                                <p></p>
                             </div>
                         </div>
                     </div>
@@ -86,8 +85,8 @@
             </div>
         </div>
     </div>
-    }
-    <script>
+}
+<script>
 
-    </script>
+</script>
 
