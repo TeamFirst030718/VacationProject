@@ -22,7 +22,9 @@ namespace Vacations.Controllers
     [Authorize(Roles = "Administrator")]
     public class AdminController : Controller
     {
-        private const int pageSize = 15;
+        private const int requestPageSize = 15;
+        private const int teamPageSize = 15;
+        private const int employeePageSize = 4;
         private readonly IPageListsService _pageListsService;
         private readonly IEmployeeService _employeeService;
         private readonly IProfileDataService _profileDataService;
@@ -208,13 +210,13 @@ namespace Vacations.Controllers
             return View("Edit");
         }
 
-        public ActionResult EmployeesList()
+        public ActionResult EmployeesList(int page = 1)
         {
             var employeeList = _adminEmployeeListService.EmployeeList();
 
             ViewBag.EmployeeService = _employeeService;
 
-            return View(employeeList);
+            return View(employeeList.ToPagedList(page,employeePageSize));
         }
 
         [HttpGet]
@@ -279,7 +281,7 @@ namespace Vacations.Controllers
             var requestsData = new VacationRequestsViewModel();
             _requestService.SetReviewerID(User.Identity.GetUserId());
             var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin());
-            var list = map.ToPagedList(page, pageSize);
+            var list = map.ToPagedList(page, requestPageSize);
             return View(list);
         }
 
@@ -310,11 +312,15 @@ namespace Vacations.Controllers
 
             _requestService.SetReviewerID(User.Identity.GetUserId());
 
-            return View("Requests", Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin()));
+            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin());
+
+            var list = map.ToPagedList(1, requestPageSize);
+
+            return View("Requests",list);
         }
 
         [HttpGet]
-        public ActionResult TeamsList()
+        public ActionResult TeamsList(int page = 1)
         {
             var result = new List<TeamListViewModel>();
 
@@ -331,7 +337,7 @@ namespace Vacations.Controllers
                 });
             }
 
-            return View(result);
+            return View(result.ToPagedList(page, teamPageSize));
         }
 
         [HttpGet]

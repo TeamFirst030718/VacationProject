@@ -125,6 +125,7 @@
     <Compile Include="Enums\RoleEnum.cs" />
     <Compile Include="Enums\TransactionTypeEnum.cs" />
     <Compile Include="Enums\VacationStatusTypeEnum.cs" />
+    <Compile Include="Functions\FunctionHelper.cs" />
     <Compile Include="Interfaces\IRoleService.cs" />
     <Compile Include="Interfaces\IPageListsService.cs" />
     <Compile Include="Services\AdminEmployeeListService.cs" />

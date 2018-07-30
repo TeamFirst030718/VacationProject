@@ -431,7 +431,6 @@
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\RegisterTeam.cshtml" />
     <Content Include="Views\Admin\EditTeam.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\TeamLeader\EmployeeView.cshtml" />
     <Content Include="Views\TeamLeader\ProcessPopupPartial.cshtml" />
     <Content Include="Views\TeamLeader\Requests.cshtml" />
@@ -443,10 +442,10 @@
     <Content Include="Views\Admin\TeamsList.cshtml" />
     <Content Include="Views\Admin\ViewTeamProfile.cshtml" />
     <Content Include="Views\Admin\EditTeam.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\TeamLeader\EmployeesList.cshtml" />
     <Content Include="Views\TeamLeader\TeamsList.cshtml" />
     <Content Include="Views\TeamLeader\ViewTeamProfile.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ErrorPage.cshtml" />
   </ItemGroup>
   <ItemGroup>

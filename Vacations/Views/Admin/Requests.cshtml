@@ -70,20 +70,19 @@
         <div id="toReplace"></div>
     </div>
 </div>
-@if (vacations.FirstItemOnPage.Equals(1) || vacations.FirstItemOnPage > 15)
+@if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 15) || Model.FirstItemOnPage > 15)
 {
-<div class="btn-group pageMenu">
-    @Html.PagedListPager(Model, page => Url.Action("Requests", new { page }), new PagedListRenderOptions {
-    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-    DisplayLinkToLastPage = PagedListDisplayMode.Never,
-    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-    DisplayLinkToNextPage = PagedListDisplayMode.Always,
-    DisplayEllipsesWhenNotShowingAllPageNumbers = false,
-                         MaximumPageNumbersToDisplay = 3
-}))
-</div>
+    <div class="btn-group pageMenu">
+        @Html.PagedListPager(Model, page => Url.Action("Requests", new { page }), new PagedListRenderOptions {
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                             MaximumPageNumbersToDisplay = 3
+    }))
+    </div>
 }
-
 @section Scripts {
     <script>
         function ShowProcessPopup(RequestID) {

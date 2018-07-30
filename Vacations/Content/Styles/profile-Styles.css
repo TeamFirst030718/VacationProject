@@ -146,4 +146,15 @@ a.left-menu-element, a.left-menu-element:hover, a.left-menu-element:active {
     padding-right: 10px;
     margin-left:20px;
 }
+a.logOffLink {
+    color: white !important;    
+    padding-left: 4rem;
+}
 
+ a.logOffLink:hover, a.logOffLink:active {
+        text-decoration: none;
+        color: #6b6dd2 !important;
+ }
+.gradientText {
+    color: #6b6dd2 !important;
+}
