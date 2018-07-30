@@ -12,6 +12,7 @@ using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Transactions;
 using VacationsBLL.Services;
 using Vacations.Subservice;
 using PagedList;
@@ -92,41 +93,59 @@ namespace Vacations.Controllers
         [ValidateAntiForgeryToken]          
         public async Task<ActionResult> Register(EmployeeViewModel model, HttpPostedFileBase photo)
         {
-            ViewData["statusSelectList"] = _pageListsService.SelectStatuses();
-            ViewData["jobTitlesSelectList"] = _pageListsService.SelectJobTitles();
-            ViewData["aspNetRolesSelectList"] = _pageListsService.SelectRoles();
-
-            if (ModelState.IsValid)
+            using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                var role = Request.Params["aspNetRolesSelectList"];
+                ViewData["statusSelectList"] = _pageListsService.SelectStatuses();
+                ViewData["jobTitlesSelectList"] = _pageListsService.SelectJobTitles();
+                ViewData["aspNetRolesSelectList"] = _pageListsService.SelectRoles();
 
-                var user = new ApplicationUser { UserName = model.WorkEmail, Email = model.WorkEmail, PhoneNumber = model.PhoneNumber };
-
-                model.EmployeeID = user.Id;
-
-                model.JobTitleID = Request.Params["jobTitlesSelectList"];
-
-                model.Status = Request.Params["statusSelectList"].AsBool();
-
-                if (await EmployeeCreationService.CreateAndRegisterEmployee(model, role, UserManager, user, _employeeService))
+                if (ModelState.IsValid)
                 {
+                    var role = Request.Params["aspNetRolesSelectList"];
 
-                    _photoUploadService.UploadPhoto(photo, model.EmployeeID);   
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.WorkEmail,
+                        Email = model.WorkEmail,
+                        PhoneNumber = model.PhoneNumber
+                    };
 
-                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    model.EmployeeID = user.Id;
 
-                    var email = new EmailService();
+                    model.JobTitleID = Request.Params["jobTitlesSelectList"];
 
-                    var codeToSetPassword = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                    model.Status = Request.Params["statusSelectList"].AsBool();
 
-                    var callbackUrlToSetPassword = Url.Action("ResetPasswordAndConfirmEmail", "Account", new { codeToResetPassword = codeToSetPassword, codeToConfirmationEmail = code, userId = user.Id }, protocol: Request.Url.Scheme);
+                    if (await EmployeeCreationService.CreateAndRegisterEmployee(model, role, UserManager, user,
+                        _employeeService))
+                    {
 
-                    await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account", "Please confirm your account",
-                        "Set Password and confirm your account by clicking this <a href=\"" + callbackUrlToSetPassword + "\">link</a>.");
+                        _photoUploadService.UploadPhoto(photo, model.EmployeeID);
+
+                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+
+                        var email = new EmailService();
+
+                        var codeToSetPassword = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+
+                        var callbackUrlToSetPassword = Url.Action("ResetPasswordAndConfirmEmail", "Account",
+                            new
+                            {
+                                codeToResetPassword = codeToSetPassword,
+                                codeToConfirmationEmail = code,
+                                userId = user.Id
+                            }, protocol: Request.Url.Scheme);
+
+                        await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account",
+                            "Please confirm your account",
+                            "Set Password and confirm your account by clicking this <a href=\"" +
+                            callbackUrlToSetPassword + "\">link</a>.");
+                    }
+                    transaction.Complete();
+                    return RedirectToAction("Index", "Profile");
                 }
-
-                return View("Register");
             }
+
             return View(model);
         }
 
@@ -153,33 +172,37 @@ namespace Vacations.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EmployeeViewModel model, string id, HttpPostedFileBase photo)
         {
-            model.EmployeeID = id;
-            var role = UserManager.GetRoles(id).FirstOrDefault();
-            ViewData["statusSelectList"] = _pageListsService.SelectEditStatuses(model.Status.ToString());
-            ViewData["jobTitlesSelectList"] = _pageListsService.SelectEditJobTitles(model.JobTitleID);
-            ViewData["aspNetRolesSelectList"] = _pageListsService.SelectEditRoles(role);
-
-            if (ModelState.IsValid)
+            using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                model.JobTitleID = Request.Params["jobTitlesSelectList"];
-                model.Status = Request.Params["statusSelectList"].AsBool();
-                var roleParam = Request.Params["aspNetRolesSelectList"];
+                model.EmployeeID = id;
+                var role = UserManager.GetRoles(id).FirstOrDefault();
+                ViewData["statusSelectList"] = _pageListsService.SelectEditStatuses(model.Status.ToString());
+                ViewData["jobTitlesSelectList"] = _pageListsService.SelectEditJobTitles(model.JobTitleID);
+                ViewData["aspNetRolesSelectList"] = _pageListsService.SelectEditRoles(role);
 
-                var userRole = UserManager.GetRoles(model.EmployeeID).First();
-
-                if (userRole != roleParam)
+                if (ModelState.IsValid)
                 {
-                    UserManager.RemoveFromRole(model.EmployeeID, userRole);
-                    UserManager.AddToRoles(model.EmployeeID, roleParam);
-                }
+                    model.JobTitleID = Request.Params["jobTitlesSelectList"];
+                    model.Status = Request.Params["statusSelectList"].AsBool();
+                    var roleParam = Request.Params["aspNetRolesSelectList"];
 
-                _employeeService.UpdateEmployee(Mapper.Map<EmployeeViewModel, EmployeeDTO>(model));
+                    var userRole = UserManager.GetRoles(model.EmployeeID).First();
 
-                if (photo != null)
-                {
-                    _photoUploadService.UploadPhoto(photo, model.EmployeeID);
+                    if (userRole != roleParam)
+                    {
+                        UserManager.RemoveFromRole(model.EmployeeID, userRole);
+                        UserManager.AddToRoles(model.EmployeeID, roleParam);
+                    }
+
+                    _employeeService.UpdateEmployee(Mapper.Map<EmployeeViewModel, EmployeeDTO>(model));
+
+                    if (photo != null)
+                    {
+                        _photoUploadService.UploadPhoto(photo, model.EmployeeID);
+                    }
+                    transaction.Complete();
+                    return RedirectToAction("Index", "Profile", _profileDataService);
                 }
-                return RedirectToAction("Index", "Profile", _profileDataService);
             }
 
             return View("Edit");
@@ -209,38 +232,45 @@ namespace Vacations.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RegisterTeam(TeamViewModel model)
         {
-            if (ModelState.IsValid)
+            using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                model.TeamLeadID = Request.Params["employeesSelectList"];
-                model.TeamID = Guid.NewGuid().ToString();
+                if (ModelState.IsValid)
+                {
+                    model.TeamLeadID = Request.Params["employeesSelectList"];
+                    model.TeamID = Guid.NewGuid().ToString();
 
-                _teamService.CreateTeam(Mapper.Map<TeamViewModel, TeamDTO>(new TeamViewModel
-                {
-                    TeamLeadID = model.TeamLeadID,
-                    TeamID = model.TeamID,
-                    TeamName = model.TeamName
-                }));
-                string members = Request.Params["members"];
-                if (members != null)
-                {
-                    var result = members.Split(',');
-                    foreach (var employeeId in result)
+                    _teamService.CreateTeam(Mapper.Map<TeamViewModel, TeamDTO>(new TeamViewModel
                     {
-                        if (employeeId != model.TeamLeadID)
+                        TeamLeadID = model.TeamLeadID,
+                        TeamID = model.TeamID,
+                        TeamName = model.TeamName
+                    }));
+                    string members = Request.Params["members"];
+                    if (members != null)
+                    {
+                        var result = members.Split(',');
+                        foreach (var employeeId in result)
                         {
-                            _employeeService.AddToTeam(employeeId, model.TeamID);
+                            if (employeeId != model.TeamLeadID)
+                            {
+                                _employeeService.AddToTeam(employeeId, model.TeamID);
+                            }
                         }
                     }
+
+                    ViewBag.ListService = _pageListsService;
+                    ViewBag.ListOfEmployees =
+                        Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAll().ToArray());
                 }
-                ViewBag.ListService = _pageListsService;
-                ViewBag.ListOfEmployees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAll().ToArray());
+
+                ViewData["employeesSelectList"] = _pageListsService.EmployeesList();
+
+                ViewData["listOfEmployees"] =
+                    Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees()
+                        .ToArray());
+                transaction.Complete();
             }
-
-            ViewData["employeesSelectList"] = _pageListsService.EmployeesList();
-
-            ViewData["listOfEmployees"] = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
-
-            return View();
+            return RedirectToAction("Index", "Profile");
         }
 
         [HttpGet]
@@ -367,7 +397,9 @@ namespace Vacations.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditTeam(TeamViewModel model, string id)
         {
-            model.TeamLeadID = Request.Params["employeesSelectList"];
+            using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                model.TeamLeadID = Request.Params["employeesSelectList"];
             model.TeamID = id;
             string members = Request.Params["members"];
 
@@ -392,6 +424,7 @@ namespace Vacations.Controllers
                     }
                 }
 
+                transaction.Complete();
                 return RedirectToAction("Index", "Profile", _profileDataService);
             }
             var newEmployeesID = members.Split(',').ToList();
@@ -416,6 +449,8 @@ namespace Vacations.Controllers
                 }
             }
 
+                transaction.Complete();
+            }
             return RedirectToAction("Index", "Profile", _profileDataService);
         }
     }
