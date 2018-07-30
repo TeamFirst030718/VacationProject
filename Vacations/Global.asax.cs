@@ -18,7 +18,6 @@ namespace IdentitySample
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             SimpleInjectorConfig.RegisterComponents();
-
         }
 
         protected void Application_Error(object sender, EventArgs e)
@@ -32,6 +31,5 @@ namespace IdentitySample
             Response.Clear();
             Context.Response.Redirect("~/Account/ErrorPage"); // it will redirect to ErrorPage
         }
-
     }
 }

@@ -86,6 +86,8 @@ namespace IdentitySample.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
+                    ViewData["DeniedLoginText"] = "DeniedLoginText";
+                    ViewData["DeniedLoginBorder"] = "DeniedLoginBorder";
                     return View(model);
             }
         }

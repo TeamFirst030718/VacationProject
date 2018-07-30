@@ -24,7 +24,7 @@ namespace Vacations.Controllers
     {
         private const int requestPageSize = 15;
         private const int teamPageSize = 15;
-        private const int employeePageSize = 4;
+        private const int employeePageSize = 10;
         private readonly IPageListsService _pageListsService;
         private readonly IEmployeeService _employeeService;
         private readonly IProfileDataService _profileDataService;
@@ -32,7 +32,7 @@ namespace Vacations.Controllers
         private readonly IAdminEmployeeListService _adminEmployeeListService;
         private readonly ITeamService _teamService;
         private readonly IPhotoUploadService _photoUploadService;
-
+        private IValidateService _validateService;
         public AdminController(
             IProfileDataService profileDataService,
             IEmployeeService employeeService,
@@ -40,7 +40,8 @@ namespace Vacations.Controllers
             IAdminEmployeeListService adminEmployeeListService,
             IRequestService requestService,
             ITeamService teamService,
-            IPhotoUploadService photoUploadService)
+            IPhotoUploadService photoUploadService,
+            IValidateService validateService)
         {
             _profileDataService = profileDataService;
             _employeeService = employeeService;
@@ -49,6 +50,7 @@ namespace Vacations.Controllers
             _requestService = requestService;
             _teamService = teamService;
             _photoUploadService = photoUploadService;
+            _validateService = validateService;
         }
 
         #region Props
@@ -95,8 +97,7 @@ namespace Vacations.Controllers
         [ValidateAntiForgeryToken]          
         public async Task<ActionResult> Register(EmployeeViewModel model, HttpPostedFileBase photo)
         {
-            using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
+         
                 ViewData["statusSelectList"] = _pageListsService.SelectStatuses();
                 ViewData["jobTitlesSelectList"] = _pageListsService.SelectJobTitles();
                 ViewData["aspNetRolesSelectList"] = _pageListsService.SelectRoles();
@@ -118,11 +119,11 @@ namespace Vacations.Controllers
 
                     model.Status = Request.Params["statusSelectList"].AsBool();
 
-                    if (await EmployeeCreationService.CreateAndRegisterEmployee(model, role, UserManager, user,
+                    if (EmployeeCreationService.CreateAndRegisterEmployee(model, role, UserManager, user,
                         _employeeService))
                     {
 
-                        _photoUploadService.UploadPhoto(photo, model.EmployeeID);
+                        //_photoUploadService.UploadPhoto(photo, model.EmployeeID);
 
                         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
@@ -143,10 +144,9 @@ namespace Vacations.Controllers
                             "Set Password and confirm your account by clicking this <a href=\"" +
                             callbackUrlToSetPassword + "\">link</a>.");
                     }
-                    transaction.Complete();
+         
                     return RedirectToAction("Index", "Profile");
                 }
-            }
 
             return View(model);
         }
@@ -348,7 +348,7 @@ namespace Vacations.Controllers
 
             var employeesDTOs = _employeeService.GetEmployeesByTeamId(team.TeamID);
 
-            var employees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(employeesDTOs);
+            var employees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(employeesDTOs.ToArray());
 
             var result = new TeamProfileViewModel
             {
@@ -388,7 +388,7 @@ namespace Vacations.Controllers
             var team = Mapper.Map<TeamDTO, TeamViewModel>(_teamService.GetTeamById(id));
 
             var employees =
-                Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetEmployeesByTeamId(id));
+                Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetEmployeesByTeamId(id).ToArray());
 
             ViewData["employeesSelectList"] = _pageListsService.EmployeesList(team.TeamLeadID);
             /*list of Employees - AllFreeUsers*/
@@ -405,11 +405,11 @@ namespace Vacations.Controllers
         {
             using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                model.TeamLeadID = Request.Params["employeesSelectList"];
+            model.TeamLeadID = Request.Params["employeesSelectList"];
             model.TeamID = id;
             string members = Request.Params["members"];
 
-            var employees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetEmployeesByTeamId(id));
+            var employees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetEmployeesByTeamId(id).ToArray());
 
             _teamService.UpdateTeamInfo(Mapper.Map<TeamViewModel, TeamDTO>(model));
 
