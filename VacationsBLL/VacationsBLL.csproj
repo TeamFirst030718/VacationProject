@@ -130,6 +130,7 @@
     <Compile Include="Interfaces\IPageListsService.cs" />
     <Compile Include="Services\AdminEmployeeListService.cs" />
     <Compile Include="Interfaces\IPhotoUploadService.cs" />
+    <Compile Include="Interfaces\IValidateService.cs" />
     <Compile Include="Services\Mapper.cs" />
     <Compile Include="Services\PhotoUploadService.cs" />
     <Compile Include="Services\RoleService.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Services\ProfileDataService.cs" />
     <Compile Include="Services\RequestService.cs" />
     <Compile Include="Services\RequestCreationService.cs" />
+    <Compile Include="Services\ValidateService.cs" />
     <Compile Include="SimpleInjectorConfig\SimpleInjectorConfig.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -48,7 +48,7 @@
 </div>
 @if ((Model.FirstItemOnPage.Equals(1) && Model.Count>=9) || Model.FirstItemOnPage > 9)
 {
-    <div class="btn-group pageMenu">
+    <div class="btn-group pageMenuVacations">
         @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions {
         DisplayLinkToFirstPage = PagedListDisplayMode.Never,
         DisplayLinkToLastPage = PagedListDisplayMode.Never,

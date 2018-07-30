@@ -12,7 +12,8 @@
 
                     </div>
                     <table class="table text-white m-0 p-0 backColor " style="font-size:15px; border-top:none;">
-                        <tr class="text-light-grey border-grey" style="font-size: 12px; border-bottom: solid 1px gray !important;">
+                        <tr class="text-light-grey border-grey" style="border-bottom: solid 1px gray !important;">
+                            <th style="width:3%;border-top:none;></thstyle="width:3%;border-top:none;>
                             <td style="border-top: none; text-align: left">team name</td>
                             <td style="text-align: center; border-top: none">team leader</td>
                             <td style="text-align: center; border-top: none">amount of employees</td>
@@ -22,18 +23,19 @@
                         @{
                             foreach (var team in Model)
                             {
-                                <tr style="font-size: 12px; border-bottom: solid 1px gray !important; height: 30px !important">
-                                    <td style="border-top: none; text-align: left">@team.TeamName</td>
-                                    <td style="border-top: none; text-align: center">@team.TeamLeadName</td>
-                                    <td style="border-top: none; text-align: center">@team.AmountOfEmployees</td>
-                                    <td style="border-top: none; text-align: center">
-                                        <a href="@Url.Action("ViewTeamProfile","Admin", new {id = @team.TeamID})"><img src="~/Content/Icons/eye.svg" class="float-right m-auto my-auto" height="15" alt="View Team Profile" /></a>
-                                    </td>
-                                    <td style="border-top: none; text-align: center">
-                                        <a href="@Url.Action("EditTeam","Admin", new {id = @team.TeamID})"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" alt="Edit Team" /></a>
-                                    </td>
+                        <tr style=" border-bottom: solid 1px gray !important; height: 30px !important">
+                            <th style="width:2%;border-top:none;"></th>
+                            <td style="border-top: none; text-align: left">@team.TeamName</td>
+                            <td style="border-top: none; text-align: center">@team.TeamLeadName</td>
+                            <td style="border-top: none; text-align: center">@team.AmountOfEmployees</td>
+                            <td style="border-top: none; text-align: center">
+                                <a href="@Url.Action("ViewTeamProfile","Admin", new {id = @team.TeamID})"><img src="~/Content/Icons/eye.svg" class="float-right m-auto my-auto" height="15" alt="View Team Profile" /></a>
+                            </td>
+                            <td style="border-top: none; text-align: center">
+                                <a href="@Url.Action("EditTeam","Admin", new {id = @team.TeamID})"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" alt="Edit Team" /></a>
+                            </td>
 
-                                </tr>
+                        </tr>
                             }
                         }
                     </table>

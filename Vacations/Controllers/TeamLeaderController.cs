@@ -82,7 +82,7 @@ namespace Vacations.Controllers
 
             var employeesDTOs = _employeeService.GetEmployeesByTeamId(team.TeamID);
 
-            var employees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(employeesDTOs);
+            var employees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(employeesDTOs.ToArray());
 
             var result = new TeamProfileViewModel
             {

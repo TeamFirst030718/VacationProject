@@ -15,11 +15,11 @@ namespace Vacations.Subservice
 {
     public static class EmployeeCreationService
     {
-        public async static Task<bool> CreateAndRegisterEmployee(EmployeeViewModel model, string role, ApplicationUserManager userManager, ApplicationUser user, IEmployeeService employeeService)
+        public static bool CreateAndRegisterEmployee(EmployeeViewModel model, string role, ApplicationUserManager userManager, ApplicationUser user, IEmployeeService employeeService)
         {
             using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                var result = await userManager.CreateAsync(user, "123asdQ!");
+                var result = userManager.Create(user, "123asdQ!");
 
                 if (result.Succeeded)
                 {
