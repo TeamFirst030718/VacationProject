@@ -1,21 +1,28 @@
-﻿using SimpleInjector;
-using SimpleInjector.Integration.Web;
-using SimpleInjector.Integration.Web.Mvc;
-using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SimpleInjector;
+using SimpleInjector.Lifestyles;
+using VacationsBLL;
 using VacationsBLL.Interfaces;
 using VacationsBLL.Services;
 using VacationsDAL.Contexts;
 using VacationsDAL.Interfaces;
 using VacationsDAL.Repositories;
 
-namespace VacationsBLL.SimpleInjectorConfig
+namespace WebJob
 {
-    public class SimpleInjectorConfig
+    class Program
     {
-        public static void RegisterComponents()
+
+        static readonly Container container;
+
+        static Program()
         {
-            var container = new Container();
-            container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
+            container.Options.DefaultScopedLifestyle = new ThreadScopedLifestyle();
+
             container.Register<ITeamRepository, TeamRepository>(Lifestyle.Scoped);
             container.Register<ITransactionRepository, TransactionRepository>(Lifestyle.Scoped);
             container.Register<ITransactionTypeRepository, TransactionTypeRepository>(Lifestyle.Scoped);
@@ -39,10 +46,16 @@ namespace VacationsBLL.SimpleInjectorConfig
             container.Register<IAdminEmployeeListService, AdminEmployeeListService>(Lifestyle.Scoped);
             container.Register<IPhotoUploadService, PhotoUploadService>(Lifestyle.Scoped);
             container.Register<IVacationService, VacationService>(Lifestyle.Scoped);
+            container.Register<IEmailSendService, EmailSendService>(Lifestyle.Scoped);
 
             container.Verify();
+        }
 
-            DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
+        static void Main(string[] args)
+        {
+            var temp = container.GetInstance<IVacationService>();
+            var functions = new Functions(container.GetInstance<IVacationService>(), container.GetInstance<IEmailSendService>(), container.GetInstance<IEmployeeService>());
+            functions.ProcessMessage();
         }
     }
 }
