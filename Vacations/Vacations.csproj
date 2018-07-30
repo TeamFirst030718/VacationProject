@@ -302,6 +302,7 @@
     <Content Include="Content\Styles\bootstrap-reboot.min.css" />
     <Content Include="Content\Styles\bootstrap.css" />
     <Content Include="Content\Styles\bootstrap.min.css" />
+    <Content Include="Content\Styles\error-page-styles.css" />
     <Content Include="Content\Styles\forgotPasswordStyles.css" />
     <Content Include="Content\Styles\AddNewEmployee-Styles.css" />
     <Content Include="Content\Styles\profile-Styles.css" />
@@ -446,6 +447,7 @@
     <Content Include="Views\TeamLeader\EmployeesList.cshtml" />
     <Content Include="Views\TeamLeader\TeamsList.cshtml" />
     <Content Include="Views\TeamLeader\ViewTeamProfile.cshtml" />
+    <Content Include="Views\Account\ErrorPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

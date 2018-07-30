@@ -209,10 +209,6 @@ namespace Vacations.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RegisterTeam(TeamViewModel model)
         {
-            ViewData["employeesSelectList"] = _pageListsService.EmployeesList();
-
-            ViewData["listOfEmployees"] = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
-
             if (ModelState.IsValid)
             {
                 model.TeamLeadID = Request.Params["employeesSelectList"];
@@ -239,6 +235,10 @@ namespace Vacations.Controllers
                 ViewBag.ListService = _pageListsService;
                 ViewBag.ListOfEmployees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAll().ToArray());
             }
+
+            ViewData["employeesSelectList"] = _pageListsService.EmployeesList();
+
+            ViewData["listOfEmployees"] = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
 
             return View();
         }
