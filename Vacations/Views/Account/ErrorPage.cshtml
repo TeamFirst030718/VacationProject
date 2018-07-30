@@ -11,7 +11,7 @@
     <title>ErrorPage</title>
     @Styles.Render("~/Content/Styles/error-page-styles.css")
 </head>
-<body>
+<body class="image">
 
     <div class="container">
 	
@@ -33,7 +33,8 @@
 		
             <div class="page-ms">
                 <p class="page-msg"> Oops, the page you're looking for Disappeared </p>
-                <button class="go-back">Go Back</button>
+                <button class="go-back" onclick="window.location='@Url.Action("Index","Profile")';">Go Back</button>
+                
             </div>
         </div>
 	
