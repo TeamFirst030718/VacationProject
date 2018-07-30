@@ -201,15 +201,15 @@ body {
 
 button.go-back {
     font-size: 30px;
-    font-family: 'Combo', cursive;
+    font-family: Muli-Bold;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     transition: 0.3s linear;
     z-index: 9;
     border-radius: 10px;
-    background: #C0D7DD;
-    color: #33265C;
+    background: linear-gradient(to right,rgba(102,125,234,1), rgba(107,109,210,1), rgba(112,92,187,1), rgba(118,76,164,1));
+    color: white;
     box-shadow: 0 0 10px 0 #C0D7DD;
     margin-top: 20px;
 }
@@ -218,6 +218,16 @@ button:hover {
     box-shadow: 0 0 20px 0 #C0D7DD;
 }
 
+.image {
+    background: url(../Images/background.jpg) no-repeat center;
+    background-size: cover;
+}
+
+html, body {
+    height: 100%;
+}
+
 audio {
     /* 	display: none; */
 }
+
