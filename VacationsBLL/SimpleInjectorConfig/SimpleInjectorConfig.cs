@@ -39,6 +39,7 @@ namespace VacationsBLL.SimpleInjectorConfig
             container.Register<IAdminEmployeeListService, AdminEmployeeListService>(Lifestyle.Scoped);
             container.Register<IPhotoUploadService, PhotoUploadService>(Lifestyle.Scoped);
             container.Register<IValidateService, ValidateService>(Lifestyle.Scoped);
+            container.Register<IVacationService, VacationService>(Lifestyle.Scoped);
 
             container.Verify();
 
