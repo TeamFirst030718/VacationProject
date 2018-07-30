@@ -70,7 +70,7 @@
         <div id="toReplace"></div>
     </div>
 </div>
-@if (vacations.FirstItemOnPage.Equals(1) || vacations.FirstItemOnPage > 15)
+@if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 15) || Model.FirstItemOnPage > 15)
 {
     <div class="btn-group pageMenu">
         @Html.PagedListPager(Model, page => Url.Action("Requests", new { page }), new PagedListRenderOptions {

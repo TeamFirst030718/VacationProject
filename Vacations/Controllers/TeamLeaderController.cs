@@ -14,7 +14,9 @@ namespace Vacations.Controllers
     [Authorize(Roles = "TeamLeader")]
     public class TeamLeaderController : Controller
     {
-        private const int pageSize = 15;
+        private const int requestPageSize = 15;
+        private const int teamPageSize = 15;
+        private const int employeePageSize = 4;
         private readonly IPageListsService _pageListsService;
         private readonly IEmployeeService _employeeService;
         private readonly IProfileDataService _profileDataService;
@@ -42,17 +44,17 @@ namespace Vacations.Controllers
         }
 
 
-        public ActionResult EmployeesList()
+        public ActionResult EmployeesList(int page = 1)
         {
             var employeeList = _adminEmployeeListService.EmployeeList().Where(x=> x.TeamDto.TeamLeadID == User.Identity.GetUserId()).ToList();
 
             ViewBag.EmployeeService = _employeeService;
 
-            return View(employeeList);
+            return View(employeeList.ToPagedList(page,employeePageSize));
         }
 
         [HttpGet]
-        public ActionResult TeamsList()
+        public ActionResult TeamsList(int page = 1)
         {
             var result = new List<TeamListViewModel>();
 
@@ -69,7 +71,7 @@ namespace Vacations.Controllers
                 });
             }
 
-            return View(result);
+            return View(result.ToPagedList(page,teamPageSize));
         }
 
         [HttpGet]
@@ -101,7 +103,7 @@ namespace Vacations.Controllers
             var requestsData = new VacationRequestsViewModel();
             _requestService.SetReviewerID(User.Identity.GetUserId());
             var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForTeamLeader());
-            var list = map.ToPagedList(page, pageSize);
+            var list = map.ToPagedList(page, requestPageSize);
             return View(list);
         }
 

@@ -144,6 +144,7 @@
     <Compile Include="Enums\TransactionTypeEnum.cs" />
     <Compile Include="Enums\VacationStatusTypeEnum.cs" />
     <Compile Include="Interfaces\IEmailSendService.cs" />
+    <Compile Include="Functions\FunctionHelper.cs" />
     <Compile Include="Interfaces\IRoleService.cs" />
     <Compile Include="Interfaces\IPageListsService.cs" />
     <Compile Include="Interfaces\IVacationService.cs" />

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using VacationsBLL.DTOs;
+using VacationsBLL.Functions;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Entities;
 using VacationsDAL.Interfaces;
@@ -42,7 +43,7 @@ namespace VacationsBLL.Services
 
             var employee = _employees.GetByEmail(userEmail);
 
-            var jobTitles = _jobTitles.Get();
+            var jobTitle = _jobTitles.GetById(employee.JobTitleID).JobTitleName;
 
             if (employee != null)
             {
@@ -50,7 +51,7 @@ namespace VacationsBLL.Services
                 userData.TeamName = employee.EmployeesTeam.Count.Equals(0) ? empty : employee.EmployeesTeam.First().TeamName;
                 userData.TeamLeader = employee.EmployeesTeam.Count.Equals(0) ? empty : string.Format($"{ _employees.Get(x => x.EmployeeID.Equals(employee.EmployeesTeam.First().TeamLeadID)).First().Name}" +
                                                                                                       $"{ _employees.Get(x => x.EmployeeID.Equals(employee.EmployeesTeam.First().TeamLeadID)).First().Surname}");
-                userData.JobTitle = jobTitles.FirstOrDefault(x => x.JobTitleID.Equals(employee.JobTitleID)).JobTitleName;
+                userData.JobTitle = jobTitle;
                 userData.EmployeeID = employee.EmployeeID;
                 return userData;
             }
@@ -69,8 +70,10 @@ namespace VacationsBLL.Services
                 Comment = x.Comment,
                 DateOfBegin = x.DateOfBegin,
                 DateOfEnd = x.DateOfEnd,
-                Duration = x.Duration
-            }).ToArray();
+                Duration = x.Duration,
+                Status = _vacationStatusTypes.GetById(x.VacationStatusTypeID).VacationStatusName,
+                Created = x.Created
+            }).OrderBy(req => FunctionHelper.VacationSortFunc(req.Status)).ThenBy(req => req.Created).ToArray();
 
             return vacations;
         }
