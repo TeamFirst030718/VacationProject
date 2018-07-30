@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web;
+using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using VacationsBLL.SimpleInjectorConfig;
@@ -17,6 +19,18 @@ namespace IdentitySample
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             SimpleInjectorConfig.RegisterComponents();
 
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            HttpContext httpContext = HttpContext.Current;
+            if (httpContext != null)
+            {
+                RequestContext requestContext = ((MvcHandler)httpContext.CurrentHandler).RequestContext;
+                Exception exception = Server.GetLastError();
+            }
+            Response.Clear();
+            Context.Response.Redirect("~/Account/ErrorPage"); // it will redirect to ErrorPage
         }
 
     }

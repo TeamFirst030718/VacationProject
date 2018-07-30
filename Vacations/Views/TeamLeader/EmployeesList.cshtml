@@ -1,6 +1,7 @@
 ﻿@using VacationsBLL
 @using VacationsBLL.DTOs
-@model List<VacationsBLL.DTOs.EmployeeListDTO>
+@using PagedList.Mvc;
+@model PagedList.IPagedList<VacationsBLL.DTOs.EmployeeListDTO>
 @{
     EmployeeService employeeService = (EmployeeService)ViewBag.EmployeeService;
 }
@@ -85,3 +86,16 @@
         </div>
     </div>
 </div>
+@if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 4) || Model.FirstItemOnPage > 4)
+{
+    <div class="btn-group pageMenu">
+        @Html.PagedListPager(Model, page => Url.Action("EmployeesList", new { page }), new PagedListRenderOptions {
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                             MaximumPageNumbersToDisplay = 3
+    }))
+</div>
+}

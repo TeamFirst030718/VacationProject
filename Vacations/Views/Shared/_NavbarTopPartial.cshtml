@@ -1,18 +1,16 @@
-﻿<div class="container bg-dark pt-2 m-auto"  style="width:100%;padding-left:30px; padding-right:60px;" >
+﻿<div class="container bg-dark pt-2 m-auto"  style="width:100%;" >
     <div class="row">
         <nav class="navbar navbar-expand-lg navbar-light" style="width:100%;padding-right:20px;">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse navbar-light " id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto c">
-
-
+                <ul class="navbar-nav mr-auto">
                     <li class="mr-5">
                         <div class="container">
                             <div class="row">
                                 <div class="float-left">
-                                    <img src="~/Content/Icons/logo-softheme.svg" class="m-auto" style="height:40px;"/>
+                                    <a href="@Url.Action("Index","Profile")"><img src="~/Content/Icons/logo-softheme.svg" class="m-auto" style="height:40px;" /></a>
                                 </div>
                                 <div class="my-auto m-0 ml-2">
                                     <div class="logo m-auto ml-0" style="overflow:auto"><strong>SOFTHEME</strong> VACATIONS</div>
@@ -20,34 +18,31 @@
                             </div>
                         </div>
                     </li>
-
-
-                    <li class="ml-5 float-left">
+                    <li class="ml-4   float-left">
                         <div class="container p-0">
                             <a class="nav-link text-light textUnderline" href="@Url.Action("Index","Profile")">My Profile</a>
                         </div>
                     </li>
-                        <li class="ml-5 float-right">
-                            <a class="nav-link text-light textUnderline" href="@Url.Action("RequestVacation","Profile")">Request Vacation</a>
-                        </li>       
-                    </ul>
-                <div class="float-md-right float-left m-md-0 ml-3" >
-
+                    <li class="ml-5 ml float-right">
+                        <a class="nav-link text-light textUnderline" href="@Url.Action("RequestVacation","Profile")">Request Vacation</a>
+                    </li>
+                    <li class="ml-5">
+                        <div class="float-right">
+                            <div class="gradientText" style="font-size:15px;margin-top:10px; color:white;">@User.Identity.Name</div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="float-right">
+                    <a class="logOffLink float-right" href="@Url.Action("LogOff","Account")">Log out</a>
+                </div>
+                <div class="float-md-right float-left m-md-0 ml-3">
                     <div class="row">
                         <div class="logo col-8">
-                            <div class="float-right">
-                                <div class="mr-auto my-auto" style="font-size:15px; padding-top:5px;">@User.Identity.Name</div>
-                            </div>
+
                         </div>
-                        <div class="col-4">
-                            <div class="float-left">
-                                <img src="~/Content/Icons/user profile icon.svg">
-                            </div>
-                        </div>
+
                     </div>
                 </div>
-
-
             </div>
         </nav>
     </div>

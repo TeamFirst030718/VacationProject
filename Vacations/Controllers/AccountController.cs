@@ -357,6 +357,11 @@ namespace IdentitySample.Controllers
             return View();
         }
 
+        public ActionResult ErrorPage()
+        {
+            return View();
+        }
+
         #region Helpers
         private const string XsrfKey = "XsrfId";
 
