@@ -62,11 +62,13 @@ namespace Vacations.Controllers
 
             foreach (var teamListDto in teams)
             {
+                var teamLead = _employeeService.GetUserById(teamListDto.TeamLeadID);
+
                 result.Add(new TeamListViewModel
                 {
                     TeamID = teamListDto.TeamID,
                     TeamName = teamListDto.TeamName,
-                    TeamLeadName = _employeeService.GetUserById(teamListDto.TeamLeadID).Name,
+                    TeamLeadName = teamLead.Name + " " + teamLead.Surname,
                     AmountOfEmployees = teamListDto.AmountOfEmployees
                 });
             }
@@ -77,10 +79,11 @@ namespace Vacations.Controllers
         [HttpGet]
         public ActionResult ViewTeamProfile(string id)
         {
-
             var team = _teamService.GetById(id);
 
             var employeesDTOs = _employeeService.GetEmployeesByTeamId(team.TeamID);
+
+            var teamLead = _employeeService.GetUserById(team.TeamLeadID);
 
             var employees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(employeesDTOs.ToArray());
 
@@ -88,8 +91,8 @@ namespace Vacations.Controllers
             {
                 TeamID = team.TeamID,
                 TeamName = team.TeamName,
-                TeamLeadName = _employeeService.GetUserById(team.TeamLeadID).Name,
-                Status = _employeeService.GetUserById(team.TeamLeadID).Status,
+                TeamLeadName = teamLead.Name + " " + teamLead.Surname,
+                Status = teamLead.Status,
                 AmountOfEmployees = team.AmountOfEmployees,
                 Employees = employees
             };
