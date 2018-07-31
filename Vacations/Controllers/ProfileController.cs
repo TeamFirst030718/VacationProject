@@ -11,6 +11,8 @@ using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using VacationsBLL.Services;
 using PagedList;
+using System.Linq;
+
 namespace Vacations.Controllers
 {
     [Authorize(Roles = "Administrator, Employee, TeamLeader")]
@@ -20,17 +22,17 @@ namespace Vacations.Controllers
         private readonly IPageListsService _pageListsService;
         private IProfileDataService _profileDataService;
         private IEmployeeService _employeeService;
-        private IRequestCreationService _vacationCreationService;
+        private IRequestCreationService _requestCreationService;
 
         public ProfileController(IProfileDataService profileDataService,
                                  IEmployeeService employeesService,
                                  IPageListsService pageListsService,
-                                 IRequestCreationService vacationService)
+                                 IRequestCreationService requestCreationService)
         {
             _profileDataService = profileDataService;
             _employeeService = employeesService;
             _pageListsService = pageListsService;
-            _vacationCreationService = vacationService;
+            _requestCreationService = requestCreationService;
         }
 
         #region IdentityProps
@@ -120,10 +122,10 @@ namespace Vacations.Controllers
                 model.EmployeeID = UserManager.FindByEmail(User.Identity.Name).Id;
                 model.VacationID = Guid.NewGuid().ToString();
                 model.VacationTypeID = Request.Params["VacationTypesSelectList"];
-                model.VacationStatusTypeID = _vacationCreationService.GetStatusIdByType(VacationStatusTypeEnum.Pending.ToString());
+                model.VacationStatusTypeID = _requestCreationService.GetStatusIdByType(VacationStatusTypeEnum.Pending.ToString());
                 model.Created = DateTime.UtcNow;
 
-                _vacationCreationService.CreateVacation(Mapper.Map<RequestCreationViewModel, VacationDTO>(model));
+                _requestCreationService.CreateVacation(Mapper.Map<RequestCreationViewModel, VacationDTO>(model));
 
                 return View(requestVacationData);
             }

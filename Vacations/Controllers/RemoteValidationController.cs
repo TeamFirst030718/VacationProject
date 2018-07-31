@@ -20,7 +20,7 @@ namespace Vacations.Controllers
         {
             if (EmployeeID=="undefined")
             {
-                if (_validateService.CheckEmailForExisting(WorkEmail))
+                if (_validateService.CheckEmail(WorkEmail))
                 {
                     return Json(" is in use", JsonRequestBehavior.AllowGet);
                 }
@@ -31,7 +31,7 @@ namespace Vacations.Controllers
             }
             else
             {
-                if (_validateService.CheckEmailForExisting(WorkEmail) && _validateService.CheckEmailOwner(WorkEmail,EmployeeID))
+                if (_validateService.CheckEmail(WorkEmail) && _validateService.CheckEmailOwner(WorkEmail,EmployeeID))
                 {
                     return Json(" is in use", JsonRequestBehavior.AllowGet);
                 }
@@ -41,6 +41,32 @@ namespace Vacations.Controllers
                 }
             }
            
+        }
+
+        public JsonResult ValidateTeamName(string TeamName, string TeamID)
+        {
+            if (TeamID == "undefined")
+            {
+                if (_validateService.CheckTeamName(TeamName))
+                {
+                    return Json(" is in use", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                if (_validateService.CheckTeamName(TeamName) && _validateService.CheckTeam(TeamName,TeamID))
+                {
+                    return Json(" is in use", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+            }
         }
     }
 }

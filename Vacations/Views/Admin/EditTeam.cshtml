@@ -1,5 +1,5 @@
 ﻿@using Vacations.Models
-@model Vacations.Models.TeamViewModel
+@model TeamViewModel
 @{
     IEnumerable<Vacations.Models.EmployeeViewModel> listOfEmployees = (IEnumerable<Vacations.Models.EmployeeViewModel>)ViewData["listOfEmployees"];
     IEnumerable<EmployeeViewModel> employees = (IEnumerable<EmployeeViewModel>)ViewData["Employees"];
@@ -9,11 +9,12 @@
 @using (Html.BeginForm("EditTeam", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.TeamID)
     <link href="~/Content/chosen.min.css" rel="stylesheet" />
     <div class="container m-0 py-3">
         <form>
             <div class="container pb-5 text-light-grey">
-                <div class="row">
+                <div class="row">   
                     <div class="container-fluid border border-bottom-0 border-grey container-rounded-top bg-global text-white p-2 py-2">
                         <strong>Edit Team Profile</strong>
                     </div>
@@ -22,7 +23,7 @@
                     <!--1-->
                     <div class="col-4 border border-bottom-0 border-grey  bg-dark pt-1">
                         <div class="form-group container">
-                            @Html.LabelFor(m=>m.TeamName, new { @class = "control-label " })
+                            @Html.LabelFor(m => m.TeamName, new { @class = "control-label " })
                             @Html.ValidationMessageFor(m => m.TeamName, "", new { @class = "Denied" })
                             <input class="form-control bg-dark border-grey colorWhite" value="@team.TeamName" id="TeamName" name="TeamName" placeholder="Team Name" autocomplete="off" type="text">
                         </div>

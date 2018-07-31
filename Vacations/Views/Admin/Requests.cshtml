@@ -107,7 +107,8 @@
                 BalanceChange: $('#BalanceChange').val(),
                 Result: $('#Result:checked').val(),
                 DateOfBegin: $('#begin').val(),
-                DateOfEnd: $('#end').val()
+                DateOfEnd: $('#end').val(),
+                Discription: $('#Discription').val()
             };
             $.post(url, modelToSend);
             $(document).ajaxStop(function () {

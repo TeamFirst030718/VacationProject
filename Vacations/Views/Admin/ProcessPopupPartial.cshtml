@@ -8,6 +8,7 @@
 
 @Html.Hidden("EmployeeID", Model.EmployeeID)
 @Html.Hidden("VacationID", Model.VacationID)
+
 <div class="modal-content bg-dark" style="color:gray; border:solid gray 1px;">
 
     <div class="modal-header form-header bg-global" style="color:white; border-bottom:solid gray 1px !important;height:50px; vertical-align:middle;">
@@ -62,7 +63,7 @@
                                 @Html.LabelFor(m => m.Comment, new { @class = "control-label" })
                             </li>
                             <li>
-                                <textarea disabled class="form-control bg-dark border-grey" name="Comment" rows="6" style="resize:none;color:white;border:none; padding:2px;">@Model.Comment</textarea>
+                                @Html.TextAreaFor(model => model.Comment,6,23, new {@class= "form-control bg-dark border-grey",style="resize:none;color:white;border:none; padding:2px;", @disabled ="true"})
                             </li>
                         </ul>
                     </div>
@@ -101,42 +102,42 @@
                 </div>
                 @if (Model.Status.Equals("Pending"))
                 {
-                    <div class=" modal-footer" style="display:block; border-top: 1px solid #727272">
-                        <p>Answer the Request</p>
-                        <div class="row">
-                            <div class="col-6">
+                <div class=" modal-footer" style="display:block; border-top: 1px solid #727272">
+                    <p>Answer the Request</p>
+                    <div class="row">
+                        <div class="col-6">
 
-                                @Html.RadioButton("Result", "Approved", new { @checked = "checked" })
-                                @*<input type="radio" name="radio" value="Approved" checked="checked" />*@
-                                <label class="Approved"> Approve</label>
-                            </div>
-                            <div class="col-6">
-                                <label class="control1 control1--radio">
-
-                                    @Html.RadioButton("Result", "Denied")
-                                    <label class="Denied">Refuse</label>
-                                </label>
-                            </div>
+                            @Html.RadioButton("Result", "Approved", new { @checked = "checked" })
+                            @*<input type="radio" name="radio" value="Approved" checked="checked" />*@
+                            <label class="Approved"> Approve</label>
                         </div>
-                        <label style="color:gray;">comment</label>
-                        <textarea class="form-control ownTextarea" style="background-color:#2e2e2e; border:solid 1px gray; resize:none; color:white; min-height:110px;" maxlength="140" id="Discription"></textarea>
-                        <div class="row">
-                            <div class="col-5" style="padding:0">
-                                <ul class="list-unstyled zebra">
-                                    <li>
-                                        <input type="button" class="float-left form-control bg-dark button-cancel border-grey float-left" style="cursor:pointer;width:175px" data-dismiss="modal" value="CANCEL" />
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-7 bg-dark " style="padding-right:10px;">
-                                <ul class="list-unstyled zebra ">
-                                    <li>
-                                        <input onclick='SubmitRequest(@Html.Raw(Json.Encode(Model)))' type="button" data-dismiss="modal" class="form-control bg-dark button-done border-grey bt-gradient float-right" style="cursor:pointer;height:40px !important; padding-top:5px; width:220px;" value="DONE" />
-                                    </li>
-                                </ul>
-                            </div>
+                        <div class="col-6">
+                            <label class="control1 control1--radio">
+
+                                @Html.RadioButton("Result", "Denied")
+                                <label class="Denied">Refuse</label>
+                            </label>
                         </div>
                     </div>
+                    <label style="color:gray;">comment</label>
+                    @Html.TextArea("Discription", new { @class = "form - control ownTextarea", style="background-color:#2e2e2e; border:solid 1px gray; resize:none; color:white; min-height:110px; min-width:400px;", @maxlength="140",@id="Discription"})
+                    <div class="row">   
+                        <div class="col-5" style="padding:0">
+                            <ul class="list-unstyled zebra">
+                                <li>
+                                    <input type="button" class="float-left form-control bg-dark button-cancel border-grey float-left" style="cursor:pointer;width:175px" data-dismiss="modal" value="CANCEL" />
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-7 bg-dark " style="padding-right:10px;">
+                            <ul class="list-unstyled zebra ">
+                                <li>
+                                    <input onclick='SubmitRequest(@Html.Raw(Json.Encode(Model)))' type="button" data-dismiss="modal" class="form-control bg-dark button-done border-grey bt-gradient float-right" style="cursor:pointer;height:40px !important; padding-top:5px; width:220px;" value="DONE" />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
                 }
                 else
                 {

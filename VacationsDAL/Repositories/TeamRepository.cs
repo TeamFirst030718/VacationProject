@@ -29,6 +29,11 @@ namespace VacationsDAL.Repositories
             return _context.Teams.FirstOrDefault(x => x.TeamID == id);
         }
 
+        public Team GetByName(string name)
+        {
+            return _context.Teams.FirstOrDefault(x => x.TeamName == name);
+        }
+
         public void Remove(string id)
         {
             var obj = _context.Teams.FirstOrDefault(x => x.TeamID == id);

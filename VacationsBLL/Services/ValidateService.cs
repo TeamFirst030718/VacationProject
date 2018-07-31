@@ -12,12 +12,15 @@ namespace VacationsBLL.Services
     {
         IEmployeeRepository _employees;
 
-        public ValidateService(IEmployeeRepository employees)
+        ITeamRepository _teams;
+
+        public ValidateService(IEmployeeRepository employees, ITeamRepository teams)
         {
             _employees = employees;
+            _teams = teams;
         }
 
-        public bool CheckEmailForExisting(string email)
+        public bool CheckEmail(string email)
         {
             return _employees.GetByEmail(email) == null ? false : true;
         }
@@ -25,6 +28,16 @@ namespace VacationsBLL.Services
         public bool CheckEmailOwner(string email, string id)
         {
             return _employees.GetByEmail(email).EmployeeID.Equals(id) ? false : true;
+        }
+
+        public bool CheckTeamName(string teamName)
+        {
+            return _teams.GetByName(teamName) == null ? false : true;
+        }
+
+        public bool CheckTeam(string teamName, string id)
+        {
+            return _teams.GetByName(teamName).TeamID.Equals(id) ? false : true;
         }
     }
 }

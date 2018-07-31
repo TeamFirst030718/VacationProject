@@ -86,7 +86,7 @@
         </div>
     </div>
 </div>
-@if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 4) || Model.FirstItemOnPage > 4)
+@if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 10) || Model.FirstItemOnPage > 10)
 {
     <div class="btn-group pageMenu">
         @Html.PagedListPager(Model, page => Url.Action("EmployeesList", new { page }), new PagedListRenderOptions {
@@ -97,5 +97,5 @@
         DisplayEllipsesWhenNotShowingAllPageNumbers = false,
                              MaximumPageNumbersToDisplay = 3
     }))
-</div>
+    </div>
 }

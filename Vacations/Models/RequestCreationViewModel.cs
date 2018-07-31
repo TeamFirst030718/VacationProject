@@ -38,7 +38,7 @@ namespace Vacations.Models
         public string VacationStatusTypeID { get; set; }
 
         [Required]
-        [Range(1, 28, ErrorMessage = " should be positive number.")]
+        [Range(1, 28, ErrorMessage = " should be positive.")]
         public int Duration { get; set; }
 
         [Column(TypeName = "date")]

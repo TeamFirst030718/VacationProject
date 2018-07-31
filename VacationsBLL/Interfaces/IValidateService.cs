@@ -2,7 +2,9 @@
 {
     public interface IValidateService
     {
-        bool CheckEmailForExisting(string email);
+        bool CheckEmail(string email);
         bool CheckEmailOwner(string email, string id);
+        bool CheckTeamName(string teamName);
+        bool CheckTeam(string teamName, string id);
     }
 }
