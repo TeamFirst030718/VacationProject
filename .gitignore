@@ -242,3 +242,4 @@ Mvms.SPA.admin/.idea/
 # System Files
 .DS_Store
 Thumbs.db
+*.config
