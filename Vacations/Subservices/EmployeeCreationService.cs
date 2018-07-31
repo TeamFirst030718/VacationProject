@@ -19,7 +19,7 @@ namespace Vacations.Subservice
         {
             using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                var result = userManager.Create(user, "123asdQ!");
+                var result = userManager.Create(user, Guid.NewGuid().ToString());
 
                 if (result.Succeeded)
                 {

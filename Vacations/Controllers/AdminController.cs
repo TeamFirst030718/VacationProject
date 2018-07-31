@@ -140,7 +140,7 @@ namespace Vacations.Controllers
                             }, protocol: Request.Url.Scheme);
 
                         await email.SendAsync(model.WorkEmail, model.Name + " " + model.Surname, "Confirm your account",
-                            "Please confirm your account",
+                            "Please, confirm your account",
                             "Set Password and confirm your account by clicking this <a href=\"" +
                             callbackUrlToSetPassword + "\">link</a>.");
                     }
@@ -296,6 +296,8 @@ namespace Vacations.Controllers
         [HttpPost]
         public ActionResult ProcessPopupPartial(RequestProcessResultModel model)
         {
+            _requestService.SetReviewerID(User.Identity.GetUserId());
+
             if (ModelState.IsValid)
             {
                 if (model.Result.Equals(VacationStatusTypeEnum.Approved.ToString()))
@@ -309,8 +311,6 @@ namespace Vacations.Controllers
             }
 
             var requestsData = new VacationRequestsViewModel();
-
-            _requestService.SetReviewerID(User.Identity.GetUserId());
 
             var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin());
 

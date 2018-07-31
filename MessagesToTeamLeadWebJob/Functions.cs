@@ -23,7 +23,7 @@ namespace WebJob
         private async Task SendAsync(string address, string name, string title, string plainTextContent, string message)
         {
             var apiKey = ConfigurationManager.AppSettings[SendGridApiKeyName];
-            var client = new SendGridClient(apiKey);
+            var client = new SendGridClient(apiKey);    
             var from = new EmailAddress("test@example.com", "Softheme Vacations");
             var subject = title;
             var to = new EmailAddress(address, name);

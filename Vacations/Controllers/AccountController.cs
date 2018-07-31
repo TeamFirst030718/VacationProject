@@ -65,15 +65,15 @@ namespace IdentitySample.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
+                ViewData["DeniedLoginText"] = "DeniedLoginText";
+                ViewData["DeniedLoginBorder"] = "DeniedLoginBorder";
                 return View(model);
             }
 
-            // This doen't count login failures towards lockout only two factor authentication
-            // To enable password failures to trigger lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, shouldLockout: false);
             switch (result)
             {
@@ -81,8 +81,6 @@ namespace IdentitySample.Controllers
                     return RedirectToAction("Index", "Profile");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -92,13 +90,10 @@ namespace IdentitySample.Controllers
             }
         }
 
-        //
-        // GET: /Account/VerifyCode
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
-            // Require that the user has already logged in via username/password or external login
             if (!await SignInManager.HasBeenVerifiedAsync())
             {
                 return View("Error");
@@ -111,8 +106,6 @@ namespace IdentitySample.Controllers
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
-        // POST: /Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -161,9 +154,11 @@ namespace IdentitySample.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
+            ViewData["response"] = "Ready! Please, check your email.";
+
             if (ModelState.IsValid)
             {
-                ViewData["response"] = "Ready! Please, check your email.";
+             
 
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
@@ -183,7 +178,7 @@ namespace IdentitySample.Controllers
                     "Please restore your password by clicking this <a href=\"" + callbackUrl + "\">link</a>.");
             }
 
-            return View(model);
+            return View("ForgotPasswordResponse");
         }
 
         [HttpGet]

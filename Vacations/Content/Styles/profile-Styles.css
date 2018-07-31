@@ -91,7 +91,7 @@ li .textUnderline:hover, li .textUnderline:active {
 }
 
 
-a.left-menu-element, a.left-menu-element:hover, a.left-menu-element:active {
+a.left-menu-element, a.left-menu-element:hover, a.left-menu-element:active, a.left-menu-element:focus {
     background-color: #2e2e2e !important;
     color: #959595;
     border-bottom-color: white;
