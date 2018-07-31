@@ -4,7 +4,6 @@
     var dateOfBegin = Model.DateOfBegin.ToString("yyyy-MM-dd");
     var dateOfEnd = Model.DateOfEnd.ToString("yyyy-MM-dd");
     string url = "https://teamresponse418storage.blob.core.windows.net/photos/";
-    var statusStyle=  string.Format($"{Model.Status}Style");
 }
 
 @Html.Hidden("EmployeeID", Model.EmployeeID)
@@ -144,7 +143,7 @@
                 {
                     <div class=" modal-footer" style="display:block; border:none;">
                         <div class="row">
-                            <div class="col-6 float-left @statusStyle" style="text-align:center;vertical-align:middle; padding-top:10px;">
+                            <div class="col-6 float-left " style="text-align:center;vertical-align:middle; padding-top:10px;">
                                 <p class="@Model.Status">@Model.Status by @Model.ProcessedBy</p>
                             </div>
                             <div class="col-6">
