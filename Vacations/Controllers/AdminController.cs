@@ -236,6 +236,7 @@ namespace Vacations.Controllers
             var employeeList = _adminEmployeeListService.EmployeeList();
 
             ViewBag.EmployeeService = _employeeService;
+            ViewBag.TeamService = _teamService;
 
             return View(employeeList.ToPagedList(page,employeePageSize));
         }
