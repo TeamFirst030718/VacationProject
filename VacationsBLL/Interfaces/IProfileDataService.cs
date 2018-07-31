@@ -4,8 +4,8 @@ namespace VacationsBLL.Interfaces
 {
     public interface IProfileDataService
     {
-        ProfileDTO GetUserData(string userEmail);
-        VacationBalanceDTO GetUserVacationBalance(string userEmail);
-        ProfileVacationDTO[] GetUserVacationsData(string userEmail);
+        ProfileDTO GetUserData(string id);
+        VacationBalanceDTO GetUserVacationBalance(string id);
+        ProfileVacationDTO[] GetUserVacationsData(string id);
     }
 }
