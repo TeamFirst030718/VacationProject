@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
            var functions = new Functions();
-           functions.ProcessMessage().Wait();
+           functions.SendMessages().Wait();
         }
     }
 }
