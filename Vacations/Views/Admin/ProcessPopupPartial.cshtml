@@ -4,6 +4,7 @@
     var dateOfBegin = Model.DateOfBegin.ToString("yyyy-MM-dd");
     var dateOfEnd = Model.DateOfEnd.ToString("yyyy-MM-dd");
     string url = "https://teamresponse418storage.blob.core.windows.net/photos/";
+    var statusStyle=  string.Format($"{Model.Status}Style");
 }
 
 @Html.Hidden("EmployeeID", Model.EmployeeID)
@@ -18,7 +19,7 @@
         <div class="form-group">
             <div style="overflow: hidden">
                 <div style="float: left;">
-                    <img src="@string.Format($"{url}{Model.EmployeeID}.jpg")" class="rounded-circle profilePhoto"style="padding-left:5px;" />
+                    <img src="@string.Format($"{url}{Model.EmployeeID}.jpg")" class="rounded-circle profilePhoto"style="object-fit: cover;padding-left:5px;" />
                 </div>
                 <div class="float-right" style="padding-right:150px;">
                     <p style="color:white !important">@Html.DisplayFor(m => m.EmployeeName)</p>
@@ -143,8 +144,8 @@
                 {
                     <div class=" modal-footer" style="display:block; border:none;">
                         <div class="row">
-                            <div class="col-6 float-right">
-                                
+                            <div class="col-6 float-left @statusStyle" style="text-align:center;vertical-align:middle; padding-top:10px;">
+                                <p class="@Model.Status">@Model.Status by @Model.ProcessedBy</p>
                             </div>
                             <div class="col-6">
                                 <ul class="list-unstyled zebra float-left">

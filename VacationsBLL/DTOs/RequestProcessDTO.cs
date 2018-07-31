@@ -16,5 +16,6 @@ namespace VacationsBLL.DTOs
         public string Comment { get; set; }
         public int Duration { get; set; }
         public string Status { get; set; }
+        public string ProcessedBy { get; set; }
     }
 }

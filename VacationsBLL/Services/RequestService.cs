@@ -69,7 +69,8 @@ namespace VacationsBLL.Services
                     VacationDates = string.Format($"{vac.DateOfBegin.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}-{vac.DateOfEnd.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}"),
                     EmployeesBalance = emp.VacationBalance,
                     Created = vac.Created,
-                    Status = _vacationStatusTypes.Get(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).First().VacationStatusName
+                    Status = _vacationStatusTypes.Get(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).First().VacationStatusName               
+                    
                 }).OrderBy(req => FunctionHelper.VacationSortFunc(req.Status)).ThenBy(req => req.Created).ToArray();
 
                 return requestsList;
@@ -132,7 +133,8 @@ namespace VacationsBLL.Services
                     Status = status,
                     VacationType = vacationType,
                     TeamLeadName = employee.EmployeesTeam.Count.Equals(0) ? Empty : _employees.GetById(employee.EmployeesTeam.First().TeamLeadID).Name,
-                    TeamName = employee.EmployeesTeam.Count.Equals(0) ? Empty : employee.EmployeesTeam.First().TeamName
+                    TeamName = employee.EmployeesTeam.Count.Equals(0) ? Empty : employee.EmployeesTeam.First().TeamName,
+                    ProcessedBy = vacation.ProcessedByID != null ? ($"{_employees.GetById(vacation.ProcessedByID).Name} {_employees.GetById(vacation.ProcessedByID).Surname}") : null
                 };
 
                 return request;

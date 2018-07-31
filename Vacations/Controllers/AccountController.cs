@@ -92,54 +92,14 @@ namespace IdentitySample.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
-        {
-            if (!await SignInManager.HasBeenVerifiedAsync())
-            {
-                return View("Error");
-            }
-            var user = await UserManager.FindByIdAsync(await SignInManager.GetVerifiedUserIdAsync());
-            if (user != null)
-            {
-                ViewBag.Status = "For DEMO purposes the current " + provider + " code is: " + await UserManager.GenerateTwoFactorTokenAsync(user.Id, provider);
-            }
-            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(model.ReturnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid code.");
-                    return View(model);
-            }
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null || !_aspNetUserService.AspNetUserExists(userId))
             {
-                return View("Error");
+                return View("ErrorPage");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            return View(result.Succeeded ? "ConfirmEmail" : "ErrorPage");
         }
 
         [HttpGet]
@@ -192,7 +152,7 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
-            return code == null ? View("Error") : View();
+            return code == null ? View("ErrorPage") : View();
         }
 
         [HttpGet]
@@ -201,11 +161,11 @@ namespace IdentitySample.Controllers
         {
             if (userId == null || codeToConfirmationEmail == null || !_aspNetUserService.AspNetUserExists(userId))
             {
-                return RedirectToAction("Error");
+                return RedirectToAction("ErrorPage");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, codeToConfirmationEmail);
         
-            return codeToResetPassword == null ? RedirectToAction("Error") : RedirectToAction("ResetPassword", new {code = codeToResetPassword});
+            return codeToResetPassword == null ? RedirectToAction("ErrorPage") : RedirectToAction("ResetPassword", new {code = codeToResetPassword});
         }
 
         [HttpPost]
@@ -218,6 +178,7 @@ namespace IdentitySample.Controllers
                 return View(model);
             }
             var user = await UserManager.FindByNameAsync(model.Email);
+
             if (user == null)
             {
                 return RedirectToAction("Login", "Account");
@@ -253,7 +214,7 @@ namespace IdentitySample.Controllers
             var userId = await SignInManager.GetVerifiedUserIdAsync();
             if (userId == null)
             {
-                return View("Error");
+                return View("ErrorPage");
             }
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
             var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
@@ -272,7 +233,7 @@ namespace IdentitySample.Controllers
 
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
-                return View("Error");
+                return View("ErrorPage");
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
@@ -355,7 +316,7 @@ namespace IdentitySample.Controllers
         }
 
         public ActionResult ErrorPage()
-        {
+        {   
             return View();
         }
 

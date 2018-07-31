@@ -56,3 +56,13 @@ table.requestsList th{
     left: 35%;
 }
 
+
+.DeniedStyle {
+    color: #ad545f !important;
+    border: 1px solid #ad545f !important;
+}
+
+.ApprovedStyle {
+    color: #2cf6b8;
+    border: 1px solid #2cf6b8 !important;
+}

@@ -19,7 +19,7 @@
                 <div class="col-4 border border-bottom-0 border-grey  bg-dark pt-1">            
                         <div class="form-group">
                                 <div style="float: left;">
-                                    <img src="@string.Format($"{url}{Model.EmployeeID}.jpg")" class="rounded-circle ProfilePhoto" style="padding-left:5px;margin-top:15px; width:90px;height:80px" />
+                                    <img src="@string.Format($"{url}{Model.EmployeeID}.jpg")" class="rounded-circle profilePhoto" style="object-fit: cover;padding-left:5px;margin-top:15px;" />
                                 </div>
                                 <div class="float-right" style="padding-right:100px; margin-top:20px;">
                                     <p style="color:white !important">@Html.DisplayFor(m => m.Name)</p>

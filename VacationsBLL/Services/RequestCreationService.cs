@@ -3,6 +3,7 @@ using VacationsDAL.Interfaces;
 using VacationsBLL.DTOs;
 using VacationsDAL.Entities;
 using System.Linq;
+using System.Transactions;
 
 namespace VacationsBLL.Services
 {
@@ -28,19 +29,23 @@ namespace VacationsBLL.Services
 
         public void CreateVacation(VacationDTO vacation)
         {
-            _vacations.Add(Mapper.Map<VacationDTO, Vacation>(vacation));
-
-            var employee = _employees.GetById(vacation.EmployeeID);
-
-            if (!employee.EmployeesTeam.Count.Equals(0))
+            using(TransactionScope scope = new TransactionScope())
             {
-                var team = employee.EmployeesTeam.First();
-                var teamLead = _employees.GetById(team.TeamLeadID);
+                _vacations.Add(Mapper.Map<VacationDTO, Vacation>(vacation));
 
-                _emailService.SendAsync(teamLead.WorkEmail, $"{teamLead.Name} {teamLead.Surname}", "Vacation request.", "Employee has requested a vacation.",
-                        $"{teamLead.Name} {teamLead.Surname}, your employee, {employee.Name} {teamLead.Surname}, has requested a vacation from {vacation.DateOfBegin.ToString("dd-MM-yyyy")} to {vacation.DateOfEnd.ToString("dd-MM-yyyy")}. Please, check it.");
+                var employee = _employees.GetById(vacation.EmployeeID);
+
+                if (!employee.EmployeesTeam.Count.Equals(0))
+                {
+                    var team = employee.EmployeesTeam.First();
+                    var teamLead = _employees.GetById(team.TeamLeadID);
+
+                    _emailService.SendAsync(teamLead.WorkEmail, $"{teamLead.Name} {teamLead.Surname}", "Vacation request.", "Employee has requested a vacation.",
+                            $"{teamLead.Name} {teamLead.Surname}, your employee, {employee.Name} {teamLead.Surname}, has requested a vacation from {vacation.DateOfBegin.ToString("dd-MM-yyyy")} to {vacation.DateOfEnd.ToString("dd-MM-yyyy")}. Please, check it.");
+                }
+
+                scope.Complete();
             }
-
         }
     }
 }

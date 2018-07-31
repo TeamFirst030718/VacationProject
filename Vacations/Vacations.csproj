@@ -237,11 +237,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807112318273_InitialMigrations.cs" />
-    <Compile Include="Migrations\201807112318273_InitialMigrations.Designer.cs">
+    <Compile Include="ErrorHandler\Migrations\201807112318273_InitialMigrations.cs" />
+    <Compile Include="ErrorHandler\Migrations\201807112318273_InitialMigrations.Designer.cs">
       <DependentUpon>201807112318273_InitialMigrations.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="ErrorHandler\Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
@@ -262,6 +262,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartupIdentity\Startup.cs" />
     <Compile Include="Subservices\EmployeeCreationService.cs" />
+    <Compile Include="Subservices\EmployeeEditService.cs" />
+    <Compile Include="Subservices\TeamCreationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\chosen-sprite%402x.png" />
@@ -395,15 +397,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\SendCode.cshtml" />
-    <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordResponse.cshtml" />
@@ -445,7 +443,7 @@
     <Content Include="Views\TeamLeader\TeamsList.cshtml" />
     <Content Include="Views\TeamLeader\ViewTeamProfile.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Account\ErrorPage.cshtml" />
+    <Content Include="Views\Shared\ErrorPage.cshtml" />
     <Content Include="Views\Admin\EditTeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -456,7 +454,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807112318273_InitialMigrations.resx">
+    <EmbeddedResource Include="ErrorHandler\Migrations\201807112318273_InitialMigrations.resx">
       <DependentUpon>201807112318273_InitialMigrations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
