@@ -209,7 +209,7 @@ namespace Vacations.Controllers
             ViewBag.EmployeeService = _employeeService;
             ViewBag.TeamService = _teamService;
 
-            return View(employeeList.ToPagedList(page, employeePageSize));
+            return View(employeeList.OrderBy(x=>x.TeamDto.TeamName).ToPagedList(page, employeePageSize));
         }
 
         [HttpGet]
