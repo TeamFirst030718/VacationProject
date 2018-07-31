@@ -73,16 +73,17 @@ namespace Vacations.Controllers
         [Authorize]
         public ActionResult Index(int page = 1)
         {
+            var a = User.Identity.GetUserId();
             var userData = new UserViewModel
             {
                 ProfileData =
-                    Mapper.Map<ProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.Name)),
+                    Mapper.Map<ProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.GetUserId())),
                 VacationBalanceData =
                     Mapper.Map<VacationBalanceDTO, VacationBalanceViewModel>(
-                        _profileDataService.GetUserVacationBalance(User.Identity.Name)),
+                        _profileDataService.GetUserVacationBalance(User.Identity.GetUserId())),
                 VacationsData =
                     Mapper.MapCollection<ProfileVacationDTO, ProfileVacationsViewModel>(
-                        _profileDataService.GetUserVacationsData(User.Identity.Name)).ToPagedList(page,pageSize)
+                        _profileDataService.GetUserVacationsData(User.Identity.GetUserId())).ToPagedList(page,pageSize)
             };
             return View("MyProfile", userData);
         }
@@ -94,10 +95,10 @@ namespace Vacations.Controllers
             var requestVacationData = new RequestVacationViewModel
             {
                 ProfileData =
-                    Mapper.Map<ProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.Name)),
+                    Mapper.Map<ProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.GetUserId())),
                 VacationBalanceData =
                     Mapper.Map<VacationBalanceDTO, VacationBalanceViewModel>(
-                        _profileDataService.GetUserVacationBalance(User.Identity.Name)),
+                        _profileDataService.GetUserVacationBalance(User.Identity.GetUserId())),
                 RequestCreationData = new RequestCreationViewModel()
             };
             return View(requestVacationData);
@@ -110,16 +111,16 @@ namespace Vacations.Controllers
             var requestVacationData = new RequestVacationViewModel
             {
                 ProfileData =
-                    Mapper.Map<ProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.Name)),
+                    Mapper.Map<ProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.GetUserId())),
                 VacationBalanceData =
                     Mapper.Map<VacationBalanceDTO, VacationBalanceViewModel>(
-                        _profileDataService.GetUserVacationBalance(User.Identity.Name)),
+                        _profileDataService.GetUserVacationBalance(User.Identity.GetUserId())),
                 RequestCreationData = new RequestCreationViewModel()
             };
 
             if (ModelState.IsValid)
             {
-                model.EmployeeID = UserManager.FindByEmail(User.Identity.Name).Id;
+                model.EmployeeID = UserManager.FindByEmail(User.Identity.GetUserId()).Id;
                 model.VacationID = Guid.NewGuid().ToString();
                 model.VacationTypeID = Request.Params["VacationTypesSelectList"];
                 model.VacationStatusTypeID = _requestCreationService.GetStatusIdByType(VacationStatusTypeEnum.Pending.ToString());

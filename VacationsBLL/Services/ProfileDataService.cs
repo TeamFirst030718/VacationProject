@@ -14,8 +14,6 @@ namespace VacationsBLL.Services
 
         private IJobTitleRepository _jobTitles;
 
-        private IUsersRepository _users;
-
         private IVacationRepository _vacations;
 
         private IVacationStatusTypeRepository _vacationStatusTypes;
@@ -25,7 +23,6 @@ namespace VacationsBLL.Services
 
         public ProfileDataService(IEmployeeRepository employees,
                                   IJobTitleRepository jobTitles,
-                                  IUsersRepository users, 
                                   IVacationRepository vacations,
                                   IVacationStatusTypeRepository vacationStatusTypes,
                                   IVacationTypeRepository vacationTypes)
@@ -35,13 +32,12 @@ namespace VacationsBLL.Services
             _vacations = vacations;
             _vacationTypes = vacationTypes;
             _vacationStatusTypes = vacationStatusTypes;
-            _users = users;
         }
 
-        public ProfileDTO GetUserData(string userEmail)
+        public ProfileDTO GetUserData(string id)
         {
 
-            var employee = _employees.GetByEmail(userEmail);
+            var employee = _employees.GetById(id);
 
             var jobTitle = _jobTitles.GetById(employee.JobTitleID).JobTitleName;
 
@@ -59,9 +55,9 @@ namespace VacationsBLL.Services
             return null;         
         }
 
-        public ProfileVacationDTO[] GetUserVacationsData(string userEmail)
+        public ProfileVacationDTO[] GetUserVacationsData(string id)
         {
-            var employee = _employees.GetByEmail(userEmail);
+            var employee = _employees.GetById(id);
 
             var vacations = _vacations.Get(x => x.EmployeeID.Equals(employee.EmployeeID)).Select(x => new ProfileVacationDTO
             {
@@ -78,10 +74,10 @@ namespace VacationsBLL.Services
             return vacations;
         }
 
-        public VacationBalanceDTO GetUserVacationBalance(string userEmail)
+        public VacationBalanceDTO GetUserVacationBalance(string id)
         {
-            var employee = _employees.GetByEmail(userEmail);
-          
+            var employee = _employees.GetById(id);
+
             return new VacationBalanceDTO { Balance = employee.VacationBalance };
         }
     }

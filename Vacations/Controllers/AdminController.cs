@@ -188,6 +188,27 @@ namespace Vacations.Controllers
                     model.Status = Request.Params["statusSelectList"].AsBool();
                     var roleParam = Request.Params["aspNetRolesSelectList"];
 
+                    var user = UserManager.FindById(User.Identity.GetUserId());
+                    
+                    user.Email = model.WorkEmail;
+                    user.UserName = model.WorkEmail;
+                    UserManager.Update(user);
+
+                    var employee = _employeeService.GetUserById(id);
+
+                    if (employee.Status != model.Status)
+                    {
+                        if (!model.Status)
+                        {
+                            model.DateOfDismissal = DateTime.Today;
+                        }
+                        else
+                        {
+                            model.DateOfDismissal = null;
+                            model.HireDate = DateTime.Today;
+                        }
+                    }
+
                     var userRole = UserManager.GetRoles(model.EmployeeID).First();
 
                     if (userRole != roleParam)
