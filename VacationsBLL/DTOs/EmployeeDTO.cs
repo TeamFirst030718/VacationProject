@@ -19,5 +19,6 @@ namespace VacationsBLL.DTOs
         public string PhoneNumber { get; set; }
         public string WorkEmail { get; set; }
         public ICollection<TeamDTO> EmployeesTeam { get; set; }
+        public virtual ICollection<TeamDTO> Teams { get; set; }
     }
 }

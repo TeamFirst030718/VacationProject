@@ -24,23 +24,17 @@ namespace Vacations.Controllers
                 {
                     return Json(" is in use", JsonRequestBehavior.AllowGet);
                 }
-                else
-                {
-                    return Json(true, JsonRequestBehavior.AllowGet);
-                }
+
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
-            else
+
+            if (_validateService.CheckEmail(WorkEmail) && _validateService.CheckEmailOwner(WorkEmail,EmployeeID))
             {
-                if (_validateService.CheckEmail(WorkEmail) && _validateService.CheckEmailOwner(WorkEmail,EmployeeID))
-                {
-                    return Json(" is in use", JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(true, JsonRequestBehavior.AllowGet);
-                }
+                return Json(" is in use", JsonRequestBehavior.AllowGet);
             }
-           
+
+            return Json(true, JsonRequestBehavior.AllowGet);
+
         }
 
         public JsonResult ValidateTeamName(string TeamName, string TeamID)
@@ -51,22 +45,16 @@ namespace Vacations.Controllers
                 {
                     return Json(" is in use", JsonRequestBehavior.AllowGet);
                 }
-                else
-                {
-                    return Json(true, JsonRequestBehavior.AllowGet);
-                }
+
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
-            else
+
+            if (_validateService.CheckTeamName(TeamName) && _validateService.CheckTeam(TeamName,TeamID))
             {
-                if (_validateService.CheckTeamName(TeamName) && _validateService.CheckTeam(TeamName,TeamID))
-                {
-                    return Json(" is in use", JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(true, JsonRequestBehavior.AllowGet);
-                }
+                return Json(" is in use", JsonRequestBehavior.AllowGet);
             }
+
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
     }
 }
