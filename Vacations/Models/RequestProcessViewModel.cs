@@ -39,5 +39,7 @@ namespace Vacations.Models
         public int Duration { get; set; }
 
         public string Status { get; set; }
+
+        public string ProcessedBy { get; set; }
     }
 }

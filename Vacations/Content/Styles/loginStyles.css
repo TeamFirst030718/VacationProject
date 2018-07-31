@@ -1,5 +1,6 @@
 ﻿#fontBody {
     font-family: Muli-SemiBold;
+   
 }
 
 @font-face {
@@ -65,6 +66,7 @@ div.center {
 .DeniedLoginBorder {
     border: 2px solid #ad545f !important;
 }
+
 @media screen and (min-width: 800px) {
     div.center {
         position: absolute;

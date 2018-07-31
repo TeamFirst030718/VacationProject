@@ -11,7 +11,6 @@ using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
 using VacationsBLL.Services;
 using PagedList;
-using System.Linq;
 
 namespace Vacations.Controllers
 {
@@ -120,7 +119,7 @@ namespace Vacations.Controllers
 
             if (ModelState.IsValid)
             {
-                model.EmployeeID = UserManager.FindByEmail(User.Identity.GetUserId()).Id;
+                model.EmployeeID = User.Identity.GetUserId();
                 model.VacationID = Guid.NewGuid().ToString();
                 model.VacationTypeID = Request.Params["VacationTypesSelectList"];
                 model.VacationStatusTypeID = _requestCreationService.GetStatusIdByType(VacationStatusTypeEnum.Pending.ToString());

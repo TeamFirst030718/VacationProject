@@ -21,7 +21,7 @@
             <input type="text" style="border: none; box-shadow: none;" class="form-control loginInput @ViewData["DeniedLoginBorder"]" placeholder="email" autocomplete="off" name="Email" value="@(Model == null? "" :Model.Email)">
         </div>
         <div class="input_icon">
-            <i class="icon-key"></i>
+            <i class="icon-key"></i>    
             <input type="password" style="border: none; box-shadow: none;" class="form-control loginInput @ViewData["DeniedLoginBorder"]" placeholder="password" name="Password" autocomplete="off">
             @if (ViewData["DeniedLoginText"] == "DeniedLoginText")
             {
