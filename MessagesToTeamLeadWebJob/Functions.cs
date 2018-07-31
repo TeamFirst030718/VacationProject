@@ -16,10 +16,8 @@ namespace WebJob
 
         private bool IsApproved(VacationsContext context, string id)
         {
-            
                 var obj = context.VacationStatusTypes.FirstOrDefault(x => x.VacationStatusTypeID == id);
                 return obj != null && obj.VacationStatusName == VacationStatusTypeEnum.Approved.ToString();
-            
         }
 
         private async Task SendAsync(string address, string name, string title, string plainTextContent, string message)
@@ -40,18 +38,18 @@ namespace WebJob
                 return obj;
         }
 
-        public async Task ProcessMessage()
+        private async Task SendMessageBeforeVacations(VacationsContext context)
         {
-            using (var context = new VacationsContext())
+            var date = DateTime.Today;
+
+            var vacations = context.Vacations.ToList();
+
+            if (vacations.Count != 0)
             {
-                var vacations = context.Vacations.ToList();
-
-                var date = DateTime.Today;
-
                 foreach (var vacation in vacations)
                 {
-                    if ((vacation.DateOfBegin - date).Days == 14 &&
-                        IsApproved(context, vacation.VacationStatusTypeID))
+                    if (vacation.DateOfBegin.AddDays(-14).ToString("ddMMyyyy").Equals(date.ToString("ddMMyyyy"))
+                        && IsApproved(context, vacation.VacationStatusTypeID))
                     {
                         var employee = GetUserById(context, vacation.EmployeeID);
                         var team = employee.EmployeesTeam.FirstOrDefault();
@@ -62,10 +60,49 @@ namespace WebJob
                             await SendAsync(teamLeader.WorkEmail,
                                 teamLeader.Name + " " + teamLeader.Surname, "Soon the vacation of your employee",
                                 employee.Name + " " + employee.Surname,
-                                employee.Name + " " + employee.Surname + "will go on vacation after two weeks");
+                                employee.Name + " " + employee.Surname + " will go on vacation " + vacation.DateOfBegin.ToString("dd-MM-yyyy"));
                         }
                     }
                 }
+            }
+        }
+
+        private async Task SendMessageForBirthdays(VacationsContext context)
+        {
+            var date = DateTime.Today;
+
+            var employees = context.Employees.Where(x => !x.EmployeesTeam.Count.Equals(0)).ToList();
+
+            if (employees.Count != 0)
+            {
+                foreach (var employee in employees)
+                {
+                    var yesterday = employee.BirthDate.AddDays(-1);
+
+                    if (yesterday.ToString("ddMM").Equals(date.ToString("ddMM")))
+                    {
+                        var employeeTeam = employee.EmployeesTeam.FirstOrDefault();
+
+                        if (employeeTeam != null)
+                        {
+                            var teamLeader = GetUserById(context, employeeTeam.TeamLeadID);
+
+                            await SendAsync(teamLeader.WorkEmail,
+                                teamLeader.Name + " " + teamLeader.Surname, "The birthday of your employee tomorrow",
+                                employee.Name + " " + employee.Surname,
+                                employee.Name + " " + employee.Surname + " has a birthday tomorrow");
+                        }
+                    }
+                }
+            }
+        }
+
+        public async Task SendMessages()
+        {
+            using (var context = new VacationsContext())
+            {
+                await SendMessageForBirthdays(context);
+                await SendMessageBeforeVacations(context);
             }
         }
     }
