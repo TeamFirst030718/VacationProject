@@ -234,6 +234,7 @@ namespace Vacations.Controllers
 
                 TeamCreationService.RegisterTeam(model, Request.Params["members"], _employeeService, _teamService,  UserManager);
 
+
                 ViewBag.ListService = _pageListsService;
                 ViewBag.ListOfEmployees =
                     Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAll().ToArray());
@@ -301,11 +302,13 @@ namespace Vacations.Controllers
 
             foreach (var teamListDto in teams)
             {
+                var teamLead = _employeeService.GetUserById(teamListDto.TeamLeadID);
+
                 result.Add(new TeamListViewModel
                 {
                     TeamID = teamListDto.TeamID,
                     TeamName = teamListDto.TeamName,
-                    TeamLeadName = _employeeService.GetUserById(teamListDto.TeamLeadID).Name,
+                    TeamLeadName = teamLead.Name + " " + teamLead.Surname,
                     AmountOfEmployees = teamListDto.AmountOfEmployees
                 });
             }
@@ -321,14 +324,16 @@ namespace Vacations.Controllers
 
             var employeesDTOs = _employeeService.GetEmployeesByTeamId(team.TeamID);
 
+            var teamLead = _employeeService.GetUserById(team.TeamLeadID);
+
             var employees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(employeesDTOs.ToArray());
 
             var result = new TeamProfileViewModel
             {
                 TeamID = team.TeamID,
                 TeamName = team.TeamName,
-                TeamLeadName = _employeeService.GetUserById(team.TeamLeadID).Name,
-                Status = _employeeService.GetUserById(team.TeamLeadID).Status,
+                TeamLeadName = teamLead.Name + " " + teamLead.Surname,
+                Status = teamLead.Status,
                 AmountOfEmployees = team.AmountOfEmployees,
                 Employees = employees
             };
@@ -384,6 +389,14 @@ namespace Vacations.Controllers
                 var employees = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetEmployeesByTeamId(id).ToArray());
 
                 _teamService.UpdateTeamInfo(Mapper.Map<TeamViewModel, TeamDTO>(model));
+
+                var userRole = UserManager.GetRoles(model.TeamLeadID).First();
+
+                if (userRole.Equals(RoleEnum.Employee.ToString()))
+                {
+                    UserManager.RemoveFromRole(model.TeamLeadID, userRole);
+                    UserManager.AddToRoles(model.TeamLeadID, RoleEnum.TeamLeader.ToString());
+                }
 
                 var oldEmployeesID = new List<string>();
 
