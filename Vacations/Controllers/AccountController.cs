@@ -14,15 +14,11 @@ namespace IdentitySample.Controllers
     public class AccountController : Controller
     {
         private IEmployeeService _employeeService;
-        private IRoleService _aspNetRoleService;
-        private IPageListsService _pageListsService;
         private IUserService _aspNetUserService;
 
         public AccountController(IEmployeeService employeeService, IRoleService roleService, IPageListsService pageListsService, IUserService userService)
         {
             _employeeService = employeeService;
-            _aspNetRoleService = roleService;
-            _pageListsService = pageListsService;
             _aspNetUserService = userService;
         }
 
@@ -39,8 +35,6 @@ namespace IdentitySample.Controllers
             }
         }
 
-        //
-        // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -60,8 +54,6 @@ namespace IdentitySample.Controllers
             private set { _signInManager = value; }
         }
 
-        //
-        // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -117,10 +109,8 @@ namespace IdentitySample.Controllers
             ViewData["response"] = "Ready! Please, check your email.";
 
             if (ModelState.IsValid)
-            {
-             
-
-                var user = await UserManager.FindByNameAsync(model.Email);
+            {           
+                var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     return View("ForgotPasswordResponse");
@@ -177,7 +167,7 @@ namespace IdentitySample.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var user = await UserManager.FindByEmailAsync(model.Email);
 
             if (user == null)
             {

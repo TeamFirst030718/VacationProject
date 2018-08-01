@@ -149,7 +149,7 @@ namespace Vacations.Controllers
                 return RedirectToAction("Index", "Profile");
             }
 
-            return View(model);
+            return RedirectToAction("EmployeesList","Admin");
         }
 
         [HttpGet]
@@ -232,7 +232,7 @@ namespace Vacations.Controllers
                 model.TeamLeadID = Request.Params["employeesSelectList"];
                 model.TeamID = Guid.NewGuid().ToString();
 
-                TeamCreationService.RegisterTeam(model, Request.Params["members"], _employeeService, _teamService);
+                TeamCreationService.RegisterTeam(model, Request.Params["members"], _employeeService, _teamService,  UserManager);
 
                 ViewBag.ListService = _pageListsService;
                 ViewBag.ListOfEmployees =
@@ -364,7 +364,6 @@ namespace Vacations.Controllers
                 Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetEmployeesByTeamId(id).ToArray());
 
             ViewData["employeesSelectList"] = _pageListsService.EmployeesList(team.TeamLeadID);
-            /*list of Employees - AllFreeUsers*/
             ViewData["listOfEmployees"] = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
             ViewData["Employees"] = employees;
             ViewData["Team"] = team;
@@ -403,10 +402,13 @@ namespace Vacations.Controllers
                         }
                     }
 
+                    _teamService.DeleteTeam(model.TeamID);
+
                     transaction.Complete();
 
-                    return RedirectToAction("Index", "Profile", _profileDataService);
+                    return RedirectToAction("TeamsList", "Admin", _profileDataService);
                 }
+
                 var newEmployeesID = members.Split(',').ToList();
 
                 var employeesToRemove = oldEmployeesID.Except(newEmployeesID);
@@ -432,7 +434,7 @@ namespace Vacations.Controllers
                 transaction.Complete();
             }
 
-            return RedirectToAction("Index", "Profile", _profileDataService);
+            return RedirectToAction("TeamsList", "Admin");
         }
     }
 }
