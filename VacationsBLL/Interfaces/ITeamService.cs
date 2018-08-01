@@ -11,5 +11,6 @@ namespace VacationsBLL.Interfaces
         TeamDTO GetTeamById(string id);
         void UpdateTeamInfo(TeamDTO team);
         bool IsTeamLead(string id);
+        void DeleteTeam(string teamId);
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IdentitySample.Models;
+using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
@@ -15,7 +17,8 @@ namespace Vacations.Subservices
 {
     public static class TeamCreationService
     {
-        public static void RegisterTeam(TeamViewModel model,string employees, IEmployeeService employeeService, ITeamService teamService, ApplicationUserManager userManager)
+        public static void RegisterTeam(TeamViewModel model, string employees, IEmployeeService employeeService, ITeamService teamService, ApplicationUserManager userManager)
+
         {
             using (TransactionScope transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -27,6 +30,7 @@ namespace Vacations.Subservices
                 }));
                 
                 string members = employees;
+
                 if (members != null)
                 {
                     var result = members.Split(',');
@@ -41,7 +45,8 @@ namespace Vacations.Subservices
 
                 var userRole = userManager.GetRoles(model.TeamLeadID).First();
 
-                if (userRole.Equals(RoleEnum.Employee.ToString()))
+                if (userRole == RoleEnum.Employee.ToString())
+
                 {
                     userManager.RemoveFromRole(model.TeamLeadID, userRole);
                     userManager.AddToRoles(model.TeamLeadID, RoleEnum.TeamLeader.ToString());

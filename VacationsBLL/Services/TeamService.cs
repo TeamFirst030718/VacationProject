@@ -55,6 +55,11 @@ namespace VacationsBLL.Services
             return result;
         }
 
+        public void DeleteTeam(string teamId)
+        {
+            _teams.Remove(teamId);
+        }
+
         public TeamDTO GetTeamById(string id)
         {
             return Mapper.Map<Team, TeamDTO>(_teams.GetById(id));
