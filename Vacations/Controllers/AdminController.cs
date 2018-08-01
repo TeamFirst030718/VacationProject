@@ -146,7 +146,7 @@ namespace Vacations.Controllers
                         callbackUrlToSetPassword + "\">link</a>.");
                 }
 
-                return RedirectToAction("Index", "Profile");
+                return RedirectToAction("EmployeesList", "Admin");
             }
 
             return RedirectToAction("EmployeesList","Admin");
@@ -196,10 +196,10 @@ namespace Vacations.Controllers
                     _photoUploadService.UploadPhoto(photo, model.EmployeeID);
                 }
 
-                return RedirectToAction("Index", "Profile", _profileDataService);
+                return RedirectToAction("EmployeesList", "Admin");
             }
 
-            return View("Edit");
+            return RedirectToAction("EmployeesList","Admin");
         }
 
         public ActionResult EmployeesList(int page = 1)
@@ -246,7 +246,7 @@ namespace Vacations.Controllers
                         .ToArray());
             }
 
-            return RedirectToAction("RegisterTeam", "Admin");
+            return RedirectToAction("TeamsList", "Admin");
         }
 
         [HttpGet]

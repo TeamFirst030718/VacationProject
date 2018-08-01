@@ -2,6 +2,17 @@
 @model Vacations.Models.ProfileViewModel
 @{
     var birthDate = string.Format($"{Model.BirthDate.Day} {Model.BirthDate.ToString("MMMM")} {Model.BirthDate.Year} ");
+
+    var hireDate = string.Format($"{Model.HireDate.Day} {Model.HireDate.ToString("MMMM")} {Model.HireDate.Year} ");
+
+    var dateOfDismissal = "None";
+
+    if(Model.DateOfDismissal != null)
+    {
+        dateOfDismissal = string.Format($"{Model.DateOfDismissal.Value.Day} {Model.DateOfDismissal.Value.ToString("MMMM")} {Model.DateOfDismissal.Value.Year} ");
+    }
+
+
     string url = "https://teamresponse418storage.blob.core.windows.net/photos/" + string.Format($"{Model.EmployeeID}.jpg");
 }
 <div class="container  bg-dark border border-grey container-rounded backColor" style="font-size:13px !important;">
@@ -76,12 +87,24 @@
                 <li>
                     @Html.DisplayFor(x => x.Skype)
                 </li>
-                <li>
-                    @Html.LabelFor(x => x.HireDate, new { style = "font-size:12px;" })
-                </li>
-                <li>
-                    @Html.DisplayFor(x => x.HireDate)
-                </li>
+                @if (Model.DateOfDismissal == null)
+                {
+                    <li>
+                        @Html.LabelFor(x => x.HireDate, new { style = "font-size:12px;" })
+                    </li>
+                    <li>
+                        @Html.Label(hireDate)
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        @Html.LabelFor(x => x.DateOfDismissal, new { style = "font-size:12px;" })
+                    </li>
+                    <li>
+                        @Html.Label(dateOfDismissal)
+                    </li>
+                }
                 <li>
                     @Html.LabelFor(x => x.TeamName, new { style = "font-size:12px;" })
                 </li>
