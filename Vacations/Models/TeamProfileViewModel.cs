@@ -10,6 +10,7 @@ namespace Vacations.Models
         public string TeamID { get; set; }
         public string TeamName { get; set; }
         public string TeamLeadName { get; set; }
+        public string TeamLeadID { get; set; }
         public bool Status { get; set; }
         public int AmountOfEmployees { get; set; }
         public IEnumerable<EmployeeViewModel> Employees { get; set; } 

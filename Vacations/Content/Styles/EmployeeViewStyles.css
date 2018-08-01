@@ -3,3 +3,9 @@
     height: 90px !important;
     width: 90px !important;
 }
+
+.profileIconPhoto {
+    height: 40px !important;
+    width: 40px !important;
+    object-fit: cover;
+}

@@ -20,7 +20,7 @@
                 <div class="container">
                     <label>team lead</label>
                     <p class="colorWhite">
-                        <img src="~/Content/Icons/user profile icon.svg">
+                        <img src="@string.Format($"https://teamresponse418storage.blob.core.windows.net/photos/" + $"{Model.TeamLeadID}.jpg")" class="m-auto  rounded-circle profileIconPhoto">
                         @Model.TeamLeadName
                         
                         @if (@Model.Status)
@@ -43,7 +43,7 @@
                     {
                         <p class="colorWhite">
 
-                            <img src="~/Content/Icons/user profile icon.svg">
+                            <img src="@string.Format($"https://teamresponse418storage.blob.core.windows.net/photos/" + $"{employeee.EmployeeID}.jpg")" class="m-auto  rounded-circle profileIconPhoto">
 
                             @employeee.Name @employeee.Surname
                             @if (@employeee.Status)

@@ -187,7 +187,7 @@ namespace Vacations.Controllers
                 model.Status = Request.Params["statusSelectList"].AsBool();
                 var roleParam = Request.Params["aspNetRolesSelectList"];
 
-                var user = UserManager.FindById(User.Identity.GetUserId());
+                var user = UserManager.FindById(id);
 
                 EmployeeEditService.EditEmployee(model, roleParam, UserManager, user, _employeeService, id);
 
@@ -196,7 +196,17 @@ namespace Vacations.Controllers
                     _photoUploadService.UploadPhoto(photo, model.EmployeeID);
                 }
 
+                if(User.Identity.GetUserId().Equals(id))
+                {
+                    return RedirectToAction("Index", "Profile");
+                }
+
                 return RedirectToAction("EmployeesList", "Admin");
+            }
+
+            if (User.Identity.GetUserId().Equals(id))
+            {
+                return RedirectToAction("Index", "Profile");
             }
 
             return RedirectToAction("EmployeesList","Admin");
@@ -333,6 +343,7 @@ namespace Vacations.Controllers
                 TeamID = team.TeamID,
                 TeamName = team.TeamName,
                 TeamLeadName = teamLead.Name + " " + teamLead.Surname,
+                TeamLeadID = team.TeamLeadID,
                 Status = teamLead.Status,
                 AmountOfEmployees = team.AmountOfEmployees,
                 Employees = employees
