@@ -69,8 +69,7 @@ namespace VacationsBLL.Services
                     VacationDates = string.Format($"{vac.DateOfBegin.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}-{vac.DateOfEnd.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}"),
                     EmployeesBalance = emp.VacationBalance,
                     Created = vac.Created,
-                    Status = _vacationStatusTypes.Get(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).First().VacationStatusName               
-                    
+                    Status = _vacationStatusTypes.Get(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).First().VacationStatusName                                  
                 }).OrderBy(req => FunctionHelper.VacationSortFunc(req.Status)).ThenBy(req => req.Created).ToArray();
 
                 return requestsList;
@@ -99,7 +98,7 @@ namespace VacationsBLL.Services
                     EmployeesBalance = emp.VacationBalance,
                     Created = vac.Created,
                     Status = _vacationStatusTypes.Get(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).First().VacationStatusName
-                }).OrderBy(req => FunctionHelper.VacationSortFunc(req.Status)).ThenByDescending(req => req.Created).ToArray();
+                }).OrderBy(req => FunctionHelper.VacationSortFunc(req.Status)).ThenBy(req => req.Created).ToArray();
 
                 return requestsList;
             }
@@ -160,7 +159,7 @@ namespace VacationsBLL.Services
                         EmployeeID = result.EmployeeID,
                         TransactionDate = DateTime.UtcNow,
                         TransactionTypeID = _transactionTypes.GetByType(TransactionTypeEnum.VacationTransaction.ToString()).TransactionTypeID,
-                        TransactionID = Guid.NewGuid().ToString(),
+                        TransactionID = Guid.NewGuid().ToString()
                     };
                     _transactions.Add(transaction);
 
@@ -176,15 +175,7 @@ namespace VacationsBLL.Services
                     _employees.Update(employee);
 
                     _emailService.SendAsync(employee.WorkEmail, $"{employee.Name} {employee.Surname}", "Vacation request.", "Your vacation request was approved.",
-                           $"{employee.Name} {employee.Surname}, your vacation request from {vacation.DateOfBegin.ToString("dd-MM-yyyy")} to {vacation.DateOfEnd.ToString("dd-MM-yyyy")} was approved. Have a nice vacation.");
-                   
-                    //if (!employee.EmployeesTeam.Count.Equals(0))
-                    //{
-                    //    var team = employee.EmployeesTeam.First();
-                    //    var teamLead = _employees.GetById(team.TeamLeadID);
-
-                        
-                    //}
+                     $"{employee.Name} {employee.Surname}, your vacation request from {vacation.DateOfBegin.ToString("dd-MM-yyyy")} to {vacation.DateOfEnd.ToString("dd-MM-yyyy")} was approved. Have a nice vacation.");
 
                     scope.Complete();
                 }

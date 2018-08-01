@@ -10,7 +10,6 @@ using VacationsBLL.Interfaces;
 
 namespace IdentitySample.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private IEmployeeService _employeeService;

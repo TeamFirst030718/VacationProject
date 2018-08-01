@@ -4,6 +4,14 @@
     var status = ViewData["Status"];
     var role = ViewData["Role"];
     var jobTitle = ViewData["JobTitle"];
+    var birthDate = string.Format($"{Model.BirthDate.Day} {Model.BirthDate.ToString("MMMM")} {Model.BirthDate.Year} ");
+    var hireDate = string.Format($"{Model.HireDate.Day} {Model.HireDate.ToString("MMMM")} {Model.HireDate.Year} ");
+    var dateOfDismissal = "None";
+    if(Model.DateOfDismissal != null)
+    {
+        dateOfDismissal = string.Format($"{Model.DateOfDismissal.Value.Day} {Model.DateOfDismissal.Value.ToString("MMMM")} {Model.DateOfDismissal.Value.Year} ");
+    }
+
     string url = "https://teamresponse418storage.blob.core.windows.net/photos/";
 }
 <div class="container m-0 py-3">
@@ -32,7 +40,7 @@
                 <div class="col-4 border-top border-grey  bg-dark pt-1">
                     <div class="form-group container" style="margin-top:20px;">
                         @Html.LabelFor(m => m.BirthDate, new { @class = "control-label " })
-                        <input class="form-control bg-dark border-grey colorWhite" type="date" disabled style = "border:none; color:white; padding:0", id="datepickerBirthDate" name="BirthDate" value="@Model.BirthDate.ToString("yyyy-MM-dd")">
+                        @Html.Label(birthDate, new { @class = "form-control bg-dark border-grey", style = "border:none; color:white; padding:0", @disabled = "true" })
                     </div>
                 </div>
                 <div class="col-4 border-right border-top border-grey   bg-dark pt-1">
@@ -96,20 +104,13 @@
                 <div class="col-4  bg-dark">    
                     <div class="form-group container" style="margin-top:20px;">
                         @Html.LabelFor(m => m.HireDate)
-                        <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerHireDate" disabled style = "border:none; color:white; padding:0",  name="HireDate" value="@Model.HireDate.ToString("yyyy-MM-dd")">
+                        @Html.Label(hireDate, new { @class = "form-control bg-dark border-grey", style = "border:none; color:white; padding:0", @disabled = "true" })
                     </div>
                 </div>
                 <div class="col-4 border-right border-grey   bg-dark ">
                     <div class="form-group container" style="margin-top:20px;">
                         @Html.LabelFor(m => m.DateOfDismissal, new { @class = " control-label" })
-                        @if (Model.DateOfDismissal != null)
-                        {
-                            <input class="form-control bg-dark border-grey colorWhite" type="date" id="datepickerDateOfDismissal" disabled style="border:none; color:white; padding:0" name="DateOfDismissal" value="@Model.DateOfDismissal" />
-                        }
-                        else
-                        {
-                            @Html.Label("None", new { @class = "form-control bg-dark border-grey", style = "border:none; color:white; padding:0", @disabled="true"})
-                        }
+                        @Html.Label(dateOfDismissal, new { @class = "form-control bg-dark border-grey", style = "border:none; color:white; padding:0", @disabled = "true" })
                     </div>
                 </div>
             </div>
