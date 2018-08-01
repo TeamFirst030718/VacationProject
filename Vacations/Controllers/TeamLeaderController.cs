@@ -92,6 +92,7 @@ namespace Vacations.Controllers
                 TeamID = team.TeamID,
                 TeamName = team.TeamName,
                 TeamLeadName = teamLead.Name + " " + teamLead.Surname,
+                TeamLeadID = team.TeamLeadID,
                 Status = teamLead.Status,
                 AmountOfEmployees = team.AmountOfEmployees,
                 Employees = employees
