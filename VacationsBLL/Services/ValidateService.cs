@@ -11,7 +11,6 @@ namespace VacationsBLL.Services
     public class ValidateService : IValidateService
     {
         IEmployeeRepository _employees;
-
         ITeamRepository _teams;
 
         public ValidateService(IEmployeeRepository employees, ITeamRepository teams)

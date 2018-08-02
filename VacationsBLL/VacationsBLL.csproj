@@ -148,7 +148,7 @@
     <Compile Include="Interfaces\IRoleService.cs" />
     <Compile Include="Interfaces\IPageListsService.cs" />
     <Compile Include="Interfaces\IVacationService.cs" />
-    <Compile Include="Services\AdminEmployeeListService.cs" />
+    <Compile Include="Services\EmployeeListService.cs" />
     <Compile Include="Interfaces\IPhotoUploadService.cs" />
     <Compile Include="Interfaces\IValidateService.cs" />
     <Compile Include="Services\EmailSendService.cs" />
@@ -164,7 +164,7 @@
     <Compile Include="Interfaces\ITeamService.cs" />
     <Compile Include="Services\TeamService.cs" />
     <Compile Include="Interfaces\IRequestCreationService.cs" />
-    <Compile Include="Interfaces\IAdminEmployeeListService.cs" />
+    <Compile Include="Interfaces\IEmployeeListService.cs" />
     <Compile Include="Interfaces\IRequestService.cs" />
     <Compile Include="Services\PageListsService.cs" />
     <Compile Include="Services\ProfileDataService.cs" />

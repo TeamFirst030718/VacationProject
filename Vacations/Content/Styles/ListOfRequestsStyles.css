@@ -47,11 +47,13 @@ table.requestsList th{
 }
 
 .pageMenu{
+    height:30px !important;
     position:absolute;
     left:44.6%;
 }
 
 .pageMenuVacations {
+    height: 30px !important;
     position: absolute;
     left: 35%;
 }

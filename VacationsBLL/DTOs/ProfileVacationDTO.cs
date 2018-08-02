@@ -12,8 +12,6 @@ namespace VacationsBLL.DTOs
 
         public string VacationType { get; set; }
 
-        public string VacationStatusType { get; set; }
-
         public int Duration { get; set; }
 
         public string Status { get; set; }

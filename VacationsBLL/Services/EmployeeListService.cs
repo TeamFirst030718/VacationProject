@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using VacationsBLL.DTOs;
+using VacationsBLL.Functions;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Entities;
 using VacationsDAL.Interfaces;
 
 namespace VacationsBLL.Services
 {
-    public class AdminEmployeeListService : IAdminEmployeeListService
+    public class EmployeeListService : IEmployeeListService
     {
         private IEmployeeRepository _employees;
 
-        public AdminEmployeeListService(IEmployeeRepository employees, IJobTitleRepository jobTitles)
+        public EmployeeListService(IEmployeeRepository employees, IJobTitleRepository jobTitles)
         {
             _employees = employees;
         }
@@ -54,7 +56,7 @@ namespace VacationsBLL.Services
                 }
             }
 
-            return result;
+            return result.OrderBy(x=> FunctionHelper.EmployeeSortFunc(x.TeamDto.TeamName)).ToList();
         }
     }
 }

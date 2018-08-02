@@ -11,13 +11,9 @@ namespace VacationsBLL
     public class EmployeeService : IEmployeeService
     {
         private IEmployeeRepository _employees;
-
         private IJobTitleRepository _jobTitles;
-
         private ITeamRepository _teams;
-
         private IRolesRepository _roles;
-
         private IUsersRepository _users;
 
         public EmployeeService(IEmployeeRepository employees,

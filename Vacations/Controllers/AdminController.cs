@@ -23,22 +23,23 @@ namespace Vacations.Controllers
     [Authorize(Roles = "Administrator")]
     public class AdminController : Controller
     {
-        private const int requestPageSize = 15;
+        private const int requestPageSize = 14;
         private const int teamPageSize = 15;
         private const int employeePageSize = 10;
         private readonly IPageListsService _pageListsService;
         private readonly IEmployeeService _employeeService;
         private readonly IProfileDataService _profileDataService;
         private readonly IRequestService _requestService;
-        private readonly IAdminEmployeeListService _adminEmployeeListService;
+        private readonly IEmployeeListService _adminEmployeeListService;
         private readonly ITeamService _teamService;
         private readonly IPhotoUploadService _photoUploadService;
         private IValidateService _validateService;
+
         public AdminController(
             IProfileDataService profileDataService,
             IEmployeeService employeeService,
             IPageListsService pageListsService,
-            IAdminEmployeeListService adminEmployeeListService,
+            IEmployeeListService adminEmployeeListService,
             IRequestService requestService,
             ITeamService teamService,
             IPhotoUploadService photoUploadService,
@@ -98,7 +99,6 @@ namespace Vacations.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(EmployeeViewModel model, HttpPostedFileBase photo)
         {
-
             ViewData["statusSelectList"] = _pageListsService.SelectStatuses();
             ViewData["jobTitlesSelectList"] = _pageListsService.SelectJobTitles();
             ViewData["aspNetRolesSelectList"] = _pageListsService.SelectRoles();
@@ -219,13 +219,13 @@ namespace Vacations.Controllers
             ViewBag.EmployeeService = _employeeService;
             ViewBag.TeamService = _teamService;
 
-            return View(employeeList.OrderBy(x=>x.TeamDto.TeamName).ToPagedList(page, employeePageSize));
+            return View(employeeList.ToPagedList(page, employeePageSize));
         }
 
+        
         [HttpGet]
         public ActionResult RegisterTeam()
         {
-
             ViewData["employeesSelectList"] = _pageListsService.EmployeesList();
 
             ViewData["listOfEmployees"] = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
@@ -244,7 +244,6 @@ namespace Vacations.Controllers
 
                 TeamCreationService.RegisterTeam(model, Request.Params["members"], _employeeService, _teamService,  UserManager);
 
-
                 ViewBag.ListService = _pageListsService;
                 ViewBag.ListOfEmployees =
                     Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAll().ToArray());
@@ -257,16 +256,24 @@ namespace Vacations.Controllers
             }
 
             return RedirectToAction("TeamsList", "Admin");
-        }
+        }   
 
         [HttpGet]
         public ActionResult Requests(int page = 1)
         {
-            var requestsData = new VacationRequestsViewModel();
             _requestService.SetReviewerID(User.Identity.GetUserId());
             var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin());
             var list = map.ToPagedList(page, requestPageSize);
             return View(list);
+        }
+
+        [HttpGet]
+        public ActionResult RequestsSearch(string searchKey, int page = 1)
+        {
+            _requestService.SetReviewerID(User.Identity.GetUserId());
+            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin(searchKey));
+            var list = map.ToPagedList(page, requestPageSize);
+            return View("Requests",list);
         }
 
         [HttpGet]
@@ -294,8 +301,6 @@ namespace Vacations.Controllers
                 }
             }
 
-            var requestsData = new VacationRequestsViewModel();
-
             var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin());
 
             var list = map.ToPagedList(1, requestPageSize);
@@ -322,7 +327,7 @@ namespace Vacations.Controllers
                     AmountOfEmployees = teamListDto.AmountOfEmployees
                 });
             }
-
+            
             return View(result.ToPagedList(page, teamPageSize));
         }
 

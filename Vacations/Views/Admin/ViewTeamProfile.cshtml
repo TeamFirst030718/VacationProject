@@ -37,11 +37,11 @@
             </div>
 
             <div class="col-8 border-top border-right border-grey  bg-dark pt-1">
-                <div class="container">
+                <div class="container row">
                     <label class="container-fluid p-0">members • @Model.AmountOfEmployees</label>
                     @foreach (var employeee in Model.Employees)
                     {
-                        <p class="colorWhite">
+                        <div class="col-6 colorWhite">
 
                             <img src="@string.Format($"https://teamresponse418storage.blob.core.windows.net/photos/" + $"{employeee.EmployeeID}.jpg")" class="m-auto  rounded-circle profileIconPhoto">
 
@@ -54,7 +54,7 @@
                             {
                                 <img src="~/Content/Icons/offline icon.svg" style="padding-right: 5px">
                             }
-                        </p>
+                        </div>
                     }
                 </div>
             </div>
