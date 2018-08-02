@@ -20,5 +20,17 @@ namespace VacationsBLL.Functions
                 return 1;
             }
         }
+
+        public static int EmployeeSortFunc(string teamName)
+        {
+            if (!teamName.Equals("Empty"))
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        }
     }
 }

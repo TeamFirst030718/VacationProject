@@ -61,7 +61,7 @@ namespace Vacations.Models
        
         [Required(ErrorMessage =" required field")] 
         [Display(Name = "days in vacation")]
-        [Range(1,28, ErrorMessage = "Duration should be positive number.")]
+        [Range(1,28, ErrorMessage = " should be from 1 to 28.")]
         public int VacationBalance { get; set; }
 
         [Display(Name = "job title")]

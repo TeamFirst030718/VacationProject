@@ -49,8 +49,10 @@ namespace VacationsBLL.Services
             ReviewerID = id;
         }
 
-        public RequestDTO[] GetRequestsForAdmin()
+        public RequestDTO[] GetRequestsForAdmin(string searchKey=null)
         {
+            var vacationStatusTypes = _vacationStatusTypes.Get();
+
             bool whereLinq(Employee emp) => _users.GetById(emp.EmployeeID).AspNetRoles.Any(role => role.Name.Equals(RoleEnum.Administrator.ToString())) ||
                                                     (emp.EmployeesTeam.Count.Equals(1) &&
                                                     emp.EmployeesTeam.First().TeamLeadID.Equals(ReviewerID)) ||
@@ -69,8 +71,13 @@ namespace VacationsBLL.Services
                     VacationDates = string.Format($"{vac.DateOfBegin.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}-{vac.DateOfEnd.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}"),
                     EmployeesBalance = emp.VacationBalance,
                     Created = vac.Created,
-                    Status = _vacationStatusTypes.Get(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).First().VacationStatusName                                  
+                    Status = vacationStatusTypes.FirstOrDefault(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).VacationStatusName,                               
                 }).OrderBy(req => FunctionHelper.VacationSortFunc(req.Status)).ThenBy(req => req.Created).ToArray();
+
+                if(searchKey != null)
+                {
+                    requestsList = requestsList.Where(x => x.Name.ToLower().Contains(searchKey.ToLower())).ToArray();
+                }
 
                 return requestsList;
             }
@@ -79,8 +86,10 @@ namespace VacationsBLL.Services
 
         }
 
-        public RequestDTO[] GetRequestsForTeamLeader()
+        public RequestDTO[] GetRequestsForTeamLeader(string searchKey = null)
         {
+            var vacationStatusTypes = _vacationStatusTypes.Get();
+
             bool whereLinq(Employee emp) => emp.EmployeesTeam.Count.Equals(1) && emp.EmployeesTeam.First().TeamLeadID.Equals(ReviewerID);
 
             Employee[] employees = _employees.Get(whereLinq);
@@ -97,16 +106,18 @@ namespace VacationsBLL.Services
                     VacationDates = string.Format($"{vac.DateOfBegin.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}-{vac.DateOfEnd.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}"),
                     EmployeesBalance = emp.VacationBalance,
                     Created = vac.Created,
-                    Status = _vacationStatusTypes.Get(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).First().VacationStatusName
+                    Status = vacationStatusTypes.FirstOrDefault(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).VacationStatusName,
                 }).OrderBy(req => FunctionHelper.VacationSortFunc(req.Status)).ThenBy(req => req.Created).ToArray();
+
+                if (searchKey != null)
+                {
+                    requestsList = requestsList.Where(x => x.Name.ToLower().Contains(searchKey.ToLower())).ToArray();
+                }
 
                 return requestsList;
             }
-            else
-            {
-                return new RequestDTO[0];
-            }
 
+            return new RequestDTO[0];
         }
 
         public RequestProcessDTO GetRequestDataById(string id)
@@ -119,6 +130,14 @@ namespace VacationsBLL.Services
                 var vacationType = _vacationTypes.GetById(vacation.VacationTypeID).VacationTypeName;
                 var jobTitle = _jobTitles.GetById(employee.JobTitleID).JobTitleName;
                 var status = _vacationStatusTypes.GetById(vacation.VacationStatusTypeID).VacationStatusName;
+                string processedBy = null;
+
+                if(vacation.ProcessedByID != null)
+                {
+                    var processedByTemp = _employees.GetById(vacation.ProcessedByID);
+                    processedBy = string.Format($"{processedByTemp.Name} {processedByTemp.Surname}");
+                }
+
                 var request = new RequestProcessDTO
                 {
                     EmployeeID = employee.EmployeeID,
@@ -133,7 +152,7 @@ namespace VacationsBLL.Services
                     VacationType = vacationType,
                     TeamLeadName = employee.EmployeesTeam.Count.Equals(0) ? Empty : _employees.GetById(employee.EmployeesTeam.First().TeamLeadID).Name,
                     TeamName = employee.EmployeesTeam.Count.Equals(0) ? Empty : employee.EmployeesTeam.First().TeamName,
-                    ProcessedBy = vacation.ProcessedByID != null ? ($"{_employees.GetById(vacation.ProcessedByID).Name} {_employees.GetById(vacation.ProcessedByID).Surname}") : null
+                    ProcessedBy = processedBy
                 };
 
                 return request;

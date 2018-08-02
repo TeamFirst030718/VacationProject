@@ -69,15 +69,5 @@ namespace VacationsBLL.Services
         {
             _teams.Update(Mapper.Map<TeamDTO, Team>(team));
         }
-
-        public bool IsTeamLead(string id)
-        {
-            if (_teams.GetAll().Where(x=>x.TeamLeadID.Equals(id)).Count().Equals(0))
-            {
-                return false;
-            }
-
-            return true;
-        }
     }
 }

@@ -11,15 +11,10 @@ namespace VacationsBLL.Services
     {
         private const string empty = "None";
         private IEmployeeRepository _employees;
-
         private IJobTitleRepository _jobTitles;
-
         private IVacationRepository _vacations;
-
         private IVacationStatusTypeRepository _vacationStatusTypes;
-
         private IVacationTypeRepository _vacationTypes;
-
 
         public ProfileDataService(IEmployeeRepository employees,
                                   IJobTitleRepository jobTitles,
@@ -36,17 +31,20 @@ namespace VacationsBLL.Services
 
         public ProfileDTO GetUserData(string id)
         {
-
             var employee = _employees.GetById(id);
-
+            var teamLeader = empty;
             var jobTitle = _jobTitles.GetById(employee.JobTitleID).JobTitleName;
 
+            if (employee.EmployeesTeam.Count > 0)
+            {
+               var tempLead = _employees.GetById(employee.EmployeesTeam.First().TeamLeadID);
+               teamLeader = string.Format($"{tempLead.Name} {tempLead.Surname}");
+            }
             if (employee != null)
             {
                 var userData = Mapper.Map<Employee, ProfileDTO>(employee);
                 userData.TeamName = employee.EmployeesTeam.Count.Equals(0) ? empty : employee.EmployeesTeam.First().TeamName;
-                userData.TeamLeader = employee.EmployeesTeam.Count.Equals(0) ? empty : string.Format($"{ _employees.Get(x => x.EmployeeID.Equals(employee.EmployeesTeam.First().TeamLeadID)).First().Name}" +
-                                                                                                      $"{ _employees.Get(x => x.EmployeeID.Equals(employee.EmployeesTeam.First().TeamLeadID)).First().Surname}");
+                userData.TeamLeader = teamLeader;
                 userData.JobTitle = jobTitle;
                 userData.EmployeeID = employee.EmployeeID;
                 return userData;
@@ -58,18 +56,19 @@ namespace VacationsBLL.Services
         public ProfileVacationDTO[] GetUserVacationsData(string id)
         {
             var employee = _employees.GetById(id);
+            var vacationStatuses = _vacationStatusTypes.Get();
+            var vacationTypes = _vacationTypes.Get();
 
             var vacations = _vacations.Get(x => x.EmployeeID.Equals(employee.EmployeeID)).Select(x => new ProfileVacationDTO
             {
-                VacationType = _vacationTypes.GetById(x.VacationTypeID).VacationTypeName,
-                VacationStatusType = _vacationStatusTypes.GetById(x.VacationStatusTypeID).VacationStatusName,
+                VacationType = vacationTypes.FirstOrDefault(y=>y.VacationTypeID.Equals(x.VacationTypeID)).VacationTypeName,
                 Comment = x.Comment,
                 DateOfBegin = x.DateOfBegin,
                 DateOfEnd = x.DateOfEnd,
                 Duration = x.Duration,
-                Status = _vacationStatusTypes.GetById(x.VacationStatusTypeID).VacationStatusName,
+                Status = vacationStatuses.FirstOrDefault(y => y.VacationStatusTypeID.Equals(x.VacationStatusTypeID)).VacationStatusName,
                 Created = x.Created
-            }).OrderBy(req => FunctionHelper.VacationSortFunc(req.Status)).ThenBy(req => req.Created).ToArray();
+            }).ToArray();
 
             return vacations;
         }

@@ -4,84 +4,94 @@
     var vacations = Model;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="row">
-    <div class="col-12">
-        <div class="container mt-3">
-            <div class="container m-0 p-0 ">
-                <div class="container container-rounded m-0 p-0">
-                    <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
-                        <div class="toInsert">
-                            <div class="row m-auto text-white">
-                                <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray; height:30px;vertical-align:middle">
-                                    <strong id="ModalTitle  ">List of Vacation Requests</strong>
-                                </div>
-                            </div>
-                            <table class="table m-0 p-0 requestsList backColor" style="font-size:15px; border-top:none;">
-                                @if (!vacations.Count.Equals(0))
-                                {
-                                    <tr class="text-light-grey border-grey" style="font-size:12px; border-bottom:solid 1px gray !important;">
-                                        <th></th>
-                                        <td class="first">name</td>
-                                        <td class="first grayFont" style="text-align:center;">team</td>
-                                        <td class="first" style="text-align:center">vaccation dates</td>
-                                        <td class="second" style="text-align:center; width:10%;">amount of days</td>
-                                        <td class="second" style="text-align:center">vacation balance</td>
-                                        <td class="second"> </td>
-                                    </tr>
+@using (Html.BeginForm("RequestsSearch", "Admin", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="container mt-3">
+                <div class="container m-0 p-0 ">
+                    <div class="container container-rounded m-0 p-0">
+                        <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
+                            <div class="toInsert">
+                                <div class="row m-auto text-white">
+                                    <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray; height:50px;">
+                                        <p style="margin-bottom:0; margin-top:10px;">
+                                            <strong id="ModalTitle">List of Vacation Requests</strong>
 
-                                    foreach (var vacation in vacations)
+                                            <button class=" button-add-photo" style="width:100px !important;height:30px;margin-left:5px;  float:right; " type="submit">Find</button>
+                                            <input type="button" class="button-add-photo" style="width:100px !important;height:30px;margin-left:5px; float:right; " onclick="location='@Url.Action("Requests", "Admin")'" value="Reset"/>
+                                          
+                                            <input type="text" class="bg-dark colorWhite float-right" placeholder="search" style="outline:none;box-shadow:none; border:2px solid gray; border-radius:4px; padding-left:5px;" name="searchKey" autocomplete="off" />
+                                        </p>
+                                    </div>
+                                </div>
+                                <table class="table m-0 p-0 requestsList backColor" style="font-size:15px; border-top:none;">
+                                    @if (!vacations.Count.Equals(0))
                                     {
-                                        <tr>
-                                            <th class="first underlined"></th>
-                                            <td class="first underlined" style="color:white;">@vacation.Name</td>
-                                            <td class="first underlined" style="color:grey; text-align:center;">@vacation.TeamName</td>
-                                            <td class="second underlined" style="text-align:center; color:grey;">@vacation.VacationDates</td>
-                                            <td class="second underlined" style="text-align:center; color:grey;">@vacation.Duration</td>
-                                            <td class="second underlined" style="text-align:center; color:white;">@vacation.EmployeesBalance</td>
-                                            <td class="first underlined">
-                                                <img src="~/Content/Icons/@string.Format($"{vacation.Status}.svg")" />
-                                                <img src="~/Content/Icons/edit icon grey.svg" class="float-right ownPopup" style="padding-top:7px; cursor:pointer" onclick='ShowProcessPopup("@string.Format($"{vacation.VacationID}")")' />
-                                                <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:12px;  cursor:pointer; height:13px; width:13px" onclick="location='@Url.Action("EmployeeView", new { id=vacation.EmployeeID })'" />
-                                            </td>
+                                        <tr class="text-light-grey border-grey" style="font-size:12px; border-bottom:solid 1px gray !important;">
+                                            <th></th>
+                                            <td class="first">name</td>
+                                            <td class="first grayFont" style="text-align:center;">team</td>
+                                            <td class="first" style="text-align:center">vaccation dates</td>
+                                            <td class="second" style="text-align:center; width:10%;">amount of days</td>
+                                            <td class="second" style="text-align:center">vacation balance</td>
+                                            <td class="second"> </td>
+                                        </tr>
+
+                                        foreach (var vacation in vacations)
+                                        {
+                                            <tr>
+                                                <th class="first underlined"></th>
+                                                <td class="first underlined" style="color:white;">@vacation.Name</td>
+                                                <td class="first underlined" style="color:grey; text-align:center;">@vacation.TeamName</td>
+                                                <td class="second underlined" style="text-align:center; color:grey;">@vacation.VacationDates</td>
+                                                <td class="second underlined" style="text-align:center; color:grey;">@vacation.Duration</td>
+                                                <td class="second underlined" style="text-align:center; color:white;">@vacation.EmployeesBalance</td>
+                                                <td class="first underlined">
+                                                    <img src="~/Content/Icons/@string.Format($"{vacation.Status}.svg")" />
+                                                    <img src="~/Content/Icons/edit icon grey.svg" class="float-right ownPopup" style="padding-top:7px; cursor:pointer" onclick='ShowProcessPopup("@string.Format($"{vacation.VacationID}")")' />
+                                                    <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:12px;  cursor:pointer; height:13px; width:13px" onclick="location='@Url.Action("EmployeeView", new { id=vacation.EmployeeID })'" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr style="color:#dcdcdc">
+                                            <td style="border-top:none">No vacations found</td>
+                                            <th style="border-top:none"></th>
+                                            <td style="border-top:none"></td>
+                                            <td style="border-top:none"></td>
+                                            <td style="border-top:none"></td>
+                                            <td style="border-top:none"></td>
                                         </tr>
                                     }
-                                }
-                                else
-                                {
-                                    <tr style="color:#dcdcdc">
-                                        <td style="border-top:none">No vacations found</td>
-                                        <th style="border-top:none"></th>
-                                        <td style="border-top:none"></td>
-                                        <td style="border-top:none"></td>
-                                        <td style="border-top:none"></td>
-                                        <td style="border-top:none"></td>
-                                    </tr>
-                                }
-                            </table>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" data-backdrop="static" id="vacationModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div id="toReplace"></div>
+    <div class="modal fade" data-backdrop="static" id="vacationModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div id="toReplace"></div>
+        </div>
     </div>
-</div>
-@if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 15) || Model.FirstItemOnPage > 15)
-{
-    <div class="btn-group pageMenu">
-        @Html.PagedListPager(Model, page => Url.Action("Requests", new { page }), new PagedListRenderOptions {
-        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-        DisplayLinkToLastPage = PagedListDisplayMode.Never,
-        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-        DisplayLinkToNextPage = PagedListDisplayMode.Always,
-        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
-                             MaximumPageNumbersToDisplay = 3
-    }))
-    </div>
+    if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 14) || Model.FirstItemOnPage > 14)
+    {
+        <div class="btn-group pageMenu">
+            @Html.PagedListPager(Model, page => Url.Action("Requests", new { page }), new PagedListRenderOptions {
+            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+            DisplayLinkToLastPage = PagedListDisplayMode.Never,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                                 MaximumPageNumbersToDisplay = 3
+        }))
+        </div>
+    }
 }
 @section Scripts {
     <script>

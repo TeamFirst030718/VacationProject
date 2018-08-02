@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace Vacations.Models
 {
@@ -17,7 +14,7 @@ namespace Vacations.Models
 
         public string VacationType { get; set; }
 
-        public string VacationStatusType { get; set; }
+        public string Status { get; set; }
 
         public int Duration { get; set; }
     }
