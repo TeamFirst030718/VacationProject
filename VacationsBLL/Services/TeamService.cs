@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using VacationsBLL.DTOs;
 using VacationsBLL.Interfaces;
@@ -22,11 +23,21 @@ namespace VacationsBLL.Services
             
         }
 
-        public IEnumerable<TeamListDTO> GetAllTeams()
+        public IEnumerable<TeamListDTO> GetAllTeams(string searchKey = null)
         {
+            Team[] teams = null;
             var result = new List<TeamListDTO>();
-            var teams = _teams.GetAll();
 
+            if (searchKey != null)
+            {
+                bool whereLinq(Team team) => team.TeamName.ToLower().Contains(searchKey.ToLower());
+                teams = _teams.Get(whereLinq);
+            }
+            else
+            {
+                teams = _teams.Get();
+            }
+ 
             foreach (var team in teams)
             {
                 result.Add(new TeamListDTO
@@ -37,6 +48,7 @@ namespace VacationsBLL.Services
                     AmountOfEmployees = team.Employees.Count
                 } );
             }
+
             return result;
         }
 

@@ -2,6 +2,8 @@
 @model PagedList.IPagedList<Vacations.Models.RequestViewModel>
 @{
     var vacations = Model;
+    string searchKey = ViewData["SearchKey"] as string;
+
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using (Html.BeginForm("RequestsSearch", "TeamLeader", FormMethod.Get))
@@ -14,12 +16,12 @@
                         <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
                             <div class="toInsert">
                                 <div class="row m-auto text-white">
-                                    <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray; height:30px;vertical-align:middle">
+                                    <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray; height:50px;">
                                         <p style="margin-bottom:0; margin-top:10px;">
                                             <strong id="ModalTitle">List of Vacation Requests</strong>
 
                                             <button class=" button-add-photo" style="width:100px !important;height:30px;margin-left:5px;  float:right; " type="submit">Find</button>
-                                            <input type="button" class="button-add-photo" style="width:100px !important;height:30px;margin-left:5px; float:right; " onclick="location='@Url.Action("Requests", "TeamLeader")'" value="Reset" />
+                                            <input type="button" class="button-add-photo" style="width:100px !important;height:30px;margin-left:5px; float:right; " onclick="location='@Url.Action("Requests", "Admin")'" value="Reset" />
 
                                             <input type="text" class="bg-dark colorWhite float-right" placeholder="search" style="outline:none;box-shadow:none; border:2px solid gray; border-radius:4px; padding-left:5px;" name="searchKey" autocomplete="off" />
                                         </p>
@@ -82,7 +84,7 @@
     if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 14) || Model.FirstItemOnPage > 14)
     {
         <div class="btn-group pageMenu">
-            @Html.PagedListPager(Model, page => Url.Action("Requests", new { page }), new PagedListRenderOptions
+            @Html.PagedListPager(Model, page => Url.Action("Requests", new { page, searchKey }), new PagedListRenderOptions
        {
            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
            DisplayLinkToLastPage = PagedListDisplayMode.Never,
@@ -94,8 +96,8 @@
         </div>
     }
 }
-    @section Scripts {
-        <script>
+@section Scripts {
+    <script>
         function ShowProcessPopup(RequestID) {
             var url = "/TeamLeader/ProcessPopupPartial?id=" + RequestID;
             $("#ModalTitle").html("Vacation Request");
@@ -136,9 +138,9 @@
             }
         }
 
-        </script>
+    </script>
 
-    }
+}
 
 
 

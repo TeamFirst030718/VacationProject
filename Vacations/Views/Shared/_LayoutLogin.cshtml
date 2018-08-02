@@ -20,11 +20,12 @@
     </script>
 </head>
 <body id="fontBody" class="image">
-    
-        @RenderBody()
- 
-    @Scripts.Render("~/bundles/jquery")
+
+    @RenderBody()
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
 </body>
 </html>
