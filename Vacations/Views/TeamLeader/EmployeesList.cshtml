@@ -3,108 +3,113 @@
 @using PagedList.Mvc;
 @model PagedList.IPagedList<VacationsBLL.DTOs.EmployeeListDTO>
 @{
+    string searchKey = ViewData["SearchKey"] as string;
     EmployeeService employeeService = (EmployeeService)ViewBag.EmployeeService;
 }
-
-<div class="row">
-    <div class="col-12">
-        <div class="container mt-3">
-            <div class="container m-0 p-0 ">
-                <div class="container container-rounded m-0 p-0">
-                    <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
-                        <div class="row m-auto text-white">
-                            <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray; height:30px;">
-                                <strong>List of Employees</strong>
+@using (Html.BeginForm("EmployeesList", "TeamLeader", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="container mt-3">
+                <div class="container m-0 p-0 ">
+                    <div class="container container-rounded m-0 p-0">
+                        <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
+                            <div class="row m-auto text-white">
+                                <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray; height:30px;">
+                                    <strong>List of Employees</strong>
+                                </div>
                             </div>
-                        </div>
-                        <table class="table text-white m-0 p-0 backColor " style="font-size:15px; border-top:none;">
-                            <tr class="text-light-grey border-grey" style="font-size: 12px; border-bottom: solid 1px gray !important;">
-                                <td style="border-top: none"></td>
-                                <td style="border-top: none">name</td>
-                                <td style="text-align: center; border-top: none">phone number</td>
-                                <td style="text-align: center; border-top: none">work email</td>
-                                <td style="text-align: right; border-top: none">vacation balance</td>
-                                <td style="border-top: none"></td>
-                            </tr>
-                            @if (Model.Count > 0)
-                            {
-                                var employeesListGroups = from employeeListDto in Model
-                                                          group employeeListDto by employeeListDto.TeamDto.TeamID;
+                            <table class="table text-white m-0 p-0 backColor " style="font-size:15px; border-top:none;">
 
-                                foreach (IGrouping<string, EmployeeListDTO>
-                                    g in employeesListGroups)
+                                @if (Model.Count > 0)
                                 {
-                                    <tr style="font-size: 12px; border-bottom: solid 1px gray !important; height: 30px !important">
-                                        <td style="border-top: none; width: 15px; ">
-                                            <img src="~/Content/Icons/icons8-bookmark.svg" style="height: 15px;" />
-                                        </td>
-                                        <td style="border-top: none;">
-
-                                            @if (g.Key != "Empty")
-                                            {
-                                                <p style="margin:0">@employeeService.GetTeamNameById(g.Key)</p>
-                                            }
-                                            else
-                                            {
-                                                <p style="margin:0">@g.Key</p>
-                                            }
-                                        </td>
-                                        <td style="border-top: none;">
-                                        <td style="border-top: none;">
-                                        <td style="border-top: none;">
-                                        <td style="border-top: none;">
-                                            @if (g.Key != "Empty")
-                                            {
-                                                <a href="@Url.Action("ViewTeamProfile", "TeamLeader", new { id = @g.Key })"><img src="~/Content/Icons/eye.svg" class="float-right m-auto my-auto" height="15" alt="View Team Profile" /></a>
-                                            }
-                                        </td>
-
+                                    <tr class="text-light-grey border-grey" style="font-size: 12px; border-bottom: solid 1px gray !important;">
+                                        <td style="border-top: none"></td>
+                                        <td style="border-top: none">name</td>
+                                        <td style="text-align: center; border-top: none">phone number</td>
+                                        <td style="text-align: center; border-top: none">work email</td>
+                                        <td style="text-align: right; border-top: none">vacation balance</td>
+                                        <td style="border-top: none"></td>
                                     </tr>
 
-                                    foreach (var t in g)
-                                    {
-                                        <tr style="font-size:12px; border-bottom:solid 1px gray !important;">
-                                            <td style="border-top: none"></td>
-                                            <td style="border-top: none">@t.EmployeeDto.Name @t.EmployeeDto.Surname</td>
-                                            <td style="text-align: center; border-top: none">@t.EmployeeDto.PhoneNumber</td>
-                                            <td style="text-align: center; border-top: none">@t.EmployeeDto.WorkEmail</td>
-                                            <td style="text-align: right; border-top: none">@t.EmployeeDto.VacationBalance days</td>
+                                    var employeesListGroups = from employeeListDto in Model
+                                                              group employeeListDto by employeeListDto.TeamDto.TeamID;
 
-                                            <td style="border-top: none">
-                                                <img src="~/Content/Icons/user-icon.svg" class="float-right m-auto my-auto ownPopup" style="margin-left:12px;  cursor:pointer; height:13px; width:13px" onclick="location='@Url.Action("EmployeeView", new { id = t.EmployeeDto.EmployeeID })'" />
+                                    foreach (IGrouping<string, EmployeeListDTO>
+                                        g in employeesListGroups)
+                                    {
+                                        <tr style="font-size: 12px; border-bottom: solid 1px gray !important; height: 30px !important">
+                                            <td style="border-top: none; width: 15px; ">
+                                                <img src="~/Content/Icons/icons8-bookmark.svg" style="height: 15px;" />
                                             </td>
+                                            <td style="border-top: none;">
+
+                                                @if (g.Key != "Empty")
+                                                {
+                                                    <p style="margin:0">@employeeService.GetTeamNameById(g.Key)</p>
+                                                }
+                                                else
+                                                {
+                                                    <p style="margin:0">@g.Key</p>
+                                                }
+                                            </td>
+                                            <td style="border-top: none;">
+                                            <td style="border-top: none;">
+                                            <td style="border-top: none;">
+                                            <td style="border-top: none;">
+                                                @if (g.Key != "Empty")
+                                                {
+                                                    <a href="@Url.Action("ViewTeamProfile", "TeamLeader", new { id = @g.Key })"><img src="~/Content/Icons/eye.svg" class="float-right m-auto my-auto" height="15" alt="View Team Profile" /></a>
+                                                }
+                                            </td>
+
                                         </tr>
+
+                                        foreach (var t in g)
+                                        {
+                                            <tr style="font-size:12px; border-bottom:solid 1px gray !important;">
+                                                <td style="border-top: none"></td>
+                                                <td style="border-top: none">@t.EmployeeDto.Name @t.EmployeeDto.Surname</td>
+                                                <td style="text-align: center; border-top: none">@t.EmployeeDto.PhoneNumber</td>
+                                                <td style="text-align: center; border-top: none">@t.EmployeeDto.WorkEmail</td>
+                                                <td style="text-align: right; border-top: none">@t.EmployeeDto.VacationBalance days</td>
+
+                                                <td style="border-top: none">
+                                                    <img src="~/Content/Icons/user-icon.svg" class="float-right m-auto my-auto ownPopup" style="margin-left:12px;  cursor:pointer; height:13px; width:13px" onclick="location='@Url.Action("EmployeeView", new { id = t.EmployeeDto.EmployeeID })'" />
+                                                </td>
+                                            </tr>
+                                        }
                                     }
                                 }
-                            }
-                            else
-                            {
-                                <tr style="color:#dcdcdc">
-                                    <td style="border-top:none">No employees found</td>
-                                    <th style="border-top:none"></th>
-                                    <td style="border-top:none"></td>
-                                    <td style="border-top:none"></td>
-                                    <td style="border-top:none"></td>
-                                    <td style="border-top:none"></td>
-                                </tr>
-                            }
-                        </table>
+                                else
+                                {
+                                    <tr style="color:#dcdcdc">
+                                        <td style="border-top:none">No employees found</td>
+                                        <th style="border-top:none"></th>
+                                        <td style="border-top:none"></td>
+                                        <td style="border-top:none"></td>
+                                        <td style="border-top:none"></td>
+                                        <td style="border-top:none"></td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 10) || Model.FirstItemOnPage > 10)
-{
-    <div class="btn-group pageMenu">
-        @Html.PagedListPager(Model, page => Url.Action("EmployeesList", new { page }), new PagedListRenderOptions {
-        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-        DisplayLinkToLastPage = PagedListDisplayMode.Never,
-        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-        DisplayLinkToNextPage = PagedListDisplayMode.Always,
-        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
-                             MaximumPageNumbersToDisplay = 3
-    }))
-    </div>
 }
+    @if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 10) || Model.FirstItemOnPage > 10)
+    {
+        <div class="btn-group pageMenu">
+            @Html.PagedListPager(Model, page => Url.Action("EmployeesList", new { page,searchKey }), new PagedListRenderOptions {
+            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+            DisplayLinkToLastPage = PagedListDisplayMode.Never,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                                 MaximumPageNumbersToDisplay = 3
+        }))
+        </div>
+    }

@@ -30,7 +30,7 @@ namespace Vacations.Controllers
         private readonly IEmployeeService _employeeService;
         private readonly IProfileDataService _profileDataService;
         private readonly IRequestService _requestService;
-        private readonly IEmployeeListService _adminEmployeeListService;
+        private readonly IEmployeeListService _employeeListService;
         private readonly ITeamService _teamService;
         private readonly IPhotoUploadService _photoUploadService;
         private IValidateService _validateService;
@@ -48,7 +48,7 @@ namespace Vacations.Controllers
             _profileDataService = profileDataService;
             _employeeService = employeeService;
             _pageListsService = pageListsService;
-            _adminEmployeeListService = adminEmployeeListService;
+            _employeeListService = adminEmployeeListService;
             _requestService = requestService;
             _teamService = teamService;
             _photoUploadService = photoUploadService;
@@ -149,7 +149,7 @@ namespace Vacations.Controllers
                 return RedirectToAction("EmployeesList", "Admin");
             }
 
-            return RedirectToAction("EmployeesList","Admin");
+            return RedirectToAction("EmployeesList", "Admin");
         }
 
         [HttpGet]
@@ -196,7 +196,7 @@ namespace Vacations.Controllers
                     _photoUploadService.UploadPhoto(photo, model.EmployeeID);
                 }
 
-                if(User.Identity.GetUserId().Equals(id))
+                if (User.Identity.GetUserId().Equals(id))
                 {
                     return RedirectToAction("Index", "Profile");
                 }
@@ -209,20 +209,20 @@ namespace Vacations.Controllers
                 return RedirectToAction("Index", "Profile");
             }
 
-            return RedirectToAction("EmployeesList","Admin");
+            return RedirectToAction("EmployeesList", "Admin");
         }
 
-        public ActionResult EmployeesList(int page = 1)
+        public ActionResult EmployeesList(int page = 1, string searchKey = null)
         {
-            var employeeList = _adminEmployeeListService.EmployeeList();
-
+            ViewData["SearchKey"] = searchKey;
             ViewBag.EmployeeService = _employeeService;
             ViewBag.TeamService = _teamService;
+            var employeeList = _employeeListService.EmployeeList(searchKey);   
 
             return View(employeeList.ToPagedList(page, employeePageSize));
         }
 
-        
+
         [HttpGet]
         public ActionResult RegisterTeam()
         {
@@ -242,7 +242,7 @@ namespace Vacations.Controllers
                 model.TeamLeadID = Request.Params["employeesSelectList"];
                 model.TeamID = Guid.NewGuid().ToString();
 
-                TeamCreationService.RegisterTeam(model, Request.Params["members"], _employeeService, _teamService,  UserManager);
+                TeamCreationService.RegisterTeam(model, Request.Params["members"], _employeeService, _teamService, UserManager);
 
                 ViewBag.ListService = _pageListsService;
                 ViewBag.ListOfEmployees =
@@ -256,24 +256,17 @@ namespace Vacations.Controllers
             }
 
             return RedirectToAction("TeamsList", "Admin");
-        }   
-
-        [HttpGet]
-        public ActionResult Requests(int page = 1)
-        {
-            _requestService.SetReviewerID(User.Identity.GetUserId());
-            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin());
-            var list = map.ToPagedList(page, requestPageSize);
-            return View(list);
         }
 
         [HttpGet]
-        public ActionResult RequestsSearch(string searchKey, int page = 1)
+        public ActionResult Requests(int page = 1, string searchKey = null)
         {
+            ViewData["SearchKey"] = searchKey;
             _requestService.SetReviewerID(User.Identity.GetUserId());
-            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin(searchKey));
+            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin(searchKey)).ToArray();
+
             var list = map.ToPagedList(page, requestPageSize);
-            return View("Requests",list);
+            return View(list);
         }
 
         [HttpGet]
@@ -309,11 +302,11 @@ namespace Vacations.Controllers
         }
 
         [HttpGet]
-        public ActionResult TeamsList(int page = 1)
+        public ActionResult TeamsList(string searchKey, int page = 1)
         {
+            ViewData["SearchKey"] = searchKey;
             var result = new List<TeamListViewModel>();
-
-            var teams = _teamService.GetAllTeams();
+            var teams = _teamService.GetAllTeams(searchKey);
 
             foreach (var teamListDto in teams)
             {
@@ -327,7 +320,7 @@ namespace Vacations.Controllers
                     AmountOfEmployees = teamListDto.AmountOfEmployees
                 });
             }
-            
+
             return View(result.ToPagedList(page, teamPageSize));
         }
 

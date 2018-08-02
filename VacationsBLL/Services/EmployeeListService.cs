@@ -17,13 +17,23 @@ namespace VacationsBLL.Services
             _employees = employees;
         }
 
-        public List<EmployeeListDTO> EmployeeList()
+        public List<EmployeeListDTO> EmployeeList(string searchKey = null)
         {
-            var list = _employees.Get();
+            Employee[] employees = null;
 
             var result = new List<EmployeeListDTO>();
 
-            foreach (var employee in list)
+            if (searchKey != null)
+            {
+                bool whereLinq(Employee emp) => string.Format($"{emp.Name} {emp.Surname}").ToLower().Contains(searchKey.ToLower());
+                employees = _employees.Get(whereLinq);
+            }
+            else
+            {
+                employees = _employees.Get();
+            }
+
+            foreach (var employee in employees)
             {
                 if (employee.EmployeesTeam.Count == 0)
                 {

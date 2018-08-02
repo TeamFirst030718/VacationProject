@@ -1,53 +1,82 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<Vacations.Models.TeamListViewModel>
-<div class="row">
-    <div class="col-12">
-        <div class="container mt-3">
-            <div class="container m-0 p-0 ">
-                <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
-                    <div class="row m-auto text-white">
-                        <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray; height:30px;">
-                            <strong>List of Teams</strong>
+@{
+    string searchKey = ViewData["SearchKey"] as string;
+}
+@using (Html.BeginForm("TeamsList", "Admin", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="container mt-3">
+                <div class="container m-0 p-0 ">
+                    <div class="container container-rounded m-0 p-0">
+                        <div class="container container-rounded m-0 p-0" style="border: 2px solid #757575 !important;">
+                            <div class="toInsert">
+                                <div class="row m-auto text-white">
+                                    <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray; height:50px;">
+                                        <p style="margin-bottom:0; margin-top:10px;">
+                                            <strong id="ModalTitle">List of Teams</strong>
+
+                                            <button class=" button-add-photo" style="width:100px !important;height:30px;margin-left:5px;  float:right; " type="submit">Find</button>
+                                            <input type="button" class="button-add-photo" style="width:100px !important;height:30px;margin-left:5px; float:right; " onclick="location='@Url.Action("TeamsList", "Admin")'" value="Reset" />
+
+                                            <input type="text" class="bg-dark colorWhite float-right" placeholder="search" style="outline:none;box-shadow:none; border:2px solid gray; border-radius:4px; padding-left:5px;" name="searchKey" autocomplete="off" />
+                                        </p>
+                                    </div>
+                                </div>
+                                <table class="table text-white m-0 p-0 backColor " style="font-size:15px; border-top:none;">
+
+                                    @if (Model.Count > 0)
+                                    {
+                                        <tr class="text-light-grey border-grey" style="border-bottom: solid 1px gray !important;">
+                                            <th style="width:3%;border-top:none;">
+                                            <td style="border-top: none; text-align: left">team name</td>
+                                            <td style="text-align: center; border-top: none">team leader</td>
+                                            <td style="text-align: center; border-top: none">amount of employees</td>
+                                            <td style="border-top: none; text-align: center"></td>
+                                            <td style="border-top: none; text-align: center"></td>
+                                        </tr>
+                                        foreach (var team in Model)
+                                        {
+                                            <tr style=" border-bottom: solid 1px gray !important; height: 30px !important">
+                                                <th style="width:2%;border-top:none;"></th>
+                                                <td style="border-top: none; text-align: left">@team.TeamName</td>
+                                                <td style="border-top: none; text-align: center">@team.TeamLeadName</td>
+                                                <td style="border-top: none; text-align: center">@team.AmountOfEmployees</td>
+                                                <td style="border-top: none; text-align: center">
+                                                    <a href="@Url.Action("ViewTeamProfile", "Admin", new { id = @team.TeamID })"><img src="~/Content/Icons/eye.svg" class="float-right m-auto my-auto" height="15" alt="View Team Profile" /></a>
+                                                </td>
+                                                <td style="border-top: none; text-align: center">
+                                                    <a href="@Url.Action("EditTeam", "Admin", new { id = @team.TeamID })"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" alt="Edit Team" /></a>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr style="color:#dcdcdc">
+                                            <td style="border-top:none">No teams found</td>
+                                            <th style="border-top:none"></th>
+                                            <td style="border-top:none"></td>
+                                            <td style="border-top:none"></td>
+                                            <td style="border-top:none"></td>
+                                            <td style="border-top:none"></td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
                         </div>
-
                     </div>
-                    <table class="table text-white m-0 p-0 backColor " style="font-size:15px; border-top:none;">
-                        <tr class="text-light-grey border-grey" style="border-bottom: solid 1px gray !important;">
-                            <th style="width:3%;border-top:none;">
-                            <td style="border-top: none; text-align: left">team name</td>
-                            <td style="text-align: center; border-top: none">team leader</td>
-                            <td style="text-align: center; border-top: none">amount of employees</td>
-                            <td style="border-top: none; text-align: center"></td>
-                            <td style="border-top: none; text-align: center"></td>
-                        </tr>
-                        @{
-                            foreach (var team in Model)
-                            {
-                        <tr style=" border-bottom: solid 1px gray !important; height: 30px !important">
-                            <th style="width:2%;border-top:none;"></th>
-                            <td style="border-top: none; text-align: left">@team.TeamName</td>
-                            <td style="border-top: none; text-align: center">@team.TeamLeadName</td>
-                            <td style="border-top: none; text-align: center">@team.AmountOfEmployees</td>
-                            <td style="border-top: none; text-align: center">
-                                <a href="@Url.Action("ViewTeamProfile","Admin", new {id = @team.TeamID})"><img src="~/Content/Icons/eye.svg" class="float-right m-auto my-auto" height="15" alt="View Team Profile" /></a>
-                            </td>
-                            <td style="border-top: none; text-align: center">
-                                <a href="@Url.Action("EditTeam","Admin", new {id = @team.TeamID})"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" alt="Edit Team" /></a>
-                            </td>
-
-                        </tr>
-                            }
-                        }
-                    </table>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}
 @if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 15) || Model.FirstItemOnPage > 15)
 {
     <div class="btn-group pageMenu">
-        @Html.PagedListPager(Model, page => Url.Action("TeamsList", new { page }), new PagedListRenderOptions {
+        @Html.PagedListPager(Model, page => Url.Action("TeamsList", new { page,searchKey }), new PagedListRenderOptions {
         DisplayLinkToFirstPage = PagedListDisplayMode.Never,
         DisplayLinkToLastPage = PagedListDisplayMode.Never,
         DisplayLinkToPreviousPage = PagedListDisplayMode.Always,

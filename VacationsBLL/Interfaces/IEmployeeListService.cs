@@ -5,6 +5,6 @@ namespace VacationsBLL.Interfaces
 {
     public interface IEmployeeListService
     {
-        List<EmployeeListDTO> EmployeeList();
+        List<EmployeeListDTO> EmployeeList(string searchKey = null);
     }
 }

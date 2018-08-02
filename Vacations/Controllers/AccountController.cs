@@ -182,13 +182,6 @@ namespace IdentitySample.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation()
-        {
-            return View();
-        }
-
-        [HttpGet]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();

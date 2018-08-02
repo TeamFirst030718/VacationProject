@@ -2,9 +2,11 @@
 @model PagedList.IPagedList<Vacations.Models.RequestViewModel>
 @{
     var vacations = Model;
+    string searchKey = ViewData["SearchKey"] as string ;
+
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Html.BeginForm("RequestsSearch", "Admin", FormMethod.Get))
+@using (Html.BeginForm("Requests", "Admin", FormMethod.Get))
 {
     <div class="row">
         <div class="col-12">
@@ -82,7 +84,7 @@
     if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 14) || Model.FirstItemOnPage > 14)
     {
         <div class="btn-group pageMenu">
-            @Html.PagedListPager(Model, page => Url.Action("Requests", new { page }), new PagedListRenderOptions {
+            @Html.PagedListPager(Model, page => Url.Action("Requests", new { page, searchKey}), new PagedListRenderOptions {
             DisplayLinkToFirstPage = PagedListDisplayMode.Never,
             DisplayLinkToLastPage = PagedListDisplayMode.Never,
             DisplayLinkToPreviousPage = PagedListDisplayMode.Always,

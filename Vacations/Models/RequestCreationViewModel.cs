@@ -34,7 +34,7 @@ namespace Vacations.Models
         public string VacationTypeID { get; set; }
 
         
-        [StringLength(128)]
+        [StringLength(128)] 
         public string VacationStatusTypeID { get; set; }
 
         [Required]

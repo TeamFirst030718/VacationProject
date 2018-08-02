@@ -44,39 +44,33 @@ namespace Vacations.Controllers
         }
 
 
-        public ActionResult EmployeesList(int page = 1)
+        public ActionResult EmployeesList(int page = 1, string searchKey = null)
         {
-            var employeeList = _employeeListService.EmployeeList().Where(x=> x.TeamDto.TeamLeadID == User.Identity.GetUserId()).ToList();
-
+            ViewData["SearchKey"] = searchKey;
             ViewBag.EmployeeService = _employeeService;
+            ViewBag.TeamService = _teamService;
+            var employeeList = _employeeListService.EmployeeList(searchKey).Where(x => x.TeamDto.TeamLeadID == User.Identity.GetUserId()).ToList();
 
-            return View(employeeList.ToPagedList(page,employeePageSize));
+            return View(employeeList.ToPagedList(page, employeePageSize));
         }
 
         [HttpGet]
-        public ActionResult Requests(int page = 1)
+        public ActionResult Requests(int page = 1, string searchKey = null)
         {
+            ViewData["SearchKey"] = searchKey;
             _requestService.SetReviewerID(User.Identity.GetUserId());
-            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForTeamLeader());
+            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForTeamLeader(searchKey));
             var list = map.ToPagedList(page, requestPageSize);
             return View(list);
         }
 
         [HttpGet]
-        public ActionResult RequestsSearch(string searchKey, int page = 1)
+        public ActionResult TeamsList(string searchKey, int page = 1)
         {
-            _requestService.SetReviewerID(User.Identity.GetUserId());
-            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForTeamLeader(searchKey));
-            var list = map.ToPagedList(page, requestPageSize);
-            return View("Requests", list);
-        }
-
-        [HttpGet]
-        public ActionResult TeamsList(int page = 1)
-        {
+            ViewData["SearchKey"] = searchKey;
             var result = new List<TeamListViewModel>();
 
-            var teams = _teamService.GetAllTeams().Where(x=> x.TeamLeadID == User.Identity.GetUserId());
+            var teams = _teamService.GetAllTeams(searchKey).Where(x=> x.TeamLeadID == User.Identity.GetUserId());
 
             foreach (var teamListDto in teams)
             {

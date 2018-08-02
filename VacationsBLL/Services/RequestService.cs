@@ -53,11 +53,14 @@ namespace VacationsBLL.Services
         {
             var vacationStatusTypes = _vacationStatusTypes.Get();
 
-            bool whereLinq(Employee emp) => _users.GetById(emp.EmployeeID).AspNetRoles.Any(role => role.Name.Equals(RoleEnum.Administrator.ToString())) ||
+            var users =_users.Get();
+
+            bool whereLinq(Employee emp) => emp.AspNetUser.AspNetRoles.Any(role => role.Name.Equals(RoleEnum.Administrator.ToString())) ||
                                                     (emp.EmployeesTeam.Count.Equals(1) &&
                                                     emp.EmployeesTeam.First().TeamLeadID.Equals(ReviewerID)) ||
                                                     emp.EmployeesTeam.Count.Equals(0);
-            Employee[] employees = _employees.Get(whereLinq);
+
+            var employees = _employees.Get(whereLinq);
 
             if (employees != null)
             {
