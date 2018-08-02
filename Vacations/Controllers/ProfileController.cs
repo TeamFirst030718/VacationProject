@@ -106,17 +106,6 @@ namespace Vacations.Controllers
         [HttpPost]
         public ActionResult RequestVacation(RequestCreationViewModel model)
         {
-            ViewData["VacationTypesSelectList"] = _pageListsService.SelectVacationTypes();
-            var requestVacationData = new RequestVacationViewModel
-            {
-                ProfileData =
-                    Mapper.Map<ProfileDTO, ProfileViewModel>(_profileDataService.GetUserData(User.Identity.GetUserId())),
-                VacationBalanceData =
-                    Mapper.Map<VacationBalanceDTO, VacationBalanceViewModel>(
-                        _profileDataService.GetUserVacationBalance(User.Identity.GetUserId())),
-                RequestCreationData = new RequestCreationViewModel()
-            };
-
             if (ModelState.IsValid)
             {
                 model.EmployeeID = User.Identity.GetUserId();
@@ -127,11 +116,11 @@ namespace Vacations.Controllers
 
                 _requestCreationService.CreateVacation(Mapper.Map<RequestCreationViewModel, VacationDTO>(model));
 
-                return View(requestVacationData);
+                return RedirectToAction("Index","Profile");
             }
             else
             {
-                return View(requestVacationData);
+                return RedirectToAction("Index", "Profile");
             }
         }
         

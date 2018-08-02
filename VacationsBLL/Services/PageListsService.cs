@@ -8,11 +8,8 @@ namespace VacationsBLL.Services
     public class PageListsService : IPageListsService
     {
         IJobTitleRepository _jobTitles;
-
         IRolesRepository _roles;
-
         IVacationTypeRepository _vacationTypes;
-
         IEmployeeRepository _employees;
 
         public PageListsService(IJobTitleRepository jobTitles, IRolesRepository roles, IVacationTypeRepository types, IEmployeeRepository employees)

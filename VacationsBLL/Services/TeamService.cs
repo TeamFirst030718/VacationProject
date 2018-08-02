@@ -55,6 +55,11 @@ namespace VacationsBLL.Services
             return result;
         }
 
+        public void DeleteTeam(string teamId)
+        {
+            _teams.Remove(teamId);
+        }
+
         public TeamDTO GetTeamById(string id)
         {
             return Mapper.Map<Team, TeamDTO>(_teams.GetById(id));
@@ -63,16 +68,6 @@ namespace VacationsBLL.Services
         public void UpdateTeamInfo(TeamDTO team)
         {
             _teams.Update(Mapper.Map<TeamDTO, Team>(team));
-        }
-
-        public bool IsTeamLead(string id)
-        {
-            if (_teams.GetAll().Where(x=>x.TeamLeadID.Equals(id)).Count().Equals(0))
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }

@@ -5,8 +5,8 @@ namespace VacationsBLL.Interfaces
     {
         RequestProcessDTO GetRequestDataById(string id);
         void SetReviewerID(string email);
-        RequestDTO[] GetRequestsForAdmin();
-        RequestDTO[] GetRequestsForTeamLeader();
+        RequestDTO[] GetRequestsForAdmin(string searchKey = null);
+        RequestDTO[] GetRequestsForTeamLeader(string searchKey = null);
         void DenyVacation(RequestProcessResultDTO result);
         void ApproveVacation(RequestProcessResultDTO result);
     }

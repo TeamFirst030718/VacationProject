@@ -35,7 +35,7 @@ namespace VacationsBLL.Services
 
                 var employee = _employees.GetById(vacation.EmployeeID);
 
-                if (!employee.EmployeesTeam.Count.Equals(0))
+                if (employee.EmployeesTeam.Count > 0)
                 {
                     var team = employee.EmployeesTeam.First();
                     var teamLead = _employees.GetById(team.TeamLeadID);

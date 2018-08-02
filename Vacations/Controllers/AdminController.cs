@@ -23,22 +23,23 @@ namespace Vacations.Controllers
     [Authorize(Roles = "Administrator")]
     public class AdminController : Controller
     {
-        private const int requestPageSize = 15;
+        private const int requestPageSize = 14;
         private const int teamPageSize = 15;
         private const int employeePageSize = 10;
         private readonly IPageListsService _pageListsService;
         private readonly IEmployeeService _employeeService;
         private readonly IProfileDataService _profileDataService;
         private readonly IRequestService _requestService;
-        private readonly IAdminEmployeeListService _adminEmployeeListService;
+        private readonly IEmployeeListService _adminEmployeeListService;
         private readonly ITeamService _teamService;
         private readonly IPhotoUploadService _photoUploadService;
         private IValidateService _validateService;
+
         public AdminController(
             IProfileDataService profileDataService,
             IEmployeeService employeeService,
             IPageListsService pageListsService,
-            IAdminEmployeeListService adminEmployeeListService,
+            IEmployeeListService adminEmployeeListService,
             IRequestService requestService,
             ITeamService teamService,
             IPhotoUploadService photoUploadService,
@@ -98,7 +99,6 @@ namespace Vacations.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(EmployeeViewModel model, HttpPostedFileBase photo)
         {
-
             ViewData["statusSelectList"] = _pageListsService.SelectStatuses();
             ViewData["jobTitlesSelectList"] = _pageListsService.SelectJobTitles();
             ViewData["aspNetRolesSelectList"] = _pageListsService.SelectRoles();
@@ -146,10 +146,10 @@ namespace Vacations.Controllers
                         callbackUrlToSetPassword + "\">link</a>.");
                 }
 
-                return RedirectToAction("Index", "Profile");
+                return RedirectToAction("EmployeesList", "Admin");
             }
 
-            return View(model);
+            return RedirectToAction("EmployeesList","Admin");
         }
 
         [HttpGet]
@@ -187,7 +187,7 @@ namespace Vacations.Controllers
                 model.Status = Request.Params["statusSelectList"].AsBool();
                 var roleParam = Request.Params["aspNetRolesSelectList"];
 
-                var user = UserManager.FindById(User.Identity.GetUserId());
+                var user = UserManager.FindById(id);
 
                 EmployeeEditService.EditEmployee(model, roleParam, UserManager, user, _employeeService, id);
 
@@ -196,10 +196,20 @@ namespace Vacations.Controllers
                     _photoUploadService.UploadPhoto(photo, model.EmployeeID);
                 }
 
-                return RedirectToAction("Index", "Profile", _profileDataService);
+                if(User.Identity.GetUserId().Equals(id))
+                {
+                    return RedirectToAction("Index", "Profile");
+                }
+
+                return RedirectToAction("EmployeesList", "Admin");
             }
 
-            return View("Edit");
+            if (User.Identity.GetUserId().Equals(id))
+            {
+                return RedirectToAction("Index", "Profile");
+            }
+
+            return RedirectToAction("EmployeesList","Admin");
         }
 
         public ActionResult EmployeesList(int page = 1)
@@ -209,13 +219,13 @@ namespace Vacations.Controllers
             ViewBag.EmployeeService = _employeeService;
             ViewBag.TeamService = _teamService;
 
-            return View(employeeList.OrderBy(x=>x.TeamDto.TeamName).ToPagedList(page, employeePageSize));
+            return View(employeeList.ToPagedList(page, employeePageSize));
         }
 
+        
         [HttpGet]
         public ActionResult RegisterTeam()
         {
-
             ViewData["employeesSelectList"] = _pageListsService.EmployeesList();
 
             ViewData["listOfEmployees"] = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
@@ -232,7 +242,7 @@ namespace Vacations.Controllers
                 model.TeamLeadID = Request.Params["employeesSelectList"];
                 model.TeamID = Guid.NewGuid().ToString();
 
-                TeamCreationService.RegisterTeam(model, Request.Params["members"], _employeeService, _teamService, UserManager);
+                TeamCreationService.RegisterTeam(model, Request.Params["members"], _employeeService, _teamService,  UserManager);
 
                 ViewBag.ListService = _pageListsService;
                 ViewBag.ListOfEmployees =
@@ -245,17 +255,25 @@ namespace Vacations.Controllers
                         .ToArray());
             }
 
-            return RedirectToAction("RegisterTeam", "Admin");
-        }
+            return RedirectToAction("TeamsList", "Admin");
+        }   
 
         [HttpGet]
         public ActionResult Requests(int page = 1)
         {
-            var requestsData = new VacationRequestsViewModel();
             _requestService.SetReviewerID(User.Identity.GetUserId());
             var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin());
             var list = map.ToPagedList(page, requestPageSize);
             return View(list);
+        }
+
+        [HttpGet]
+        public ActionResult RequestsSearch(string searchKey, int page = 1)
+        {
+            _requestService.SetReviewerID(User.Identity.GetUserId());
+            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin(searchKey));
+            var list = map.ToPagedList(page, requestPageSize);
+            return View("Requests",list);
         }
 
         [HttpGet]
@@ -283,8 +301,6 @@ namespace Vacations.Controllers
                 }
             }
 
-            var requestsData = new VacationRequestsViewModel();
-
             var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin());
 
             var list = map.ToPagedList(1, requestPageSize);
@@ -311,7 +327,7 @@ namespace Vacations.Controllers
                     AmountOfEmployees = teamListDto.AmountOfEmployees
                 });
             }
-
+            
             return View(result.ToPagedList(page, teamPageSize));
         }
 
@@ -332,6 +348,7 @@ namespace Vacations.Controllers
                 TeamID = team.TeamID,
                 TeamName = team.TeamName,
                 TeamLeadName = teamLead.Name + " " + teamLead.Surname,
+                TeamLeadID = team.TeamLeadID,
                 Status = teamLead.Status,
                 AmountOfEmployees = team.AmountOfEmployees,
                 Employees = employees
@@ -368,7 +385,6 @@ namespace Vacations.Controllers
                 Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetEmployeesByTeamId(id).ToArray());
 
             ViewData["employeesSelectList"] = _pageListsService.EmployeesList(team.TeamLeadID);
-            /*list of Employees - AllFreeUsers*/
             ViewData["listOfEmployees"] = Mapper.MapCollection<EmployeeDTO, EmployeeViewModel>(_employeeService.GetAllFreeEmployees().ToArray());
             ViewData["Employees"] = employees;
             ViewData["Team"] = team;
@@ -415,10 +431,13 @@ namespace Vacations.Controllers
                         }
                     }
 
+                    _teamService.DeleteTeam(model.TeamID);
+
                     transaction.Complete();
 
-                    return RedirectToAction("Index", "Profile", _profileDataService);
+                    return RedirectToAction("TeamsList", "Admin", _profileDataService);
                 }
+
                 var newEmployeesID = members.Split(',').ToList();
 
                 var employeesToRemove = oldEmployeesID.Except(newEmployeesID);
@@ -444,7 +463,7 @@ namespace Vacations.Controllers
                 transaction.Complete();
             }
 
-            return RedirectToAction("Index", "Profile", _profileDataService);
+            return RedirectToAction("TeamsList", "Admin");
         }
     }
 }

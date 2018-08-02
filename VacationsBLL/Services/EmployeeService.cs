@@ -11,13 +11,9 @@ namespace VacationsBLL
     public class EmployeeService : IEmployeeService
     {
         private IEmployeeRepository _employees;
-
         private IJobTitleRepository _jobTitles;
-
         private ITeamRepository _teams;
-
         private IRolesRepository _roles;
-
         private IUsersRepository _users;
 
         public EmployeeService(IEmployeeRepository employees,
@@ -80,24 +76,7 @@ namespace VacationsBLL
         }
 
 
-        private void MapChanges(Employee entity, EmployeeDTO changes)
-        {
-            var entityChanges = Mapper.Map<EmployeeDTO, Employee>(changes);
-
-            entity.BirthDate = entityChanges.BirthDate;
-            entity.DateOfDismissal = entityChanges.DateOfDismissal;
-            entity.EmployeeID = entityChanges.EmployeeID;
-            entity.HireDate = entityChanges.HireDate;
-            entity.JobTitleID = entityChanges.JobTitleID;
-            entity.Name = entityChanges.Name;
-            entity.PersonalMail = entityChanges.PersonalMail;
-            entity.PhoneNumber = entityChanges.PhoneNumber;
-            entity.Skype = entityChanges.Skype;
-            entity.Status = entityChanges.Status;
-            entity.Surname = entityChanges.Surname;
-            entity.VacationBalance = entityChanges.VacationBalance;
-            entity.WorkEmail = entityChanges.WorkEmail;
-        }
+      
 
         public List<EmployeeListDTO> EmployeeList()
         {
@@ -212,6 +191,25 @@ namespace VacationsBLL
             }
 
             return result;
+        }
+
+        private void MapChanges(Employee entity, EmployeeDTO changes)
+        {
+            var entityChanges = Mapper.Map<EmployeeDTO, Employee>(changes);
+
+            entity.BirthDate = entityChanges.BirthDate;
+            entity.DateOfDismissal = entityChanges.DateOfDismissal;
+            entity.EmployeeID = entityChanges.EmployeeID;
+            entity.HireDate = entityChanges.HireDate;
+            entity.JobTitleID = entityChanges.JobTitleID;
+            entity.Name = entityChanges.Name;
+            entity.PersonalMail = entityChanges.PersonalMail;
+            entity.PhoneNumber = entityChanges.PhoneNumber;
+            entity.Skype = entityChanges.Skype;
+            entity.Status = entityChanges.Status;
+            entity.Surname = entityChanges.Surname;
+            entity.VacationBalance = entityChanges.VacationBalance;
+            entity.WorkEmail = entityChanges.WorkEmail;
         }
     }
 }

@@ -20,7 +20,7 @@
                 <div class="container">
                     <label>team lead</label>
                     <p class="colorWhite">
-                        <img src="~/Content/Icons/user profile icon.svg">
+                        <img src="@string.Format($"https://teamresponse418storage.blob.core.windows.net/photos/" + $"{Model.TeamLeadID}.jpg")" class="m-auto  rounded-circle profileIconPhoto">
                         @Model.TeamLeadName
                         
                         @if (@Model.Status)
@@ -41,20 +41,20 @@
                     <label class="container-fluid p-0">members • @Model.AmountOfEmployees</label>
                     @foreach (var employeee in Model.Employees)
                     {
-                        <p class="colorWhite">
+                    <p class="colorWhite">
 
-                            <img src="~/Content/Icons/user profile icon.svg">
+                        <img src="@string.Format($"https://teamresponse418storage.blob.core.windows.net/photos/" + $"{employeee.EmployeeID}.jpg")" class="m-auto  rounded-circle profileIconPhoto">
 
-                            @employeee.Name @employeee.Surname
-                            @if (@employeee.Status)
-                            {
-                                <img src="~/Content/Icons/online icon.svg" style="padding-right: 5px">
-                            }
-                            else
-                            {
-                                <img src="~/Content/Icons/offline icon.svg" style="padding-right: 5px">
-                            }
-                        </p>
+                        @employeee.Name @employeee.Surname
+                        @if (@employeee.Status)
+                        {
+                            <img src="~/Content/Icons/online icon.svg" style="padding-right: 5px">
+                        }
+                        else
+                        {
+                            <img src="~/Content/Icons/offline icon.svg" style="padding-right: 5px">
+                        }
+                    </p>
                     }
                 </div>
             </div>
