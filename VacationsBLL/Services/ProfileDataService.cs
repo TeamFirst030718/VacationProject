@@ -68,7 +68,7 @@ namespace VacationsBLL.Services
                 Duration = x.Duration,
                 Status = vacationStatuses.FirstOrDefault(y => y.VacationStatusTypeID.Equals(x.VacationStatusTypeID)).VacationStatusName,
                 Created = x.Created
-            }).ToArray();
+            }).OrderBy(x=>FunctionHelper.VacationSortFunc(x.Status)).ThenBy(x=>x.Created).ToArray();
 
             return vacations;
         }
