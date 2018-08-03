@@ -20,7 +20,9 @@
                         </div>
                         <div class="col-6 col-ms-12">
                             <ul class="list-unstyled zebra">
-                                <li>  @Html.LabelFor(m => m.DateOfBegin, new { @class = "control-label" })</li>
+                                <li>
+                                @Html.LabelFor(m => m.DateOfBegin, new { @class = "control-label" })
+                                </li>
                                 <li>
                                     <input type="date" max="3000-12-31" min="1000-01-01" class="form-control bg-dark border-grey colorWhite" id="DateOfBegin" onchange="CalcDiff()" name="DateOfBegin">
                                 </li>
@@ -72,11 +74,10 @@
                                 </li>
                             </ul>
                         </div>
-
-                        <div class="col-6 bg-dark ">
+                        <div class="col-6 bg-dark">
                             <ul class="list-unstyled zebra">
                                 <li>
-                                    <input type="submit" class="form-control bg-dark button-done border-grey bt-gradient" style="height:40px !important; padding-top:5px;" value="DONE" />
+                                    <input type="submit" onclick="DisableOnClick()" class="form-control bg-dark button-done border-grey bt-gradient" style="height:40px !important; padding-top:5px;" id="Done" value="DONE" />
                                 </li>
                             </ul>
                         </div>

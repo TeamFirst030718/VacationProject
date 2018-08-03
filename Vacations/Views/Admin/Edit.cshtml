@@ -146,17 +146,23 @@
                     </div>
                     <div class="col-4 border-right border-grey   bg-dark ">
                         <div class="form-group container">
-
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4 border border-top-0 border-bottom-rounded-left border-grey  bg-dark ">
+                    <div class="col-3 border border-top-0 border-right-0 border-bottom-rounded-left border-grey  bg-dark ">
                         <div class="form-group container">
-                            @Html.LabelFor(m => m.VacationBalance, new { @class = "control-label" })
+                            @Html.LabelFor(m => m.VacationBalance, new { @class = "control-label", style = "margin:0" })
                             @Html.ValidationMessageFor(m => m.VacationBalance, "", new { @class = "Denied" })
-                            @Html.TextBoxFor(m => m.VacationBalance, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "Vacation Balance", autocomplete = "off" })
+                            <p style="margin:0;margin-top:17px; color:white;">
+                                @Html.TextBoxFor(Model => Model.VacationBalance, new { @class = "form-control bg-dark border-grey", placeholder = "Vacation Balance", style = "border:none; color:white; padding:0; outline:none;box-shadow:none;", @readonly = "true" })
+                            </p>
                         </div>
+                    </div>
+                    <div class="col-1 border border-top-0 border-left-0 border-grey bg-dark ">
+                        <a class="change-balance" style="border:none;background-color:#2e2e2e; color:white;padding:0;margin:0;text-decoration: none; cursor:pointer;">
+                            <input type="button" data-dismiss="modal" class="form-control bg-dark button-done border-grey bt-gradient float-right" style="cursor:pointer;height:40px !important;width:180px; margin-top:32px;padding-top:6px;"  onclick='ShowBalanceChangePopup("@string.Format($"{Model.EmployeeID}")")' value="CHANGE" />
+                        </a>
                     </div>
 
                     <div class="col-4 border-bottom border-grey  bg-dark">
@@ -168,18 +174,33 @@
                     <div class="col-4 border-right border-bottom border-bottom-rounded-right border-grey   bg-dark ">
                         <div class="form-group container">
                             @Html.Label("temp", new { @class = "control-label invisible" })
-                            <input type="submit" class="form-control bg-dark button-done border-grey bt-gradient" style="height:40px !important; padding-top:5px;  cursor:pointer;" value="DONE" />
+                            <input type="submit" onclick="DisableOnClick()" class="form-control bg-dark button-done border-grey bt-gradient" id="Done" style="height:40px !important; padding-top:5px;  cursor:pointer;" value="DONE" />
                         </div>
                     </div>
                 </div>
             </div>
         </form>
     </div>
+    <div class="modal fade" data-backdrop="static" id="BalanceChangeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div id="toReplace"></div>
+        </div>
+    </div>
 }
-
 @section Scripts {
     @Scripts.Render("~/Content/dist/jquery-input-mask-phone-number.js")
     <script>
+        function ShowBalanceChangePopup(id) {
+            var url = "/Admin/BalanceChangePopupPartial?id=" + id;
+            $('#BalanceChangeModal').modal();
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    $("#toReplace").html(data);
+                }
+            })
+        }
         $(function () {
             $('#phonenumber').usPhoneFormat({
                 format: '(xxx) xxx-xxxx'
@@ -200,6 +221,14 @@
 
                 reader.readAsDataURL(input.files[0]);
             }
+        }
+        function DisableOnClick() {
+            setTimeout(function () {
+                jQuery('#Done').attr('disabled', true);
+            }, 100);
+            setTimeout(function () {
+                jQuery('#Done').attr('disabled', false);
+            }, 2000);
         }
     </script>
 

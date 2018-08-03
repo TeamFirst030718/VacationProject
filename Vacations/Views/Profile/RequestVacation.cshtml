@@ -24,8 +24,15 @@
         </div>
     </div>
 </div>
-@section Scripts {
-    <script>
+<script>
+    function DisableOnClick() {
+        setTimeout(function () {
+            jQuery('#Done').attr('disabled', true);
+        }, 100);
+        setTimeout(function () {
+            jQuery('#Done').attr('disabled', false);
+        }, 1500);
+    }
     function GetDiff() {
         var dropdt = new Date(document.getElementById("DateOfEnd").value);
         var pickdt = new Date(document.getElementById("DateOfBegin").value);
@@ -36,5 +43,4 @@
     document.getElementById("Duration").value = GetDiff();
     }
     }
-    </script>
-}
+</script>

@@ -55,10 +55,10 @@ namespace VacationsBLL.Services
 
             var users =_users.Get();
 
-            bool whereLinq(Employee emp) => emp.AspNetUser.AspNetRoles.Any(role => role.Name.Equals(RoleEnum.Administrator.ToString())) ||
+            bool whereLinq(Employee emp) => (emp.AspNetUser.AspNetRoles.Any(role => role.Name.Equals(RoleEnum.Administrator.ToString())) ||
                                                     (emp.EmployeesTeam.Count.Equals(1) &&
                                                     emp.EmployeesTeam.First().TeamLeadID.Equals(ReviewerID)) ||
-                                                    emp.EmployeesTeam.Count.Equals(0);
+                                                    emp.EmployeesTeam.Count.Equals(0)) && emp.Status.Equals(true);
 
             var employees = _employees.Get(whereLinq);
 
@@ -93,7 +93,7 @@ namespace VacationsBLL.Services
         {
             var vacationStatusTypes = _vacationStatusTypes.Get();
 
-            bool whereLinq(Employee emp) => emp.EmployeesTeam.Count.Equals(1) && emp.EmployeesTeam.First().TeamLeadID.Equals(ReviewerID);
+            bool whereLinq(Employee emp) => (emp.EmployeesTeam.Count.Equals(1) && emp.EmployeesTeam.First().TeamLeadID.Equals(ReviewerID)) && emp.Status.Equals(true); ;
 
             Employee[] employees = _employees.Get(whereLinq);
 
@@ -194,7 +194,7 @@ namespace VacationsBLL.Services
                     _vacations.Update(vacation);
 
                     employee.VacationBalance -= result.BalanceChange;
-                    _employees.Update(employee);
+                    _employees.Update();
 
                     _emailService.SendAsync(employee.WorkEmail, $"{employee.Name} {employee.Surname}", "Vacation request.", "Your vacation request was approved.",
                      $"{employee.Name} {employee.Surname}, your vacation request from {vacation.DateOfBegin.ToString("dd-MM-yyyy")} to {vacation.DateOfEnd.ToString("dd-MM-yyyy")} was approved. Have a nice vacation.");

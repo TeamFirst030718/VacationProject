@@ -263,8 +263,7 @@ namespace Vacations.Controllers
         {
             ViewData["SearchKey"] = searchKey;
             _requestService.SetReviewerID(User.Identity.GetUserId());
-            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin(searchKey)).ToArray();
-
+            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin(searchKey));
             var list = map.ToPagedList(page, requestPageSize);
             return View(list);
         }
@@ -299,6 +298,30 @@ namespace Vacations.Controllers
             var list = map.ToPagedList(1, requestPageSize);
 
             return View("Requests", list);
+        }
+
+        [HttpGet]
+        public ActionResult BalanceChangePopupPartial(string id)
+        {
+            var employee = Mapper.Map<BalanceChangeDTO, BalanceChangeViewModel>(_employeeService.GetEmployeeDataForBalanceChange(id));
+
+            return PartialView("BalanceChangePopupPartial", employee);
+        }
+
+        [HttpPost]
+        public ActionResult BalanceChangePopupPartial(BalanceChangeResultModel model)
+        {       
+            if (ModelState.IsValid)
+            {
+                var employee = _employeeService.GetUserById(model.EmployeeID);
+         
+                employee.VacationBalance = model.Balance;
+
+                _employeeService.UpdateEmployeeBalance(employee, model.Comment);
+
+                return RedirectToAction("Edit", "Admin", new { id = employee.EmployeeID });
+            }
+            return RedirectToAction("EmployeesList","Admin");
         }
 
         [HttpGet]

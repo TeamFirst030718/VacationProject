@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 using VacationsBLL.DTOs;
+using VacationsBLL.Enums;
 using VacationsBLL.Interfaces;
 using VacationsBLL.Services;
 using VacationsDAL.Entities;
@@ -10,23 +13,30 @@ namespace VacationsBLL
 {
     public class EmployeeService : IEmployeeService
     {
+        private const string Empty = "None";
         private IEmployeeRepository _employees;
         private IJobTitleRepository _jobTitles;
         private ITeamRepository _teams;
         private IRolesRepository _roles;
         private IUsersRepository _users;
+        private ITransactionTypeRepository _transactionTypes;
+        private ITransactionRepository _transactions;
 
         public EmployeeService(IEmployeeRepository employees,
                                IJobTitleRepository jobTitles,
                                ITeamRepository teams,
                                IUsersRepository users,
-                               IRolesRepository roles)
+                               IRolesRepository roles,
+                               ITransactionTypeRepository transactionTypes,
+                               ITransactionRepository transactions)
         {
             _employees = employees;
             _jobTitles = jobTitles;
             _teams = teams;
             _roles = roles;
             _users = users;
+            _transactionTypes = transactionTypes;
+            _transactions = transactions;
         }
 
         public void Create(EmployeeDTO employee)
@@ -72,10 +82,50 @@ namespace VacationsBLL
 
             MapChanges(employeeToUpdate, employee);
 
-            _employees.Update(employeeToUpdate);
+            _employees.Update();
         }
 
+        public void UpdateEmployeeBalance(EmployeeDTO employee, string comment)
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                var employeeToUpdate = _employees.GetById(employee.EmployeeID);
 
+                var transaction = new VacationsDAL.Entities.Transaction
+                {
+                    BalanceChange = employee.VacationBalance-employeeToUpdate.VacationBalance,
+                    Discription = comment,
+                    EmployeeID = employeeToUpdate.EmployeeID,
+                    TransactionDate = DateTime.UtcNow,
+                    TransactionTypeID = _transactionTypes.GetByType(TransactionTypeEnum.ForceBalanceChangeTransaction.ToString()).TransactionTypeID,
+                    TransactionID = Guid.NewGuid().ToString()
+                };
+
+                employeeToUpdate.VacationBalance = employee.VacationBalance;
+
+                _employees.Update();
+
+                _transactions.Add(transaction);
+
+                scope.Complete();
+            }      
+        }
+
+        public BalanceChangeDTO GetEmployeeDataForBalanceChange(string id)
+        {
+            var employee = _employees.GetById(id);
+            var jobTitle = _jobTitles.GetById(employee.JobTitleID).JobTitleName;
+            var employeeData = new BalanceChangeDTO
+            {
+                EmployeeID = employee.EmployeeID,
+                EmployeeName = $"{employee.Name} {employee.Surname}",
+                JobTitle = jobTitle,
+                TeamLeadName = employee.EmployeesTeam.Count.Equals(0) ? Empty : _employees.GetById(employee.EmployeesTeam.First().TeamLeadID).Name,
+                TeamName = employee.EmployeesTeam.Count.Equals(0) ? Empty : employee.EmployeesTeam.First().TeamName,
+                Balance = employee.VacationBalance                
+            };
+            return employeeData;
+        }
       
 
         public List<EmployeeListDTO> EmployeeList()
@@ -156,8 +206,6 @@ namespace VacationsBLL
             var team = _teams.GetById(TeamID);
             var employee = _employees.GetById(EmployeeID);
             _teams.AddEmployee(EmployeeID, TeamID);
-            /*team.Employees.Add(employee);
-            _teams.Update(team);*/
         }
 
         public void RemoveFromTeam(string EmployeeID, string TeamID)
@@ -208,7 +256,6 @@ namespace VacationsBLL
             entity.Skype = entityChanges.Skype;
             entity.Status = entityChanges.Status;
             entity.Surname = entityChanges.Surname;
-            entity.VacationBalance = entityChanges.VacationBalance;
             entity.WorkEmail = entityChanges.WorkEmail;
         }
     }

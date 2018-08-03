@@ -20,7 +20,7 @@
                 <div class="container">
                     <label>team lead</label>
                     <p class="colorWhite ">
-                        <img src="@string.Format($"https://teamresponse418storage.blob.core.windows.net/photos/" + $"{Model.TeamLeadID}.jpg")" class="m-auto  rounded-circle profileIconPhoto">
+                        <a href="@Url.Action("EmployeeView", Model.TeamLeadID)"> <img src="@string.Format($"https://teamresponse418storage.blob.core.windows.net/photos/" + $"{Model.TeamLeadID}.jpg")" class="m-auto  rounded-circle profileIconPhoto"></a>
                         @Model.TeamLeadName
                         
                         @if (@Model.Status)
@@ -37,13 +37,13 @@
             <div class="col-8 border-top border-right border-grey  bg-dark pt-1">
                 <div class="container row">
                     <label class="container-fluid p-0">members • @Model.AmountOfEmployees</label>
-                    @foreach (var employeee in Model.Employees)
+                    @foreach (var employee in Model.Employees)
                     {
                         <div class="col-6 colorWhite" style="margin-top:10px;">
-                            <img src="@string.Format($"https://teamresponse418storage.blob.core.windows.net/photos/" + $"{employeee.EmployeeID}.jpg")" class="m-auto  rounded-circle profileIconPhoto">
+                            <a href="@Url.Action("EmployeeView", employee.EmployeeID)"> <img src="@string.Format($"https://teamresponse418storage.blob.core.windows.net/photos/" + $"{employee.EmployeeID}.jpg")" class="m-auto  rounded-circle profileIconPhoto"></a>
 
-                            @employeee.Name @employeee.Surname
-                            @if (@employeee.Status)
+                            @employee.Name @employee.Surname
+                            @if (employee.Status)
                             {
                                 <img src="~/Content/Icons/online icon.svg" style="padding-right: 5px">
                             }

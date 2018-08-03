@@ -21,10 +21,7 @@
                                     <div class="container-fluid bg-dark" style="border-bottom:solid 1px gray; height:50px;">
                                         <p style="margin-bottom:0; margin-top:10px;">
                                             <strong id="ModalTitle">List of Employees</strong>
-
                                             <button class=" button-add-photo" style="width:100px !important;height:30px;margin-left:5px;  float:right; " type="submit">Find</button>
-                                            <input type="button" class="button-add-photo" style="width:100px !important;height:30px;margin-left:5px; float:right; " onclick="location='@Url.Action("EmployeesList", "Admin")'" value="Reset" />
-
                                             <input type="text" class="bg-dark colorWhite float-right" placeholder="search" style="outline:none;box-shadow:none; border:2px solid gray; border-radius:4px; padding-left:5px;" name="searchKey" autocomplete="off" />
                                         </p>
                                     </div>
@@ -76,23 +73,26 @@
                                                     </td>
                                                 </tr>
 
-
-                                                var employee = employeeService.GetUserById(teamService.GetById(g.Key).TeamLeadID);
-                                                <tr style="font-size: 12px; border-bottom: solid 1px gray !important;">
-                                                    <td style="border-top: none"></td>
-                                                    <td style="border-top: none">@employee.Name @employee.Surname</td>
-                                                    <td style="text-align: center; border-top: none">@employee.PhoneNumber</td>
-                                                    <td style="text-align: center; border-top: none">@employee.WorkEmail</td>
-                                                    <td style="text-align: right; border-top: none">@employee.VacationBalance days</td>
-                                                    <td style="border-top: none">
-                                                        <img src="~/Content/Icons/user-icon.svg" class="float-right m-auto my-auto ownPopup" style="margin-left:12px;
+                                                if (searchKey == null)
+                                                {
+                                                    var employee = employeeService.GetUserById(teamService.GetById(g.Key).TeamLeadID);
+                                                    <tr style="font-size: 12px; border-bottom: solid 1px gray !important;">
+                                                        <td style="border-top: none"></td>
+                                                        <td style="border-top: none">@employee.Name @employee.Surname</td>
+                                                        <td style="text-align: center; border-top: none">@employee.PhoneNumber</td>
+                                                        <td style="text-align: center; border-top: none">@employee.WorkEmail</td>
+                                                        <td style="text-align: right; border-top: none">@employee.VacationBalance days</td>
+                                                        <td style="border-top: none">
+                                                            <img src="~/Content/Icons/user-icon.svg" class="float-right m-auto my-auto ownPopup" style="margin-left:12px;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 cursor:pointer; height:13px; width:13px" onclick="location='@Url.Action("EmployeeView", new { id = employee.EmployeeID })'" />
-                                                    </td>
-                                                    <td style="border-top: none; text-align: center;">
+                                                        </td>
+                                                        <td style="border-top: none; text-align: center;">
 
-                                                        <a href="@Url.Action("Edit", "Admin", new { id = employee.EmployeeID })"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
-                                                    </td>
-                                                </tr>
+                                                            <a href="@Url.Action("Edit", "Admin", new { id = employee.EmployeeID })"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
+                                                        </td>
+                                                    </tr>
+
+                                                }
 
                                                 foreach (var t in g)
                                                 {

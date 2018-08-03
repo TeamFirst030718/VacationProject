@@ -6,6 +6,6 @@ namespace VacationsDAL.Interfaces
     {
         
         Employee GetByEmail(string email);
-        void Update(Employee employee);
+        void Update();
     }
 }

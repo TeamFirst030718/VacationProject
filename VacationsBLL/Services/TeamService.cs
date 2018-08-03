@@ -37,7 +37,7 @@ namespace VacationsBLL.Services
             {
                 teams = _teams.Get();
             }
- 
+
             foreach (var team in teams)
             {
                 result.Add(new TeamListDTO
@@ -56,15 +56,20 @@ namespace VacationsBLL.Services
         {
             var team = _teams.GetById(id);
             
-            var result = new TeamListDTO
+            if(team != null)
             {
-                TeamID = team.TeamID,
-                TeamLeadID = team.TeamLeadID,
-                TeamName = team.TeamName,
-                AmountOfEmployees = team.Employees.Count
-            };
+                var result = new TeamListDTO
+                {
+                    TeamID = team.TeamID,
+                    TeamLeadID = team.TeamLeadID,
+                    TeamName = team.TeamName,
+                    AmountOfEmployees = team.Employees.Count
+                };
 
-            return result;
+                return result;
+            }
+
+            return new TeamListDTO();
         }
 
         public void DeleteTeam(string teamId)

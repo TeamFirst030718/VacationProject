@@ -2,6 +2,7 @@
 {
     public enum TransactionTypeEnum
     {
-        VacationTransaction
+        VacationTransaction,
+        ForceBalanceChangeTransaction
     }
 }

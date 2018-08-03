@@ -57,7 +57,7 @@ namespace VacationsBLL.Services
         {
             var employee = _employees.GetById(id);
             var vacationStatuses = _vacationStatusTypes.Get();
-            var vacationTypes = _vacationTypes.Get();
+            var vacationTypes = _vacationTypes.Get();   
 
             var vacations = _vacations.Get(x => x.EmployeeID.Equals(employee.EmployeeID)).Select(x => new ProfileVacationDTO
             {

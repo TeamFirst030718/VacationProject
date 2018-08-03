@@ -54,7 +54,7 @@
                     <div class="col-4 border-right border-bottom border-bottom-rounded-right border-grey   bg-dark ">
                         <div class="form-group container">
                             <label class="invisible"></label>
-                            <input type="submit" class="form-control bg-dark button-done border-grey" style="cursor:pointer;" value="SAVE" />
+                            <input type="submit" onclick="DisableOnClick()" class="form-control bg-dark button-done border-grey" id="Save" style="cursor:pointer;" value="SAVE" />
                         </div>
                     </div>
                 </div>
@@ -67,6 +67,14 @@
         $(function () {
             $(".team-member-select").chosen();
         })
+        function DisableOnClick() {
+            setTimeout(function () {
+                jQuery('#Save').attr('disabled', true);
+            }, 100);
+            setTimeout(function () {
+                jQuery('#Save').attr('disabled', false);
+            }, 2000);
+        }
     </script>
     <script src="~/Scripts/chosen.jquery.min.js"></script>
 }

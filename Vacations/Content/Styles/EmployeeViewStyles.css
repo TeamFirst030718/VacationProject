@@ -9,3 +9,9 @@
     width: 40px !important;
     object-fit: cover;
 }
+
+.change-balance:hover, .change-balance:focus, .change-balance:active {
+    text-decoration: none;
+    color: #6b6dd2 !important;
+    background-color: none;
+}

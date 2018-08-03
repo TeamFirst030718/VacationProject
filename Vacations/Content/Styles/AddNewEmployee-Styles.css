@@ -34,6 +34,19 @@
         color: white;
         background: #2a2a2a !important;
     }
+.change {
+    font-family: Muli-SemiBold;
+    font-weight: bold;
+    height: 40px;
+    border-radius: 6px;
+    color: white !important;
+    background: #2e2e2e;
+    border: 1px solid;
+}
+.button-change {
+
+}
+
 
 .button-gradient, .button-gradient:hover,
 .button-gradient:active {
