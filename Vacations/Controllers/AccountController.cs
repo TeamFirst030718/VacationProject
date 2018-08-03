@@ -58,10 +58,11 @@ namespace IdentitySample.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
+            ViewData["DeniedLoginText"] = "DeniedLoginText";
+            ViewData["DeniedLoginBorder"] = "DeniedLoginBorder";
+
             if (!ModelState.IsValid)
             {
-                ViewData["DeniedLoginText"] = "DeniedLoginText";
-                ViewData["DeniedLoginBorder"] = "DeniedLoginBorder";
                 return View(model);
             }
 
@@ -70,13 +71,9 @@ namespace IdentitySample.Controllers
             {
                 case SignInStatus.Success:
                     return RedirectToAction("Index", "Profile");
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    ViewData["DeniedLoginText"] = "DeniedLoginText";
-                    ViewData["DeniedLoginBorder"] = "DeniedLoginBorder";
                     return View(model);
             }
         }

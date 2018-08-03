@@ -20,5 +20,7 @@ namespace VacationsBLL.Interfaces
         string GetRoleByUserId(string id);
         JobTitleDTO GetJobTitleById(string id);
         string GetStatusByEmployeeId(string id);
+        BalanceChangeDTO GetEmployeeDataForBalanceChange(string id);
+        void UpdateEmployeeBalance(EmployeeDTO employee, string comment);
     }
 }

@@ -68,7 +68,7 @@ div .image {/*для jumotrone */
     }
 }
 
-li .textUnderline:hover, li .textUnderline:active {
+li .textUnderline:hover, li .textUnderline:active { 
     color: #6b6dd2 !important;
 }
 .underline a:hover, .underline a:active {

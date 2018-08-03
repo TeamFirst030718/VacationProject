@@ -58,10 +58,9 @@ namespace VacationsDAL.Repositories
             }
         }
 
-        public void Update(Employee employee)
+        public void Update()
         {
             _context.SaveChanges();                    
-
         }
     }
 }

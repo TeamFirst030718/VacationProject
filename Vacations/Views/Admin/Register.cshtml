@@ -149,7 +149,7 @@
                     <div class="col-4 border-right border-bottom border-bottom-rounded-right border-grey   bg-dark ">
                         <div class="form-group container">
                             @Html.Label("temp", new { @class = "control-label invisible" })
-                            <input type="submit" class="form-control bg-dark button-done border-grey bt-gradient" style="cursor:pointer;height:40px !important; padding-top:5px;" value="DONE" />
+                            <input type="submit" onclick="DisableOnClick()" class="form-control bg-dark button-done border-grey bt-gradient" id="Done" style="cursor:pointer;height:40px !important; padding-top:5px;" value="DONE" />
                         </div>
                     </div>
                 </div>
@@ -182,6 +182,14 @@
 
                 reader.readAsDataURL(input.files[0]);
             }
+        }
+        function DisableOnClick() {
+            setTimeout(function () {
+                jQuery('#Done').attr('disabled', true);
+            }, 100);
+            setTimeout(function () {
+                jQuery('#Done').attr('disabled', false);
+            }, 1500);
         }
     </script>
 }

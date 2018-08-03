@@ -14,6 +14,7 @@ using PagedList;
 
 namespace Vacations.Controllers
 {
+    
     [Authorize(Roles = "Administrator, Employee, TeamLeader")]
     public class ProfileController : Controller
     {
