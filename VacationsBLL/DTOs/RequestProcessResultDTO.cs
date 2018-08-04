@@ -6,7 +6,7 @@ namespace VacationsBLL.DTOs
     {
         public string VacationID { get; set; }
 
-        public int BalanceChange { get; set; }
+        public int Duration { get; set; }
 
         public string Discription { get; set; }
 

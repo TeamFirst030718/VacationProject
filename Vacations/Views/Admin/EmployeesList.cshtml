@@ -1,8 +1,8 @@
 ﻿@using VacationsBLL
-@using VacationsBLL.DTOs
+@using Vacations.Models
 @using PagedList.Mvc;
 @using VacationsBLL.Services
-@model PagedList.IPagedList<VacationsBLL.DTOs.EmployeeListDTO>
+@model PagedList.IPagedList<Vacations.Models.EmployeeListViewModel>
 @{
     string searchKey = ViewData["SearchKey"] as string;
     EmployeeService employeeService = ViewBag.EmployeeService;
@@ -22,7 +22,7 @@
                                         <p style="margin-bottom:0; margin-top:10px;">
                                             <strong id="ModalTitle">List of Employees</strong>
                                             <button class=" button-add-photo" style="width:100px !important;height:30px;margin-left:5px;  float:right; " type="submit">Find</button>
-                                            <input type="text" class="bg-dark colorWhite float-right" placeholder="search" style="outline:none;box-shadow:none; border:2px solid gray; border-radius:4px; padding-left:5px;" name="searchKey" autocomplete="off" />
+                                            <input type="text" class="bg-dark colorWhite float-right" placeholder="search" style="outline:none;box-shadow:none; border:2px solid gray; border-radius:4px; padding-left:5px;" name="searchKey" autocomplete="off" value="@searchKey" />
                                         </p>
                                     </div>
                                 </div>
@@ -37,7 +37,6 @@
                                             <td style="text-align: center; border-top: none">work email</td>
                                             <td style="text-align: right; border-top: none">vacation balance</td>
                                             <td style="border-top: none"></td>
-                                            <td style="border-top: none"></td>
                                         </tr>
 
                                         var employeesListGroups = (from employeeListDto in Model
@@ -45,31 +44,23 @@
 
                                         var countOfEmpty = employeesListGroups.Count(x => x.Key == "Empty");
 
-                                        foreach (IGrouping<string, EmployeeListDTO>
-                                            g in employeesListGroups)
+                                        foreach (IGrouping<string, EmployeeListViewModel> g in employeesListGroups)
                                         {
                                             if (g.Key != "Empty")
                                             {
                                                 <tr style="font-size: 12px; border-bottom: solid 1px gray !important; height: 30px !important">
                                                     <td style="border-top: none; width: 15px;">
                                                         <img src="~/Content/Icons/icons8-bookmark.svg" style="height: 15px;" />
-                                                    </td>
+                                                    </td>   
                                                     <td style="border-top: none;">
                                                         <p style="margin:0">@employeeService.GetTeamNameById(g.Key)</p>
                                                     </td>
                                                     <td style="border-top: none;">
                                                     <td style="border-top: none;">
-                                                    <td style="border-top: none;">
-
-                                                    <td style="border-top: none;">
-
-                                                        <a href="@Url.Action("ViewTeamProfile", "Admin", new { id = @g.Key })"><img src="~/Content/Icons/eye.svg" class="float-right m-auto my-auto" height="15" alt="View Team Profile" /></a>
-
-                                                    </td>
-                                                    <td style="border-top: none;vertical-align:middle !important; height:30px !important">
-
-                                                        <img src="~/Content/Icons/edit icon grey.svg" style="float: right;margin-bottom:2px; cursor: pointer" onclick="location = '@Url.Action("EditTeam", "Admin", new { id = @g.Key })'" />
-
+                                                    <td style="border-top: none;"></td>
+                                                    <td style="border-top: none">
+                                                        <img src="~/Content/Icons/eye.svg" class="ownPopup" style="margin-left:30px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("ViewTeamProfile", "Admin", new { id = @g.Key })'" />
+                                                        <img src="~/Content/Icons/edit icon grey.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("EditTeam", "Admin", new { id = @g.Key })'" />
                                                     </td>
                                                 </tr>
 
@@ -83,17 +74,12 @@
                                                         <td style="text-align: center; border-top: none">@employee.WorkEmail</td>
                                                         <td style="text-align: right; border-top: none">@employee.VacationBalance days</td>
                                                         <td style="border-top: none">
-                                                            <img src="~/Content/Icons/user-icon.svg" class="float-right m-auto my-auto ownPopup" style="margin-left:12px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                cursor:pointer; height:13px; width:13px" onclick="location='@Url.Action("EmployeeView", new { id = employee.EmployeeID })'" />
-                                                        </td>
-                                                        <td style="border-top: none; text-align: center;">
-
-                                                            <a href="@Url.Action("Edit", "Admin", new { id = employee.EmployeeID })"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
+                                                            <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:30px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("EmployeeView", new { id = employee.EmployeeID })'" />
+                                                            <img src="~/Content/Icons/edit icon grey.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("Edit", "Admin", new { id = employee.EmployeeID })'" />
                                                         </td>
                                                     </tr>
 
                                                 }
-
                                                 foreach (var t in g)
                                                 {
 
@@ -103,12 +89,17 @@
                                                         <td style="text-align: center; border-top: none">@t.EmployeeDto.PhoneNumber</td>
                                                         <td style="text-align: center; border-top: none">@t.EmployeeDto.WorkEmail</td>
                                                         <td style="text-align: right; border-top: none">@t.EmployeeDto.VacationBalance days</td>
-                                                        <td style="border-top: none">
-                                                            <img src="~/Content/Icons/user-icon.svg" class="float-right m-auto my-auto ownPopup" style="margin-left:12px;  cursor:pointer; height:13px; width:13px" onclick="location='@Url.Action("EmployeeView", new { id = t.EmployeeDto.EmployeeID })'" />
-                                                        </td>
-                                                        <td style="border-top: none; text-align: center;">
-
-                                                            <a href="@Url.Action("Edit", "Admin", new { id = t.EmployeeDto.EmployeeID })"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
+                                                        <td style="border-top: none; width:100px !important;">
+                                                            @if (t.EmployeeDto.CurrentVacationID == null)
+                                                            {
+                                                                <img src="~/Content/Icons/@string.Format($"not-on-vacation.svg")" style="height:16px; width:16px;cursor:pointer;" onclick='ShowCreateForEmployeePopup("@string.Format($"{t.EmployeeDto.EmployeeID}")")' />
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/Content/Icons/@string.Format($"on-vacation.svg")" style="height:16px; width:16px;cursor:pointer;" onclick='ShowViewPopup("@string.Format($"{t.EmployeeDto.CurrentVacationID}")","true")' />
+                                                            }
+                                                            <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("EmployeeView", new { id = t.EmployeeDto.EmployeeID })'" />
+                                                            <img src="~/Content/Icons/edit icon grey.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("Edit", "Admin", new { id = t.EmployeeDto.EmployeeID })'" />
                                                         </td>
                                                     </tr>
                                                 }
@@ -125,8 +116,6 @@
                                                     <td style="border-top: none;">
                                                     <td style="border-top: none;">
                                                     <td style="border-top: none;">
-
-                                                    <td style="border-top: none;"></td>
                                                     <td style="border-top: none;"></td>
                                                 </tr>
                                                 foreach (var t in g)
@@ -137,12 +126,17 @@
                                                         <td style="text-align: center; border-top: none">@t.EmployeeDto.PhoneNumber</td>
                                                         <td style="text-align: center; border-top: none">@t.EmployeeDto.WorkEmail</td>
                                                         <td style="text-align: right; border-top: none">@t.EmployeeDto.VacationBalance days</td>
-                                                        <td style="border-top: none">
-                                                            <img src="~/Content/Icons/user-icon.svg" class="float-right m-auto my-auto ownPopup" style="margin-left:12px;  cursor:pointer; height:13px; width:13px" onclick="location='@Url.Action("EmployeeView", new { id = t.EmployeeDto.EmployeeID })'" />
-                                                        </td>
-                                                        <td style="border-top: none; text-align: center;">
-
-                                                            <a href="@Url.Action("Edit", "Admin", new { id = t.EmployeeDto.EmployeeID })"><img src="~/Content/Icons/edit icon grey.svg" class="float-right m-auto my-auto" /></a>
+                                                        <td style="border-top: none; width:100px !important;">
+                                                            @if (t.EmployeeDto.CurrentVacationID == null)
+                                                            {
+                                                                <img src="~/Content/Icons/@string.Format($"not-on-vacation.svg")" style="height:16px; width:16px;cursor:pointer;" onclick='ShowCreateForEmployeePopup("@string.Format($"{t.EmployeeDto.EmployeeID}")")' />
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/Content/Icons/@string.Format($"on-vacation.svg")" style="height:16px; width:16px;cursor:pointer;" onclick='ShowViewPopup("@string.Format($"{t.EmployeeDto.CurrentVacationID}")","true")' />
+                                                            }
+                                                            <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("EmployeeView", new { id = t.EmployeeDto.EmployeeID })'" />
+                                                            <img src="~/Content/Icons/edit icon grey.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("Edit", "Admin", new { id = t.EmployeeDto.EmployeeID })'" />
                                                         </td>
                                                     </tr>
                                                 }
@@ -157,7 +151,6 @@
                                             <td style="border-top:none"></td>
                                             <td style="border-top:none"></td>
                                             <td style="border-top:none"></td>
-                                            <td style="border-top:none"></td>
                                         </tr>
                                     }
                                 </table>
@@ -169,17 +162,61 @@
         </div>
     </div>
 }
-    @if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 10) || Model.FirstItemOnPage > 10)
-    {
-        <div class="btn-group pageMenu">
-            @Html.PagedListPager(Model, page => Url.Action("EmployeesList", new { page,searchKey }), new PagedListRenderOptions
-            {
-                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-                DisplayLinkToLastPage = PagedListDisplayMode.Never,
-                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-                DisplayLinkToNextPage = PagedListDisplayMode.Always,
-                DisplayEllipsesWhenNotShowingAllPageNumbers = false,
-                MaximumPageNumbersToDisplay = 3
-            }))
-        </div>
-    }
+<div class="modal fade" data-backdrop="static" id="vacationModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div id="toReplace"></div>
+    </div>
+</div>
+@if ((Model.FirstItemOnPage.Equals(1) && Model.Count >= 10) || Model.FirstItemOnPage > 10)
+{
+    <div class="btn-group pageMenu">
+        @Html.PagedListPager(Model, page => Url.Action("EmployeesList", new { page,searchKey }), new PagedListRenderOptions
+        {
+            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+            DisplayLinkToLastPage = PagedListDisplayMode.Never,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+            MaximumPageNumbersToDisplay = 3
+        }))
+    </div>
+}
+@section Scripts {
+    <script>
+        function ShowViewPopup(id, bool) {
+            var url = "/Admin/ProcessPopupPartial?id=" + id + "&isCalledFromList=" + bool;
+            $("#ModalTitle").html("Vacation Request");
+            $('#vacationModal').modal();
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    $("#toReplace").html(data);
+                }
+            })
+        }
+        function ShowCreateForEmployeePopup(id) {
+            var url = "/Admin/CreateRequestForEmployeePartial?id="+id;
+            $("#ModalTitle").html("Vacation Request");
+            $('#vacationModal').modal();
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    $("#toReplace").html(data);
+                }
+            })
+        }
+        function GetDiff() {
+            var dropdt = new Date(document.getElementById("end").value);
+            var pickdt = new Date(document.getElementById("begin").value);
+            return parseInt((dropdt - pickdt) / (24 * 3600 * 1000));
+        }
+        function CalcDiff() {
+            if (document.getElementById("begin").value && document.getElementById("end").value) {
+                document.getElementById("Duration").value = GetDiff();
+            }
+        }
+    </script>
+
+}

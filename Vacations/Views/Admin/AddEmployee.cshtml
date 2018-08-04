@@ -6,7 +6,7 @@
     var dateHire = DateTime.UtcNow.ToString("yyyy-MM-dd");
 }
 
-@using (Html.BeginForm("Register", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("AddEmployee", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="container m-0 py-3">

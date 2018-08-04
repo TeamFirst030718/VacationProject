@@ -29,10 +29,11 @@ namespace Vacations.Controllers
         private readonly IPageListsService _pageListsService;
         private readonly IEmployeeService _employeeService;
         private readonly IProfileDataService _profileDataService;
-        private readonly IRequestService _requestService;
+        private readonly IRequestService _requestProcessService;
         private readonly IEmployeeListService _employeeListService;
         private readonly ITeamService _teamService;
         private readonly IPhotoUploadService _photoUploadService;
+        private readonly IRequestCreationService _requestCreationService;
         private IValidateService _validateService;
 
         public AdminController(
@@ -43,16 +44,18 @@ namespace Vacations.Controllers
             IRequestService requestService,
             ITeamService teamService,
             IPhotoUploadService photoUploadService,
-            IValidateService validateService)
+            IValidateService validateService,
+            IRequestCreationService requestCreationService)
         {
             _profileDataService = profileDataService;
             _employeeService = employeeService;
             _pageListsService = pageListsService;
             _employeeListService = adminEmployeeListService;
-            _requestService = requestService;
+            _requestProcessService = requestService;
             _teamService = teamService;
             _photoUploadService = photoUploadService;
             _validateService = validateService;
+            _requestCreationService = requestCreationService;
         }
 
         #region Props
@@ -86,7 +89,7 @@ namespace Vacations.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult AddEmployee()
         {
             ViewData["statusSelectList"] = _pageListsService.SelectStatuses();
             ViewData["jobTitlesSelectList"] = _pageListsService.SelectJobTitles();
@@ -97,7 +100,7 @@ namespace Vacations.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(EmployeeViewModel model, HttpPostedFileBase photo)
+        public async Task<ActionResult> AddEmployee(EmployeeViewModel model, HttpPostedFileBase photo)
         {
             ViewData["statusSelectList"] = _pageListsService.SelectStatuses();
             ViewData["jobTitlesSelectList"] = _pageListsService.SelectJobTitles();
@@ -219,7 +222,7 @@ namespace Vacations.Controllers
             ViewBag.TeamService = _teamService;
             var employeeList = _employeeListService.EmployeeList(searchKey);   
 
-            return View(employeeList.ToPagedList(page, employeePageSize));
+            return View(Mapper.MapCollection<EmployeeListDTO,EmployeeListViewModel>(employeeList.ToArray()).ToPagedList(page, employeePageSize));
         }
 
 
@@ -262,42 +265,38 @@ namespace Vacations.Controllers
         public ActionResult Requests(int page = 1, string searchKey = null)
         {
             ViewData["SearchKey"] = searchKey;
-            _requestService.SetReviewerID(User.Identity.GetUserId());
-            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin(searchKey));
+            _requestProcessService.SetReviewerID(User.Identity.GetUserId());
+            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestProcessService.GetRequestsForAdmin(searchKey));
             var list = map.ToPagedList(page, requestPageSize);
             return View(list);
         }
 
         [HttpGet]
-        public ActionResult ProcessPopupPartial(string id)
+        public ActionResult ProcessPopupPartial(string id, bool isCalledFromList = false)   
         {
-            var request = Mapper.Map<RequestProcessDTO, RequestProcessViewModel>(_requestService.GetRequestDataById(id));
-
-            return PartialView("ProcessPopupPartial", request);
+            ViewData["isCalledFromList"] = isCalledFromList;
+            var request = Mapper.Map<RequestProcessDTO, RequestProcessViewModel>(_requestProcessService.GetRequestDataById(id));
+                return PartialView("ProcessPopupPartial", request); 
         }
 
         [HttpPost]
         public ActionResult ProcessPopupPartial(RequestProcessResultModel model)
         {
-            _requestService.SetReviewerID(User.Identity.GetUserId());
+            _requestProcessService.SetReviewerID(User.Identity.GetUserId());
 
             if (ModelState.IsValid)
             {
                 if (model.Result.Equals(VacationStatusTypeEnum.Approved.ToString()))
                 {
-                    _requestService.ApproveVacation(Mapper.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
+                    _requestProcessService.ApproveVacation(Mapper.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
                 }
                 else
                 {
-                    _requestService.DenyVacation(Mapper.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
+                    _requestProcessService.DenyVacation(Mapper.Map<RequestProcessResultModel, RequestProcessResultDTO>(model));
                 }
             }
 
-            var map = Mapper.MapCollection<RequestDTO, RequestViewModel>(_requestService.GetRequestsForAdmin());
-
-            var list = map.ToPagedList(1, requestPageSize);
-
-            return View("Requests", list);
+            return RedirectToAction("Requests");
         }
 
         [HttpGet]
@@ -310,17 +309,59 @@ namespace Vacations.Controllers
 
         [HttpPost]
         public ActionResult BalanceChangePopupPartial(BalanceChangeResultModel model)
-        {       
+        {
+            var employee = _employeeService.GetUserById(model.EmployeeID);
+
             if (ModelState.IsValid)
-            {
-                var employee = _employeeService.GetUserById(model.EmployeeID);
-         
+            {        
                 employee.VacationBalance = model.Balance;
 
                 _employeeService.UpdateEmployeeBalance(employee, model.Comment);
 
-                return RedirectToAction("Edit", "Admin", new { id = employee.EmployeeID });
+                if (User.Identity.GetUserId().Equals(employee.EmployeeID))
+                {
+                    return RedirectToAction("Index", "Profile");
+                }
+
+                return RedirectToAction("EmployeesList", "Admin");
+                
             }
+
+            if (User.Identity.GetUserId().Equals(employee.EmployeeID))
+            {
+                return RedirectToAction("Index", "Profile");
+            }
+
+            return RedirectToAction("EmployeesList","Admin");
+        }
+
+        [HttpGet]
+        public ActionResult CreateRequestForEmployeePartial(string id)
+        {
+            ViewData["VacationTypesSelectList"] = _pageListsService.SelectVacationTypes();
+
+            var creationData = _requestCreationService.GetEmployeeDataForRequestByID(id);
+
+            return PartialView("CreateRequestForEmployeePartial", Mapper.Map<RequestForEmployeeDTO, RequestForEmployeeViewModel>(creationData));
+        }
+
+        [HttpPost]
+        public ActionResult CreateRequestForEmployeePartial(RequestForEmployeeViewModel model)
+        {
+            _requestProcessService.SetReviewerID(User.Identity.GetUserId());
+            var vacation = Mapper.Map<RequestForEmployeeViewModel, VacationDTO>(model);
+            vacation.Comment = model.Discription;
+
+            vacation.VacationTypeID = Request.Params["VacationTypesSelectList"];
+
+            _requestCreationService.ForceVacationForEmployee(vacation);
+
+            var request = Mapper.Map<VacationDTO, RequestProcessResultDTO>(vacation);
+
+            request.Result = VacationStatusTypeEnum.Approved.ToString();
+
+            _requestProcessService.ApproveVacation(request);
+           
             return RedirectToAction("EmployeesList","Admin");
         }
 

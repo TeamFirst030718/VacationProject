@@ -7,5 +7,7 @@ namespace VacationsBLL.Interfaces
     { 
         void CreateVacation(VacationDTO vacation);
         string GetStatusIdByType(string type);
+        RequestForEmployeeDTO GetEmployeeDataForRequestByID(string id);
+        void ForceVacationForEmployee(VacationDTO request);
     }
 }

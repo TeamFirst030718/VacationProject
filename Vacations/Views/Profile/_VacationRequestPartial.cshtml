@@ -60,7 +60,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="container m-0 p-0 text-light">@Html.TextBoxFor(m => m.Duration, new { @class = "form-control bg-dark field-days-width border-grey colorWhite", @readonly = "readonly", @maxlength = "2", @id = "Duration", @name = "Duration", @placeholder = "XX", @style = "display:inline; max-width:45px;" }) Duration @Html.ValidationMessageFor(m => m.Duration, "", new { @class = "Denied" })</div>
+                                    <div class="container m-0 p-0 text-light">@Html.TextBoxFor(m => m.Duration, new { @class = "form-control bg-dark field-days-width border-grey colorWhite", @readonly = "readonly", @maxlength = "2", @id = "Duration", @name = "Duration", @placeholder = "XX", @style = "display:inline; max-width:46px;" }) Duration 
+                                    @Html.ValidationMessageFor(m => m.Duration, "", new { @class = "Denied" })</div>
                                 </div>
                                 <p></p>
                             </div>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Resources;
 using System.Transactions;
 using VacationsBLL.DTOs;
 using VacationsBLL.Enums;
@@ -74,12 +75,12 @@ namespace VacationsBLL.Services
                     VacationDates = string.Format($"{vac.DateOfBegin.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}-{vac.DateOfEnd.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}"),
                     EmployeesBalance = emp.VacationBalance,
                     Created = vac.Created,
-                    Status = vacationStatusTypes.FirstOrDefault(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).VacationStatusName,                               
+                    Status = vacationStatusTypes.FirstOrDefault(type => type.VacationStatusTypeID.Equals(vac.VacationStatusTypeID)).VacationStatusName,                    
                 }).OrderBy(req => FunctionHelper.VacationSortFunc(req.Status)).ThenBy(req => req.Created).ToArray();
 
                 if(searchKey != null)
                 {
-                    requestsList = requestsList.Where(x => x.Name.ToLower().Contains(searchKey.ToLower())).ToArray();
+                    requestsList = requestsList.Where(x => x.Name.ToLower().Contains(searchKey.ToLower()) || x.TeamName.ToLower().Contains(searchKey.ToLower())).ToArray();
                 }
 
                 return requestsList;
@@ -114,7 +115,7 @@ namespace VacationsBLL.Services
 
                 if (searchKey != null)
                 {
-                    requestsList = requestsList.Where(x => x.Name.ToLower().Contains(searchKey.ToLower())).ToArray();
+                    requestsList = requestsList.Where(x => x.Name.ToLower().Contains(searchKey.ToLower()) || x.TeamName.Contains(searchKey.ToLower())).ToArray();
                 }
 
                 return requestsList;
@@ -128,7 +129,6 @@ namespace VacationsBLL.Services
             var vacation = _vacations.GetById(id);
             if (vacation != null)
             {
-
                 var employee = _employees.GetById(vacation.EmployeeID);
                 var vacationType = _vacationTypes.GetById(vacation.VacationTypeID).VacationTypeName;
                 var jobTitle = _jobTitles.GetById(employee.JobTitleID).JobTitleName;
@@ -155,7 +155,8 @@ namespace VacationsBLL.Services
                     VacationType = vacationType,
                     TeamLeadName = employee.EmployeesTeam.Count.Equals(0) ? Empty : _employees.GetById(employee.EmployeesTeam.First().TeamLeadID).Name,
                     TeamName = employee.EmployeesTeam.Count.Equals(0) ? Empty : employee.EmployeesTeam.First().TeamName,
-                    ProcessedBy = processedBy
+                    ProcessedBy = processedBy,
+                    EmployeesBalance = employee.VacationBalance
                 };
 
                 return request;
@@ -176,16 +177,16 @@ namespace VacationsBLL.Services
                 {
                     var transaction = new VacationsDAL.Entities.Transaction
                     {
-                        BalanceChange = result.BalanceChange,
+                        BalanceChange = result.Duration,
                         Discription = result.Discription ?? Empty,
                         EmployeeID = result.EmployeeID,
                         TransactionDate = DateTime.UtcNow,
-                        TransactionTypeID = _transactionTypes.GetByType(TransactionTypeEnum.VacationTransaction.ToString()).TransactionTypeID,
+                        TransactionTypeID = _transactionTypes.GetByType(TransactionTypeEnum.VacationApprove.ToString()).TransactionTypeID,
                         TransactionID = Guid.NewGuid().ToString()
                     };
                     _transactions.Add(transaction);
 
-                    vacation.Duration = result.BalanceChange;
+                    vacation.Duration = result.Duration;
                     vacation.DateOfBegin = result.DateOfBegin;
                     vacation.DateOfEnd = result.DateOfEnd;
                     vacation.ProcessedByID = ReviewerID;
@@ -193,11 +194,11 @@ namespace VacationsBLL.Services
                     vacation.VacationStatusTypeID = _vacationStatusTypes.GetByType(VacationStatusTypeEnum.Approved.ToString()).VacationStatusTypeID;
                     _vacations.Update(vacation);
 
-                    employee.VacationBalance -= result.BalanceChange;
+                    employee.VacationBalance -= result.Duration;
                     _employees.Update();
 
                     _emailService.SendAsync(employee.WorkEmail, $"{employee.Name} {employee.Surname}", "Vacation request.", "Your vacation request was approved.",
-                     $"{employee.Name} {employee.Surname}, your vacation request from {vacation.DateOfBegin.ToString("dd-MM-yyyy")} to {vacation.DateOfEnd.ToString("dd-MM-yyyy")} was approved. Have a nice vacation.");
+                   $"{employee.Name} {employee.Surname}, your vacation request from {vacation.DateOfBegin.ToString("dd-MM-yyyy")} to {vacation.DateOfEnd.ToString("dd-MM-yyyy")} was approved. Have a nice vacation.");
 
                     scope.Complete();
                 }
@@ -212,10 +213,20 @@ namespace VacationsBLL.Services
             {
                 using (TransactionScope scope = new TransactionScope())
                 {
+                    var transaction = new VacationsDAL.Entities.Transaction
+                    {
+                        BalanceChange = 0,
+                        Discription = result.Discription ?? Empty,
+                        EmployeeID = result.EmployeeID,
+                        TransactionDate = DateTime.UtcNow,
+                        TransactionTypeID = _transactionTypes.GetByType(TransactionTypeEnum.VacationDeny.ToString()).TransactionTypeID,
+                        TransactionID = Guid.NewGuid().ToString()
+                    };
+                    _transactions.Add(transaction);
+
                     vacation.VacationStatusTypeID = _vacationStatusTypes.GetByType(VacationStatusTypeEnum.Denied.ToString()).VacationStatusTypeID;
-
                     vacation.ProcessedByID = ReviewerID;
-
+                    vacation.TransactionID = transaction.TransactionID;
                     _vacations.Update(vacation);
 
                     _emailService.SendAsync(employee.WorkEmail, $"{employee.Name} {employee.Surname}", "Vacation request.", "Your vacation request was denied.",

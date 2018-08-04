@@ -43,25 +43,9 @@ namespace VacationsDAL.Repositories
 
         public void Add(Vacation Vacation)
         {
-            try
-            {
                 _context.Vacations.Add(Vacation);
                 _context.SaveChanges();
-            }   
-             catch (DbEntityValidationException ex)
-            {
-                foreach (DbEntityValidationResult validationError in ex.EntityValidationErrors)
-                {
-                    var a = string.Format("Object: " + validationError.Entry.Entity.ToString());
-
-
-                    foreach (DbValidationError err in validationError.ValidationErrors)
-                    {
-                        var b = string.Format(err.ErrorMessage + "");
-
-                    }
-                }
-            }
+           
         }
 
         public void Update(Vacation vacation)
