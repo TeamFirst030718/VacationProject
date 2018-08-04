@@ -17,5 +17,6 @@ namespace VacationsBLL.DTOs
         public int Duration { get; set; }
         public string Status { get; set; }
         public string ProcessedBy { get; set; }
+        public int EmployeesBalance{ get; set; }
     }
 }

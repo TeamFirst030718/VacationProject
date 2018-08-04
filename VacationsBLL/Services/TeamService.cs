@@ -30,7 +30,7 @@ namespace VacationsBLL.Services
 
             if (searchKey != null)
             {
-                bool whereLinq(Team team) => team.TeamName.ToLower().Contains(searchKey.ToLower());
+                bool whereLinq(Team team) => team.TeamName.ToLower().Contains(searchKey.ToLower()) || team.TeamName.ToLower().Contains(searchKey.ToLower());
                 teams = _teams.Get(whereLinq);
             }
             else

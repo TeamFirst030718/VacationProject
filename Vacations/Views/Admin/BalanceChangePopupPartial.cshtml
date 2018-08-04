@@ -4,8 +4,7 @@
     string url = "https://teamresponse418storage.blob.core.windows.net/photos/";
 }
 
-@Html.Hidden("EmployeeID", Model.EmployeeID)
-@using (Html.BeginForm("BalanceChangePopupPartial", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data",@id="modalForm" }))
+@using (Html.BeginForm("BalanceChangePopupPartial", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id="modalForm" }))
 {
     @Html.HiddenFor(m=>m.EmployeeID)
     <div class="modal-content bg-dark" style="color:gray; border:solid gray 1px;">
@@ -24,7 +23,7 @@
                             <p style="color:white !important">  @Html.DisplayFor(m => m.JobTitle)</p>
                         </div>
                         <div>
-                            <p style="color:white !important">@Html.DisplayFor(m => m.TeamName) @Html.DisplayFor(m => m.TeamLeadName)</p>
+                            <p style="color:white !important">@Html.DisplayFor(m => m.TeamName) - @Html.DisplayFor(m => m.TeamLeadName)</p>
                         </div>
                     </div>
                 </div>
@@ -66,12 +65,4 @@
 }
 <script>
     $.validator.unobtrusive.parse("#modalForm");
-    function DisableOnClick(s) {
-        setTimeout(function () {
-            jQuery('#Done').attr('disabled', true);
-        }, 100);
-        setTimeout(function () {
-            jQuery('#Done').attr('disabled', false);
-        }, 2000);
-    }
 </script>

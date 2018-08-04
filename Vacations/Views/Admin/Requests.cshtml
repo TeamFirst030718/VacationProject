@@ -20,7 +20,7 @@
                                         <p style="margin-bottom:0; margin-top:10px;">
                                             <strong id="ModalTitle">List of Vacation Requests</strong>
                                             <button class=" button-add-photo" style="width:100px !important;height:30px;margin-left:5px;  float:right; " type="submit">Find</button>                                         
-                                            <input type="text" class="bg-dark colorWhite float-right" placeholder="search" style="outline:none;box-shadow:none; border:2px solid gray; border-radius:4px; padding-left:5px;" name="searchKey" autocomplete="off" />
+                                            <input type="text" class="bg-dark colorWhite float-right" placeholder="search" style="outline:none;box-shadow:none; border:2px solid gray; border-radius:4px; padding-left:5px;" name="searchKey" autocomplete="off" value="@searchKey" />
                                         </p>
                                     </div>
                                 </div>
@@ -102,27 +102,9 @@
                 type: "GET",
                 url: url,
                 success: function (data) {
-
                     $("#toReplace").html(data);
                 }
             })
-        }
-        function SubmitRequest(obj) {
-            var url = '@Url.Action("ProcessPopupPartial", "Admin")'
-            var modelToSend = {
-                EmployeeID: obj.EmployeeID,
-                VacationID: obj.VacationID,
-                Description: $('#Discription').val(),
-                BalanceChange: $('#BalanceChange').val(),
-                Result: $('#Result:checked').val(),
-                DateOfBegin: $('#begin').val(),
-                DateOfEnd: $('#end').val(),
-                Discription: $('#Discription').val()
-            };
-            $.post(url, modelToSend);
-            $(document).ajaxStop(function () {
-                window.location.reload();
-            });
         }
         function GetDiff() {
             var dropdt = new Date(document.getElementById("end").value);
@@ -131,10 +113,9 @@
         }
         function CalcDiff() {
             if (document.getElementById("begin").value && document.getElementById("end").value) {
-                document.getElementById("BalanceChange").value = GetDiff();
+                document.getElementById("Duration").value = GetDiff();
             }
         }
-
     </script>
 
 }

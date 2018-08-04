@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using VacationsBLL.DTOs;
+using VacationsBLL.Enums;
 using VacationsBLL.Functions;
 using VacationsBLL.Interfaces;
 using VacationsDAL.Entities;
@@ -11,21 +13,30 @@ namespace VacationsBLL.Services
     public class EmployeeListService : IEmployeeListService
     {
         private IEmployeeRepository _employees;
+        private IVacationRepository _vacations;
+        private IVacationStatusTypeRepository _vacationStatuses;
 
-        public EmployeeListService(IEmployeeRepository employees, IJobTitleRepository jobTitles)
+        public EmployeeListService(IEmployeeRepository employees,
+                                   IVacationRepository vacations,
+                                   IVacationStatusTypeRepository vacationStatuses)
         {
             _employees = employees;
+            _vacations = vacations;
+            _vacationStatuses = vacationStatuses;
         }
 
         public List<EmployeeListDTO> EmployeeList(string searchKey = null)
         {
             Employee[] employees = null;
+            var today = DateTime.UtcNow;
+            var statusApprovedID = _vacationStatuses.GetByType(VacationStatusTypeEnum.Approved.ToString()).VacationStatusTypeID;
+            var vacations = _vacations.Get(x => x.VacationStatusTypeID.Equals(statusApprovedID));
 
             var result = new List<EmployeeListDTO>();
 
             if (searchKey != null)
             {
-                bool whereLinq(Employee emp) => string.Format($"{emp.Name} {emp.Surname}").ToLower().Contains(searchKey.ToLower());
+                bool whereLinq(Employee emp) => string.Format($"{emp.Name} {emp.Surname}").ToLower().Contains(searchKey.ToLower()) || emp.PhoneNumber.ToLower().Contains(searchKey.ToLower()) || emp.WorkEmail.ToLower().Contains(searchKey.ToLower());
                 employees = _employees.Get(whereLinq);
             }
             else
@@ -37,9 +48,11 @@ namespace VacationsBLL.Services
             {
                 if (employee.EmployeesTeam.Count == 0)
                 {
-                    result.Add(new EmployeeListDTO
+                    var temp = Mapper.Map<Employee, EmployeeForListDTO>(employee);
+                    temp.CurrentVacationID = vacations.FirstOrDefault(x => x.EmployeeID.Equals(temp.EmployeeID) && x.DateOfBegin.Date <= today && x.DateOfEnd.Date >= today)?.VacationID;
+                        result.Add(new EmployeeListDTO
                     {
-                        EmployeeDto = Mapper.Map<Employee, EmployeeDTO>(employee),
+                        EmployeeDto = temp,
                         TeamDto = new TeamDTO
                         {
                             TeamID = "Empty",
@@ -52,9 +65,12 @@ namespace VacationsBLL.Services
                 {
                     foreach (var team in employee.EmployeesTeam)
                     {
+                        var temp = Mapper.Map<Employee, EmployeeForListDTO>(employee);
+                        temp.CurrentVacationID = vacations.FirstOrDefault(x => x.EmployeeID.Equals(temp.EmployeeID) && x.DateOfBegin.Date <= today && x.DateOfEnd.Date >= today)?.VacationID;
+
                         result.Add(new EmployeeListDTO
                         {
-                            EmployeeDto = Mapper.Map<Employee, EmployeeDTO>(employee),
+                            EmployeeDto = temp,
                             TeamDto = new TeamDTO
                             {
                                 TeamID = team.TeamID,

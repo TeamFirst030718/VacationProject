@@ -20,7 +20,7 @@
                                             <button class=" button-add-photo" style="width:100px !important;height:30px;margin-left:5px;  float:right; " type="submit">Find</button>
                                         
 
-                                            <input type="text" class="bg-dark colorWhite float-right" placeholder="search" style="outline:none;box-shadow:none; border:2px solid gray; border-radius:4px; padding-left:5px;" name="searchKey" autocomplete="off" />
+                                            <input type="text" class="bg-dark colorWhite float-right" placeholder="search" style="outline:none;box-shadow:none; border:2px solid gray; border-radius:4px; padding-left:5px;" name="searchKey" autocomplete="off"  value="@searchKey"/>
                                         </p>
                                     </div>
                                 </div>
@@ -34,20 +34,19 @@
                                             <td style="text-align: center; border-top: none">team leader</td>
                                             <td style="text-align: center; border-top: none">amount of employees</td>
                                             <td style="border-top: none; text-align: center"></td>
-                                            <td style="border-top: none; text-align: center"></td>
                                         </tr>
 
                                         foreach (var team in Model)
                                         {
-                                            <tr style=" border-bottom: solid 1px gray !important; height: 30px !important">
-                                                <th style="width:2%;border-top:none;"></th>
-                                                <td style="border-top: none; text-align: left">@team.TeamName</td>
-                                                <td style="border-top: none; text-align: center">@team.TeamLeadName</td>
-                                                <td style="border-top: none; text-align: center">@team.AmountOfEmployees</td>
-                                                <td style="border-top: none; text-align: center">
-                                                    <a href="@Url.Action("ViewTeamProfile", "TeamLeader", new { id = @team.TeamID })"><img src="~/Content/Icons/eye.svg" class="float-right m-auto my-auto" height="15" alt="View Team Profile" /></a>
-                                                </td>
-                                            </tr>
+                                        <tr style=" border-bottom: solid 1px gray !important; height: 30px !important">
+                                            <th style="width:2%;border-top:none;"></th>
+                                            <td style="border-top: none; text-align: left">@team.TeamName</td>
+                                            <td style="border-top: none; text-align: center">@team.TeamLeadName</td>
+                                            <td style="border-top: none; text-align: center">@team.AmountOfEmployees</td>
+                                            <td style="border-top: none; width:60px;">
+                                                <img src="~/Content/Icons/eye.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("ViewTeamProfile", "TeamLeader", new { id = @team.TeamID })'" />
+                                            </td>
+                                        </tr>
                                         }
                                     }
                                     else
@@ -55,7 +54,6 @@
                                         <tr style="color:#dcdcdc">
                                             <td style="border-top:none">No teams found</td>
                                             <th style="border-top:none"></th>
-                                            <td style="border-top:none"></td>
                                             <td style="border-top:none"></td>
                                             <td style="border-top:none"></td>
                                             <td style="border-top:none"></td>

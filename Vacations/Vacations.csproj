@@ -246,9 +246,13 @@
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\BalanceChangeResultModel.cs" />
     <Compile Include="Models\BalanceChangeViewModel.cs" />
+    <Compile Include="Models\EmployeeForListViewModel.cs" />
+    <Compile Include="Models\EmployeeListTeamViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
+    <Compile Include="Models\EmployeeListViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
+    <Compile Include="Models\RequestForEmployeeViewModel.cs" />
     <Compile Include="Models\TeamListViewModel.cs" />
     <Compile Include="Models\TeamProfileViewModel.cs" />
     <Compile Include="Models\TeamViewModel.cs" />
@@ -290,7 +294,9 @@
     <Content Include="Content\Icons\logout icon.svg" />
     <Content Include="Content\Icons\message-icon.svg" />
     <Content Include="Content\Icons\next icon.svg" />
+    <Content Include="Content\Icons\not-on-vacation.svg" />
     <Content Include="Content\Icons\offline icon.svg" />
+    <Content Include="Content\Icons\on-vacation.svg" />
     <Content Include="Content\Icons\online icon.svg" />
     <Content Include="Content\Icons\password-icon.svg" />
     <Content Include="Content\Icons\Pending.svg" />
@@ -365,6 +371,7 @@
     <None Include="Properties\PublishProfiles\SofthemeVacations - Web Deploy3.pubxml" />
     <None Include="Properties\PublishProfiles\SofthemeVacations - Web Deploy4.pubxml" />
     <None Include="Properties\PublishProfiles\SofthemeVacations - Web Deploy5.pubxml" />
+    <None Include="Properties\PublishProfiles\SofthemeVacations - Web Deploy6.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -437,7 +444,7 @@
     <Content Include="Views\Admin\EmployeesList.cshtml" />
     <Content Include="Views\Admin\EmployeeView.cshtml" />
     <Content Include="Views\Admin\ProcessPopupPartial.cshtml" />
-    <Content Include="Views\Admin\Register.cshtml" />
+    <Content Include="Views\Admin\AddEmployee.cshtml" />
     <Content Include="Views\Admin\Requests.cshtml" />
     <Content Include="Views\Admin\TeamsList.cshtml" />
     <Content Include="Views\Admin\ViewTeamProfile.cshtml" />
@@ -448,6 +455,8 @@
     <Content Include="Views\Shared\ErrorPage.cshtml" />
     <Content Include="Views\Admin\EditTeam.cshtml" />
     <Content Include="Views\Admin\BalanceChangePopupPartial.cshtml" />
+    <Content Include="Views\Admin\CreateRequestForEmployeePartial.cshtml" />
+    <Content Include="Views\TeamLeader\CreateRequestForEmployeePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
