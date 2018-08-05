@@ -17,6 +17,7 @@ namespace Vacations.Subservices
             using (TransactionScope transaction = new TransactionScope())
             {
                 user.Email = model.WorkEmail;
+                user.UserName = model.WorkEmail;
 
                 userManager.Update(user);
 

@@ -65,7 +65,6 @@ namespace IdentitySample.Controllers
             {
                 return View(model);
             }
-
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, shouldLockout: false);
             switch (result)
             {

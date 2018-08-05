@@ -20,9 +20,8 @@
                 <div class="container">
                     <label>team lead</label>
                     <p class="colorWhite ">
-                        <a href="@Url.Action("EmployeeView", "Admin", new { id = Model.TeamLeadID })"> <img src="@string.Format($"https://teamresponse418storage.blob.core.windows.net/photos/" + $"{Model.TeamLeadID}.jpg")" class="m-auto  rounded-circle profileIconPhoto"></a>
-                        @Model.TeamLeadName
-                        
+                        <a href="@Url.Action("EmployeeView", "Admin", new { id = Model.TeamLeadID })" style="text-decoration:none;"> <img src="@string.Format($"https://teamresponse418storage.blob.core.windows.net/photos/" + $"{Model.TeamLeadID}.jpg")" class="m-auto  rounded-circle profileIconPhoto"></a>
+                        @Model.TeamLeadName                        
                         @if (@Model.Status)
                         {
                             <img src="~/Content/Icons/online icon.svg" style="padding-right: 5px">

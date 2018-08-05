@@ -15,13 +15,13 @@
                     <div style="float: left;">
                         <img src="@string.Format($"{url}{Model.EmployeeID}.jpg")" class="rounded-circle profilePhoto" style="object-fit: cover;padding-left:5px;" />
                     </div>
-                    <div class="float-right" style="padding-right:200px;">
+                    <div style="padding-left:100px;">
                         <p style="color:white !important">@Html.DisplayFor(m => m.EmployeeName)</p>
                         <div>
                             <p style="color:white !important">  @Html.DisplayFor(m => m.JobTitle)</p>
                         </div>
                         <div>
-                            <p style="color:white !important">@Html.DisplayFor(m => m.TeamName) @Html.DisplayFor(m => m.TeamLeadName)</p>
+                            <p style="color:white !important">@Html.DisplayFor(m => m.TeamName) - @Html.DisplayFor(m => m.TeamLeadName)</p>
                         </div>
                     </div>
                 </div>
@@ -86,14 +86,14 @@
                 <div class="col-6 col-ms-12">
                     <ul class="list-unstyled zebra">
                         <li>
-                            <input data-dismiss="modal" style="width:120px;text-align:center" class="float-right form-control bg-dark button-cancel border-grey" value="CANCEL" />
+                            <input data-dismiss="modal" type="button" style="width:120px;text-align:center;cursor:pointer" class="float-right form-control bg-dark button-cancel border-grey" value="CANCEL" />
                         </li>
                     </ul>
                 </div>
                 <div class="col-6 bg-dark">
                     <ul class="list-unstyled zebra">
                         <li>
-                            <input type="submit" onclick="DisableOnClick()" class="form-control bg-dark button-done border-grey bt-gradient" style="height:40px !important; padding-top:5px;" id="Done" value="DONE" />
+                            <input type="submit" onclick="DisableOnClick()" class="form-control bg-dark button-done border-grey bt-gradient" style="height:40px !important; padding-top:5px;cursor:pointer" id="Done" value="DONE" />
                         </li>
                     </ul>
                 </div>
