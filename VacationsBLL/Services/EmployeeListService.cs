@@ -36,12 +36,12 @@ namespace VacationsBLL.Services
 
             if (searchKey != null)
             {
-                bool whereLinq(Employee emp) => string.Format($"{emp.Name} {emp.Surname}").ToLower().Contains(searchKey.ToLower()) || emp.PhoneNumber.ToLower().Contains(searchKey.ToLower()) || emp.WorkEmail.ToLower().Contains(searchKey.ToLower());
+                bool whereLinq(Employee emp) => (string.Format($"{emp.Name} {emp.Surname}").ToLower().Contains(searchKey.ToLower()) || emp.PhoneNumber.ToLower().Contains(searchKey.ToLower()) || emp.WorkEmail.ToLower().Contains(searchKey.ToLower())) && emp.Status;
                 employees = _employees.Get(whereLinq);
             }
             else
             {
-                employees = _employees.Get();
+                employees = _employees.Get(x=>x.Status);
             }
 
             foreach (var employee in employees)

@@ -81,7 +81,7 @@
                 <div class="col-4 border-right border-grey   bg-dark">
                     <div class="form-group container" style="margin-top:20px;">
                         @Html.LabelFor(m => m.Skype, new { @class = " control-label" })
-                        @Html.Label(Model.Skype, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "userskype", style = "border:none; color:white; padding:0", @disabled="true" })
+                        @Html.TextBoxFor(Model => Model.Skype, new { @class = "form-control bg-dark border-grey colorWhite", placeholder = "userskype", style = "border:none; color:white; padding:0", @disabled = "true" })
                     </div>
                 </div>
             </div>

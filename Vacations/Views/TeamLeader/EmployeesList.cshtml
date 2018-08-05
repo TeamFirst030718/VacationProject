@@ -63,23 +63,6 @@
                                                         <img src="~/Content/Icons/edit icon grey.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("EditTeam", "TeamLeader", new { id = @g.Key })'" />
                                                     </td>
                                                 </tr>
-
-                                                if (searchKey == null)
-                                                {
-                                                    var employee = employeeService.GetUserById(teamService.GetById(g.Key).TeamLeadID);
-                                                    <tr style="font-size: 12px; border-bottom: solid 1px gray !important;">
-                                                        <td style="border-top: none"></td>
-                                                        <td style="border-top: none">@employee.Name @employee.Surname</td>
-                                                        <td style="text-align: center; border-top: none">@employee.PhoneNumber</td>
-                                                        <td style="text-align: center; border-top: none">@employee.WorkEmail</td>
-                                                        <td style="text-align: right; border-top: none">@employee.VacationBalance days</td>
-                                                        <td style="border-top: none">
-                                                            <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:30px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("EmployeeView", new { id = employee.EmployeeID })'" />
-                                                            <img src="~/Content/Icons/edit icon grey.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("Edit", "TeamLeader", new { id = employee.EmployeeID })'" />
-                                                        </td>
-                                                    </tr>
-
-                                                }
                                                 foreach (var t in g)
                                                 {
 
@@ -98,7 +81,7 @@
                                                             {
                                                                 <img src="~/Content/Icons/@string.Format($"on-vacation.svg")" style="height:16px; width:16px;cursor:pointer;" onclick='ShowViewPopup("@string.Format($"{t.EmployeeDto.CurrentVacationID}")","true")' />
                                                             }
-                                                            <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("EmployeeView", new { id = t.EmployeeDto.EmployeeID })'" />
+                                                            <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("EmployeeView","TeamLeader", new { id = t.EmployeeDto.EmployeeID })'" />
                                                             <img src="~/Content/Icons/edit icon grey.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("Edit", "TeamLeader", new { id = t.EmployeeDto.EmployeeID })'" />
                                                         </td>
                                                     </tr>
@@ -135,7 +118,7 @@
                                                             {
                                                                 <img src="~/Content/Icons/@string.Format($"on-vacation.svg")" style="height:16px;cursor:pointer; width:16px" onclick='ShowViewPopup("@string.Format($"{t.EmployeeDto.CurrentVacationID}")","true")' />
                                                             }
-                                                            <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("EmployeeView", new { id = t.EmployeeDto.EmployeeID })'" />
+                                                            <img src="~/Content/Icons/user-icon.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("EmployeeView","TeamLeader", new { id = t.EmployeeDto.EmployeeID })'" />
                                                             <img src="~/Content/Icons/edit icon grey.svg" class="ownPopup" style="margin-left:12px;cursor:pointer; height:14px; width:14px" onclick="location='@Url.Action("Edit", "TeamLeader", new { id = t.EmployeeDto.EmployeeID })'" />
                                                         </td>
                                                     </tr>
